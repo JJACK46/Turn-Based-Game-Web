@@ -1,34 +1,39 @@
 import React from "react";
 import Draggable from "react-draggable";
-import { Status } from "../../../models/status";
+import { Entity } from "../../../models/entity";
 
-interface Property {
-  player?: true;
-  imageUrl: string;
-  hp: number;
-  mp: number;
-  ep?: number;
-  atk: number;
-  trait: string;
-  status: Status;
-  evasion: number;
-  def?: number;
-  restoreMp: number;
+interface Props {
+  canDraggable?: true;
+  entity: Entity;
 }
 
-const Card: React.FC<Property> = (property) => {
+const Card: React.FC<Props> = (property) => {
   return (
     <>
-      {property.player && (
+      {property.canDraggable && (
         <Draggable position={{ x: 0, y: 0 }}>
-          <div className="p-1 w-40 rounded-md justify-center row-auto h-52 bg-slate-400 shadow-xl">
-            <div className="">{property.imageUrl}</div>
+          <div className="p-1 w-40 rounded-md justify-center row-auto h-52 bg-gray-400 shadow-xl">
+            <h1 className="text-black">{property.entity.name}</h1>
+            <div></div>
           </div>
         </Draggable>
       )}
-      {!property.player && (
-        <div className="p-1 w-40 rounded-md justify-center row-auto h-52 bg-slate-400 shadow-xl">
-          <div className="">{property.imageUrl}</div>
+      {!property.canDraggable && (
+        <div className=" w-40 rounded-md justify-center row-auto h-52 bg-gray-400 shadow-xl">
+          <p>{property.entity.name}</p>
+          <hr />
+          <image href={property.entity.imageUrl}></image>
+          <div
+            rel="stats"
+            className="grid grid-cols-2 justify-items-start px-2 text-sm "
+          >
+            <p>ATK: {property.entity.attackDamage}</p>
+            <p>
+              MP/EP: {property.entity.energyPower ?? property.entity.manaPower}
+            </p>
+            <p>HP: {property.entity.healthPower}</p>
+            <p>DEF: {property.entity.defendValue}</p>
+          </div>
         </div>
       )}
     </>
