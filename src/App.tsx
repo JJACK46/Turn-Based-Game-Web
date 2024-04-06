@@ -1,11 +1,12 @@
 import "./App.css";
+import Stage from "./views/stage/Stage";
 // import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
-    <>
-      <p>test</p>
-    </>
+    <div className="w-full ">
+      <Stage></Stage>
+    </div>
   );
 }
 
