@@ -2,7 +2,11 @@ import "./App.css";
 // import { BrowserRouter } from "react-router-dom";
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <p>test</p>
+    </>
+  );
 }
 
 export default App;
