@@ -19,4 +19,5 @@ export type Entity = {
     weapon: Weapon;
     armor: Armor;
   };
+  playable?: true;
 };

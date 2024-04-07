@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import SettingPopup from "../../components/SettingPopup";
-import HowToPopup from "../../components/HowToPopup";
-import CreditPopup from "../../components/CreditPopup";
+import SettingPopup from "./components/SettingPopup";
+import HowToPopup from "./components/HowToPopup";
+import CreditPopup from "./components/CreditPopup";
 
 function Home() {
   const [setting, setSetting] = useState<boolean>(false);
@@ -25,7 +25,7 @@ function Home() {
     <div className="flex w-full min-h-screen bg-stone-500">
       <div className="w-full min-h-screen bg-black opacity-50"></div>
 
-      <div className="absolute flex flex-col text-left items-start p-56 gap-5 z-0">
+      <div className="absolute flex flex-col text-left items-start p-40 gap-5 z-0">
         <Link
           to="/Menu"
           className="font-mono font-extrabold text-7xl hover:italic  hover:text-red-600 hover:border-b-2"
@@ -49,6 +49,9 @@ function Home() {
           className="font-mono font-extrabold text-5xl hover:italic  hover:text-red-600 hover:border-b-2"
         >
           CREDITS
+        </button>
+        <button className="font-mono font-extrabold text-5xl uppercase hover:italic  hover:text-red-600 hover:border-b-2">
+          <Link to="tutorial">tutorial</Link>
         </button>
       </div>
 
