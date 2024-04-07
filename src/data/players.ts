@@ -2,13 +2,14 @@ import { Entity } from "../models/entity";
 
 export const players: Entity[] = [
   {
+    id: 1,
     name: "G",
-    imageUrl: '',
+    imageUrl: "",
     level: 1,
     attackDamage: 2,
     attackDamageType: "physical",
     manaPower: 10,
     healthPower: 0,
-    skill: [{ name: "SMASH", requiredMana: 0 }],
+    skills: [{ name: "SMASH", requiredMana: 0 }],
   },
 ];

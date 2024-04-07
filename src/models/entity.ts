@@ -4,11 +4,12 @@ import { DamageType } from "./damageType";
 import { Weapon } from "./weapon";
 
 export type Entity = {
+  id: number;
   name: string;
   imageUrl: string;
   attackDamageType: DamageType;
   level: number;
-  skill: Skill[];
+  skills: Skill[];
   attackDamage: number;
   defendValue?: number;
   healthPower: number;

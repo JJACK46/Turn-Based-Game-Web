@@ -1,9 +1,11 @@
-import CardPlaceholder from "./components/CardPlaceholder";
+import CardPlaceholder from "../components/CardPlaceholder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBox } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
-import { Entity } from "../../models/entity";
-import Card from "./components/Card";
+import { Entity } from "../../../models/entity";
+import Card from "../components/Card";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { increment } from "../features/actionsBarSlice";
 
 interface Props {
   mapName: string;
@@ -12,6 +14,9 @@ interface Props {
 }
 
 const Stage: React.FC<Props> = (props) => {
+  const count = useAppSelector((state) => state.counter.value);
+  const dispatch = useAppDispatch();
+
   const gridStyle = {
     gridTemplateColumns: `repeat(${props.enemies.length}, 1fr)`,
   };
@@ -22,7 +27,9 @@ const Stage: React.FC<Props> = (props) => {
       <div rel="enemies-section" className="py-4 absolute top-10 w-full">
         <span className={`grid gap-4 justify-items-center`} style={gridStyle}>
           {props.enemies.length > 0 ? (
-            props.enemies.map((enemy) => <Card entity={enemy}></Card>)
+            props.enemies.map((enemy) => (
+              <Card key={enemy.id} entity={enemy}></Card>
+            ))
           ) : (
             <CardPlaceholder></CardPlaceholder>
           )}
@@ -31,7 +38,9 @@ const Stage: React.FC<Props> = (props) => {
       <div rel="players-section" className="py-4 absolute bottom-20 w-full">
         <span className={`grid grid-cols-4 gap-4 justify-items-center`}>
           {props.players.length > 0 ? (
-            props.players.map((player) => <Card entity={player}></Card>)
+            props.players.map((player) => (
+              <Card key={player.id} entity={player}></Card>
+            ))
           ) : (
             <CardPlaceholder></CardPlaceholder>
           )}
@@ -48,8 +57,9 @@ const Stage: React.FC<Props> = (props) => {
               Inventory
             </button>
           </li>
+          <button onClick={() => dispatch(increment())}>Test</button>
         </ul>
-        <p className="absolute left-4">Round : </p>
+        <p>{count}</p>
       </span>
     </>
   );

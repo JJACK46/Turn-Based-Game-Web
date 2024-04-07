@@ -1,9 +1,6 @@
 import "./App.css";
-import { monsters } from "./data/enemies";
-import { UserTeams } from "./data/user/team";
-import Home from "./views/pages/Home";
-import Menu from "./views/pages/Menu";
-import Stage from "./views/stage/Stage";
+import Home from "./views/home/Home";
+import Menu from "./views/menu/Menu";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 
 function App() {
@@ -14,11 +11,11 @@ function App() {
         players={UserTeams[0].entities}
         enemies={monsters}
       ></Stage> */}
-      <body  className="size-full min-w-max min-h-screen">
+      <body className="size-full min-w-max min-h-screen">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/Menu" element={<Menu />}/>
+            <Route path="/Menu" element={<Menu />} />
           </Routes>
         </BrowserRouter>
       </body>
