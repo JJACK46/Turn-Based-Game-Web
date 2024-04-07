@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterSlice from "../views/stage/features/actionsBarSlice";
+import actionSlice from "../views/stage/features/actions";
 
 export const store = configureStore({
   reducer: {
-    counter: counterSlice,
+    actions: actionSlice,
   },
 });
 

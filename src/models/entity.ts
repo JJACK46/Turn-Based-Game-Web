@@ -21,3 +21,8 @@ export type Entity = {
   };
   playable?: true;
 };
+
+export type EntityAndIndex = {
+  entity: Entity;
+  index: number;
+};

@@ -27,7 +27,7 @@ const Card: React.FC<Props> = (props) => {
         </Draggable>
       )}
       {!props.canDraggable && (
-        <div className=" w-40 rounded-md justify-center row-auto h-60 border shadow-xl">
+        <div className=" w-20 rounded-md justify-center row-auto h-50 border shadow-xl">
           <p>{props.entity.name}</p>
           <hr />
           <img
