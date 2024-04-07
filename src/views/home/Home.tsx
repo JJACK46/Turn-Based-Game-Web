@@ -28,7 +28,7 @@ function Home() {
       <div className="absolute flex flex-col text-left items-start p-40 gap-5 z-0">
         <Link
           to="/Menu"
-          className="font-mono font-extrabold text-7xl hover:italic  hover:text-red-600 hover:border-b-2"
+          className="font-mono font-extrabold text-7xl hover:italic hover:text-red-600 hover:border-b-2"
         >
           START
         </Link>
@@ -50,8 +50,9 @@ function Home() {
         >
           CREDITS
         </button>
+
         <button className="font-mono font-extrabold text-5xl uppercase hover:italic  hover:text-red-600 hover:border-b-2">
-          <Link to="tutorial">tutorial</Link>
+          <Link to="/tutorial">tutorial</Link>
         </button>
       </div>
 

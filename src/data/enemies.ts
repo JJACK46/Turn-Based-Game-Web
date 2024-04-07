@@ -13,7 +13,7 @@ export const monsters: Entity[] = [
     skills: [{ name: "Dig it", requiredMana: 0 }],
   },
   {
-    id: 1,
+    id: 2,
     name: "Gigi",
     imageUrl: "",
     level: 1,
@@ -24,7 +24,7 @@ export const monsters: Entity[] = [
     skills: [{ name: "Dig it", requiredMana: 0 }],
   },
   {
-    id: 1,
+    id: 3,
     name: "Gigi",
     imageUrl: "",
     level: 1,
@@ -35,7 +35,7 @@ export const monsters: Entity[] = [
     skills: [{ name: "Dig it", requiredMana: 0 }],
   },
   {
-    id: 1,
+    id: 4,
     name: "Gigi",
     imageUrl: "",
     level: 1,
@@ -46,7 +46,7 @@ export const monsters: Entity[] = [
     skills: [{ name: "Dig it", requiredMana: 0 }],
   },
   {
-    id: 1,
+    id: 5,
     name: "Gigi",
     imageUrl: "",
     level: 1,
@@ -57,7 +57,7 @@ export const monsters: Entity[] = [
     skills: [{ name: "Dig it", requiredMana: 0 }],
   },
   {
-    id: 1,
+    id: 6,
     name: "Gigi",
     imageUrl: "",
     level: 1,
