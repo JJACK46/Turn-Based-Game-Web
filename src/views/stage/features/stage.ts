@@ -82,7 +82,7 @@ const stageSlice = createSlice({
       const { indexTargetEntity, sourceEntity, skill } = action.payload;
       const updatedEnemiesFrontRow = [...state.enemiesFrontRow];
       const totalDamage = sourceEntity.attackPower * skill.emitValueMultiply;
-      updatedEnemiesFrontRow[indexTargetEntity].healthPower -= totalDamage;
+      updatedEnemiesFrontRow[indexTargetEntity].healthPower = Math.max(updatedEnemiesFrontRow[indexTargetEntity].healthPower - totalDamage,0);
       state.enemiesFrontRow = updatedEnemiesFrontRow;
       console.log("Hits ", totalDamage);
       //reset selected player

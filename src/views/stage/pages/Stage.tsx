@@ -43,6 +43,7 @@ const Stage: React.FC<Props> = (props) => {
   // const selectedSkill = useAppSelector((s) => s.stage.selectedSkill);
 
   // const [turn, setTurn] = useState<string>("Player");
+  const [display, setDisplay] = useState<boolean>(false);
 
   const [activeCard, setActiveCard] = useState<Entity | null>(null);
 
@@ -74,6 +75,8 @@ const Stage: React.FC<Props> = (props) => {
                         entity={enemy}
                         activeCard={activeCard}
                         setActiveDialog={setActiveCard}
+                        display={display}
+                        setDisplay={setDisplay}
                       ></Card>
                     );
                   })
@@ -92,6 +95,8 @@ const Stage: React.FC<Props> = (props) => {
                         entity={enemy}
                         activeCard={activeCard}
                         setActiveDialog={setActiveCard}
+                        display={display}
+                        setDisplay={setDisplay}
                       ></Card>
                     );
                   })
@@ -130,6 +135,8 @@ const Stage: React.FC<Props> = (props) => {
                         entity={player}
                         activeCard={activeCard}
                         setActiveDialog={setActiveCard}
+                        display={display}
+                        setDisplay={setDisplay}
                       ></Card>
                     );
                   })
@@ -148,6 +155,8 @@ const Stage: React.FC<Props> = (props) => {
                         entity={player}
                         activeCard={activeCard}
                         setActiveDialog={setActiveCard}
+                        display={display}
+                        setDisplay={setDisplay}
                       ></Card>
                     );
                   })
