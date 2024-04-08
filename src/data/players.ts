@@ -14,7 +14,7 @@ export const players: Entity[] = [
     playable: true,
   },
   {
-    id: 1,
+    id: 2,
     name: "Piroat",
     imageUrl: "players/piroat_boxing_1.jpeg",
     level: 1,
@@ -26,7 +26,7 @@ export const players: Entity[] = [
     playable: true,
   },
   {
-    id: 1,
+    id: 3,
     name: "Piroat",
     imageUrl: "players/piroat_boxing_1.jpeg",
     level: 1,
@@ -38,7 +38,7 @@ export const players: Entity[] = [
     playable: true,
   },
   {
-    id: 1,
+    id: 4,
     name: "Piroat",
     imageUrl: "players/piroat_boxing_1.jpeg",
     level: 1,
