@@ -7,26 +7,24 @@ import { tutorialSet } from "./data/tutorial";
 
 function App() {
   return (
-    <div className="size-full">
-      <body className="size-full min-w-max min-h-screen">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/Menu" element={<Menu />} />
-            <Route
-              path="/tutorial"
-              element={
-                <Stage
-                  tutorial
-                  mapName="Tutorial"
-                  enemies={tutorialSet.enemies}
-                  players={tutorialSet.players}
-                />
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      </body>
+    <div className="size-full min-w-max min-h-screen">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Menu" element={<Menu />} />
+          <Route
+            path="/tutorial"
+            element={
+              <Stage
+                tutorial
+                mapName="Tutorial"
+                enemiesFrontRow={tutorialSet.enemies}
+                playersFrontRow={tutorialSet.players}
+              />
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

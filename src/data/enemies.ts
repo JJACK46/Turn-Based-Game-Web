@@ -1,4 +1,5 @@
 import { Entity } from "../models/entity";
+import { StatusEnum } from "./status";
 
 export const monsters: Entity[] = [
   {
@@ -6,7 +7,7 @@ export const monsters: Entity[] = [
     name: "Gigi",
     imageUrl: "enemies/monster_rookie_1.jpeg",
     level: 1,
-    attackDamage: 2,
+    attackPower: 2,
     attackDamageType: "physical",
     manaPower: 0,
     healthPower: 10,
@@ -19,5 +20,6 @@ export const monsters: Entity[] = [
         emitValueMultiply: 1.5,
       },
     ],
+    status: StatusEnum.NORMAL,
   },
 ];

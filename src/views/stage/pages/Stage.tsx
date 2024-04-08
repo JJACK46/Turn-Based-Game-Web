@@ -1,69 +1,54 @@
 import CardPlaceholder from "../components/CardPlaceholder";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Entity } from "../../../models/entity";
 import Card from "../components/Card";
-import { assignPlayer, assignSkill } from "../features/actions";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { Skill } from "../../../models/skills";
+import { assignEntities } from "../features/stage";
 
 interface Props {
   tutorial?: true;
   mapName: string;
-  enemies: Entity[];
-  players: Entity[];
+  enemiesFrontRow: Entity[];
+  enemiesBackRow?: Entity[];
+  playersFrontRow: Entity[];
+  playersBackRow?: Entity[];
 }
 
 const Stage: React.FC<Props> = (props) => {
-  const [enemies, setEnemies] = useState<Entity[]>(props.enemies);
-  const [players] = useState<Entity[]>(props.players);
-  const selectedEnemy = useAppSelector((state) => state.actions.selectedEnemy);
-  const selectedPlayer = useAppSelector(
-    (state) => state.actions.selectedPlayer
-  );
-  const selectedSkill = useAppSelector((s) => s.actions.selectedSkill);
+  const stages = useAppSelector((s) => s.stage);
   const dispatch = useAppDispatch();
 
-  const attackToEntity = (indexEntity: number, attackDamage: number) => {
-    const tempEnemies: Entity[] = enemies.map((entity, index) => {
-      if (index === indexEntity) {
-        return {
-          ...entity,
-          healthPower: entity.healthPower - attackDamage,
-        };
-      }
-      return entity;
-    });
-    setEnemies(tempEnemies);
-  };
+  useEffect(() => {
+    function setupEntities() {
+      dispatch(
+        assignEntities({
+          entities: props.playersFrontRow,
+          position: "front",
+          type: "player",
+        })
+      );
+      dispatch(
+        assignEntities({
+          entities: props.enemiesFrontRow,
+          position: "front",
+          type: "enemy",
+        })
+      );
+    }
+    setupEntities();
+  }, []);
 
-  const skillToEntity = (indexEntity: number, skill: Skill) => {
-    const tempEnemies: Entity[] = enemies.map((entity, index) => {
-      if (index === indexEntity) {
-        if (skill)
-          return {
-            ...entity,
-          };
-      }
-      return entity;
-    });
-    setEnemies(tempEnemies);
-  };
+  // const selectedEnemy = useAppSelector((state) => state.stage.selectedEnemy);
+  // const selectedPlayer = useAppSelector((state) => state.stage.selectedPlayer);
+  // const selectedSkill = useAppSelector((s) => s.stage.selectedSkill);
 
-  const gridEnemiesStyle = {
-    gridTemplateColumns: `repeat(${enemies.length}, 1fr)`,
-  };
-  const gridPlayersStyle = {
-    gridTemplateColumns: `repeat(${players.length}, 1fr)`,
-  };
+  // const [turn, setTurn] = useState<string>("Player");
 
-  const [turn, setTurn] = useState<string>("Player");
-
-  const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [activeDialog, setActiveDialog] = useState<number>(99);
+  const [activeCard, setActiveCard] = useState<Entity | null>(null);
 
   return (
     <>
-      <span className="py-4 justify-center bg-black flex fixed w-full bottom-0">
+      <span className="bg-gray-900 flex fixed w-full bottom-0">
         <div className="flex flex-row justify-around items-center w-full min-h-screen h-screen">
           <div className="flex flex-col w-30 h-full gap-10 py-10 bg-black z-20">
             <button className="border-blue-500 border-2 m-5">BTN1</button>
@@ -78,34 +63,38 @@ const Stage: React.FC<Props> = (props) => {
               rel="enemies-section"
               className="p-10 flex flex-col items-stretch justify-center w-4/5 h-2/5 gap-3"
             >
-              <span className={`flex justify-around`} style={gridEnemiesStyle}>
-                {props.enemies.length > 0 ? (
-                  props.enemies.map((enemy, index) => (
-                    <Card
-                      key={enemy.id + "-" + index}
-                      entity={enemy}
-                      openDialog={openDialog}
-                      setOpenDialog={setOpenDialog}
-                      activeDialog={activeDialog}
-                      setActiveDialog={setActiveDialog}
-                    ></Card>
-                  ))
+              <span className={`flex justify-around`}>
+                {stages.enemiesBackRow.length > 0 ? (
+                  stages.enemiesBackRow.map((enemy, index) => {
+                    const key = `${enemy.name}-${enemy.id}-${index}`;
+                    return (
+                      <Card
+                        key={key}
+                        index={index}
+                        entity={enemy}
+                        activeCard={activeCard}
+                        setActiveDialog={setActiveCard}
+                      ></Card>
+                    );
+                  })
                 ) : (
-                  <CardPlaceholder></CardPlaceholder>
+                  <></>
                 )}
               </span>
-              <span className={`flex justify-around`} style={gridEnemiesStyle}>
-                {props.enemies.length > 0 ? (
-                  props.enemies.map((enemy, index) => (
-                    <Card
-                      key={enemy.id + "-" + index}
-                      entity={enemy}
-                      openDialog={openDialog}
-                      setOpenDialog={setOpenDialog}
-                      activeDialog={activeDialog}
-                      setActiveDialog={setActiveDialog}
-                    ></Card>
-                  ))
+              <span className={`flex justify-around`}>
+                {stages.enemiesFrontRow.length > 0 ? (
+                  stages.enemiesFrontRow.map((enemy, index) => {
+                    const key = `${enemy.name}-${enemy.id}-${index}`;
+                    return (
+                      <Card
+                        key={key}
+                        index={index}
+                        entity={enemy}
+                        activeCard={activeCard}
+                        setActiveDialog={setActiveCard}
+                      ></Card>
+                    );
+                  })
                 ) : (
                   <CardPlaceholder></CardPlaceholder>
                 )}
@@ -123,43 +112,47 @@ const Stage: React.FC<Props> = (props) => {
               </div>
 
               <div className="flex flex-col w-fit items-end justify-center justify-self-end p-5 rounded-xl border-red-500 border-2">
-                <p>{turn}</p>
+                {/* <p>{turn}</p> */}
               </div>
             </div>
             <div
               rel="players-section"
-              className="p-10 flex flex-col justify-center w-3/5 h-2/5 gap-3"
+              className="p-10 flex flex-col justify-center w-3/5 h-2/5 gap-4"
             >
-              <span className={`flex justify-around`} style={gridPlayersStyle}>
-                {props.players.length > 0 ? (
-                  props.players.map((player) => (
-                    <Card
-                      key={player.id}
-                      entity={player}
-                      openDialog={openDialog}
-                      setOpenDialog={setOpenDialog}
-                      activeDialog={activeDialog}
-                      setActiveDialog={setActiveDialog}
-                    ></Card>
-                  ))
+              <span rel="front" className={`flex justify-around`}>
+                {stages.playersFrontRow.length > 0 ? (
+                  stages.playersFrontRow.map((player, index) => {
+                    const key = `${player.name}-${player.id}-${index}`;
+                    return (
+                      <Card
+                        key={key}
+                        index={index}
+                        entity={player}
+                        activeCard={activeCard}
+                        setActiveDialog={setActiveCard}
+                      ></Card>
+                    );
+                  })
                 ) : (
                   <CardPlaceholder></CardPlaceholder>
                 )}
               </span>
-              <span className={`flex justify-around`} style={gridPlayersStyle}>
-                {props.players.length > 0 ? (
-                  props.players.map((player) => (
-                    <Card
-                      key={player.id}
-                      entity={player}
-                      openDialog={openDialog}
-                      setOpenDialog={setOpenDialog}
-                      activeDialog={activeDialog}
-                      setActiveDialog={setActiveDialog}
-                    ></Card>
-                  ))
+              <span rel="back" className={`flex justify-around`}>
+                {stages.playersBackRow.length > 0 ? (
+                  stages.playersBackRow.map((player, index) => {
+                    const key = `${player.name}-${player.id}-${index}`;
+                    return (
+                      <Card
+                        key={key}
+                        index={index}
+                        entity={player}
+                        activeCard={activeCard}
+                        setActiveDialog={setActiveCard}
+                      ></Card>
+                    );
+                  })
                 ) : (
-                  <CardPlaceholder></CardPlaceholder>
+                  <></>
                 )}
               </span>
             </div>

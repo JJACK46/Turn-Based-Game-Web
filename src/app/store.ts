@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import actionSlice from "../views/stage/features/actions";
+import stageSlice from "../views/stage/features/stage";
 
 export const store = configureStore({
   reducer: {
-    actions: actionSlice,
+    stage: stageSlice,
   },
 });
 

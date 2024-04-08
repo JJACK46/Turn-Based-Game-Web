@@ -2,6 +2,7 @@ import { Skill } from "./skills";
 import { Armor } from "./armor";
 import { DamageType } from "./damageType";
 import { Weapon } from "./weapon";
+import { StatusEnum } from "../data/status";
 
 export type Entity = {
   id: number;
@@ -10,8 +11,9 @@ export type Entity = {
   attackDamageType: DamageType;
   level: number;
   skills: Skill[];
-  attackDamage: number;
-  defendValue?: number;
+  attackPower: number;
+  defendPower?: number;
+  healingPower?: number;
   healthPower: number;
   manaPower: number;
   energyPower?: number;
@@ -20,6 +22,7 @@ export type Entity = {
     armor: Armor;
   };
   playable?: true;
+  status: StatusEnum;
 };
 
 export type EntityAndIndex = {
