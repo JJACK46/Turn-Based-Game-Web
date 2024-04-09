@@ -15,14 +15,8 @@ import {
 } from "../features/stageReducer";
 import { convertNumberToPercentage, getColorByHp } from "../features/helper";
 import _ from "lodash";
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu"
+
+
 
 interface Props {
   index: number;
@@ -155,12 +149,13 @@ const Card: FC<Props> = (props) => {
               onClick={() => {
                 dispatch(closeActionOverlay());
                 dispatch(closeDisplay());
+                dispatch(resetCurrentEntity());
               }}
               className="top-0 left-0 size-full"
             ></button>
             <div className="absolute flex p-10">
               <div className="flex justify-around h-40 rounded-3xl">
-                <div className="flex gap-4">
+                <div className="flex gap-4 items-center">
                   <div className="flex flex-row h-full bg-slate-500 p-2 rounded-3xl">
                     <img
                       src={`src/assets/entities/${stages.currentEntity?.entity.imageUrl}`}
@@ -196,7 +191,7 @@ const Card: FC<Props> = (props) => {
                       <div className="size-full">{skill.name}</div>
                     </button>
                   ))}
-                  <button className="border-red-500 border-2 rounded-2xl w-40 h-full bg-black">
+                  <button className="border-red-500 border-2 rounded-2xl w-40 h-fit py-5 bg-black">
                     <div className="size-full">Use Item</div>
                   </button>
                 </div>
@@ -217,8 +212,7 @@ const Card: FC<Props> = (props) => {
         </span>
       )}
 
-      {stages.currentEntity?.entity.name === props.entity.name &&
-        stages.isActionOverlayOpen !== null &&
+      {stages.selectedSkill &&
         !stages.isDisplayOpen && (
           <>
             <span className="absolute top-10 right-10 p-5 border-red-600 border-2 rounded-2xl z-10">
@@ -229,19 +223,17 @@ const Card: FC<Props> = (props) => {
               </div>
             </span>
 
-            {stages.selectedSkill && (
-              <button
-                className="absolute right-10 bottom-10 p-10 border-2 border-blue-300 rounded-2xl hover:border-red-700"
-                onClick={() => {
-                  dispatch(cancelSkill());
-                  dispatch(resetCurrentEntity());
-                }}
-              >
-                <p className="uppercase">{stages.selectedSkill?.name}</p>
-                <hr className="my-2" />
-                <p className="uppercase text-xs">cancel</p>
-              </button>
-            )}
+            <button
+              className="absolute right-10 bottom-10 p-10 border-2 border-blue-300 rounded-2xl hover:border-red-700"
+              onClick={() => {
+                dispatch(cancelSkill());
+                dispatch(resetCurrentEntity());
+              }}
+            >
+              <p className="uppercase">{stages.selectedSkill?.name}</p>
+              <hr className="my-2" />
+              <p className="uppercase text-xs">cancel</p>
+            </button>
           </>
         )}
     </>

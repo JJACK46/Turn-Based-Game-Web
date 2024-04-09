@@ -214,7 +214,6 @@ const stageSlice = createSlice({
         const damageMade = Math.round(
           sourceEntity.attackPower * skill.emitValueMultiply
         );
-
         const updatedSourceEntity = { ...sourceEntity };
         const updatedTargetEntities = [...targetEntities];
         const updatedSourceEntities = [...sourceEntities];
@@ -252,28 +251,36 @@ const stageSlice = createSlice({
 
         //update
         if (toEnemy) {
-          state.playersFrontRow = updatedSourceEntities;
-          state.enemiesFrontRow = updatedTargetEntities;
-        } else {
-          state.enemiesFrontRow = updatedSourceEntities;
-          state.playersFrontRow = updatedTargetEntities;
-        }
-
-        console.log(JSON.stringify(updatedTargetEntities));
-
-        state.lastHitDamage = damageMade;
-        state.totalHitDamage += damageMade;
-        //reset selected
-        state.entitiesTakenAction.push(updatedSourceEntity);
-        state.availableActions -= 1;
-        state.selectedSkill = null;
-        state.currentEntity = null;
-        state.targetEntity = null;
+        state.playersFrontRow = _.cloneDeep(updatedSourceEntities);
+        state.enemiesFrontRow = _.cloneDeep(updatedTargetEntities);
+        // state.playersFrontRow = updatedSourceEntities;
+        // state.enemiesFrontRow = updatedTargetEntities;
       } else {
-        alert("you was action");
+        // state.enemiesFrontRow = updatedSourceEntities;
+        // state.playersFrontRow = updatedTargetEntities;
+        state.enemiesFrontRow = _.cloneDeep(updatedSourceEntities);
+        state.playersFrontRow = _.cloneDeep(updatedTargetEntities);
+        console.log(state.playersFrontRow, " updated data");
       }
-    },
+      try {
+        let serializedState = JSON.stringify(state);
+        localStorage.setItem("localData", serializedState);
+      } catch (err) {}
+      // console.log(JSON.stringify(updatedTargetEntities) ,"update data");
+
+      state.lastHitDamage = damageMade;
+      state.totalHitDamage += damageMade;
+      //reset selected
+      state.entitiesTakenAction.push(updatedSourceEntity);
+      state.availableActions -= 1;
+      state.selectedSkill = null;
+      state.currentEntity = null;
+      state.targetEntity = null;
+    } else {
+      alert("you was action");
+    }
   },
+},
 });
 
 export const {

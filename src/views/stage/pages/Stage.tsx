@@ -57,9 +57,20 @@ const Stage: React.FC<Props> = (props) => {
   }, [stages.availableActions]);
 
   useEffect(() => {
-    for (let i = 0; i < stages.availableActions; i++) {
-      botAction(i);
+    if (stages.turn === "player") {
+      return;
     }
+
+    let i = 0;
+    const intervalId = setInterval(() => {
+      botAction(i);
+      console.log("useEffect ", i)
+      i++;
+      if (i >= stages.availableActions) {
+        clearInterval(intervalId);
+        dispatch(resetTotalHitDamage());
+      }
+    }, 7000);
   }, [stages.turn]);
 
   useEffect(() => {
@@ -83,14 +94,15 @@ const Stage: React.FC<Props> = (props) => {
             index: stages.enemiesFrontRow.indexOf(tempCurrentEntity),
           })
         );
-
         let maxHP = 0;
         stages.playersFrontRow.forEach((entity) => {
           if (entity.healthPower > maxHP) {
             maxHP = entity.healthPower;
           }
         });
-
+        console.log("in stage botAction\n")
+        console.log(stages.playersFrontRow)
+        
         const indexTargetEntity = stages.playersFrontRow.findIndex(
           (entity) => entity.healthPower === maxHP
         );
@@ -108,12 +120,13 @@ const Stage: React.FC<Props> = (props) => {
               sourceEntities: stages.enemiesFrontRow,
             })
           );
-          setTimeout(() => {
+          // setTimeout(() => {
             dispatch(resetLastHitDamage());
-            dispatch(resetTotalHitDamage());
-          }, 1500);
+            // dispatch(resetTotalHitDamage());
+          // }, 5);
+          // console.log("in dispatch stage botAction\n")
         }, 1000);
-      }, 1000);
+      }, 3000);
     }
   }
 
