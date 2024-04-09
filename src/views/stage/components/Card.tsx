@@ -1,18 +1,26 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Entity } from "../../../models/entity";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { assignPlayer, assignSkill, skillToEntity } from "../features/stage";
+import {
+  assignSkill,
+  closeActionOverlay,
+  decreaseActions,
+  markEntityTakenAction,
+  openActionOverlay,
+  setCurrentEntity,
+  skillToEntity,
+} from "../features/stageReducer";
 
 interface Props {
   index: number;
   entity: Entity;
-  activeCard: Entity | null;
-  setActiveDialog: React.Dispatch<React.SetStateAction<Entity | null>>;
 }
 
 const Card: FC<Props> = (props) => {
   const stages = useAppSelector((s) => s.stage);
   const dispatch = useAppDispatch();
+
+  const [maxHP] = useState(props.entity.healthPower);
 
   return (
     <>
@@ -22,24 +30,38 @@ const Card: FC<Props> = (props) => {
           if (props.entity.healthPower > 0) {
             //when click on player card
             if (props.entity.playable) {
-              props.setActiveDialog(props.entity);
-              dispatch(
-                assignPlayer({ entity: props.entity, index: props.index })
-              );
+              if (stages.turn === "player") {
+                if (!stages.entitiesTakenAction.includes(props.entity)) {
+                  dispatch(
+                    setCurrentEntity({
+                      entity: props.entity,
+                      index: props.index,
+                    })
+                  );
+                  dispatch(openActionOverlay());
+                } else {
+                  alert("this entity was taken action"); //+ show some info
+                }
+              } else {
+                alert("is not your turn");
+              }
             } else {
               //when click on enemy card
-              if (stages.selectedPlayer) {
+              if (stages.currentEntity) {
                 if (stages.selectedSkill) {
                   alert(
                     `Use ${stages.selectedSkill.name} to ${props.entity.name}` //some alert
                   );
                   dispatch(
                     skillToEntity({
+                      toEnemy: true,
                       indexTargetEntity: props.index,
-                      sourceEntity: stages.selectedPlayer.entity,
+                      sourceEntity: stages.currentEntity.entity,
                       skill: stages.selectedSkill,
                     })
                   );
+                  dispatch(markEntityTakenAction(stages.currentEntity.entity));
+                  dispatch(decreaseActions(1));
                 }
               } else {
                 //view info enemy's card
@@ -72,7 +94,7 @@ const Card: FC<Props> = (props) => {
             <progress
               className="h-5 w-full"
               value={props.entity.healthPower}
-              max={props.entity.healthPower}
+              max={maxHP}
             ></progress>
             <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs">
               {props.entity.healthPower}
@@ -80,19 +102,20 @@ const Card: FC<Props> = (props) => {
           </div>
         </div>
       </button>
-      {props.activeCard !== null && (
+
+      {stages.actionOverlay && (
         <>
           <span className="absolute inset-0 flex items-end justify-end size-full z-10">
             <button
               onClick={() => {
-                props.setActiveDialog(null);
+                dispatch(closeActionOverlay());
               }}
               className="top-0 left-0 size-full "
             ></button>
             <div className="absolute flex rounded-ss p-2">
               <div className="flex justify-around bg-red-400 h-40">
                 <img
-                  src={`src/assets/entities/${props.activeCard.imageUrl}`}
+                  src={`src/assets/entities/${stages.currentEntity?.entity.imageUrl}`}
                   alt="no data"
                   className="h-full object-cover"
                 />
@@ -101,7 +124,7 @@ const Card: FC<Props> = (props) => {
                 </p>
 
                 <div className="flex gap-4">
-                  {props.activeCard.skills.map((skill) => (
+                  {stages.currentEntity?.entity.skills.map((skill) => (
                     <button
                       key={skill.name}
                       className="border-red-500 border-2 w-40 h-full bg-black"

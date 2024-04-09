@@ -1,9 +1,18 @@
 import CardPlaceholder from "../components/CardPlaceholder";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Entity } from "../../../models/entity";
 import Card from "../components/Card";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { assignEntities } from "../features/stage";
+import {
+  assignEntities,
+  decreaseActions,
+  setCurrentEntity,
+  initTurn,
+  skillToEntity,
+  switchTurn,
+  // decreaseActions,
+  // skillToEntity,
+} from "../features/stageReducer";
 
 interface Props {
   tutorial?: true;
@@ -19,7 +28,7 @@ const Stage: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    function setupEntities() {
+    function setupGame() {
       dispatch(
         assignEntities({
           entities: props.playersFrontRow,
@@ -34,17 +43,57 @@ const Stage: React.FC<Props> = (props) => {
           type: "enemy",
         })
       );
+      dispatch(
+        initTurn({
+          enemies: props.enemiesFrontRow.concat(props.enemiesBackRow ?? []),
+          players: props.playersFrontRow.concat(props.playersBackRow ?? []),
+        })
+      );
     }
-    setupEntities();
+
+    setupGame();
   }, []);
 
-  // const selectedEnemy = useAppSelector((state) => state.stage.selectedEnemy);
-  // const selectedPlayer = useAppSelector((state) => state.stage.selectedPlayer);
-  // const selectedSkill = useAppSelector((s) => s.stage.selectedSkill);
+  useEffect(() => {
+    dispatch(switchTurn());
+  }, [stages.availableActions]);
 
-  // const [turn, setTurn] = useState<string>("Player");
+  useEffect(() => {
+    botAction();
+  }, [stages.turn]);
 
-  const [activeCard, setActiveCard] = useState<Entity | null>(null);
+  function botAction() {
+    if (stages.turn === "enemy" && stages.availableActions > 0) {
+      alert("botAct");
+      dispatch(
+        setCurrentEntity({
+          entity: stages.enemiesFrontRow[0],
+          index: stages.enemiesFrontRow.indexOf(stages.enemiesFrontRow[0]),
+        })
+      );
+      let maxHP = 0;
+      stages.playersFrontRow.forEach((entity) => {
+        if (entity.healthPower > maxHP) {
+          maxHP = entity.healthPower;
+        }
+      });
+      const indexTargetEntity = stages.playersFrontRow.findIndex(
+        (entity) => entity.healthPower === maxHP
+      );
+      if (stages.currentEntity) {
+        console.log("index target: " + indexTargetEntity);
+        dispatch(
+          skillToEntity({
+            toEnemy: false,
+            sourceEntity: stages.currentEntity.entity,
+            skill: stages.currentEntity.entity.skills[0],
+            indexTargetEntity: indexTargetEntity,
+          })
+        );
+      }
+      dispatch(decreaseActions(1));
+    }
+  }
 
   return (
     <>
@@ -67,15 +116,7 @@ const Stage: React.FC<Props> = (props) => {
                 {stages.enemiesBackRow.length > 0 ? (
                   stages.enemiesBackRow.map((enemy, index) => {
                     const key = `${enemy.name}-${enemy.id}-${index}`;
-                    return (
-                      <Card
-                        key={key}
-                        index={index}
-                        entity={enemy}
-                        activeCard={activeCard}
-                        setActiveDialog={setActiveCard}
-                      ></Card>
-                    );
+                    return <Card key={key} index={index} entity={enemy}></Card>;
                   })
                 ) : (
                   <></>
@@ -85,34 +126,31 @@ const Stage: React.FC<Props> = (props) => {
                 {stages.enemiesFrontRow.length > 0 ? (
                   stages.enemiesFrontRow.map((enemy, index) => {
                     const key = `${enemy.name}-${enemy.id}-${index}`;
-                    return (
-                      <Card
-                        key={key}
-                        index={index}
-                        entity={enemy}
-                        activeCard={activeCard}
-                        setActiveDialog={setActiveCard}
-                      ></Card>
-                    );
+                    return <Card key={key} index={index} entity={enemy}></Card>;
                   })
                 ) : (
                   <CardPlaceholder></CardPlaceholder>
                 )}
               </span>
             </div>
-            <div className="grid grid-cols-3 w-full h-fit py-1 justify-around">
-              <div className="flex flex-col w-fit items-start p-5 rounded-xl border-red-500 border-2">
+            <div className="grid grid-cols-3 w-full">
+              <div className="flex flex-col w-fit p-5 rounded-xl border-red-500 border-2">
                 <p>{props.mapName}</p>
-                <p>{"2/10"}</p>
-                <p>{"ROUND X"}</p>
+                <p className="uppercase text-sm ">round: {stages.round}</p>
+                <p className="uppercase text-xs">
+                  actions: {stages.availableActions}/{stages.maxActions}
+                </p>
               </div>
-
-              <div className="flex justify-center items-center size-full">
-                <p className="rounded-xl p-5 w-full"></p>
+              <div className="flex justify-center items-center size-full ">
+                <p className="rounded-xl p-5 w-full">
+                  {JSON.stringify(stages.stageData)}
+                </p>
               </div>
-
-              <div className="flex flex-col w-fit items-end justify-center justify-self-end p-5 rounded-xl border-red-500 border-2">
-                {/* <p>{turn}</p> */}
+              <div className="flex flex-col w-fit justify-center justify-self-end p-5 rounded-xl border-red-500 border-2">
+                <p className="uppercase">turn: {stages.turn}</p>
+                <p className="uppercase text-sm">
+                  name: {stages.currentEntity?.entity.name}
+                </p>
               </div>
             </div>
             <div
@@ -124,13 +162,7 @@ const Stage: React.FC<Props> = (props) => {
                   stages.playersFrontRow.map((player, index) => {
                     const key = `${player.name}-${player.id}-${index}`;
                     return (
-                      <Card
-                        key={key}
-                        index={index}
-                        entity={player}
-                        activeCard={activeCard}
-                        setActiveDialog={setActiveCard}
-                      ></Card>
+                      <Card key={key} index={index} entity={player}></Card>
                     );
                   })
                 ) : (
@@ -142,13 +174,7 @@ const Stage: React.FC<Props> = (props) => {
                   stages.playersBackRow.map((player, index) => {
                     const key = `${player.name}-${player.id}-${index}`;
                     return (
-                      <Card
-                        key={key}
-                        index={index}
-                        entity={player}
-                        activeCard={activeCard}
-                        setActiveDialog={setActiveCard}
-                      ></Card>
+                      <Card key={key} index={index} entity={player}></Card>
                     );
                   })
                 ) : (

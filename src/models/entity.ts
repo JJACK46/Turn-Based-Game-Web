@@ -23,6 +23,9 @@ export type Entity = {
   };
   playable?: true;
   status: StatusEnum;
+  canTakeDamage: boolean;
+  speed: number;
+  trait: string;
 };
 
 export type EntityAndIndex = {
