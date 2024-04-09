@@ -4,12 +4,22 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
   assignSkill,
   closeActionOverlay,
+  closeDisplay,
   decreaseActions,
   markEntityTakenAction,
   openActionOverlay,
+  openDisplay,
   setCurrentEntity,
   skillToEntity,
 } from "../features/stageReducer";
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuLabel,
+//   DropdownMenuSeparator,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu"
 
 interface Props {
   index: number;
@@ -39,6 +49,7 @@ const Card: FC<Props> = (props) => {
                     })
                   );
                   dispatch(openActionOverlay());
+                  dispatch(openDisplay());
                 } else {
                   alert("this entity was taken action"); //+ show some info
                 }
@@ -49,9 +60,9 @@ const Card: FC<Props> = (props) => {
               //when click on enemy card
               if (stages.currentEntity) {
                 if (stages.selectedSkill) {
-                  alert(
-                    `Use ${stages.selectedSkill.name} to ${props.entity.name}` //some alert
-                  );
+                  // alert(
+                  //   `Use ${stages.selectedSkill.name} to ${props.entity.name}` //some alert
+                  // );
                   dispatch(
                     skillToEntity({
                       toEnemy: true,
@@ -62,6 +73,7 @@ const Card: FC<Props> = (props) => {
                   );
                   dispatch(markEntityTakenAction(stages.currentEntity.entity));
                   dispatch(decreaseActions(1));
+                  dispatch(closeDisplay());
                 }
               } else {
                 //view info enemy's card
@@ -103,40 +115,55 @@ const Card: FC<Props> = (props) => {
         </div>
       </button>
 
-      {stages.actionOverlay && (
+      {stages.isActionOverlayOpen && (
         <>
           <span className="absolute inset-0 flex items-end justify-end size-full z-10">
             <button
               onClick={() => {
                 dispatch(closeActionOverlay());
+                dispatch(closeDisplay());
               }}
-              className="top-0 left-0 size-full "
+              className="top-0 left-0 size-full"
             ></button>
-            <div className="absolute flex rounded-ss p-2">
-              <div className="flex justify-around bg-red-400 h-40">
-                <img
-                  src={`src/assets/entities/${stages.currentEntity?.entity.imageUrl}`}
-                  alt="no data"
-                  className="h-full object-cover"
-                />
-                <p className="flex flex-wrap w-40">
-                  {JSON.stringify(props.entity)}
-                </p>
-
+            <div className="absolute flex p-10">
+              <div className="flex justify-around h-40 rounded-3xl">
                 <div className="flex gap-4">
+                  <div className="flex flex-row h-full bg-slate-500 p-2 rounded-3xl">
+                    <img
+                      src={`src/assets/entities/${stages.currentEntity?.entity.imageUrl}`}
+                      alt="no data"
+                      className="h-full object-cover rounded-3xl"
+                    />
+                    <div className="flex flex-col h-full w-32 justify-center items-start p-5">
+                      <p className="font-mono text-xl">{props.entity.name}</p>
+                      <p className="font-mono text-md">
+                        lvl.{props.entity.level}
+                      </p>
+                      <p className="font-mono text-md">
+                        ATK : {props.entity.attackPower}
+                      </p>
+                      <p className="font-mono text-md">
+                        DEF : {props.entity.defendPower}
+                      </p>
+                      <p className="font-mono text-md">
+                        HEAL : {props.entity.healingPower}
+                      </p>
+                    </div>
+                  </div>
                   {stages.currentEntity?.entity.skills.map((skill) => (
                     <button
                       key={skill.name}
-                      className="border-red-500 border-2 w-40 h-full bg-black"
+                      className="border-red-500 border-2 rounded-2xl w-40 h-full bg-black"
                       onClick={() => {
                         dispatch(assignSkill(skill));
-                        alert(skill.name); //some effect
+                        // alert(skill.name);
+                        dispatch(closeDisplay());
                       }}
                     >
                       <div className="size-full">{skill.name}</div>
                     </button>
                   ))}
-                  <button className="border-red-500 border-2 w-40 h-full bg-black">
+                  <button className="border-red-500 border-2 rounded-2xl w-40 h-full bg-black">
                     <div className="size-full">Use Item</div>
                   </button>
                 </div>
@@ -145,6 +172,18 @@ const Card: FC<Props> = (props) => {
           </span>
         </>
       )}
+
+      {stages.currentEntity?.entity.name === props.entity.name &&
+        stages.isActionOverlayOpen !== null &&
+        !stages.isDisplayOpen && (
+          <>
+            <span className="absolute inset-0 flex top-0 left-full -translate-x-full -translate-y-0 w-2/12 h-1/6 p-10 z-10">
+              <div className="flex flex-col size-full justify-center items-center border-red-600 border-2 rounded-2xl">
+                <p className="font-mono font-bold text-2xl text-red-600">{`ATTACKING`}</p>
+              </div>
+            </span>
+          </>
+        )}
     </>
   );
 };
