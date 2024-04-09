@@ -5,13 +5,12 @@ import Card from "../components/Card";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
   assignEntities,
-  decreaseActions,
   setCurrentEntity,
   initTurn,
   skillToEntity,
   switchTurn,
-  // decreaseActions,
-  // skillToEntity,
+  resetTotalHitDamage,
+  resetLastHitDamage,
 } from "../features/stageReducer";
 
 interface Props {
@@ -27,30 +26,29 @@ const Stage: React.FC<Props> = (props) => {
   const stages = useAppSelector((s) => s.stage);
   const dispatch = useAppDispatch();
 
+  function setupGame() {
+    dispatch(
+      assignEntities({
+        entities: props.playersFrontRow,
+        position: "front",
+        type: "player",
+      })
+    );
+    dispatch(
+      assignEntities({
+        entities: props.enemiesFrontRow,
+        position: "front",
+        type: "enemy",
+      })
+    );
+    dispatch(
+      initTurn({
+        enemies: props.enemiesFrontRow.concat(props.enemiesBackRow ?? []),
+        players: props.playersFrontRow.concat(props.playersBackRow ?? []),
+      })
+    );
+  }
   useEffect(() => {
-    function setupGame() {
-      dispatch(
-        assignEntities({
-          entities: props.playersFrontRow,
-          position: "front",
-          type: "player",
-        })
-      );
-      dispatch(
-        assignEntities({
-          entities: props.enemiesFrontRow,
-          position: "front",
-          type: "enemy",
-        })
-      );
-      dispatch(
-        initTurn({
-          enemies: props.enemiesFrontRow.concat(props.enemiesBackRow ?? []),
-          players: props.playersFrontRow.concat(props.playersBackRow ?? []),
-        })
-      );
-    }
-
     setupGame();
   }, []);
 
@@ -59,39 +57,63 @@ const Stage: React.FC<Props> = (props) => {
   }, [stages.availableActions]);
 
   useEffect(() => {
-    botAction();
+    for (let i = 0; i < stages.availableActions; i++) {
+      botAction(i);
+    }
   }, [stages.turn]);
 
-  function botAction() {
+  useEffect(() => {
+    if (stages.remainEnemiesCount === 0) {
+      alert("VICTORY");
+    }
+  }, [stages.remainEnemiesCount]);
+
+  function botAction(indexEntity: number) {
     if (stages.turn === "enemy" && stages.availableActions > 0) {
-      alert("botAct");
-      dispatch(
-        setCurrentEntity({
-          entity: stages.enemiesFrontRow[0],
-          index: stages.enemiesFrontRow.indexOf(stages.enemiesFrontRow[0]),
-        })
-      );
-      let maxHP = 0;
-      stages.playersFrontRow.forEach((entity) => {
-        if (entity.healthPower > maxHP) {
-          maxHP = entity.healthPower;
-        }
-      });
-      const indexTargetEntity = stages.playersFrontRow.findIndex(
-        (entity) => entity.healthPower === maxHP
-      );
-      if (stages.currentEntity) {
-        console.log("index target: " + indexTargetEntity);
+      setTimeout(() => {
+        dispatch(resetTotalHitDamage());
+        const aliveEntities = stages.enemiesFrontRow
+          .filter((entity) => entity.healthPower > 0)
+          .sort((a, b) => b.attackPower - a.attackPower);
+
+        const tempCurrentEntity = aliveEntities[indexEntity];
         dispatch(
-          skillToEntity({
-            toEnemy: false,
-            sourceEntity: stages.currentEntity.entity,
-            skill: stages.currentEntity.entity.skills[0],
-            indexTargetEntity: indexTargetEntity,
+          setCurrentEntity({
+            entity: tempCurrentEntity,
+            index: stages.enemiesFrontRow.indexOf(tempCurrentEntity),
           })
         );
-      }
-      dispatch(decreaseActions(1));
+
+        let maxHP = 0;
+        stages.playersFrontRow.forEach((entity) => {
+          if (entity.healthPower > maxHP) {
+            maxHP = entity.healthPower;
+          }
+        });
+
+        const indexTargetEntity = stages.playersFrontRow.findIndex(
+          (entity) => entity.healthPower === maxHP
+        );
+
+        setTimeout(() => {
+          dispatch(
+            skillToEntity({
+              toEnemy: false,
+              indexSourceEntity:
+                stages.enemiesFrontRow.indexOf(tempCurrentEntity),
+              sourceEntity: tempCurrentEntity,
+              skill: tempCurrentEntity.skills[0],
+              indexTargetEntity: indexTargetEntity,
+              targetEntities: stages.playersFrontRow,
+              sourceEntities: stages.enemiesFrontRow,
+            })
+          );
+          setTimeout(() => {
+            dispatch(resetLastHitDamage());
+            dispatch(resetTotalHitDamage());
+          }, 1500);
+        }, 1000);
+      }, 1000);
     }
   }
 
@@ -144,6 +166,9 @@ const Stage: React.FC<Props> = (props) => {
               <div className="flex justify-center items-center size-full ">
                 <p className="rounded-xl p-5 w-full">
                   {JSON.stringify(stages.stageData)}
+                  <br />
+                  remain enemies : {stages.remainEnemiesCount}
+                  {/* <div>{JSON.stringify(stages.entitiesTakenAction)}</div> */}
                 </p>
               </div>
               <div className="flex flex-col w-fit justify-center justify-self-end p-5 rounded-xl border-red-500 border-2">
