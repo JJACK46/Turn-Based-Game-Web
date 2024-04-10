@@ -1,17 +1,18 @@
 import "./App.css";
-import Home from "./views/home/Home";
+import Home from "./views/home/HomeView";
 import Menu from "./views/menu/Menu";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Stage from "./views/stage/pages/Stage";
 import { tutorialSet } from "./data/tutorial";
+import Credits from "./views/credits/CreditsView";
 
 function App() {
   return (
-    <div className="size-full min-w-max min-h-screen">
+    <div className="size-full min-w-max min-h-screen ">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/Menu" element={<Menu />} />
+          <Route path="/menu" element={<Menu />} />
           <Route
             path="/tutorial"
             element={
@@ -23,6 +24,7 @@ function App() {
               />
             }
           />
+          <Route path="/credits" element={<Credits />} />
         </Routes>
       </BrowserRouter>
     </div>
