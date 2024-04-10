@@ -70,7 +70,7 @@ const Stage: React.FC<Props> = (props) => {
         clearInterval(intervalId);
         dispatch(resetTotalHitDamage());
       }
-    }, 7000);
+    }, 4000);
   }, [stages.turn]);
 
   useEffect(() => {
@@ -125,8 +125,8 @@ const Stage: React.FC<Props> = (props) => {
             // dispatch(resetTotalHitDamage());
           // }, 5);
           // console.log("in dispatch stage botAction\n")
-        }, 1000);
-      }, 3000);
+        }, 3000);
+      }, 5);
     }
   }
 
