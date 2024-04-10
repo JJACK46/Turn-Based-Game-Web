@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import stageSlice from "../views/stage/features/stageReducer";
+import loaderSlice from "../views/loading/features/loadingReducer";
 
 export const store = configureStore({
   reducer: {
     stage: stageSlice,
+    loader: loaderSlice,
   },
 });
 

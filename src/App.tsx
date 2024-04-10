@@ -1,5 +1,5 @@
 import "./App.css";
-import Home from "./views/home/HomeView";
+import HomeView from "./views/home/HomeView";
 import Menu from "./views/menu/Menu";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Stage from "./views/stage/pages/Stage";
@@ -11,7 +11,7 @@ function App() {
     <div className="size-full min-w-max min-h-screen ">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomeView />} />
           <Route path="/menu" element={<Menu />} />
           <Route
             path="/tutorial"

@@ -3,9 +3,12 @@ import SettingPopup from "./components/SettingPopup";
 // import HowToPopup from "./components/HowToPopup";
 // import CreditPopup from "./components/CreditPopup";
 import ButtonHome from "./components/ButtonHome";
+import { useAppDispatch } from "@/app/hooks";
+import { setLoadingComplete } from "../loading/features/loadingReducer";
 
-function Home() {
+function HomeView() {
   const [setting, setSetting] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
   // const [howTo, setHowTo] = useState<boolean>(false);
   // const [credit, setCredit] = useState<boolean>(false);
 
@@ -27,7 +30,11 @@ function Home() {
 
       <div className="flex flex-col items-start m-40 gap-5 z-0">
         <ButtonHome title="start" path="/Menu"></ButtonHome>
-        <ButtonHome title="tutorial" path="/tutorial"></ButtonHome>
+        <ButtonHome
+          title="tutorial"
+          path="/tutorial"
+          onClick={() => dispatch(setLoadingComplete(true))}
+        ></ButtonHome>
         <ButtonHome
           title="settings"
           path=""
@@ -61,4 +68,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomeView;
