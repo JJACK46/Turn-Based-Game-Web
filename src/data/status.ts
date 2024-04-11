@@ -8,6 +8,7 @@ export enum StatusEnum {
   VULNERABLE = "vulnerable",
   IMMUNITY_MAGIC = "immunity magic",
   IMMUNITY_PHYSICAL = "immunity physical",
+  INACTIVE = "inactive",
 }
 
 export const statusData: { [key in StatusEnum]: Status } = {
@@ -20,5 +21,9 @@ export const statusData: { [key in StatusEnum]: Status } = {
   [StatusEnum.IMMUNITY_PHYSICAL]: {
     title: "Immunity physical",
     canAction: true,
+  },
+  [StatusEnum.INACTIVE]: {
+    title: "Inactive",
+    canAction: false,
   },
 };

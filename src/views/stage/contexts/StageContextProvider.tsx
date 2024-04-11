@@ -69,6 +69,7 @@ export interface StageContextType {
   isEntityTakenAction: (ent: Entity) => boolean;
   startGame: () => void;
   endGame: () => void;
+  getMostAttackPowerEntityForBot: (ent: Entity[]) => EntityDetails | undefined;
 }
 
 type CreateContextProviderProps = {
@@ -178,9 +179,9 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
       const entitiesCount =
         newTurn === "enemy"
           ? getAliveEntities(state.enemiesFrontRow.concat(enemiesBackRow ?? []))
-              .length
+            .length
           : getAliveEntities(state.playersFrontRow.concat(playersBackRow ?? []))
-              .length;
+            .length;
       setState((prevState) => ({
         ...prevState,
         turn: newTurn,
@@ -189,6 +190,7 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
         lastHitDamage: 0,
         totalHitDamage: 0,
       }));
+      resetEntitiesTakenAction();
     }
   };
 
@@ -209,9 +211,9 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
     const entitiesCount =
       turn === "enemy"
         ? getAliveEntities(state.enemiesFrontRow.concat(enemiesBackRow ?? []))
-            .length
+          .length
         : getAliveEntities(state.playersFrontRow.concat(playersBackRow ?? []))
-            .length;
+          .length;
     console.log(turn + "/" + entitiesCount);
     setState((prevState) => ({
       ...prevState,
@@ -233,7 +235,7 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
         if (skill.isAttackSkill) {
           const damageMade = Math.round(
             Math.round(sourceEntityData.entity.attackPower ?? 0) *
-              skill.emitValueMultiply
+            skill.emitValueMultiply
           );
           const newTargetEntityData = { ...targetEntityData };
           newTargetEntityData.entity.healthPower -= damageMade;
@@ -278,6 +280,24 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
     return entities.filter((entity) => entity.healthPower > 0);
   };
 
+  const getMostAttackPowerEntityForBot = (
+    entities: Entity[]
+  ): EntityDetails | undefined => {
+    if (entities.length === 0) return undefined;
+
+    let maxATK = 0;
+    let resultEntity: EntityDetails | undefined = undefined;
+
+    for (let i = 0; i < entities.length; i++) {
+      const entity = entities[i];
+      if (entity.attackPower > maxATK && !isEntityTakenAction(entity)) {
+        maxATK = entity.attackPower;
+        resultEntity = { entity: entity, position: i, site: "front" };
+      }
+    }
+    return resultEntity;
+  };
+
   const botAction = ({
     turn,
     availableActions,
@@ -294,87 +314,83 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
         (entity) => entity.healthPower > 0
       );
 
-      for (let i = 0; i < availableActions; i++) {
-        let potentialEntityData: EntityDetails | null = null;
+      let potentialEntityData: EntityDetails | null = null;
 
-        const mostAtkEntity = getMostAttackPowerEntity(aliveEntities);
+      const mostAtkEntity = getMostAttackPowerEntityForBot(aliveEntities);
 
-        if (mostAtkEntity) {
-          const index = sourceEntities.indexOf(mostAtkEntity.entity);
-          if (index > -1) {
-            potentialEntityData = {
-              entity: sourceEntities[index],
-              position: index,
-              site: "front",
-            };
-            markEntityTakenAction(potentialEntityData.entity);
-          }
-        }
-
-        if (
-          potentialEntityData &&
-          !entitiesTakenAction.includes(potentialEntityData.entity)
-        ) {
-          //set self to current entity action
-          setTimeout(() => {
-            setCurrentEntity(potentialEntityData);
-          }, 900);
-
-          //target algorithm
-          let leastHP = 9999;
-          let targetEntityData: EntityDetails | null = null;
-          const targetedEntities: Entity[] = [];
-
-          for (const playerEntity of state.playersFrontRow) {
-            const index = state.playersFrontRow.indexOf(playerEntity);
-            const currentPlayerData: EntityDetails = {
-              entity: playerEntity,
-              position: index,
-              site: "front",
-            };
-
-            if (
-              playerEntity.healthPower <= leastHP &&
-              playerEntity.healthPower > 0 &&
-              !targetedEntities.includes(playerEntity)
-            ) {
-              leastHP = playerEntity.healthPower;
-              targetEntityData = currentPlayerData;
-            }
-          }
-
-          if (targetEntityData) {
-            targetedEntities.push(targetEntityData.entity);
-            //set target
-            setTimeout(() => {
-              setTargetEntity(targetEntityData);
-            }, 1100);
-
-            setTimeout(() => {
-              //reset
-              resetCurrentEntity();
-              resetTargetEntity();
-              resetSelectSkill();
-              decreaseAction(1);
-            }, 2100);
-
-            //use skill
-            setTimeout(() => {
-              const botSelectedSkill = potentialEntityData.entity.skills[0];
-              setSelectSkill(botSelectedSkill);
-              usingSkillToTargetEntity({
-                skill: botSelectedSkill,
-                targetEntities: state.playersFrontRow,
-                targetEntityData: targetEntityData,
-                sourceEntityData: potentialEntityData,
-                sourceEntities,
-                isEnemyAction: true,
-              });
-              markEntityTakenAction(potentialEntityData.entity);
-            }, 1600);
-          }
+      if (mostAtkEntity) {
+        const index = sourceEntities.indexOf(mostAtkEntity.entity);
+        if (index > -1) {
+          potentialEntityData = {
+            entity: sourceEntities[index],
+            position: index,
+            site: "front",
+          };
+          markEntityTakenAction(potentialEntityData.entity);
         }
       }
+
+      if (
+        potentialEntityData &&
+        !entitiesTakenAction.includes(potentialEntityData.entity)
+      ) {
+        setCurrentEntity(potentialEntityData);
+
+        //target algorithm
+        let leastHP = 9999;
+        let targetEntityData: EntityDetails | null = null;
+        const targetedEntities: Entity[] = [];
+
+        for (const playerEntity of state.playersFrontRow) {
+          const index = state.playersFrontRow.indexOf(playerEntity);
+          const currentPlayerData: EntityDetails = {
+            entity: playerEntity,
+            position: index,
+            site: "front",
+          };
+
+          if (
+            playerEntity.healthPower <= leastHP &&
+            playerEntity.healthPower > 0 &&
+            !targetedEntities.includes(playerEntity)
+          ) {
+            leastHP = playerEntity.healthPower;
+            targetEntityData = currentPlayerData;
+          }
+        }
+
+        if (targetEntityData) {
+          targetedEntities.push(targetEntityData.entity);
+          //set target
+          setTimeout(() => {
+            setTargetEntity(targetEntityData);
+          }, 1000);
+
+
+          //use skill
+          setTimeout(() => {
+            const botSelectedSkill = potentialEntityData.entity.skills[0];
+            setSelectSkill(botSelectedSkill);
+            usingSkillToTargetEntity({
+              skill: botSelectedSkill,
+              targetEntities: state.playersFrontRow,
+              targetEntityData: targetEntityData,
+              sourceEntityData: potentialEntityData,
+              sourceEntities,
+              isEnemyAction: true,
+            });
+          }, 2000);
+
+          setTimeout(() => {
+            //reset
+            resetCurrentEntity();
+            resetTargetEntity();
+            resetSelectSkill();
+            decreaseAction(1);
+          }, 3000);
+        }
+      }
+      // }
     }
   };
 
@@ -500,6 +516,7 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
     isGameStart: false,
     startGame,
     endGame,
+    getMostAttackPowerEntityForBot,
   };
 
   const [state, setState] = useState<StageContextType>(initialState);
@@ -515,7 +532,6 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
   }, [state.availableActions]);
 
   useEffect(() => {
-    resetEntitiesTakenAction();
 
     if (state.turn === "enemy" && state.isGameStart) {
       botAction({
@@ -525,7 +541,7 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
         entitiesTakenAction: state.entitiesTakenAction,
       });
     }
-  }, [state.turn, state.isGameStart, state.availableActions]);
+  }, [state.availableActions]);
 
   useEffect(() => {
     if (state.remainEnemiesCount === 0) {
