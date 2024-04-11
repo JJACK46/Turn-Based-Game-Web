@@ -3,6 +3,8 @@ import {
   StageContext,
   StageContextType,
 } from "../contexts/StageContextProvider";
+import CardInfo from "./CardInfo";
+import { ActionWarning, TurnWarning } from "./Warning";
 
 export default function UserOverlay() {
   const {
@@ -182,6 +184,18 @@ export default function UserOverlay() {
             <p className="uppercase text-xs">cancel</p>
           </button>
         </>
+      )}
+
+      {userOverlay.isInfoOverlayOpen && (
+        <CardInfo />
+      )}
+
+      {userOverlay.isTurnWarning && (
+        <TurnWarning />
+      )}
+
+      {userOverlay.isActionWarning && (
+        <ActionWarning />
       )}
     </>
   );

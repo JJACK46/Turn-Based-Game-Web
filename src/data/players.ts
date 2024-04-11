@@ -91,7 +91,7 @@ export const players: Entity[] = [
     ],
     playable: true,
     status: StatusEnum.NORMAL,
-    speed: 10,
+    speed: 12,
     canTakeDamage: true,
     trait: "Wood Elf",
   },

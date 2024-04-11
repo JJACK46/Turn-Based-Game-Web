@@ -1,6 +1,6 @@
 import { Entity, EntityDetails } from "@/models/entity";
 import { createContext, useEffect, useMemo, useState } from "react";
-import { calculateTeamSpeed, getMostAttackPowerEntity } from "../helpers/stage";
+import { calculateTeamSpeed } from "../helpers/stage";
 import { Skill } from "@/models/skills";
 import _ from "lodash";
 
@@ -33,7 +33,13 @@ export interface StageContextType {
   speedEnemyTeam: number;
   speedPlayerTeam: number;
   entitiesTakenAction: Entity[];
-  userOverlay: { isActionOverlayOpen: boolean; isStageOverlayOpen: boolean };
+  userOverlay: {
+    isActionOverlayOpen: boolean;
+    isStageOverlayOpen: boolean;
+    isInfoOverlayOpen: boolean;
+    isTurnWarning: boolean;
+    isActionWarning: boolean;
+  };
   totalHitDamage: number;
   lastHitDamage: number;
   isGameStart: boolean;
@@ -49,6 +55,10 @@ export interface StageContextType {
   usingSkillToTargetEntity: (data: UsingSkillData) => boolean;
   openActionOverlay: () => void;
   closeActionOverlay: () => void;
+  openInfoOverlay: () => void;
+  closeInfoOverlay: () => void;
+  setTurnWarning: (input:boolean) => void;
+  setActionWarning: (input:boolean) => void;
   switchTurn: (currTurn: TurnType, availableActions: number) => void;
   calculateAvailableActions: (currTurn: TurnType) => void;
   botAction: ({
@@ -416,6 +426,34 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
     }));
   };
 
+  const openInfoOverlay = () => {
+    setState((prevState) => ({
+      ...prevState,
+      userOverlay: { ...prevState.userOverlay, isInfoOverlayOpen: true },
+    }));
+  };
+
+  const closeInfoOverlay = () => {
+    setState((prevState) => ({
+      ...prevState,
+      userOverlay: { ...prevState.userOverlay, isInfoOverlayOpen: false },
+    }));
+  };
+
+  const setActionWarning = (input: boolean) => {
+    setState((prevState) => ({
+      ...prevState,
+      userOverlay: { ...prevState.userOverlay, isActionWarning: input },
+    }));
+  };
+
+  const setTurnWarning = (input: boolean) => {
+    setState((prevState) => ({
+      ...prevState,
+      userOverlay: { ...prevState.userOverlay, isTurnWarning: input },
+    }));
+  };
+
   const calculateRemainEntities = ({
     players,
     enemies,
@@ -491,6 +529,9 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
     userOverlay: {
       isActionOverlayOpen: false,
       isStageOverlayOpen: false,
+      isInfoOverlayOpen: false,
+      isTurnWarning: false,
+      isActionWarning: false,
     },
     totalHitDamage: 0,
     lastHitDamage: 0,
@@ -498,6 +539,10 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
     usingSkillToTargetEntity,
     openActionOverlay,
     closeActionOverlay,
+    openInfoOverlay,
+    closeInfoOverlay,
+    setActionWarning,
+    setTurnWarning,
     setSelectSkill,
     resetCurrentEntity,
     resetTargetEntity,
