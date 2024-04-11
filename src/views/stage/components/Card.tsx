@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { EntityDetails } from "../../../models/entity";
 import { convertNumberToPercentage, getColorByHp } from "../helpers/styles";
-import _ from "lodash";
+// import _ from "lodash";
 import {
   StageContext,
   StageContextType,
@@ -11,7 +11,6 @@ const Card = (entityData: EntityDetails) => {
   const {
     currentEntityData,
     targetEntityData,
-    entitiesTakenAction,
     turn,
     setTargetEntity,
     usingSkillToTargetEntity,
@@ -21,10 +20,11 @@ const Card = (entityData: EntityDetails) => {
     resetSelectSkill,
     resetCurrentEntity,
     resetTargetEntity,
+    markEntityTakenAction,
     selectedSkill,
-    getAliveEntities,
     enemiesFrontRow,
     playersFrontRow,
+    entitiesTakenAction,
   } = useContext(StageContext) as StageContextType;
 
   const [maxHP] = useState(entityData.entity.healthPower);
@@ -40,8 +40,9 @@ const Card = (entityData: EntityDetails) => {
     maxMP
   );
   const [isHoveredCard, setIsHoveredCard] = useState(false);
-  const wasAction = () =>
-    entitiesTakenAction.some((entity) => _.isEqual(entity, entityData.entity));
+  const wasAction = () => {
+    return entitiesTakenAction.includes(entityData.entity);
+  };
 
   function handleColorActionCard() {
     if (currentEntityData?.entity === entityData.entity) {
@@ -60,7 +61,7 @@ const Card = (entityData: EntityDetails) => {
         targetEntityData: entityData,
         targetEntities: enemiesFrontRow,
         sourceEntityData: currentEntityData,
-        sourceEntities: getAliveEntities(playersFrontRow),
+        sourceEntities: playersFrontRow,
         isEnemyAction: false,
       });
       setTimeout(() => {
@@ -68,11 +69,9 @@ const Card = (entityData: EntityDetails) => {
         resetCurrentEntity();
         resetTargetEntity();
       }, 700);
+      markEntityTakenAction(currentEntityData.entity);
       decreaseAction(1);
     }
-    // dispatch(setSelectSkill(null));
-    // dispatch(markEntityTakenAction(entityStore.currentEntity!.entity));
-    // dispatch(closeDisplay());
   }
 
   return (
@@ -89,15 +88,6 @@ const Card = (entityData: EntityDetails) => {
                 if (!wasAction()) {
                   setCurrentEntity(entityData);
                   openActionOverlay();
-                  // dispatch(
-                  //   setCurrentEntity({
-                  //     entity: props.entity,
-                  //     position: props.position,
-                  //     site: props.site,
-                  //   })
-                  // );
-                  // dispatch(openActionOverlay());
-                  // dispatch(openDisplay());
                 } else {
                   alert("this entity was taken action"); //+ show some info
                 }
@@ -181,22 +171,8 @@ const Card = (entityData: EntityDetails) => {
             )}
           </div>
         </div>
+        <p>{entityData.position}</p>
       </button>
-
-      {/* {lastHitDamage > 0 && (
-        <span className="absolute top-32 right-10 p-2 border-red-600 border-2 rounded z-10">
-          <p className="font-mono text-sm">
-            Hits Damage: {lastHitDamage}
-          </p>
-          <p className="font-mono text-xs">
-            Total Damage: {totalHitDamage}
-          </p>
-        </span>
-      )} */}
-
-      {/* {selectedSkill && (
-        
-      )} */}
     </>
   );
 };

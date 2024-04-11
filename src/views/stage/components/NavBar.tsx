@@ -1,11 +1,31 @@
+import Icon from "@mdi/react";
+import { mdiHome, mdiFlag, mdiBagPersonal, mdiHistory } from "@mdi/js";
+
+interface BtnData {
+  text: string;
+  icon: string;
+  path: string;
+}
+
+const fieldData: BtnData[] = [
+  { text: "Base", icon: mdiHome, path: "/" },
+  { text: "Inv.", icon: mdiBagPersonal, path: "/" },
+  { text: "History", icon: mdiHistory, path: "/" },
+  { text: "Retreat", icon: mdiFlag, path: "/" },
+];
+
 export default function NavBarView() {
   return (
-    <div className="flex flex-col w-30 h-full gap-10 py-10 bg-black z-20">
-      <button className="border-blue-500 border-2 m-5">BTN1</button>
-      <button className="border-blue-500 border-2 m-5">BTN2</button>
-      <button className="border-blue-500 border-2 m-5">BTN3</button>
-      <button className="border-blue-500 border-2 m-5">BTN4</button>
-      <button className="border-blue-500 border-2 m-5">BTN5</button>
+    <div className="flex flex-col min-h-full gap-5 px-2 py-5 bg-black z-20">
+      {fieldData.map((item, index) => (
+        <button
+          key={index}
+          className="flex flex-col justify-center text-center items-center text-xs text-gray-400 hover:text-cyan-400 duration-0"
+        >
+          <Icon path={item.icon} size={1}></Icon>
+          <p>{item.text}</p>
+        </button>
+      ))}
     </div>
   );
 }

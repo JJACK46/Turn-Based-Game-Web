@@ -16,18 +16,16 @@ interface Props {
 
 const StageView = (props: Props) => {
   return (
-    <StageContextProvider StageProps={props}>
-      <span className="bg-gray-900 flex fixed w-full bottom-0">
-        <div className="flex flex-row justify-around items-center w-full min-h-screen h-screen">
-          <NavBarView></NavBarView>
-          <div className="flex flex-col justify-around items-center w-full min-h-screen h-screen">
-            <EnemiesSection></EnemiesSection>
-            <UserOverlay></UserOverlay>
-            <PlayersSection></PlayersSection>
-          </div>
+    <div className="flex flex-row justify-around items-center w-full h-screen min-h-screen">
+      <StageContextProvider StageProps={props}>
+        <NavBarView></NavBarView>
+        <div className="flex flex-col justify-around items-center w-full min-h-screen h-screen bg-slate-900">
+          <EnemiesSection></EnemiesSection>
+          <UserOverlay></UserOverlay>
+          <PlayersSection></PlayersSection>
         </div>
-      </span>
-    </StageContextProvider>
+      </StageContextProvider>
+    </div>
   );
 };
 

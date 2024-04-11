@@ -60,7 +60,7 @@ export const monsters: Entity[] = [
     skills: [
       {
         name: "Normal hit",
-        requiredMana: 5,
+        requiredMana: 0,
         type: "physical",
         isAttackSkill: true,
         emitValueMultiply: 1,
@@ -83,7 +83,7 @@ export const monsters: Entity[] = [
     skills: [
       {
         name: "Normal hit",
-        requiredMana: 2,
+        requiredMana: 0,
         type: "physical",
         isAttackSkill: true,
         emitValueMultiply: 1.2,
@@ -106,7 +106,7 @@ export const monsters: Entity[] = [
     skills: [
       {
         name: "Normal hit",
-        requiredMana: 2,
+        requiredMana: 0,
         type: "magic",
         isAttackSkill: true,
         emitValueMultiply: 1,
@@ -129,7 +129,7 @@ export const monsters: Entity[] = [
     skills: [
       {
         name: "Normal hit",
-        requiredMana: 5,
+        requiredMana: 0,
         type: "magic",
         isAttackSkill: true,
         emitValueMultiply: 1,

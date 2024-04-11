@@ -18,14 +18,39 @@ export default function UserOverlay() {
     targetEntityData,
     userOverlay,
     selectedSkill,
+    remainPlayersCount,
+    lastHitDamage,
+    totalHitDamage,
+    entitiesTakenAction,
     setSelectSkill,
     resetSelectSkill,
     closeActionOverlay,
     resetCurrentEntity,
+    startGame,
+    isGameStart,
   } = useContext(StageContext) as StageContextType;
   return (
     <>
-      <div className="grid grid-cols-3 w-full">
+      {!isGameStart && (
+        <span
+          rel="most top z-index"
+          className="z-50 absolute h-full w-full bg-black/50 backdrop-blur top-0 left-0 items-center justify-center flex"
+        >
+          <div className="flex flex-col justify-center items-center">
+            <h1 className="text-3xl uppercase">{mapName}</h1>
+            <hr className="my-10 border w-screen" />
+            <button
+              className="rounded-lg p-2 text-2xl bg-orange-600 uppercase"
+              onClick={() => {
+                startGame();
+              }}
+            >
+              battle
+            </button>
+          </div>
+        </span>
+      )}
+      <span className="grid grid-cols-3 w-full">
         <div className="flex flex-col w-fit p-5 rounded-xl border-red-500 border-2">
           <p>{mapName}</p>
           <p className="uppercase text-sm ">round: {roundCount}</p>
@@ -37,6 +62,7 @@ export default function UserOverlay() {
           <div className="rounded-xl p-2 w-full text-center">
             <p>SPD Players: {speedPlayerTeam}</p>
             <p>SPD Enemies: {speedEnemyTeam}</p>
+            <p>remain players : {remainPlayersCount}</p>
             <p>remain enemies : {remainEnemiesCount}</p>
           </div>
         </div>
@@ -46,7 +72,16 @@ export default function UserOverlay() {
           <p className=" text-sm">current: {currentEntityData?.entity.name}</p>
           <p className=" text-sm">target: {targetEntityData?.entity.name}</p>
         </div>
-      </div>
+      </span>
+      <span className="absolute bottom-0 left-14 w-36 p-2 border-white border h-52 rounded-lg">
+        <p className="uppercase">taken actions: </p>
+        <hr />
+        <ul className="flex flex-col items-start">
+          {entitiesTakenAction.map((entity, index) => (
+            <li key={index}>{entity.name}</li>
+          ))}
+        </ul>
+      </span>
       {userOverlay.isActionOverlayOpen && (
         <span className="absolute inset-0 flex items-end justify-end size-full z-10">
           <button
@@ -115,6 +150,12 @@ export default function UserOverlay() {
               </div>
             </div>
           </div>
+        </span>
+      )}
+      {lastHitDamage > 0 && (
+        <span className="absolute top-32 right-0 p-2 border-red-600 border-2 rounded z-10">
+          <p className="font-mono text-sm">Last Hits Damage: {lastHitDamage}</p>
+          <p className="font-mono text-xs">Total Damage: {totalHitDamage}</p>
         </span>
       )}
       {selectedSkill && targetEntityData && (
