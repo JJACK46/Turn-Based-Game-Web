@@ -2,7 +2,7 @@ import "./App.css";
 import HomeView from "./views/home/HomeView";
 import Menu from "./views/menu/Menu";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import Stage from "./views/stage/pages/Stage";
+import StageView from "./views/stage/views/StageView";
 import { tutorialSet } from "./data/tutorial";
 import Credits from "./views/credits/CreditsView";
 
@@ -16,7 +16,7 @@ function App() {
           <Route
             path="/tutorial"
             element={
-              <Stage
+              <StageView
                 tutorial
                 mapName="Tutorial"
                 enemiesFrontRow={tutorialSet.enemies}

@@ -3,12 +3,12 @@ import SettingPopup from "./components/SettingPopup";
 // import HowToPopup from "./components/HowToPopup";
 // import CreditPopup from "./components/CreditPopup";
 import ButtonHome from "./components/ButtonHome";
-import { useAppDispatch } from "@/app/hooks";
+// import { useAppDispatch } from "@/app/hooks";
 import { setLoadingComplete } from "../loading/features/loadingReducer";
 
 function HomeView() {
   const [setting, setSetting] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   // const [howTo, setHowTo] = useState<boolean>(false);
   // const [credit, setCredit] = useState<boolean>(false);
 
@@ -33,7 +33,7 @@ function HomeView() {
         <ButtonHome
           title="tutorial"
           path="/tutorial"
-          onClick={() => dispatch(setLoadingComplete(true))}
+          // onClick={() => dispatch(setLoadingComplete(true))}
         ></ButtonHome>
         <ButtonHome
           title="settings"

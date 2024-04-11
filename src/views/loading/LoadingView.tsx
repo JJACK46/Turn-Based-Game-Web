@@ -1,6 +1,6 @@
-import { useAppDispatch } from "@/app/hooks";
+// import { useAppDispatch } from "@/app/hooks";
 import { FC, useEffect, useState } from "react";
-import { setLoadingComplete } from "./features/loadingReducer";
+// import { setLoadingComplete } from "./features/loadingReducer";
 
 interface Props {
   title: string;
@@ -9,7 +9,7 @@ interface Props {
 const LoadingView: FC<Props> = (props) => {
   const [progressValue, setProgressValue] = useState(0);
   const [animate, setAnimate] = useState(false);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   useEffect(() => {
     const loadTime = setInterval(() => {
@@ -21,7 +21,7 @@ const LoadingView: FC<Props> = (props) => {
           clearInterval(loadTime);
           setAnimate(true);
           setTimeout(() => {
-            dispatch(setLoadingComplete(true));
+            // dispatch(setLoadingComplete(true));
           }, 500);
         }
         return newValue;

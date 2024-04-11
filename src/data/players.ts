@@ -14,10 +14,10 @@ export const players: Entity[] = [
     skills: [
       {
         name: "SMASH",
-        requiredMana: 5,
+        requiredMana: 0,
         type: "physical",
         isAttackSkill: true,
-        emitValueMultiply: 1.5,
+        emitValueMultiply: 1.2,
       },
     ],
     playable: true,
@@ -38,7 +38,7 @@ export const players: Entity[] = [
     skills: [
       {
         name: "Sharp Shoot",
-        requiredMana: 5,
+        requiredMana: 0,
         type: "physical",
         isAttackSkill: true,
         emitValueMultiply: 1,
@@ -48,7 +48,7 @@ export const players: Entity[] = [
         requiredMana: 15,
         type: "physical",
         isAttackSkill: true,
-        emitValueMultiply: 1.6,
+        emitValueMultiply: 1.8,
       },
     ],
     playable: true,

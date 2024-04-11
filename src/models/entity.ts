@@ -28,7 +28,10 @@ export type Entity = {
   trait: string;
 };
 
-export type EntityAndIndex = {
+export type Site = "front" | "back";
+
+export interface EntityDetails {
   entity: Entity;
-  index: number;
-};
+  position: number;
+  site: Site;
+}
