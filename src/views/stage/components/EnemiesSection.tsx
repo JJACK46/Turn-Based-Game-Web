@@ -1,15 +1,9 @@
-import { useContext } from "react";
 import Card from "./Card";
 import CardPlaceholder from "./CardPlaceholder";
-import {
-  StageContext,
-  StageContextType,
-} from "../contexts/StageContextProvider";
+import { useGameStore } from "../stores/GameStore";
 
 export default function EnemiesSection() {
-  const { enemiesFrontRow, enemiesBackRow } = useContext(
-    StageContext
-  ) as StageContextType;
+  const { enemiesFrontRow, enemiesBackRow } = useGameStore();
 
   return (
     <div

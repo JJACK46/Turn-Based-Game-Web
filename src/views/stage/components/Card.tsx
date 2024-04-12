@@ -3,17 +3,13 @@ import { EntityDetails } from "../../../models/entity";
 import { convertNumberToPercentage, getColorByHp } from "../helpers/styles";
 
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
-import { useStageContext } from "../contexts/useStageContext";
-import { useGameContext } from "../contexts/useGameContext";
-import { useEntityContext } from "../contexts/useEntityContext";
+import { useGameStore } from "../stores/GameStore";
 
 const Card = (entityData: EntityDetails) => {
-  const {
-    openActionOverlay,
-    openInfoOverlay,
-    setActionWarning,
-    setTurnWarning,
-  } = useGameContext();
+  //   openActionOverlay,
+  // openInfoOverlay,
+  // setActionWarning,
+  // setTurnWarning,
   const {
     setCurrentEntity,
     setTargetEntity,
@@ -21,8 +17,6 @@ const Card = (entityData: EntityDetails) => {
     resetSelectSkill,
     resetCurrentEntity,
     resetTargetEntity,
-  } = useEntityContext();
-  const {
     turn,
     entitiesTakenAction,
     enemiesFrontRow,
@@ -32,7 +26,7 @@ const Card = (entityData: EntityDetails) => {
     targetEntityData,
     decreaseAction,
     markEntityTakenAction,
-  } = useStageContext();
+  } = useGameStore();
 
   const [maxHP] = useState(entityData.entity.healthPower);
   const [maxMP] = useState(
@@ -68,10 +62,7 @@ const Card = (entityData: EntityDetails) => {
   function handleSkill() {
     if (selectedSkill && currentEntityData) {
       usingSkillToTargetEntity({
-        skill: selectedSkill,
-        targetEntityData: entityData,
         targetEntities: enemiesFrontRow,
-        sourceEntityData: currentEntityData,
         sourceEntities: playersFrontRow,
         isEnemyAction: false,
       });

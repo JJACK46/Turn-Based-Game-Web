@@ -1,5 +1,6 @@
 import { Entity } from "@/models/entity";
 import { Skill } from "@/models/skills";
+import _ from "lodash";
 
 export function isSkillUseEP(skill: Skill): boolean {
   return skill.requiredEnergy ? true : false;
@@ -49,3 +50,7 @@ export function getUpdatedManaFromUsed({
 
   return updatedEntity;
 }
+
+export const isEntityInEntities = (entity: Entity, entities: Entity[]) => {
+  return entities.some((ent) => _.isEqual(ent, entity));
+};

@@ -1,13 +1,10 @@
 import { Skill } from "@/models/skills";
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
-import { useGameContext } from "../contexts/useGameContext";
-import { useEntityContext } from "../contexts/useEntityContext";
-import { useStageContext } from "../contexts/useStageContext";
+import { useGameStore } from "../stores/GameStore";
 
 function CardInfo() {
-  const { closeInfoOverlay } = useGameContext();
-  const { resetCurrentEntity } = useEntityContext();
-  const { currentEntityData } = useStageContext();
+  // const { closeInfoOverlay } = useGameContext();
+  const { resetCurrentEntity, currentEntityData } = useGameStore();
   return (
     <span className="absolute inset-0 flex items-center justify-center size-full z-10">
       <button

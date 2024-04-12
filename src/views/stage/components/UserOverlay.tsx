@@ -2,14 +2,10 @@ import CardInfo from "./CardInfo";
 import { ActionWarning, TurnWarning } from "./Warning";
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
 import { getDamageMadeBy, isSkillUseEP } from "../helpers/entity";
-import { useGameContext } from "../contexts/useGameContext";
-import { useEntityContext } from "../contexts/useEntityContext";
-import { useStageContext } from "../contexts/useStageContext";
-import { useGameStore } from "../stores/gameStore";
-import { useUIStore } from "../stores/UI_Store";
+import { useGameStore } from "../stores/GameStore";
 
 export default function UserOverlay() {
-  const { closeActionOverlay } = useGameContext();
+  // const { closeActionOverlay } = useGameContext();
   const {
     selectedSkill,
     mapName,
@@ -27,13 +23,10 @@ export default function UserOverlay() {
     totalHitDamage,
     entitiesTakenAction,
     isGameStart,
-    userOverlay,
-  } = useStageContext();
-  const { resetCurrentEntity, setSelectSkill, resetSelectSkill } =
-    useEntityContext();
-
-  const gameLogic = useGameStore();
-  const uiLogic = useUIStore();
+    resetCurrentEntity,
+    setSelectSkill,
+    resetSelectSkill,
+  } = useGameStore();
 
   return (
     <>
@@ -47,19 +40,14 @@ export default function UserOverlay() {
             <hr className="my-10 border w-screen" />
             <button
               className="rounded-lg p-2 text-2xl bg-orange-600 uppercase"
-              onClick={() => {
-                gameLogic.startGame();
-                uiLogic.setData(gameLogic.data);
-              }}
+              onClick={() => {}}
             >
               battle
-              {JSON.stringify(uiLogic.data)}
             </button>
           </div>
         </span>
       )}
       <span className="grid grid-cols-3 w-full">
-        {JSON.stringify(userOverlay.isActionOverlayOpen)}
         <div className="flex flex-col w-fit p-5 rounded-xl border-red-500 border-2">
           <p>{mapName}</p>
           <p className="uppercase text-sm ">round: {roundCount}</p>
