@@ -40,7 +40,8 @@ function Menu() {
         </h1>
         <div className="flex flex-row gap-10 justify-evenly w-full p-20">
           {fieldData.map((item, index) => (
-            <button
+            <Link
+              to={`/world/${item.title}`}
               key={index}
               className="text-lg w-40 h-56 hover:h-96 hover:w-96"
               onMouseEnter={() => setHoveredIndex(index)}
@@ -54,7 +55,7 @@ function Menu() {
               {hoveredIndex === index && (
                 <p className="text-sm text-left">{item.info}</p>
               )}
-            </button>
+            </Link>
           ))}
         </div>
       </div>
