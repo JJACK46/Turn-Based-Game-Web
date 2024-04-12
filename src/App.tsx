@@ -6,6 +6,7 @@ import StageView from "./views/stage/views/StageView";
 import { tutorialSet } from "./data/tutorial";
 import Credits from "./views/credits/CreditsView";
 import { AppContextProvider } from "./contexts/AppContextProvider";
+import WorldSelection from "./views/home/world/WorldSelection";
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomeView />} />
-            <Route path="/menu" element={<Menu />} />
+            <Route path="/Menu" element={<Menu />} />
+            <Route path="/World/:id" element={<WorldSelection />} />
             <Route
               path="/tutorial"
               element={
