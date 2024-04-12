@@ -1,4 +1,4 @@
-import { Status } from "../models/status";
+import { Status } from "../classes/status";
 
 export enum StatusEnum {
   NORMAL = "normal",

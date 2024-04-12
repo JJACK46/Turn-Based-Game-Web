@@ -16,7 +16,9 @@ export type Entity = {
   healingPower?: number;
   healthPower: number;
   manaPower: number;
-  energyPower?: number;
+  energyPower: number;
+  maxManaEnergyPower: number;
+  maxHealthPower: number;
   equipment?: {
     weapon: Weapon;
     armor: Armor;
@@ -26,6 +28,9 @@ export type Entity = {
   canTakeDamage: boolean;
   speed: number;
   trait: string;
+  restoreManaOrEnergy: number;
+  restoreHealth?: number;
+  evasion?: number;
 };
 
 export type Site = "front" | "back";

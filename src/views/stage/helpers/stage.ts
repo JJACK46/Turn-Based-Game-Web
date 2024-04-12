@@ -1,4 +1,4 @@
-import { Entity, EntityDetails } from "@/models/entity";
+import { Entity, EntityDetails } from "@/classes/entity";
 
 export function getSpeedOfTeam(entities: Entity[]) {
   return entities.reduce((sum, entity) => entity.speed + sum, 0);

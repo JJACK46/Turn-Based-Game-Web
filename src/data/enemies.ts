@@ -1,4 +1,4 @@
-import { Entity } from "../models/entity";
+import { Entity } from "../classes/entity";
 import { StatusEnum } from "./status";
 
 export const monsters: Entity[] = [
@@ -9,7 +9,7 @@ export const monsters: Entity[] = [
     level: 1,
     attackPower: 3,
     attackDamageType: "physical",
-    manaPower: 0,
+    manaPower: -1,
     healthPower: 10,
     skills: [
       {
@@ -24,6 +24,10 @@ export const monsters: Entity[] = [
     speed: 3,
     canTakeDamage: true,
     trait: "forest monster",
+    restoreManaOrEnergy: 5,
+    maxManaEnergyPower: 0,
+    energyPower: -1,
+    maxHealthPower: 10,
   },
   {
     id: 2,
@@ -32,7 +36,7 @@ export const monsters: Entity[] = [
     level: 1,
     attackPower: 7,
     attackDamageType: "physical",
-    manaPower: 0,
+    manaPower: -1,
     healthPower: 30,
     skills: [
       {
@@ -47,6 +51,10 @@ export const monsters: Entity[] = [
     speed: 6,
     canTakeDamage: true,
     trait: "forest monster",
+    restoreManaOrEnergy: 5,
+    maxManaEnergyPower: 0,
+    energyPower: -1,
+    maxHealthPower: 30,
   },
   {
     id: 3,
@@ -70,6 +78,10 @@ export const monsters: Entity[] = [
     speed: 5,
     canTakeDamage: true,
     trait: "Orc Warrior",
+    restoreManaOrEnergy: 5,
+    maxManaEnergyPower: 10,
+    energyPower: -1,
+    maxHealthPower: 30,
   },
   {
     id: 4,
@@ -93,6 +105,10 @@ export const monsters: Entity[] = [
     speed: 6,
     canTakeDamage: true,
     trait: "Demon Warrior",
+    restoreManaOrEnergy: 5,
+    maxManaEnergyPower: 10,
+    energyPower: -1,
+    maxHealthPower: 40,
   },
   {
     id: 5,
@@ -116,6 +132,10 @@ export const monsters: Entity[] = [
     speed: 12,
     canTakeDamage: true,
     trait: "Magic Eagle",
+    restoreManaOrEnergy: 5,
+    maxManaEnergyPower: 10,
+    energyPower: -1,
+    maxHealthPower: 20,
   },
   {
     id: 6,
@@ -139,5 +159,9 @@ export const monsters: Entity[] = [
     speed: 7,
     canTakeDamage: true,
     trait: "Magic Creature",
+    restoreManaOrEnergy: 5,
+    maxManaEnergyPower: 10,
+    energyPower: -1,
+    maxHealthPower: 25,
   },
 ];

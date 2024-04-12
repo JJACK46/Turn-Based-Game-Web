@@ -131,10 +131,16 @@ export default function UserOverlay() {
                     <div>{skill.name}</div>
                     <div className="text-sm">
                       <ul className="flex flex-row gap-3">
-                        <li>
-                          {`${isSkillUseEP(skill) ? "EP:" : "MP:"}`}{" "}
-                          {skill.requiredEnergy ?? skill.requiredMana}
-                        </li>
+                        {(skill.requiredEnergy || skill.requiredMana > 0) && (
+                          <li>
+                            {`${isSkillUseEP(skill) ? "EP:" : "MP:"}`}{" "}
+                            {`${
+                              isSkillUseEP(skill)
+                                ? skill.requiredEnergy
+                                : skill.requiredMana
+                            }`}
+                          </li>
+                        )}
                         <li>
                           {`DMG: ${getDamageMadeBy({
                             entity: currentEntityData.entity,

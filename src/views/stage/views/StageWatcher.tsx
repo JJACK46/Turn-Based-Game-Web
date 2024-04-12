@@ -1,49 +1,99 @@
-import { useContext, useEffect, useState } from "react";
-import { useStageContext } from "../contexts/useStageContext";
-import { useBotContext } from "../contexts/useBotContext";
-import { StageContext } from "../contexts/StageContextProvider";
-import { useUIStore } from "../stores/UI_Store";
+import { useEffect } from "react";
+// import { useUIStore } from "../stores/UI_Store";
+import { useGameStore } from "../stores/GameStore";
+import { botAction } from "../stores/BotLogic";
+import { restoreManaForEntities } from "../helpers/entity";
 
 export function StageWatcher({ children }: { children: React.ReactNode }) {
-  const context = useContext(StageContext);
-  if (!context) {
-    throw new Error("StageWatcher must be used within an StageContextProvider");
-  }
-  const [state] = useState(context);
-  const { switchTurn, calculateRemainEntities } = useStageContext();
-  const { botAction } = useBotContext();
-  const UIStore = useUIStore();
+  const {
+    switchTurn,
+    turn,
+    availableActions,
+    enemiesFrontRow,
+    isGameStart,
+    remainEnemiesCount,
+    remainPlayersCount,
+    entitiesTakenAction,
+    playersFrontRow,
+    playersBackRow,
+    enemiesBackRow,
+    cycleRound,
+    updateCycleRound,
+    resetCycleRound,
+    endGame,
+    setEntities,
+    increaseRound,
+  } = useGameStore();
+  // const uiLogic = useUIStore();
 
-  useEffect(() => {
-    setTimeout(() => {
-      switchTurn(state.turn, state.availableActions);
-      calculateRemainEntities({
-        players: state.playersFrontRow.concat(state.playersBackRow ?? []),
-        enemies: state.enemiesFrontRow.concat(state.enemiesBackRow ?? []),
+  function restoreManaEveryEntity() {
+    setEntities({
+      entities: restoreManaForEntities(playersFrontRow),
+      isPlayer: true,
+      site: "front",
+    });
+    setEntities({
+      entities: restoreManaForEntities(enemiesFrontRow),
+      isPlayer: false,
+      site: "front",
+    });
+    if (playersBackRow && enemiesBackRow) {
+      setEntities({
+        entities: restoreManaForEntities(playersBackRow),
+        isPlayer: true,
+        site: "back",
       });
-    }, 2000);
-  }, [state.availableActions]);
-
-  useEffect(() => {
-    if (state.turn === "enemy" && state.isGameStart) {
-      botAction({
-        turn: state.turn,
-        availableActions: state.availableActions,
-        sourceEntities: state.enemiesFrontRow,
-        entitiesTakenAction: state.entitiesTakenAction,
+      setEntities({
+        entities: restoreManaForEntities(enemiesBackRow),
+        isPlayer: false,
+        site: "back",
       });
     }
-  }, [state.availableActions]);
+  }
 
+  //update turn
   useEffect(() => {
-    if (state.isGameStart) {
-      if (state.remainEnemiesCount === 0) {
+    if (isGameStart) {
+      setTimeout(() => {
+        if (availableActions === 0 && turn) {
+          switchTurn();
+          updateCycleRound();
+        }
+      }, 2000);
+      if (turn === "enemy" && isGameStart) {
+        botAction({
+          turn,
+          availableActions,
+          sourceEntities: enemiesFrontRow,
+          targetEntities: playersFrontRow,
+          entitiesTakenAction,
+        });
+      }
+    }
+  }, [availableActions]);
+
+  //update result game
+  useEffect(() => {
+    if (availableActions === 0) {
+      if (remainEnemiesCount === 0) {
+        endGame();
         alert("VICTORY");
       }
-      if (state.remainPlayersCount === 0) {
+      if (remainPlayersCount === 0) {
+        endGame();
         alert("DEFEAT");
       }
     }
-  }, [state.isGameStart]);
+  }, [turn]);
+
+  //update round
+  useEffect(() => {
+    if (cycleRound === 0) {
+      increaseRound();
+      restoreManaEveryEntity();
+      resetCycleRound();
+    }
+  }, [cycleRound]);
+
   return <>{children}</>;
 }

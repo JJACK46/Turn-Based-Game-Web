@@ -5,13 +5,11 @@ export type Data = {
 };
 
 type UILogic = {
-  data: {
-    isSkillOverlay: boolean;
-    isStageOverlay: boolean;
-    isInfoOverlay: boolean;
-    isTurnWarning: boolean;
-    isActionWarning: boolean;
-  };
+  isSkillOverlay: boolean;
+  isStageOverlay: boolean;
+  isInfoOverlay: boolean;
+  isTurnWarning: boolean;
+  isActionWarning: boolean;
   setSkillOverlay: (input: boolean) => void;
   setStageOverlay: (input: boolean) => void;
   setInfoOverlay: (input: boolean) => void;
@@ -20,26 +18,18 @@ type UILogic = {
 };
 
 export const useUIStore = create<UILogic>((set) => ({
-  data: {
-    isSkillOverlay: false,
-    isStageOverlay: false,
-    isInfoOverlay: false,
-    isTurnWarning: false,
-    isActionWarning: false,
-  },
-  setSkillOverlay: (input: boolean) =>
-    set((state) => ({ data: { ...state.data, isSkillOverlay: input } })),
+  isSkillOverlay: false,
+  isStageOverlay: false,
+  isInfoOverlay: false,
+  isTurnWarning: false,
+  isActionWarning: false,
+  setSkillOverlay: (input: boolean) => set(() => ({ isSkillOverlay: input })),
 
-  setStageOverlay: (input: boolean) =>
-    set((state) => ({ data: { ...state.data, isStageOverlay: input } })),
+  setStageOverlay: (input: boolean) => set(() => ({ isStageOverlay: input })),
 
-  setInfoOverlay: (input: boolean) =>
-    set((state) => ({ data: { ...state.data, isInfoOverlay: input } })),
+  setInfoOverlay: (input: boolean) => set(() => ({ isInfoOverlay: input })),
 
-  setTurnWarning: (input: boolean) =>
-    set((state) => ({ data: { ...state.data, isTurnWarning: input } })),
+  setTurnWarning: (input: boolean) => set(() => ({ isTurnWarning: input })),
 
-  setActionWarning: (input: boolean) =>
-    set((state) => ({ data: { ...state.data, isActionWarning: input } })),
-
+  setActionWarning: (input: boolean) => set(() => ({ isActionWarning: input })),
 }));

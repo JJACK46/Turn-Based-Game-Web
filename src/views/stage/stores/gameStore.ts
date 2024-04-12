@@ -1,6 +1,6 @@
-import { Entity, EntityDetails } from "@/models/entity";
-import { Skill } from "@/models/skills";
-import { TurnType } from "@/models/turn";
+import { Entity, EntityDetails, Site } from "@/classes/entity";
+import { Skill } from "@/classes/skills";
+import { TurnType } from "@/classes/turn";
 import { create } from "zustand";
 import { getAliveEntities, getSpeedOfTeam } from "../helpers/stage";
 import {
@@ -9,7 +9,7 @@ import {
   getUpdatedManaFromUsed,
 } from "../helpers/entity";
 
-export interface GameLogicType {
+interface GameLogicType {
   mapName: string;
   enemiesFrontRow: Entity[];
   enemiesBackRow?: Entity[];
@@ -30,6 +30,7 @@ export interface GameLogicType {
   totalHitDamage: number;
   lastHitDamage: number;
   isGameStart: boolean;
+  cycleRound: number;
   increaseAction: (n: number) => void;
   decreaseAction: (n: number) => void;
   switchTurn: () => void;
@@ -42,13 +43,33 @@ export interface GameLogicType {
   setTargetEntity: (e: EntityDetails) => void;
   resetTargetEntity: () => void;
   usingSkillToTargetEntity: (props: {
+    skill: Skill;
+    sourceEntityData: EntityDetails;
+    targetEntityData: EntityDetails;
     sourceEntities: Entity[];
     targetEntities: Entity[];
     isEnemyAction: boolean;
+  }) => boolean;
+  startGame: () => void;
+  endGame: () => void;
+  setupGame: (props: {
+    mapName: string;
+    enemiesFrontRow: Entity[];
+    enemiesBackRow?: Entity[];
+    playersFrontRow: Entity[];
+    playersBackRow?: Entity[];
   }) => void;
+  setEntities: (props: {
+    entities: Entity[];
+    isPlayer: boolean;
+    site: Site;
+  }) => void;
+  increaseRound: () => void;
+  updateCycleRound: () => void;
+  resetCycleRound: () => void;
 }
 
-const initialState: GameLogicType = {
+export const useGameStore = create<GameLogicType>((set) => ({
   mapName: "",
   isGameStart: false,
   enemiesFrontRow: [],
@@ -59,55 +80,51 @@ const initialState: GameLogicType = {
   targetEntityData: null,
   selectedSkill: null,
   turn: null,
-  availableActions: 0,
+  availableActions: -1,
   maxActions: 0,
-  roundCount: 0,
+  roundCount: 1,
   speedEnemyTeam: 0,
   speedPlayerTeam: 0,
   entitiesTakenAction: [],
   totalHitDamage: 0,
   lastHitDamage: 0,
-
-  switchTurn: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  resetEntitiesTakenAction: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  markEntityTakenAction: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  increaseAction: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  decreaseAction: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  setSelectSkill: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  resetSelectSkill: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  setCurrentEntity: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  resetCurrentEntity: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  setTargetEntity: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  resetTargetEntity: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  usingSkillToTargetEntity: function (): void {
-    throw new Error("Function not implemented.");
-  },
-};
-
-export const useGameStore = create<GameLogicType>((set) => ({
-  ...initialState,
+  cycleRound: 2,
+  setupGame: (props: {
+    mapName: string;
+    enemiesFrontRow: Entity[];
+    enemiesBackRow?: Entity[];
+    playersFrontRow: Entity[];
+    playersBackRow?: Entity[];
+  }) =>
+    set((state) => {
+      const enemies = props.enemiesFrontRow.concat(props.enemiesBackRow ?? []);
+      const players = props.playersFrontRow.concat(props.playersBackRow ?? []);
+      const speedEnemyTeam = getSpeedOfTeam(enemies);
+      const speedPlayerTeam = getSpeedOfTeam(players);
+      const remainEnemiesCount = getAliveEntities(
+        state.enemiesFrontRow.concat(state.enemiesBackRow ?? [])
+      ).length;
+      const remainPlayersCount = getAliveEntities(
+        state.playersFrontRow.concat(state.playersBackRow ?? [])
+      ).length;
+      const turn: TurnType =
+        getSpeedOfTeam(enemies) >= getSpeedOfTeam(players) ? "enemy" : "player";
+      const availableActions =
+        turn === "enemy" ? enemies.length : players.length;
+      return {
+        ...state,
+        ...props,
+        speedEnemyTeam,
+        speedPlayerTeam,
+        availableActions,
+        maxActions: availableActions,
+        remainEnemiesCount,
+        remainPlayersCount,
+        turn,
+      };
+    }),
+  startGame: () => set((state) => ({ ...state, isGameStart: true })),
+  endGame: () => set((state) => ({ ...state, isGameStart: false })),
   increaseAction: (n: number) =>
     set((state) => ({
       availableActions: state.availableActions + n,
@@ -132,14 +149,14 @@ export const useGameStore = create<GameLogicType>((set) => ({
   switchTurn: () => {
     set((state) => {
       const newTurn: TurnType = state.turn === "enemy" ? "player" : "enemy";
+      const remainEnemiesCount = getAliveEntities(
+        state.enemiesFrontRow.concat(state.enemiesBackRow ?? [])
+      ).length;
+      const remainPlayersCount = getAliveEntities(
+        state.playersFrontRow.concat(state.playersBackRow ?? [])
+      ).length;
       const entitiesCount: number =
-        newTurn === "enemy"
-          ? getAliveEntities(
-              state.enemiesFrontRow.concat(state.enemiesBackRow ?? [])
-            ).length
-          : getAliveEntities(
-              state.playersFrontRow.concat(state.playersBackRow ?? [])
-            ).length;
+        newTurn === "enemy" ? remainEnemiesCount : remainPlayersCount;
       return {
         ...state,
         turn: newTurn,
@@ -147,6 +164,9 @@ export const useGameStore = create<GameLogicType>((set) => ({
         maxActions: entitiesCount,
         lastHitDamage: 0,
         totalHitDamage: 0,
+        entitiesTakenAction: [],
+        remainEnemiesCount,
+        remainPlayersCount,
       };
     });
   },
@@ -157,31 +177,6 @@ export const useGameStore = create<GameLogicType>((set) => ({
       ...state,
       entitiesTakenAction: [...state.entitiesTakenAction, entity],
     })),
-  getSetupStageDataBy: ({
-    enemies,
-    players,
-  }: {
-    enemies: Entity[];
-    players: Entity[];
-  }) => {
-    const speedEnemiesTeam = getSpeedOfTeam(enemies);
-    const speedPlayersTeam = getSpeedOfTeam(players);
-    return getSpeedOfTeam(enemies) >= getSpeedOfTeam(players)
-      ? {
-          turn: "enemy" as TurnType,
-          availableActions: enemies.length,
-          maxActions: enemies.length,
-          speedEnemiesTeam,
-          speedPlayersTeam,
-        }
-      : {
-          turn: "player" as TurnType,
-          availableActions: players.length,
-          maxActions: players.length,
-          speedEnemiesTeam,
-          speedPlayersTeam,
-        };
-  },
   setSelectSkill: (skill: Skill) => {
     set((prevState) => ({
       ...prevState,
@@ -219,63 +214,92 @@ export const useGameStore = create<GameLogicType>((set) => ({
     }));
   },
   usingSkillToTargetEntity: (prop: {
+    skill: Skill;
+    sourceEntityData: EntityDetails;
+    targetEntityData: EntityDetails;
     sourceEntities: Entity[];
     targetEntities: Entity[];
     isEnemyAction: boolean;
   }) => {
-    set((state) => {
-      const { sourceEntities, targetEntities, isEnemyAction } = prop;
-      const skill = state.selectedSkill;
-      const sourceEntityData = state.currentEntityData;
-      const targetEntityData = state.targetEntityData;
+    const {
+      sourceEntities,
+      targetEntities,
+      isEnemyAction,
+      skill,
+      sourceEntityData,
+      targetEntityData,
+    } = prop;
 
-      if (skill && sourceEntityData && targetEntityData) {
-        if (
-          isEntityHasEnoughMana({
+    if (skill && sourceEntityData && targetEntityData) {
+      if (
+        isEntityHasEnoughMana({ entity: sourceEntityData.entity, skill: skill })
+      ) {
+        if (skill.isAttackSkill) {
+          const damageMade = getDamageMadeBy({
             entity: sourceEntityData.entity,
-            skill: skill,
-          })
-        ) {
-          if (skill.isAttackSkill) {
-            const damageMade = getDamageMadeBy({
-              entity: sourceEntityData.entity,
-              skill,
-            });
-            const newTargetEntityData = { ...targetEntityData };
-            newTargetEntityData.entity.healthPower -= damageMade;
+            skill,
+          });
+          const newTargetEntityData = { ...targetEntityData };
+          newTargetEntityData.entity.healthPower -= damageMade;
 
-            //update target data
-            const newTargetFrontRow = [...targetEntities];
-            newTargetFrontRow[targetEntityData.position] =
-              newTargetEntityData.entity;
+          const newTargetFrontRow = [...targetEntities];
+          newTargetFrontRow[targetEntityData.position] =
+            newTargetEntityData.entity;
 
-            //update source mana/energy
-            const newSourceFrontRow = [...sourceEntities];
-            newSourceFrontRow[sourceEntityData.position] =
-              getUpdatedManaFromUsed({
-                entity: sourceEntityData.entity,
-                skill,
-              });
+          const newSourceFrontRow = [...sourceEntities];
+          newSourceFrontRow[sourceEntityData.position] = getUpdatedManaFromUsed(
+            { entity: sourceEntityData.entity, skill }
+          );
 
-            //update calculated result
-            return {
-              ...state,
-              totalHitDamage: state.totalHitDamage + damageMade,
-              lastHitDamage: damageMade,
-              playersFrontRow: isEnemyAction
-                ? [...newTargetFrontRow]
-                : [...newSourceFrontRow],
-              enemiesFrontRow: isEnemyAction
-                ? [...newSourceFrontRow]
-                : [...newTargetFrontRow],
-              targetEntityData: { ...newTargetEntityData },
-            };
-          }
-        } else {
-          alert("not enough MP/EP");
+          set((state) => ({
+            ...state,
+            totalHitDamage: state.totalHitDamage + damageMade,
+            lastHitDamage: damageMade,
+            playersFrontRow: isEnemyAction
+              ? [...newTargetFrontRow]
+              : [...newSourceFrontRow],
+            enemiesFrontRow: isEnemyAction
+              ? [...newSourceFrontRow]
+              : [...newTargetFrontRow],
+            targetEntityData: { ...newTargetEntityData },
+          }));
+
+          return true; // Skill was used successfully
         }
+      } else {
+        alert("not enough MP/EP");
       }
-      return { ...state };
+    }
+
+    return false; // Skill was not used
+  },
+  setEntities: (props: {
+    entities: Entity[];
+    isPlayer: boolean;
+    site: Site;
+  }) => {
+    const { entities, isPlayer, site } = props;
+    set(() => {
+      if (isPlayer) {
+        if (site === "front") {
+          return { playersFrontRow: [...entities] };
+        }
+        return { playersBackRow: [...entities] };
+      } else {
+        if (site === "front") {
+          return { enemiesFrontRow: [...entities] };
+        }
+        return { enemiesBackRow: [...entities] };
+      }
     });
+  },
+  increaseRound: () => {
+    set((state) => ({ ...state, roundCount: state.roundCount + 1 }));
+  },
+  updateCycleRound: () => {
+    set((state) => ({ ...state, cycleRound: state.cycleRound - 1 }));
+  },
+  resetCycleRound: () => {
+    set((state) => ({ ...state, cycleRound: 2 }));
   },
 }));

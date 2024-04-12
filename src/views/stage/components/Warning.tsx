@@ -1,5 +1,7 @@
+import { useUIStore } from "../stores/UI_Store";
+
 export function TurnWarning() {
-  const { setTurnWarning } = useContext(StageContext) as StageContextType;
+  const { setTurnWarning } = useUIStore();
   return (
     <span className="absolute inset-0 flex items-center justify-center size-full z-10">
       <button
@@ -16,7 +18,7 @@ export function TurnWarning() {
 }
 
 export function ActionWarning() {
-  const { setActionWarning } = useContext(StageContext) as StageContextType;
+  const { setActionWarning } = useUIStore();
   return (
     <span className="absolute inset-0 flex items-center justify-center size-full z-10">
       <button

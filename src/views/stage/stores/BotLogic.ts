@@ -1,23 +1,33 @@
-import { Entity, EntityDetails } from "@/models/entity";
-import { TurnType } from "@/models/turn";
+import { Entity, EntityDetails } from "@/classes/entity";
 import { useGameStore } from "./GameStore";
 import { isEntityInEntities } from "../helpers/entity";
+import { TurnType } from "@/classes/turn";
 
-const gameLogic = useGameStore.getState();
+const {
+  markEntityTakenAction,
+  setCurrentEntity,
+  setTargetEntity,
+  setSelectSkill,
+  usingSkillToTargetEntity,
+  resetCurrentEntity,
+  resetTargetEntity,
+  resetSelectSkill,
+  decreaseAction,
+} = useGameStore.getState();
 
 const getMostAttackPowerEntityForBot = (
-  entities: Entity[]
+  entities: Entity[],
+  entitiesTakenAction: Entity[]
 ): EntityDetails | undefined => {
   if (entities.length === 0) return undefined;
 
   let maxATK = 0;
   let resultEntity: EntityDetails | undefined = undefined;
-
   for (let i = 0; i < entities.length; i++) {
     const entity = entities[i];
     if (
       entity.attackPower > maxATK &&
-      !isEntityInEntities(entity, gameLogic.entitiesTakenAction)
+      !isEntityInEntities(entity, entitiesTakenAction)
     ) {
       maxATK = entity.attackPower;
       resultEntity = { entity: entity, position: i, site: "front" };
@@ -30,90 +40,98 @@ export const botAction = ({
   turn,
   availableActions,
   sourceEntities,
+  targetEntities,
   entitiesTakenAction,
 }: {
   turn: TurnType;
   availableActions: number;
-  entitiesTakenAction: Entity[];
   sourceEntities: Entity[];
+  targetEntities: Entity[];
+  entitiesTakenAction: Entity[];
 }) => {
-  if (turn === "enemy" && availableActions > 0) {
-    const aliveEntities = sourceEntities.filter(
-      (entity) => entity.healthPower > 0
-    );
+  setTimeout(() => {
+    if (turn === "enemy" && availableActions > 0) {
+      const aliveEntities = sourceEntities.filter(
+        (entity) => entity.healthPower > 0
+      );
 
-    let potentialEntityData: EntityDetails | null = null;
+      let sourceEntityData: EntityDetails | null = null;
 
-    const mostAtkEntity = getMostAttackPowerEntityForBot(aliveEntities);
+      const mostAtkEntity = getMostAttackPowerEntityForBot(
+        aliveEntities,
+        entitiesTakenAction
+      );
 
-    if (mostAtkEntity) {
-      const index = sourceEntities.indexOf(mostAtkEntity.entity);
-      if (index > -1) {
-        potentialEntityData = {
-          entity: sourceEntities[index],
-          position: index,
-          site: "front",
-        };
-        // markEntityTakenAction(potentialEntityData.entity);
-      }
-    }
-
-    if (
-      potentialEntityData &&
-      !entitiesTakenAction.includes(potentialEntityData.entity)
-    ) {
-      gameLogic.setCurrentEntity(potentialEntityData);
-
-      //target algorithm
-      let leastHP = 9999;
-      let targetEntityData: EntityDetails | null = null;
-      const targetedEntities: Entity[] = [];
-
-      for (const playerEntity of gameLogic.playersFrontRow) {
-        const index = gameLogic.playersFrontRow.indexOf(playerEntity);
-        const currentPlayerData: EntityDetails = {
-          entity: playerEntity,
-          position: index,
-          site: "front",
-        };
-
-        if (
-          playerEntity.healthPower <= leastHP &&
-          playerEntity.healthPower > 0 &&
-          !targetedEntities.includes(playerEntity)
-        ) {
-          leastHP = playerEntity.healthPower;
-          targetEntityData = currentPlayerData;
+      if (mostAtkEntity) {
+        const index = sourceEntities.indexOf(mostAtkEntity.entity);
+        if (index > -1) {
+          sourceEntityData = {
+            entity: sourceEntities[index],
+            position: index,
+            site: "front",
+          };
+          markEntityTakenAction(sourceEntityData.entity);
         }
       }
 
-      if (targetEntityData) {
-        targetedEntities.push(targetEntityData.entity);
-        //set target
-        setTimeout(() => {
-          gameLogic.setTargetEntity(targetEntityData);
-        }, 1000);
+      if (
+        sourceEntityData &&
+        !entitiesTakenAction.includes(sourceEntityData.entity)
+      ) {
+        setCurrentEntity(sourceEntityData);
 
-        //use skill
-        setTimeout(() => {
-          const botSelectedSkill = potentialEntityData.entity.skills[0];
-          gameLogic.setSelectSkill(botSelectedSkill);
-          gameLogic.usingSkillToTargetEntity({
-            targetEntities: gameLogic.playersFrontRow,
-            sourceEntities,
-            isEnemyAction: true,
-          });
-        }, 2000);
+        //target algorithm
+        let leastHP = 9999;
+        let targetEntityData: EntityDetails | null = null;
+        const targetedEntities: Entity[] = [];
 
-        setTimeout(() => {
-          //reset
-          gameLogic.resetCurrentEntity();
-          gameLogic.resetTargetEntity();
-          gameLogic.resetSelectSkill();
-          gameLogic.decreaseAction(1);
-        }, 3000);
+        for (const playerEntity of targetEntities) {
+          const index = targetEntities.indexOf(playerEntity);
+          const currentTargetData: EntityDetails = {
+            entity: playerEntity,
+            position: index,
+            site: "front",
+          };
+          if (
+            playerEntity.healthPower <= leastHP &&
+            playerEntity.healthPower > 0 &&
+            !targetedEntities.includes(playerEntity)
+          ) {
+            leastHP = playerEntity.healthPower;
+            targetEntityData = currentTargetData;
+          }
+        }
+
+        if (targetEntityData) {
+          targetedEntities.push(targetEntityData.entity);
+          //set target
+          setTimeout(() => {
+            setTargetEntity(targetEntityData);
+          }, 1000);
+
+          //use skill
+          setTimeout(() => {
+            const botSelectedSkill = sourceEntityData.entity.skills[0];
+            setSelectSkill(botSelectedSkill);
+            const success = usingSkillToTargetEntity({
+              skill: botSelectedSkill,
+              sourceEntityData,
+              targetEntityData,
+              targetEntities: targetEntities,
+              sourceEntities,
+              isEnemyAction: true,
+            });
+            if (success) decreaseAction(1);
+          }, 2000);
+
+          setTimeout(() => {
+            //reset
+            resetCurrentEntity();
+            resetTargetEntity();
+            resetSelectSkill();
+          }, 2500);
+        }
       }
     }
-    // }
-  }
+  }, 500);
 };

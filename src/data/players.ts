@@ -1,4 +1,4 @@
-import { Entity } from "../models/entity";
+import { Entity } from "../classes/entity";
 import { StatusEnum } from "./status";
 
 export const players: Entity[] = [
@@ -9,20 +9,21 @@ export const players: Entity[] = [
     level: 1,
     attackPower: 5,
     attackDamageType: "physical",
-    manaPower: 0,
+    manaPower: -1,
     energyPower: 10,
     healthPower: 20,
     skills: [
       {
         name: "SMASH",
-        requiredMana: 0,
+        requiredMana: -1,
+        requiredEnergy: 0,
         type: "physical",
         isAttackSkill: true,
         emitValueMultiply: 1,
       },
       {
         name: "Double Hook",
-        requiredMana: 0,
+        requiredMana: -1,
         requiredEnergy: 10,
         type: "physical",
         isAttackSkill: true,
@@ -34,6 +35,9 @@ export const players: Entity[] = [
     speed: 10,
     canTakeDamage: true,
     trait: "Martial Arts",
+    restoreManaOrEnergy: 5,
+    maxManaEnergyPower: 10,
+    maxHealthPower: 20,
   },
   {
     id: 2,
@@ -65,6 +69,10 @@ export const players: Entity[] = [
     speed: 8,
     canTakeDamage: true,
     trait: "Super Solider",
+    restoreManaOrEnergy: 5,
+    maxManaEnergyPower: 15,
+    energyPower: -1,
+    maxHealthPower: 10,
   },
   {
     id: 3,
@@ -103,6 +111,10 @@ export const players: Entity[] = [
     speed: 12,
     canTakeDamage: true,
     trait: "Wood Elf",
+    restoreManaOrEnergy: 5,
+    maxManaEnergyPower: 10,
+    energyPower: -1,
+    maxHealthPower: 8,
   },
   {
     id: 4,
@@ -141,5 +153,9 @@ export const players: Entity[] = [
     speed: 10,
     canTakeDamage: true,
     trait: "Demon Hunter",
+    restoreManaOrEnergy: 5,
+    maxManaEnergyPower: 20,
+    energyPower: -1,
+    maxHealthPower: 15,
   },
 ];

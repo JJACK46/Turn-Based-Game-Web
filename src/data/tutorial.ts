@@ -1,4 +1,4 @@
-import { Entity } from "../models/entity";
+import { Entity } from "../classes/entity";
 import { monsters } from "./enemies";
 import { players } from "./players";
 
