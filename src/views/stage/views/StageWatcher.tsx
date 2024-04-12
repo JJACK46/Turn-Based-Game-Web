@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useStageContext } from "../contexts/useStageContext";
 import { useBotContext } from "../contexts/useBotContext";
 import { StageContext } from "../contexts/StageContextProvider";
+import { useUIStore } from "../stores/UI_Store";
 
 export function StageWatcher({ children }: { children: React.ReactNode }) {
   const context = useContext(StageContext);
@@ -11,6 +12,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
   const [state] = useState(context);
   const { switchTurn, calculateRemainEntities } = useStageContext();
   const { botAction } = useBotContext();
+  const UIStore = useUIStore();
 
   useEffect(() => {
     setTimeout(() => {

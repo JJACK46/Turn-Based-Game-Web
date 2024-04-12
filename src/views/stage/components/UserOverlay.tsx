@@ -3,9 +3,9 @@ import { ActionWarning, TurnWarning } from "./Warning";
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
 import { getDamageMadeBy, isSkillUseEP } from "../helpers/entity";
 import { useGameStore } from "../stores/GameStore";
+import { useUIStore } from "../stores/UI_Store";
 
 export default function UserOverlay() {
-  // const { closeActionOverlay } = useGameContext();
   const {
     selectedSkill,
     mapName,
@@ -26,7 +26,9 @@ export default function UserOverlay() {
     resetCurrentEntity,
     setSelectSkill,
     resetSelectSkill,
+    startGame,
   } = useGameStore();
+  const uiLogic = useUIStore();
 
   return (
     <>
@@ -40,7 +42,9 @@ export default function UserOverlay() {
             <hr className="my-10 border w-screen" />
             <button
               className="rounded-lg p-2 text-2xl bg-orange-600 uppercase"
-              onClick={() => {}}
+              onClick={() => {
+                startGame();
+              }}
             >
               battle
             </button>
@@ -79,11 +83,11 @@ export default function UserOverlay() {
           ))}
         </ul>
       </span>
-      {userOverlay.isActionOverlayOpen && (
+      {uiLogic.isSkillOverlay && (
         <span className="absolute inset-0 flex items-end justify-end size-full z-10">
           <button
             onClick={() => {
-              closeActionOverlay();
+              uiLogic.setSkillOverlay(false);
               resetCurrentEntity();
             }}
             className="top-0 left-0 size-full"
@@ -121,7 +125,7 @@ export default function UserOverlay() {
                     className="border-red-500 border-2 p-2 rounded-2xl w-40 h-full bg-black flex flex-col items-center justify-end"
                     onClick={() => {
                       setSelectSkill(skill);
-                      closeActionOverlay();
+                      uiLogic.setSkillOverlay(false);
                     }}
                   >
                     <div>{skill.name}</div>
@@ -181,11 +185,11 @@ export default function UserOverlay() {
         </>
       )}
 
-      {userOverlay.isInfoOverlayOpen && <CardInfo />}
+      {uiLogic.isInfoOverlay && <CardInfo />}
 
-      {userOverlay.isTurnWarning && <TurnWarning />}
+      {uiLogic.isTurnWarning && <TurnWarning />}
 
-      {userOverlay.isActionWarning && <ActionWarning />}
+      {uiLogic.isActionWarning && <ActionWarning />}
     </>
   );
 }
