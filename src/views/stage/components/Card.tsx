@@ -1,35 +1,38 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { EntityDetails } from "../../../models/entity";
 import { convertNumberToPercentage, getColorByHp } from "../helpers/styles";
-// import _ from "lodash";
-import {
-  StageContext,
-  StageContextType,
-} from "../contexts/StageContextProvider";
+
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
+import { useStageContext } from "../contexts/useStageContext";
+import { useGameContext } from "../contexts/useGameContext";
+import { useEntityContext } from "../contexts/useEntityContext";
 
 const Card = (entityData: EntityDetails) => {
   const {
-    currentEntityData,
-    targetEntityData,
-    turn,
-    setTargetEntity,
-    usingSkillToTargetEntity,
-    setCurrentEntity,
     openActionOverlay,
     openInfoOverlay,
-    decreaseAction,
+    setActionWarning,
+    setTurnWarning,
+  } = useGameContext();
+  const {
+    setCurrentEntity,
+    setTargetEntity,
+    usingSkillToTargetEntity,
     resetSelectSkill,
     resetCurrentEntity,
     resetTargetEntity,
-    markEntityTakenAction,
-    setActionWarning,
-    setTurnWarning,
-    selectedSkill,
+  } = useEntityContext();
+  const {
+    turn,
+    entitiesTakenAction,
     enemiesFrontRow,
     playersFrontRow,
-    entitiesTakenAction,
-  } = useContext(StageContext) as StageContextType;
+    selectedSkill,
+    currentEntityData,
+    targetEntityData,
+    decreaseAction,
+    markEntityTakenAction,
+  } = useStageContext();
 
   const [maxHP] = useState(entityData.entity.healthPower);
   const [maxMP] = useState(
@@ -40,9 +43,13 @@ const Card = (entityData: EntityDetails) => {
     maxHP
   );
   const strCurrentMP = convertNumberToPercentage(
-    entityData.entity.manaPower,
+    entityData.entity.energyPower ?? entityData.entity.manaPower,
     maxMP
   );
+
+  const isEntityUseEP = () => {
+    return entityData.entity.energyPower ? true : false;
+  };
   const [isHoveredCard, setIsHoveredCard] = useState(false);
   const wasAction = () => {
     return entitiesTakenAction.includes(entityData.entity);
@@ -107,7 +114,7 @@ const Card = (entityData: EntityDetails) => {
               } else {
                 //not select player card yet
                 setCurrentEntity(entityData);
-                openInfoOverlay()
+                openInfoOverlay();
               }
             }
           } else {
@@ -154,7 +161,9 @@ const Card = (entityData: EntityDetails) => {
                 rel="MP/EP bar"
                 className=" text-xs font-medium text-blue-100 text-center leading-none rounded-md "
                 style={{
-                  backgroundColor: "rgb(28, 85, 156)",
+                  backgroundColor: isEntityUseEP()
+                    ? "rgb(75, 30, 130)"
+                    : "rgb(28, 85, 156)",
                   width: strCurrentMP,
                 }}
               >

@@ -1,6 +1,6 @@
 import { Entity, EntityDetails } from "@/models/entity";
 
-export function calculateTeamSpeed(entities: Entity[]) {
+export function getSpeedOfTeam(entities: Entity[]) {
   return entities.reduce((sum, entity) => entity.speed + sum, 0);
 }
 
@@ -38,4 +38,9 @@ export const getMostAttackPowerEntity = (
     }
   }
   return resultEntity;
+};
+
+export const getAliveEntities = (entities: Entity[]) => {
+  //be carful index changed
+  return entities.filter((entity) => entity.healthPower > 0);
 };

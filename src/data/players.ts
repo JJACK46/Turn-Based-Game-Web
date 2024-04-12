@@ -9,7 +9,8 @@ export const players: Entity[] = [
     level: 1,
     attackPower: 5,
     attackDamageType: "physical",
-    manaPower: 10,
+    manaPower: 0,
+    energyPower: 10,
     healthPower: 20,
     skills: [
       {
@@ -17,7 +18,15 @@ export const players: Entity[] = [
         requiredMana: 0,
         type: "physical",
         isAttackSkill: true,
-        emitValueMultiply: 1.2,
+        emitValueMultiply: 1,
+      },
+      {
+        name: "Double Hook",
+        requiredMana: 0,
+        requiredEnergy: 10,
+        type: "physical",
+        isAttackSkill: true,
+        emitValueMultiply: 2,
       },
     ],
     playable: true,

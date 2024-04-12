@@ -1,13 +1,17 @@
-import { useContext } from "react";
-import {
-  StageContext,
-  StageContextType,
-} from "../contexts/StageContextProvider";
 import CardInfo from "./CardInfo";
 import { ActionWarning, TurnWarning } from "./Warning";
+import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
+import { getDamageMadeBy, isSkillUseEP } from "../helpers/entity";
+import { useGameContext } from "../contexts/useGameContext";
+import { useEntityContext } from "../contexts/useEntityContext";
+import { useStageContext } from "../contexts/useStageContext";
+import { useGameStore } from "../stores/gameStore";
+import { useUIStore } from "../stores/UI_Store";
 
 export default function UserOverlay() {
+  const { closeActionOverlay } = useGameContext();
   const {
+    selectedSkill,
     mapName,
     availableActions,
     maxActions,
@@ -18,19 +22,19 @@ export default function UserOverlay() {
     turn,
     currentEntityData,
     targetEntityData,
-    userOverlay,
-    selectedSkill,
     remainPlayersCount,
     lastHitDamage,
     totalHitDamage,
     entitiesTakenAction,
-    setSelectSkill,
-    resetSelectSkill,
-    closeActionOverlay,
-    resetCurrentEntity,
-    startGame,
     isGameStart,
-  } = useContext(StageContext) as StageContextType;
+    userOverlay,
+  } = useStageContext();
+  const { resetCurrentEntity, setSelectSkill, resetSelectSkill } =
+    useEntityContext();
+
+  const gameLogic = useGameStore();
+  const uiLogic = useUIStore();
+
   return (
     <>
       {!isGameStart && (
@@ -44,15 +48,18 @@ export default function UserOverlay() {
             <button
               className="rounded-lg p-2 text-2xl bg-orange-600 uppercase"
               onClick={() => {
-                startGame();
+                gameLogic.startGame();
+                uiLogic.setData(gameLogic.data);
               }}
             >
               battle
+              {JSON.stringify(uiLogic.data)}
             </button>
           </div>
         </span>
       )}
       <span className="grid grid-cols-3 w-full">
+        {JSON.stringify(userOverlay.isActionOverlayOpen)}
         <div className="flex flex-col w-fit p-5 rounded-xl border-red-500 border-2">
           <p>{mapName}</p>
           <p className="uppercase text-sm ">round: {roundCount}</p>
@@ -98,7 +105,7 @@ export default function UserOverlay() {
               <div className="flex gap-4 items-center">
                 <div className="flex flex-row h-full bg-slate-500 p-2 rounded-3xl">
                   <img
-                    src={`src/assets/entities/${currentEntityData?.entity.imageUrl}`}
+                    src={`${BASE_URL_IMAGE_ENTITIES}/${currentEntityData?.entity.imageUrl}`}
                     alt="no data"
                     className="h-full object-cover rounded-3xl"
                   />
@@ -133,14 +140,14 @@ export default function UserOverlay() {
                     <div className="text-sm">
                       <ul className="flex flex-row gap-3">
                         <li>
-                          MP: {skill.requiredEnergy ?? skill.requiredMana}
+                          {`${isSkillUseEP(skill) ? "EP:" : "MP:"}`}{" "}
+                          {skill.requiredEnergy ?? skill.requiredMana}
                         </li>
                         <li>
-                          {`DMG: ${Math.round(
-                            Math.round(
-                              currentEntityData?.entity.attackPower ?? 0
-                            ) * skill.emitValueMultiply
-                          )}`}
+                          {`DMG: ${getDamageMadeBy({
+                            entity: currentEntityData.entity,
+                            skill: skill,
+                          })}`}
                         </li>
                       </ul>
                     </div>
@@ -186,17 +193,11 @@ export default function UserOverlay() {
         </>
       )}
 
-      {userOverlay.isInfoOverlayOpen && (
-        <CardInfo />
-      )}
+      {userOverlay.isInfoOverlayOpen && <CardInfo />}
 
-      {userOverlay.isTurnWarning && (
-        <TurnWarning />
-      )}
+      {userOverlay.isTurnWarning && <TurnWarning />}
 
-      {userOverlay.isActionWarning && (
-        <ActionWarning />
-      )}
+      {userOverlay.isActionWarning && <ActionWarning />}
     </>
   );
 }
