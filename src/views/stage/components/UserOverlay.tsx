@@ -49,7 +49,7 @@ export default function UserOverlay() {
               className="rounded-lg p-2 text-2xl bg-orange-600 uppercase"
               onClick={() => {
                 gameLogic.startGame();
-                uiLogic.setData(gameLogic.data);
+                // uiLogic.setData(gameLogic.data);
               }}
             >
               battle
