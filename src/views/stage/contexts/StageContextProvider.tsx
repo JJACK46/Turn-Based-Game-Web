@@ -1,6 +1,6 @@
 import { Entity, EntityDetails } from "@/models/entity";
 import { createContext, useEffect, useMemo, useState } from "react";
-import { calculateTeamSpeed, getMostAttackPowerEntity } from "../helpers/stage";
+import { calculateTeamSpeed } from "../helpers/stage";
 import { Skill } from "@/models/skills";
 import _ from "lodash";
 
@@ -179,9 +179,9 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
       const entitiesCount =
         newTurn === "enemy"
           ? getAliveEntities(state.enemiesFrontRow.concat(enemiesBackRow ?? []))
-            .length
+              .length
           : getAliveEntities(state.playersFrontRow.concat(playersBackRow ?? []))
-            .length;
+              .length;
       setState((prevState) => ({
         ...prevState,
         turn: newTurn,
@@ -211,9 +211,9 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
     const entitiesCount =
       turn === "enemy"
         ? getAliveEntities(state.enemiesFrontRow.concat(enemiesBackRow ?? []))
-          .length
+            .length
         : getAliveEntities(state.playersFrontRow.concat(playersBackRow ?? []))
-          .length;
+            .length;
     console.log(turn + "/" + entitiesCount);
     setState((prevState) => ({
       ...prevState,
@@ -235,7 +235,7 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
         if (skill.isAttackSkill) {
           const damageMade = Math.round(
             Math.round(sourceEntityData.entity.attackPower ?? 0) *
-            skill.emitValueMultiply
+              skill.emitValueMultiply
           );
           const newTargetEntityData = { ...targetEntityData };
           newTargetEntityData.entity.healthPower -= damageMade;
@@ -365,7 +365,6 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
           setTimeout(() => {
             setTargetEntity(targetEntityData);
           }, 1000);
-
 
           //use skill
           setTimeout(() => {
@@ -532,7 +531,6 @@ const StageContextProvider = (props: CreateContextProviderProps) => {
   }, [state.availableActions]);
 
   useEffect(() => {
-
     if (state.turn === "enemy" && state.isGameStart) {
       botAction({
         turn: state.turn,

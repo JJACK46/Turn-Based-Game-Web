@@ -5,7 +5,7 @@ export const players: Entity[] = [
   {
     id: 1,
     name: "Piroat",
-    imageUrl: "players/piroat_boxing_1.jpeg",
+    imageUrl: "piroat_boxing_1.jpeg",
     level: 1,
     attackPower: 5,
     attackDamageType: "physical",
@@ -29,7 +29,7 @@ export const players: Entity[] = [
   {
     id: 2,
     name: "Bravo",
-    imageUrl: "players/super_soldier_sniper_1.jpeg",
+    imageUrl: "super_soldier_sniper_1.jpeg",
     level: 1,
     attackPower: 15,
     attackDamageType: "physical",
@@ -60,7 +60,7 @@ export const players: Entity[] = [
   {
     id: 3,
     name: "Wood Elf",
-    imageUrl: "players/wood_elf.jpg",
+    imageUrl: "wood_elf.jpg",
     level: 1,
     attackPower: 15,
     attackDamageType: "physical",
@@ -98,7 +98,7 @@ export const players: Entity[] = [
   {
     id: 4,
     name: "Demon Hunter",
-    imageUrl: "players/demon_hunter.jpg",
+    imageUrl: "demon_hunter.jpg",
     level: 1,
     attackPower: 12,
     attackDamageType: "magic",
@@ -133,6 +133,4 @@ export const players: Entity[] = [
     canTakeDamage: true,
     trait: "Demon Hunter",
   },
-
-  
 ];

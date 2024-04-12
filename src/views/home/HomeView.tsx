@@ -1,39 +1,51 @@
 import { useState } from "react";
 import SettingPopup from "./components/SettingPopup";
-// import HowToPopup from "./components/HowToPopup";
-// import CreditPopup from "./components/CreditPopup";
 import ButtonHome from "./components/ButtonHome";
-// import { useAppDispatch } from "@/app/hooks";
-import { setLoadingComplete } from "../loading/features/loadingReducer";
+import ReactPlayer from "react-player";
+import useSound from "use-sound";
+import soundtrack from "@/assets/sounds/soundtracks/space-ambient-sci-fi.mp3";
 
 function HomeView() {
   const [setting, setSetting] = useState<boolean>(false);
-  // const dispatch = useAppDispatch();
-  // const [howTo, setHowTo] = useState<boolean>(false);
-  // const [credit, setCredit] = useState<boolean>(false);
-
   const handleSetting = () => {
     setSetting(true);
   };
 
-  // const handleHowTo = () => {
-  //   setHowTo(true);
-  // };
-
-  // const handleCredit = () => {
-  //   setCredit(true);
-  // };
+  const [playLobbySoundtrack, { stop }] = useSound(soundtrack, {
+    volume: 0.5,
+    interrupt: false,
+  });
 
   return (
-    <div className="flex flex-col w-full min-h-screen bg-stone-600">
-      {/* <div className="w-full min-h-screen bg-black opacity-50"></div> */}
+    <div
+      className="flex flex-col w-full min-h-screen bg-black"
+      onMouseEnter={() => playLobbySoundtrack()}
+    >
+      <div>
+        <ReactPlayer
+          className="absolute top-0 left-0"
+          width="100%"
+          height="100%"
+          url="https://cdn.pixabay.com/video/2023/01/08/145732-787427525_large.mp4"
+          loop={true}
+          playing={true}
+          controls={false}
+          muted
+        ></ReactPlayer>
+      </div>
+      <div className="flex flex-col items-start absolute top-32 left-32 gap-7 z-0">
+        <div
+          rel="Title"
+          className="z-10 flex flex-row justify-center text-8xl text-red-600 uppercase drop-shadow hover:scale-105"
+        >
+          Project APRILX
+        </div>
 
-      <div className="flex flex-col items-start m-40 gap-5 z-0">
         <ButtonHome title="start" path="/Menu"></ButtonHome>
         <ButtonHome
           title="tutorial"
           path="/tutorial"
-          // onClick={() => dispatch(setLoadingComplete(true))}
+          onClick={() => stop()}
         ></ButtonHome>
         <ButtonHome
           title="settings"
@@ -41,29 +53,12 @@ function HomeView() {
           onClick={handleSetting}
         ></ButtonHome>
         <ButtonHome title="credits" path="/credits"></ButtonHome>
-        {/* <Link
-          to="/Menu"
-          className="font-mono font-extrabold text-7xl hover:italic hover:text-red-600 hover:border-b-2"
-        >
-          START
-        </Link> */}
-        {/* <button
-          onClick={handleSetting}
-          className="font-mono font-extrabold text-5xl hover:italic  hover:text-red-600 hover:border-b-2"
-        >
-          SETTING
-        </button>
-        <button
-          onClick={handleCredit}
-          className="font-mono font-extrabold text-5xl hover:italic  hover:text-red-600 hover:border-b-2"
-        >
-          CREDITS
-        </button> */}
       </div>
 
       <SettingPopup variable={setting} setVariable={setSetting} />
-      {/* <HowToPopup variable={howTo} setVariable={setHowTo} /> */}
-      {/* <CreditPopup variable={credit} setVariable={setCredit} /> */}
+      <footer className="absolute bottom-0 right-12">
+        ver. {__APP_VERSION__}
+      </footer>
     </div>
   );
 }

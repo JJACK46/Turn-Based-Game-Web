@@ -5,7 +5,7 @@ export const monsters: Entity[] = [
   {
     id: 1,
     name: "G-Lizard",
-    imageUrl: "enemies/monster_rookie_1.jpeg",
+    imageUrl: "monster_rookie_1.jpeg",
     level: 1,
     attackPower: 3,
     attackDamageType: "physical",
@@ -28,7 +28,7 @@ export const monsters: Entity[] = [
   {
     id: 2,
     name: "Babooza",
-    imageUrl: "enemies/monster_forest_1.jpeg",
+    imageUrl: "monster_forest_1.jpeg",
     level: 1,
     attackPower: 7,
     attackDamageType: "physical",
@@ -51,7 +51,7 @@ export const monsters: Entity[] = [
   {
     id: 3,
     name: "Orc Warrior",
-    imageUrl: "enemies/orc_warrior.jpg",
+    imageUrl: "orc_warrior.jpg",
     level: 1,
     attackPower: 10,
     attackDamageType: "physical",
@@ -74,7 +74,7 @@ export const monsters: Entity[] = [
   {
     id: 4,
     name: "Demon Warrior",
-    imageUrl: "enemies/demon_fighter.jpg",
+    imageUrl: "demon_fighter.jpg",
     level: 1,
     attackPower: 6,
     attackDamageType: "physical",
@@ -97,7 +97,7 @@ export const monsters: Entity[] = [
   {
     id: 5,
     name: "Magic Eagle",
-    imageUrl: "enemies/fantasy_bird.jpg",
+    imageUrl: "fantasy_bird.jpg",
     level: 1,
     attackPower: 2,
     attackDamageType: "magic",
@@ -120,7 +120,7 @@ export const monsters: Entity[] = [
   {
     id: 6,
     name: "Magic Creature",
-    imageUrl: "enemies/fantasy_god.jpg",
+    imageUrl: "fantasy_god.jpg",
     level: 1,
     attackPower: 10,
     attackDamageType: "magic",

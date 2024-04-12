@@ -6,6 +6,7 @@ import {
   StageContext,
   StageContextType,
 } from "../contexts/StageContextProvider";
+import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
 
 const Card = (entityData: EntityDetails) => {
   const {
@@ -126,7 +127,7 @@ const Card = (entityData: EntityDetails) => {
             className="object-cover"
             width={500}
             height={494}
-            src={`src/assets/entities/${entityData.entity.imageUrl}`}
+            src={`${BASE_URL_IMAGE_ENTITIES}/${entityData.entity.imageUrl}`}
             alt="no image"
           />
           <div
