@@ -17,11 +17,14 @@ const Card = (entityData: EntityDetails) => {
     usingSkillToTargetEntity,
     setCurrentEntity,
     openActionOverlay,
+    openInfoOverlay,
     decreaseAction,
     resetSelectSkill,
     resetCurrentEntity,
     resetTargetEntity,
     markEntityTakenAction,
+    setActionWarning,
+    setTurnWarning,
     selectedSkill,
     enemiesFrontRow,
     playersFrontRow,
@@ -90,21 +93,21 @@ const Card = (entityData: EntityDetails) => {
                   setCurrentEntity(entityData);
                   openActionOverlay();
                 } else {
-                  alert("this entity was taken action"); //+ show some info
+                  setActionWarning(true);
                 }
               } else {
-                alert("is not your turn");
+                setTurnWarning(true);
               }
             } else {
               //when click on enemy card
-              setTargetEntity(entityData);
               if (currentEntityData) {
                 //select player card already
+                setTargetEntity(entityData);
                 handleSkill();
               } else {
                 //not select player card yet
-                //view info enemy's card
-                alert("some info \n" + JSON.stringify(entityData.entity));
+                setCurrentEntity(entityData);
+                openInfoOverlay()
               }
             }
           } else {

@@ -113,7 +113,7 @@ export const monsters: Entity[] = [
       },
     ],
     status: StatusEnum.NORMAL,
-    speed: 15,
+    speed: 12,
     canTakeDamage: true,
     trait: "Magic Eagle",
   },
