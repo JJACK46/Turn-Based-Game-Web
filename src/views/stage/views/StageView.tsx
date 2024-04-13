@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Entity } from "../../../classes/entity";
-import NavBarView from "../components/NavBar";
-import EnemiesSection from "../components/EnemiesSection";
-import UserOverlay from "../components/UserOverlay";
-import PlayersSection from "../components/PlayersSection";
+import NavBarView from "../components/UI/NavBar";
+import EnemiesSection from "../components/Field/EnemiesSection";
+import UserOverlay from "../components/UI/UserOverlay";
+import PlayersSection from "../components/Field/PlayersSection";
 import { StageWatcher } from "./StageWatcher";
 import { useGameStore } from "../stores/GameStore";
 import { useEffect } from "react";
@@ -18,7 +18,9 @@ interface Props {
 }
 
 const StageView = (props: Props) => {
-  const { setupGame } = useGameStore();
+  const {
+    methodsGame: { setupGame },
+  } = useGameStore();
   useEffect(() => {
     setupGame(props);
   }, []);

@@ -1,11 +1,14 @@
 import { Skill } from "@/classes/skills";
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
-import { useGameStore } from "../stores/GameStore";
-import { useUIStore } from "../stores/UI_Store";
+import { useGameStore } from "../../stores/GameStore";
+import { useUIStore } from "../../stores/UI_Store";
 
 function CardInfo() {
   const { setInfoOverlay } = useUIStore();
-  const { resetCurrentEntity, currentEntityData } = useGameStore();
+  const {
+    infoIndicator: { currentEntity: currentEntityData },
+    methodsIndicator: { resetCurrentEntity },
+  } = useGameStore();
   return (
     <span className="absolute inset-0 flex items-center justify-center size-full z-10">
       <button
@@ -58,18 +61,20 @@ function CardInfo() {
           <div className="flex flex-col justify-center gap-2 w-full">
             <h3 className="font-mono text-xl font-semibold">Skill</h3>
             <div className="flex flex-row gap-4">
-              {currentEntityData?.entity.skills.map((skill: Skill, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col justify-center items-center w-1/4 text-center py-3 border-2 border-red-600"
-                >
-                  <h3>{skill.name}</h3>
-                  <p>{skill.type}</p>
-                  <p>{skill.emitValueMultiply}x</p>
-                  {skill.comboAble && <p>{skill.comboWith?.toString()}</p>}
-                  <p>MP/EP: {skill.requiredEnergy ?? skill.requiredMana}</p>
-                </div>
-              ))}
+              {currentEntityData?.entity.skills.map(
+                (skill: Skill, index: number) => (
+                  <div
+                    key={index}
+                    className="flex flex-col justify-center items-center w-1/4 text-center py-3 border-2 border-red-600"
+                  >
+                    <h3>{skill.name}</h3>
+                    <p>{skill.type}</p>
+                    <p>{skill.emitValueMultiply}x</p>
+                    {skill.comboAble && <p>{skill.comboWith?.toString()}</p>}
+                    <p>MP/EP: {skill.requiredEnergy ?? skill.requiredMana}</p>
+                  </div>
+                )
+              )}
             </div>
           </div>
         </div>

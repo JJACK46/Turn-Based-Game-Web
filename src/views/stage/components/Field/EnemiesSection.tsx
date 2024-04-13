@@ -1,9 +1,12 @@
-import Card from "./Card";
-import CardPlaceholder from "./CardPlaceholder";
-import { useGameStore } from "../stores/GameStore";
+import Card from "../Cards/Card";
+import CardPlaceholder from "../Cards/CardPlaceholder";
+import { useGameStore } from "../../stores/GameStore";
+import { EntityInstance } from "@/classes/entity";
 
 export default function EnemiesSection() {
-  const { enemiesFrontRow, enemiesBackRow } = useGameStore();
+  const {
+    infoField: { enemiesFrontRow, enemiesBackRow },
+  } = useGameStore();
 
   return (
     <div
@@ -18,9 +21,13 @@ export default function EnemiesSection() {
               return (
                 <Card
                   key={key}
-                  position={index}
-                  entity={enemy}
-                  site="back"
+                  instance={
+                    new EntityInstance({
+                      entity: enemy,
+                      position: index,
+                      site: "back",
+                    })
+                  }
                 ></Card>
               );
             })
@@ -36,9 +43,13 @@ export default function EnemiesSection() {
             return (
               <Card
                 key={key}
-                position={index}
-                entity={enemy}
-                site="front"
+                instance={
+                  new EntityInstance({
+                    entity: enemy,
+                    position: index,
+                    site: "front",
+                  })
+                }
               ></Card>
             );
           })

@@ -9,8 +9,8 @@ export const monsters: Entity[] = [
     level: 1,
     attackPower: 3,
     attackDamageType: "physical",
-    manaPower: -1,
-    healthPower: 10,
+    mana: -1,
+    health: 10,
     skills: [
       {
         name: "Normal hit",
@@ -26,8 +26,9 @@ export const monsters: Entity[] = [
     trait: "forest monster",
     restoreManaOrEnergy: 5,
     maxManaEnergyPower: 0,
-    energyPower: -1,
-    maxHealthPower: 10,
+    energy: -1,
+    maxHealth: 10,
+    maxAttackPower: 3,
   },
   {
     id: 2,
@@ -36,8 +37,8 @@ export const monsters: Entity[] = [
     level: 1,
     attackPower: 7,
     attackDamageType: "physical",
-    manaPower: -1,
-    healthPower: 30,
+    mana: -1,
+    health: 30,
     skills: [
       {
         name: "Normal hit",
@@ -53,8 +54,9 @@ export const monsters: Entity[] = [
     trait: "forest monster",
     restoreManaOrEnergy: 5,
     maxManaEnergyPower: 0,
-    energyPower: -1,
-    maxHealthPower: 30,
+    energy: -1,
+    maxHealth: 30,
+    maxAttackPower: 7,
   },
   {
     id: 3,
@@ -63,8 +65,8 @@ export const monsters: Entity[] = [
     level: 1,
     attackPower: 10,
     attackDamageType: "physical",
-    manaPower: 10,
-    healthPower: 30,
+    mana: 10,
+    health: 30,
     skills: [
       {
         name: "Normal hit",
@@ -80,8 +82,9 @@ export const monsters: Entity[] = [
     trait: "Orc Warrior",
     restoreManaOrEnergy: 5,
     maxManaEnergyPower: 10,
-    energyPower: -1,
-    maxHealthPower: 30,
+    energy: -1,
+    maxHealth: 30,
+    maxAttackPower: 10,
   },
   {
     id: 4,
@@ -90,8 +93,8 @@ export const monsters: Entity[] = [
     level: 1,
     attackPower: 6,
     attackDamageType: "physical",
-    manaPower: 10,
-    healthPower: 40,
+    mana: 10,
+    health: 40,
     skills: [
       {
         name: "Normal hit",
@@ -107,8 +110,9 @@ export const monsters: Entity[] = [
     trait: "Demon Warrior",
     restoreManaOrEnergy: 5,
     maxManaEnergyPower: 10,
-    energyPower: -1,
-    maxHealthPower: 40,
+    energy: -1,
+    maxHealth: 40,
+    maxAttackPower: 6,
   },
   {
     id: 5,
@@ -117,8 +121,8 @@ export const monsters: Entity[] = [
     level: 1,
     attackPower: 2,
     attackDamageType: "magic",
-    manaPower: 10,
-    healthPower: 20,
+    mana: 10,
+    health: 20,
     skills: [
       {
         name: "Normal hit",
@@ -134,8 +138,9 @@ export const monsters: Entity[] = [
     trait: "Magic Eagle",
     restoreManaOrEnergy: 5,
     maxManaEnergyPower: 10,
-    energyPower: -1,
-    maxHealthPower: 20,
+    energy: -1,
+    maxHealth: 20,
+    maxAttackPower: 2,
   },
   {
     id: 6,
@@ -144,8 +149,8 @@ export const monsters: Entity[] = [
     level: 1,
     attackPower: 10,
     attackDamageType: "magic",
-    manaPower: 10,
-    healthPower: 25,
+    mana: 10,
+    health: 25,
     skills: [
       {
         name: "Normal hit",
@@ -161,8 +166,9 @@ export const monsters: Entity[] = [
     trait: "Magic Creature",
     restoreManaOrEnergy: 5,
     maxManaEnergyPower: 10,
-    energyPower: -1,
-    maxHealthPower: 25,
+    energy: -1,
+    maxHealth: 25,
+    maxAttackPower: 10,
   },
   {
     id: 7,
@@ -171,8 +177,8 @@ export const monsters: Entity[] = [
     level: 1,
     attackPower: 5,
     attackDamageType: "physical",
-    manaPower: -1,
-    healthPower: 20,
+    mana: -1,
+    health: 20,
     defendPower: 10,
     healingPower: 5,
     skills: [
@@ -189,7 +195,8 @@ export const monsters: Entity[] = [
         requiredEnergy: 15,
         type: "defend",
         isAttackSkill: false,
-        emitValueMultiply: 2,
+        emitValueMultiply: -1,
+        emitValue: 10,
         duration: 1,
       },
       {
@@ -207,8 +214,9 @@ export const monsters: Entity[] = [
     trait: "robot",
     restoreManaOrEnergy: 5,
     maxManaEnergyPower: 20,
-    energyPower: 20,
-    maxHealthPower: 20,
+    energy: 20,
+    maxHealth: 20,
     maxDefendPower: 10,
+    maxAttackPower: 5,
   },
 ];

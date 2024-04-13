@@ -1,60 +1,63 @@
 import { useState } from "react";
-import { EntityDetails } from "../../../classes/entity";
-import { convertNumberToPercentage, getColorByHp } from "../helpers/styles";
+import { EntityInstance } from "../../../../classes/entity";
+import { convertNumberToPercentage, getColorByHp } from "../../helpers/styles";
 
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
-import { useGameStore } from "../stores/GameStore";
-import { useUIStore } from "../stores/UI_Store";
-import {
-  getDifferentDefendValue,
-  isEntityInEntities,
-  isEntityMainEP,
-  isEntityOverDefend,
-} from "../helpers/entity";
+import { useGameStore } from "../../stores/GameStore";
+import { useUIStore } from "../../stores/UI_Store";
+// import {
+//   getDifferentDefendValue,
+//   isEntityInEntities,
+//   isEntityMainEP,
+//   isEntityOverDefend,
+// } from "../helpers/entity";
 import { StatusEnum } from "@/data/status";
+import { isEntityInEntities } from "../../helpers/entity";
 
-const Card = (thisCard: EntityDetails) => {
+const Card = (props: { instance: EntityInstance }) => {
+  const { instance } = props;
   const {
-    setCurrentEntity,
-    setTargetEntity,
-    usingSkillToTargetEntity,
-    resetSelectSkill,
-    resetCurrentEntity,
-    resetTargetEntity,
-    turn,
     infoMarkedEntities,
-    enemiesFrontRow,
-    playersFrontRow,
-    selectedSkill,
-    currentEntityData,
-    targetEntityData,
-    decreaseAction,
-    markEntityTakenAction,
+    infoIndicator: {
+      currentEntity: currentEntityData,
+      targetEntity: targetEntityData,
+      selectedSkill,
+    },
+    methodsIndicator: {
+      setCurrentEntity,
+      setTargetEntity,
+      usingSkillToTargetEntity,
+      resetCurrentEntity,
+      resetSelectSkill,
+      resetTargetEntity,
+    },
+    infoGame: { turn },
+    infoField: { playersFrontRow, enemiesFrontRow },
+    methodsGame: { decreaseAction },
+    methodsMark: { markEntityTakenAction },
   } = useGameStore();
   const { setActionWarning, setTurnWarning, setSkillOverlay, setInfoOverlay } =
     useUIStore();
 
   const strCurrentHP = convertNumberToPercentage(
-    thisCard.entity.healthPower,
-    thisCard.entity.maxHealthPower
+    instance.entity.health,
+    instance.entity.maxHealth
   );
   const strCurrentMEP = convertNumberToPercentage(
-    thisCard.entity.energyPower > -1
-      ? thisCard.entity.energyPower
-      : thisCard.entity.manaPower,
-    thisCard.entity.maxManaEnergyPower
+    instance.entity.energy > -1 ? instance.entity.energy : instance.entity.mana,
+    instance.entity.maxManaEnergyPower
   );
 
   const [isHoveredCard, setIsHoveredCard] = useState(false);
   const wasAction = () => {
-    return isEntityInEntities(thisCard.entity, infoMarkedEntities.takenAction);
+    return isEntityInEntities(instance.entity, infoMarkedEntities.takenAction);
   };
 
   function handleColorActionCard() {
-    if (currentEntityData?.entity === thisCard.entity) {
+    if (currentEntityData?.entity === instance.entity) {
       return "0px 0px 40px 0px #0ff";
     }
-    if (targetEntityData?.entity === thisCard.entity) {
+    if (targetEntityData?.entity === instance.entity) {
       return "0px 0px 40px 0px red";
     }
     return "";
@@ -63,9 +66,9 @@ const Card = (thisCard: EntityDetails) => {
   function handleSkill() {
     if (selectedSkill && currentEntityData) {
       const success = usingSkillToTargetEntity({
-        skill: selectedSkill,
-        targetEntityData: thisCard,
-        sourceEntityData: currentEntityData,
+        skillInstance: selectedSkill,
+        targetEntity: instance,
+        sourceEntity: currentEntityData,
         targetEntities: enemiesFrontRow,
         sourceEntities: playersFrontRow,
         isEnemyAction: false,
@@ -89,12 +92,12 @@ const Card = (thisCard: EntityDetails) => {
         onMouseLeave={() => setIsHoveredCard(false)}
         onClick={() => {
           //entity not dead
-          if (thisCard.entity.healthPower > 0) {
+          if (instance.entity.health > 0) {
             //when click on player card
-            if (thisCard.entity.playable) {
+            if (instance.entity.playable) {
               if (turn === "player") {
                 if (!wasAction()) {
-                  setCurrentEntity(thisCard);
+                  setCurrentEntity(instance);
                   setSkillOverlay(true);
                 } else {
                   setActionWarning(true);
@@ -106,17 +109,17 @@ const Card = (thisCard: EntityDetails) => {
               //when click on enemy card
               if (currentEntityData) {
                 //select player card already
-                setTargetEntity(thisCard);
+                setTargetEntity(instance);
                 handleSkill();
               } else {
                 //not select player card yet
-                setCurrentEntity(thisCard);
+                setCurrentEntity(instance);
                 setInfoOverlay(true);
               }
             }
           } else {
             if (turn === "player") {
-              setCurrentEntity(thisCard);
+              setCurrentEntity(instance);
             }
             setInfoOverlay(true);
           }
@@ -125,29 +128,29 @@ const Card = (thisCard: EntityDetails) => {
         <div
           rel="card-wrapper"
           className={`p-2 rounded-lg transition ${
-            isEntityOverDefend(thisCard.entity) ? "bg-gray-600" : ""
+            instance.hasOverDefend() ? "bg-gray-600" : ""
           }`}
         >
           <div
             className="w-24 h-fit rounded-md items-center justify-around hover:scale-110 hover:w-28 border transition"
             style={{
-              opacity: thisCard.entity.status === StatusEnum.INACTIVE ? 0.2 : 1,
+              opacity: instance.entity.status === StatusEnum.INACTIVE ? 0.2 : 1,
               borderColor: wasAction() ? "gray" : "",
               boxShadow: handleColorActionCard(),
             }}
           >
             <p
               className={`border-white border-b w-full p-1 ${
-                thisCard.entity.name.length > 10 ? "text-xs" : ""
+                instance.entity.name.length > 10 ? "text-xs" : ""
               }`}
             >
-              {thisCard.entity.name}
+              {instance.entity.name}
             </p>
             <img
               className="object-cover"
               width={500}
               height={494}
-              src={`${BASE_URL_IMAGE_ENTITIES}/${thisCard.entity.imageUrl}`}
+              src={`${BASE_URL_IMAGE_ENTITIES}/${instance.entity.imageUrl}`}
               alt="no image"
             />
             <div
@@ -166,12 +169,12 @@ const Card = (thisCard: EntityDetails) => {
               >
                 {strCurrentHP}
               </div>
-              {thisCard.entity.maxManaEnergyPower > 0 && (
+              {instance.entity.maxManaEnergyPower > 0 && (
                 <div
                   rel="MP/EP bar"
                   className=" text-xs font-medium text-blue-100 text-center leading-none rounded-es-lg rounded-ee-lg"
                   style={{
-                    backgroundColor: isEntityMainEP(thisCard.entity)
+                    backgroundColor: instance.isUseEnergyPower()
                       ? "rgb(75, 30, 130)"
                       : "rgb(28, 85, 156)",
                     width: strCurrentMEP,
@@ -183,28 +186,31 @@ const Card = (thisCard: EntityDetails) => {
               {isHoveredCard && (
                 <div className="text-xs text-left mx-2 ">
                   <p>
-                    HP: {thisCard.entity.healthPower} /{" "}
-                    {thisCard.entity.maxHealthPower}
+                    HP: {instance.entity.health} / {instance.entity.maxHealth}
                   </p>
                   <p>
-                    {thisCard.entity.energyPower > 0 ? "EP" : "MP"}:{" "}
-                    {thisCard.entity.energyPower > 0
-                      ? thisCard.entity.energyPower
-                      : thisCard.entity.manaPower}{" "}
-                    / {thisCard.entity.maxManaEnergyPower}
+                    {instance.entity.energy > 0 ? "EP" : "MP"}:{" "}
+                    {instance.entity.energy > 0
+                      ? instance.entity.energy
+                      : instance.entity.mana}{" "}
+                    / {instance.entity.maxManaEnergyPower}
                   </p>
-                  {thisCard.entity.maxDefendPower && (
+                  {instance.entity.maxDefendPower && (
                     <p
                       className={`${
-                        getDifferentDefendValue(thisCard.entity) > 0
+                        instance.getDifferentValueFromInitial({ stat: "def" }) >
+                        0
                           ? "text-cyan-400"
                           : ""
                       }`}
                     >
                       {`DEF`}:{" "}
-                      {`${thisCard.entity.defendPower ?? ""} ${
-                        getDifferentDefendValue(thisCard.entity) > 0
-                          ? `(+${getDifferentDefendValue(thisCard.entity)})`
+                      {`${instance.entity.defendPower ?? ""} ${
+                        instance.getDifferentValueFromInitial({ stat: "def" }) >
+                        0
+                          ? `(+${instance.getDifferentValueFromInitial({
+                              stat: "def",
+                            })})`
                           : ""
                       }`}
                     </p>
@@ -214,7 +220,7 @@ const Card = (thisCard: EntityDetails) => {
             </div>
           </div>
         </div>
-        <p className="text-xs">{thisCard.position}</p>
+        <p className="text-xs">{instance.position}</p>
       </button>
     </>
   );

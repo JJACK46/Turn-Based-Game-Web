@@ -1,9 +1,12 @@
-import Card from "./Card";
-import CardPlaceholder from "./CardPlaceholder";
-import { useGameStore } from "../stores/GameStore";
+import Card from "../Cards/Card";
+import CardPlaceholder from "../Cards/CardPlaceholder";
+import { useGameStore } from "../../stores/GameStore";
+import { EntityInstance } from "@/classes/entity";
 
 export default function PlayersSection() {
-  const { playersFrontRow, playersBackRow } = useGameStore();
+  const {
+    infoField: { playersFrontRow, playersBackRow },
+  } = useGameStore();
 
   return (
     <div
@@ -18,9 +21,13 @@ export default function PlayersSection() {
               return (
                 <Card
                   key={key}
-                  position={index}
-                  entity={player}
-                  site="front"
+                  instance={
+                    new EntityInstance({
+                      entity: player,
+                      position: index,
+                      site: "front",
+                    })
+                  }
                 ></Card>
               );
             })
@@ -37,9 +44,13 @@ export default function PlayersSection() {
               return (
                 <Card
                   key={key}
-                  position={index}
-                  entity={player}
-                  site="back"
+                  instance={
+                    new EntityInstance({
+                      entity: player,
+                      position: index,
+                      site: "back",
+                    })
+                  }
                 ></Card>
               );
             })

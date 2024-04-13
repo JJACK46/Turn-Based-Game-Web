@@ -1,31 +1,33 @@
-import CardInfo from "./CardInfo";
-import { ActionWarning, TurnWarning } from "./Warning";
+import CardInfo from "../Cards/CardInfo";
+import { ActionWarning, TurnWarning } from "../Warning";
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
-import { getDamageMadeBy, isSkillUseEP } from "../helpers/entity";
-import { useGameStore } from "../stores/GameStore";
-import { useUIStore } from "../stores/UI_Store";
+import { useGameStore } from "../../stores/GameStore";
+import { useUIStore } from "../../stores/UI_Store";
+import { SkillInstance } from "@/classes/skills";
 
 export default function UserOverlay() {
   const {
-    selectedSkill,
-    mapName,
-    availableActions,
-    maxActions,
-    roundCount,
-    speedEnemyTeam,
-    speedPlayerTeam,
-    remainEnemiesCount,
-    turn,
-    currentEntityData,
-    targetEntityData,
-    remainPlayersCount,
-    infoDamage,
+    infoGame: {
+      turn,
+      mapName,
+      maxActions,
+      availableActions,
+      roundCount,
+      speedEnemyTeam,
+      speedPlayerTeam,
+      isGameStart,
+      remainEnemiesCount,
+      remainPlayersCount,
+    },
     infoMarkedEntities,
-    isGameStart,
-    resetCurrentEntity,
-    setSelectSkill,
-    resetSelectSkill,
-    startGame,
+    methodsGame: { startGame },
+    infoDamage,
+    infoIndicator: {
+      currentEntity: currentEntityData,
+      targetEntity: targetEntityData,
+      selectedSkill,
+    },
+    methodsIndicator: { resetCurrentEntity, setSelectSkill, resetSelectSkill },
   } = useGameStore();
   const uiLogic = useUIStore();
   const { blockedDamage, totalHitDamage, lastHitDamage } = infoDamage;
@@ -119,38 +121,43 @@ export default function UserOverlay() {
                     </p>
                   </div>
                 </div>
-                {currentEntityData?.entity.skills.map((skill, index) => (
-                  <button
-                    key={index}
-                    className="border-red-500 border-2 p-2 rounded-2xl w-40 h-full bg-black flex flex-col items-center justify-end"
-                    onClick={() => {
-                      setSelectSkill(skill);
-                      uiLogic.setSkillOverlay(false);
-                    }}
-                  >
-                    <div>{skill.name}</div>
-                    <div className="text-sm">
-                      <ul className="flex flex-row gap-3">
-                        {(skill.requiredEnergy || skill.requiredMana > 0) && (
+                {currentEntityData?.entity.skills.map((skill, index) => {
+                  const skillInstance = new SkillInstance({
+                    skill,
+                    remainingRound: 0,
+                  });
+                  return (
+                    <button
+                      key={index}
+                      className="border-red-500 border-2 p-2 rounded-2xl w-40 h-full bg-black flex flex-col items-center justify-end"
+                      onClick={() => {
+                        setSelectSkill(skillInstance);
+                        uiLogic.setSkillOverlay(false);
+                      }}
+                    >
+                      <div>{skill.name}</div>
+                      <div className="text-sm">
+                        <ul className="flex flex-row gap-3">
+                          {(skill.requiredEnergy || skill.requiredMana > 0) && (
+                            <li>
+                              {`${skill ? "EP:" : "MP:"}`}{" "}
+                              {`${
+                                skillInstance.isSkillRequiredEnergy
+                                  ? skill.requiredEnergy
+                                  : skill.requiredMana
+                              }`}
+                            </li>
+                          )}
                           <li>
-                            {`${isSkillUseEP(skill) ? "EP:" : "MP:"}`}{" "}
-                            {`${
-                              isSkillUseEP(skill)
-                                ? skill.requiredEnergy
-                                : skill.requiredMana
-                            }`}
+                            {`DMG: ${currentEntityData.getDamageMadeBy(
+                              skillInstance
+                            )}`}
                           </li>
-                        )}
-                        <li>
-                          {`DMG: ${getDamageMadeBy({
-                            entity: currentEntityData.entity,
-                            skill: skill,
-                          })}`}
-                        </li>
-                      </ul>
-                    </div>
-                  </button>
-                ))}
+                        </ul>
+                      </div>
+                    </button>
+                  );
+                })}
                 <button className="border-red-500 border-2 rounded-2xl w-40 h-fit py-5 bg-black">
                   <div className="size-full">Use Item</div>
                 </button>
@@ -184,7 +191,7 @@ export default function UserOverlay() {
               resetCurrentEntity();
             }}
           >
-            <p className="uppercase">{selectedSkill?.name}</p>
+            <p className="uppercase">{selectedSkill.skill.name}</p>
 
             <hr className="my-2" />
             <p className="uppercase text-xs">cancel</p>

@@ -7,23 +7,29 @@ import { restoreManaForEntities } from "../helpers/entity";
 
 export function StageWatcher({ children }: { children: React.ReactNode }) {
   const {
-    switchTurn,
-    turn,
-    availableActions,
-    enemiesFrontRow,
-    isGameStart,
-    remainEnemiesCount,
-    remainPlayersCount,
+    infoGame: {
+      turn,
+      availableActions,
+      cycleRound,
+      isGameStart,
+      remainEnemiesCount,
+      remainPlayersCount,
+    },
+    methodsGame: {
+      switchTurn,
+      increaseRound,
+      resetCycleRound,
+      updateCycleRound,
+      endGame,
+    },
+    infoField: {
+      playersFrontRow,
+      playersBackRow,
+      enemiesFrontRow,
+      enemiesBackRow,
+    },
+    methodsField: { setEntities },
     infoMarkedEntities,
-    playersFrontRow,
-    playersBackRow,
-    enemiesBackRow,
-    cycleRound,
-    updateCycleRound,
-    resetCycleRound,
-    endGame,
-    setEntities,
-    increaseRound,
   } = useGameStore();
   // const uiLogic = useUIStore();
 
@@ -70,14 +76,6 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
           entitiesTakenAction: infoMarkedEntities.takenAction,
         });
       }
-      if (remainEnemiesCount === 0) {
-        endGame();
-        alert("VICTORY");
-      }
-      if (remainPlayersCount === 0) {
-        endGame();
-        alert("DEFEAT");
-      }
     }
   }, [availableActions]);
 
@@ -89,6 +87,20 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
       resetCycleRound();
     }
   }, [cycleRound]);
+
+  //update end game
+  useEffect(() => {
+    if (isGameStart) {
+      if (remainEnemiesCount === 0) {
+        endGame();
+        alert("VICTORY");
+      }
+      if (remainPlayersCount === 0) {
+        endGame();
+        alert("DEFEAT");
+      }
+    }
+  }, [remainEnemiesCount, remainPlayersCount]);
 
   return <>{children}</>;
 }

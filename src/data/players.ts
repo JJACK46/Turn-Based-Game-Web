@@ -9,9 +9,9 @@ export const players: Entity[] = [
     level: 1,
     attackPower: 5,
     attackDamageType: "physical",
-    manaPower: -1,
-    energyPower: 10,
-    healthPower: 20,
+    mana: -1,
+    energy: 10,
+    health: 20,
     skills: [
       {
         name: "SMASH",
@@ -37,7 +37,8 @@ export const players: Entity[] = [
     trait: "Martial Arts",
     restoreManaOrEnergy: 5,
     maxManaEnergyPower: 10,
-    maxHealthPower: 20,
+    maxHealth: 20,
+    maxAttackPower: 5,
   },
   {
     id: 2,
@@ -46,8 +47,8 @@ export const players: Entity[] = [
     level: 1,
     attackPower: 15,
     attackDamageType: "physical",
-    manaPower: 15,
-    healthPower: 10,
+    mana: 15,
+    health: 10,
     skills: [
       {
         name: "Sharp Shoot",
@@ -71,8 +72,9 @@ export const players: Entity[] = [
     trait: "Super Solider",
     restoreManaOrEnergy: 5,
     maxManaEnergyPower: 15,
-    energyPower: -1,
-    maxHealthPower: 10,
+    energy: -1,
+    maxHealth: 10,
+    maxAttackPower: 15,
   },
   {
     id: 3,
@@ -81,8 +83,8 @@ export const players: Entity[] = [
     level: 1,
     attackPower: 15,
     attackDamageType: "physical",
-    manaPower: 10,
-    healthPower: 8,
+    mana: 10,
+    health: 8,
     skills: [
       {
         name: "Long Shot",
@@ -113,8 +115,9 @@ export const players: Entity[] = [
     trait: "Wood Elf",
     restoreManaOrEnergy: 5,
     maxManaEnergyPower: 10,
-    energyPower: -1,
-    maxHealthPower: 8,
+    energy: -1,
+    maxHealth: 8,
+    maxAttackPower: 15,
   },
   {
     id: 4,
@@ -123,8 +126,8 @@ export const players: Entity[] = [
     level: 1,
     attackPower: 12,
     attackDamageType: "magic",
-    manaPower: 20,
-    healthPower: 15,
+    mana: 20,
+    health: 15,
     skills: [
       {
         name: "Magic Blade",
@@ -155,7 +158,8 @@ export const players: Entity[] = [
     trait: "Demon Hunter",
     restoreManaOrEnergy: 5,
     maxManaEnergyPower: 20,
-    energyPower: -1,
-    maxHealthPower: 15,
+    energy: -1,
+    maxHealth: 15,
+    maxAttackPower: 12,
   },
 ];
