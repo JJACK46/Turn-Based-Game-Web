@@ -20,7 +20,7 @@ export default function UserOverlay() {
     targetEntityData,
     remainPlayersCount,
     infoDamage,
-    entitiesTakenAction,
+    infoMarkedEntities,
     isGameStart,
     resetCurrentEntity,
     setSelectSkill,
@@ -78,7 +78,7 @@ export default function UserOverlay() {
         <p className="uppercase">taken actions: </p>
         <hr />
         <ul className="flex flex-col items-start">
-          {entitiesTakenAction.map((entity, index) => (
+          {infoMarkedEntities.takenAction.map((entity, index) => (
             <li key={index}>{entity.name}</li>
           ))}
         </ul>

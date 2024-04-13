@@ -130,3 +130,11 @@ export const getCalculatedDamaged = (props: {
     blockedDamage: damageReduction,
   };
 };
+
+export const getIndexEntitiesWithSkillDowntime = (entities: Entity[]) => {
+  return entities.map((entity, index) => {
+    if (entity.skills.some((skill) => skill.duration)) {
+      return index;
+    }
+  });
+};

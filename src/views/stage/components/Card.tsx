@@ -22,7 +22,7 @@ const Card = (thisCard: EntityDetails) => {
     resetCurrentEntity,
     resetTargetEntity,
     turn,
-    entitiesTakenAction,
+    infoMarkedEntities,
     enemiesFrontRow,
     playersFrontRow,
     selectedSkill,
@@ -47,7 +47,7 @@ const Card = (thisCard: EntityDetails) => {
 
   const [isHoveredCard, setIsHoveredCard] = useState(false);
   const wasAction = () => {
-    return isEntityInEntities(thisCard.entity, entitiesTakenAction);
+    return isEntityInEntities(thisCard.entity, infoMarkedEntities.takenAction);
   };
 
   function handleColorActionCard() {
@@ -124,7 +124,7 @@ const Card = (thisCard: EntityDetails) => {
       >
         <div
           rel="card-wrapper"
-          className={`p-2 rounded-lg ${
+          className={`p-2 rounded-lg transition ${
             isEntityOverDefend(thisCard.entity) ? "bg-gray-600" : ""
           }`}
         >

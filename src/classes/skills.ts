@@ -10,5 +10,5 @@ export type Skill = {
   comboWith?: Skill[];
   emitValueMultiply: number;
   requiredMana: number;
-  downtimeRound?: number;
+  duration?: number;
 };

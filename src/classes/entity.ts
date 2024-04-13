@@ -32,6 +32,8 @@ export type Entity = {
   restoreManaOrEnergy: number;
   restoreHealth?: number;
   evasion?: number;
+  activeSkills?: Skill[];
+  tier: "Legend";
 };
 
 export type Site = "front" | "back";

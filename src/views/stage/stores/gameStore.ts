@@ -28,11 +28,17 @@ interface GameLogicType {
   roundCount: number;
   speedEnemyTeam: number;
   speedPlayerTeam: number;
-  entitiesTakenAction: Entity[];
+  infoMarkedEntities: {
+    takenAction: Entity[];
+    downtimeSkill: EntityDetails[];
+  };
   infoDamage: {
     totalHitDamage: number;
     lastHitDamage: number;
     blockedDamage: number;
+  };
+  methodsMark: {
+    markEntityHasSkillDowntime: (ent: EntityDetails) => void;
   };
   isGameStart: boolean;
   cycleRound: number;
@@ -103,11 +109,25 @@ export const useGameStore = create<GameLogicType>((set) => ({
   roundCount: 1,
   speedEnemyTeam: 0,
   speedPlayerTeam: 0,
-  entitiesTakenAction: [],
   infoDamage: {
     totalHitDamage: 0,
     lastHitDamage: 0,
     blockedDamage: 0,
+  },
+  infoMarkedEntities: {
+    takenAction: [],
+    downtimeSkill: [],
+  },
+  methodsMark: {
+    markEntityHasSkillDowntime: (props) => {
+      set((state) => ({
+        ...state,
+        infoMarkedEntities: {
+          ...state.infoMarkedEntities,
+          downtimeSkill: [...state.infoMarkedEntities.downtimeSkill, props],
+        },
+      }));
+    },
   },
   cycleRound: 2,
   indicatorMethods: {
@@ -207,7 +227,10 @@ export const useGameStore = create<GameLogicType>((set) => ({
           totalHitDamage: 0,
           blockedDamage: 0,
         },
-        entitiesTakenAction: [],
+        infoMarkedEntities: {
+          ...state.infoMarkedEntities,
+          takenAction: [],
+        },
         remainEnemiesCount,
         remainPlayersCount,
       };
@@ -218,7 +241,10 @@ export const useGameStore = create<GameLogicType>((set) => ({
   markEntityTakenAction: (entity: Entity) =>
     set((state) => ({
       ...state,
-      entitiesTakenAction: [...state.entitiesTakenAction, entity],
+      infoMarkedEntities: {
+        ...state.infoMarkedEntities,
+        takenAction: [...state.infoMarkedEntities.takenAction, entity],
+      },
     })),
   setSelectSkill: (skill: Skill) => {
     set((prevState) => ({

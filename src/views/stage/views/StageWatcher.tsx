@@ -14,7 +14,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
     isGameStart,
     remainEnemiesCount,
     remainPlayersCount,
-    entitiesTakenAction,
+    infoMarkedEntities,
     playersFrontRow,
     playersBackRow,
     enemiesBackRow,
@@ -67,7 +67,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
           availableActions,
           sourceEntities: enemiesFrontRow,
           targetEntities: playersFrontRow,
-          entitiesTakenAction,
+          entitiesTakenAction: infoMarkedEntities.takenAction,
         });
       }
       if (remainEnemiesCount === 0) {
