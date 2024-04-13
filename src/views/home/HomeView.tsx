@@ -13,13 +13,14 @@ function HomeView() {
 
   const [playLobbySoundtrack, { stop }] = useSound(soundtrack, {
     volume: 0.5,
-    interrupt: false,
+    interrupt: true,
   });
 
   return (
     <div
       className="flex flex-col w-full min-h-screen bg-black"
       onMouseEnter={() => playLobbySoundtrack()}
+      onMouseOut={() => stop}
     >
       <div>
         <ReactPlayer

@@ -15,8 +15,8 @@ function CardInfo() {
         }}
         className="top-0 left-0 size-full bg-black opacity-40"
       ></button>
-      <div className="absolute flex p-8 bg-black rounded-2xl border-2 border-white">
-        <div className="flex flex-col gap-4 items-center">
+      <div className="absolute flex bg-black rounded-2xl border-2 border-white">
+        <div className="flex flex-col p-8 gap-4 items-center">
           <div className="flex flex-row rounded-lg">
             <div className="size-52">
               <img
@@ -27,10 +27,13 @@ function CardInfo() {
                 alt="no image"
               />
             </div>
-            <div className="flex flex-col p-5 text-center gap-4">
-              <h1 className="font-mono text-3xl font-bold">
+            <div className="flex flex-col text-center justify-center items-center">
+              <div className="font-mono text-3xl font-bold">
                 {currentEntityData?.entity.name}
-              </h1>
+                <p className="fot-memo text-sm my-2 p-1 rounded-full bg-gray-700 uppercase">
+                  {currentEntityData?.entity.status}
+                </p>
+              </div>
               <div className="flex justify-around flex-wrap">
                 <p className="font-mono text-lg w-1/2">Level</p>
                 <p className="font-mono text-lg w-1/2">
@@ -58,12 +61,13 @@ function CardInfo() {
               {currentEntityData?.entity.skills.map((skill: Skill, index) => (
                 <div
                   key={index}
-                  className="flex flex-col justify-center items-center w-1/4 py-5 border-2 border-red-600"
+                  className="flex flex-col justify-center items-center w-1/4 text-center py-3 border-2 border-red-600"
                 >
                   <h3>{skill.name}</h3>
                   <p>{skill.type}</p>
                   <p>{skill.emitValueMultiply}x</p>
                   {skill.comboAble && <p>{skill.comboWith?.toString()}</p>}
+                  <p>MP/EP: {skill.requiredEnergy ?? skill.requiredMana}</p>
                 </div>
               ))}
             </div>

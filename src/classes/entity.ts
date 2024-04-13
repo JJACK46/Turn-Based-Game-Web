@@ -1,6 +1,6 @@
 import { Skill } from "./skills";
 import { Armor } from "./armor";
-import { DamageType } from "./damageType";
+import { PowerType } from "./powerType";
 import { Weapon } from "./weapon";
 import { StatusEnum } from "../data/status";
 
@@ -8,7 +8,7 @@ export type Entity = {
   id: number;
   name: string;
   imageUrl: string;
-  attackDamageType: DamageType;
+  attackDamageType: PowerType;
   level: number;
   skills: Skill[];
   attackPower: number;
@@ -19,6 +19,7 @@ export type Entity = {
   energyPower: number;
   maxManaEnergyPower: number;
   maxHealthPower: number;
+  maxDefendPower?: number;
   equipment?: {
     weapon: Weapon;
     armor: Armor;

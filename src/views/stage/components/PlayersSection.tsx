@@ -3,7 +3,7 @@ import CardPlaceholder from "./CardPlaceholder";
 import { useGameStore } from "../stores/GameStore";
 
 export default function PlayersSection() {
-  const { playersFrontRow, playersBackRow } = useGameStore()
+  const { playersFrontRow, playersBackRow } = useGameStore();
 
   return (
     <div

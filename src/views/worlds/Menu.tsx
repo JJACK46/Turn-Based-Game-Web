@@ -40,22 +40,37 @@ function Menu() {
         </h1>
         <div className="flex flex-row gap-10 justify-evenly w-full p-20">
           {fieldData.map((item, index) => (
-            <Link
-              to={`/world/${item.title}`}
-              key={index}
-              className="text-lg w-40 h-56 hover:h-96 hover:w-96"
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(-1)}
-            >
-              <img
-                className="object-cover w-full h-full rounded-lg"
-                src={`${BASE_URL_IMAGE_WORLDS}/${item.urlImg}`}
-              ></img>
-              <p className="mt-2">{item.title}</p>
-              {hoveredIndex === index && (
-                <p className="text-sm text-left">{item.info}</p>
-              )}
-            </Link>
+            <>
+              <Link
+                to={`/world/${item.title}`}
+                key={index}
+                className={`text-lg w-40 h-56 hover:h-96 hover:w-96 
+                ${
+                  hoveredIndex !== index && hoveredIndex !== -1
+                    ? "opacity-40"
+                    : ""
+                } ${
+                  hoveredIndex !== index && hoveredIndex !== -1
+                    ? "translate-y-28"
+                    : ""
+                } ${
+                  hoveredIndex !== index && hoveredIndex !== -1
+                    ? "scale-80"
+                    : ""
+                }`}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(-1)}
+              >
+                <img
+                  className="object-cover w-full h-full rounded-lg"
+                  src={`${BASE_URL_IMAGE_WORLDS}/${item.urlImg}`}
+                ></img>
+                <p className="mt-2">{item.title}</p>
+                {hoveredIndex === index && (
+                  <p className="text-sm text-left">{item.info}</p>
+                )}
+              </Link>
+            </>
           ))}
         </div>
       </div>

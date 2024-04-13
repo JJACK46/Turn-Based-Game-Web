@@ -1,6 +1,6 @@
 import "./App.css";
 import HomeView from "./views/home/HomeView";
-import Menu from "./views/menu/Menu";
+import Menu from "./views/worlds/Menu";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import StageView from "./views/stage/views/StageView";
 import { tutorialSet } from "./data/tutorial";

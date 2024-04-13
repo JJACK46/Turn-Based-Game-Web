@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 // import { useUIStore } from "../stores/UI_Store";
 import { useGameStore } from "../stores/GameStore";
@@ -69,12 +70,6 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
           entitiesTakenAction,
         });
       }
-    }
-  }, [availableActions]);
-
-  //update result game
-  useEffect(() => {
-    if (availableActions === 0) {
       if (remainEnemiesCount === 0) {
         endGame();
         alert("VICTORY");
@@ -84,7 +79,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
         alert("DEFEAT");
       }
     }
-  }, [turn]);
+  }, [availableActions]);
 
   //update round
   useEffect(() => {

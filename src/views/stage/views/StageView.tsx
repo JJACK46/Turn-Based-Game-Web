@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Entity } from "../../../classes/entity";
 import NavBarView from "../components/NavBar";
 import EnemiesSection from "../components/EnemiesSection";

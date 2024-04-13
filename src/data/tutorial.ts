@@ -8,6 +8,6 @@ interface TutorialSet {
 }
 
 export const tutorialSet: TutorialSet = {
-  enemies: [monsters[3], monsters[5]],
+  enemies: [monsters[3], monsters[5], monsters[6]],
   players: [players[0], players[3]],
 };

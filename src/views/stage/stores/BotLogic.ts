@@ -1,6 +1,9 @@
 import { Entity, EntityDetails } from "@/classes/entity";
 import { useGameStore } from "./GameStore";
-import { isEntityInEntities } from "../helpers/entity";
+import {
+  isEntityHasLowHealthThan,
+  isEntityInEntities,
+} from "../helpers/entity";
 import { TurnType } from "@/classes/turn";
 
 const {
@@ -13,6 +16,7 @@ const {
   resetTargetEntity,
   resetSelectSkill,
   decreaseAction,
+  usingSkillToSelf,
 } = useGameStore.getState();
 
 const getMostAttackPowerEntityForBot = (
@@ -49,6 +53,7 @@ export const botAction = ({
   targetEntities: Entity[];
   entitiesTakenAction: Entity[];
 }) => {
+  //delay enemy action per a entity
   setTimeout(() => {
     if (turn === "enemy" && availableActions > 0) {
       const aliveEntities = sourceEntities.filter(
@@ -74,64 +79,96 @@ export const botAction = ({
         }
       }
 
+      //if found source entity already
       if (
         sourceEntityData &&
         !entitiesTakenAction.includes(sourceEntityData.entity)
       ) {
+        let selectedSkill;
+        let success = false;
+        const flag = {
+          skilledToSelf: false,
+        };
         setCurrentEntity(sourceEntityData);
+        const sourceEntityDef = sourceEntityData.entity.defendPower ?? 0;
 
-        //target algorithm
-        let leastHP = 9999;
-        let targetEntityData: EntityDetails | null = null;
-        const targetedEntities: Entity[] = [];
-
-        for (const playerEntity of targetEntities) {
-          const index = targetEntities.indexOf(playerEntity);
-          const currentTargetData: EntityDetails = {
-            entity: playerEntity,
-            position: index,
-            site: "front",
-          };
+        //check condition for use skill
+        while (!success) {
           if (
-            playerEntity.healthPower <= leastHP &&
-            playerEntity.healthPower > 0 &&
-            !targetedEntities.includes(playerEntity)
+            isEntityHasLowHealthThan({
+              entity: sourceEntityData.entity,
+              threshold: 0.6,
+            }) &&
+            sourceEntityDef > 0 &&
+            !flag.skilledToSelf
           ) {
-            leastHP = playerEntity.healthPower;
-            targetEntityData = currentTargetData;
-          }
-        }
-
-        if (targetEntityData) {
-          targetedEntities.push(targetEntityData.entity);
-          //set target
-          setTimeout(() => {
-            setTargetEntity(targetEntityData);
-          }, 1000);
-
-          //use skill
-          setTimeout(() => {
-            const botSelectedSkill = sourceEntityData.entity.skills[0];
-            setSelectSkill(botSelectedSkill);
-            const success = usingSkillToTargetEntity({
-              skill: botSelectedSkill,
+            //self algorithm
+            selectedSkill = sourceEntityData.entity.skills[1];
+            success = usingSkillToSelf({
+              skill: selectedSkill,
               sourceEntityData,
-              targetEntityData,
-              targetEntities: targetEntities,
               sourceEntities,
               isEnemyAction: true,
             });
-            if (success) decreaseAction(1);
-          }, 2000);
+            flag.skilledToSelf = true;
+          } else {
+            //target algorithm
+            let leastHP = 9999;
+            let targetEntityData: EntityDetails | null = null;
+            const targetedEntities: Entity[] = [];
 
-          setTimeout(() => {
-            //reset
-            resetCurrentEntity();
-            resetTargetEntity();
-            resetSelectSkill();
-          }, 2500);
+            for (const playerEntity of targetEntities) {
+              const index = targetEntities.indexOf(playerEntity);
+              const currentTargetData: EntityDetails = {
+                entity: playerEntity,
+                position: index,
+                site: "front",
+              };
+              if (
+                playerEntity.healthPower <= leastHP &&
+                playerEntity.healthPower > 0 &&
+                !targetedEntities.includes(playerEntity)
+              ) {
+                leastHP = playerEntity.healthPower;
+                targetEntityData = currentTargetData;
+              }
+            }
+
+            if (targetEntityData) {
+              targetedEntities.push(targetEntityData.entity);
+              //set target
+              setTimeout(() => {
+                setTargetEntity(targetEntityData);
+              }, 1400);
+
+              setTimeout(() => {
+                //default attack by first skill
+                selectedSkill = sourceEntityData.entity.skills[0];
+
+                success = usingSkillToTargetEntity({
+                  skill: selectedSkill,
+                  sourceEntityData,
+                  targetEntityData,
+                  targetEntities: targetEntities,
+                  sourceEntities,
+                  isEnemyAction: true,
+                });
+
+                setSelectSkill(selectedSkill);
+              }, 1800);
+            }
+            break;
+          }
         }
+        //finally reset indicator
+        setTimeout(() => {
+          if (success) decreaseAction(1);
+          resetCurrentEntity();
+          resetTargetEntity();
+          resetSelectSkill();
+        }, 2200);
       }
+      //not found source entity
     }
   }, 500);
 };

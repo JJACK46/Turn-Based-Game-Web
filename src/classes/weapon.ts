@@ -1,8 +1,8 @@
 import { Skill } from "./skills";
-import { DamageType } from "./damageType";
+import { PowerType } from "./powerType";
 
 export type Weapon = {
   skills: Skill[];
   attackDamage: number;
-  damageType: DamageType;
+  damageType: PowerType;
 };

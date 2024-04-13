@@ -29,17 +29,15 @@ export function isEntityHasEnoughMana({
   entity: Entity;
   skill: Skill;
 }): boolean {
-  const entityEnergyPower = entity.energyPower ?? 0;
   const skillRequiredEnergy = skill.requiredEnergy ?? 0;
 
-  if (!entity.energyPower && skillRequiredEnergy > 0) {
-    return false;
+  if (entity.energyPower > -1) {
+    return entity.energyPower >= skillRequiredEnergy;
   }
-
-  if (entityEnergyPower && skillRequiredEnergy) {
-    return entityEnergyPower >= skillRequiredEnergy;
+  if (entity.manaPower > -1) {
+    return entity.manaPower >= skill.requiredMana;
   }
-  return entity.manaPower >= skill.requiredMana;
+  return false;
 }
 
 export function getUpdatedManaFromUsed({
@@ -90,4 +88,45 @@ export const restoreManaForEntities = (entities: Entity[]) => {
   }
 
   return updated;
+};
+
+export const isEntityHasLowHealthThan = (props: {
+  entity: Entity;
+  threshold: number;
+}): boolean => {
+  const { entity, threshold } = props;
+  const ratio = (entity.healthPower / entity.maxHealthPower).toFixed(2);
+  if (parseFloat(ratio) <= threshold) {
+    return true;
+  }
+  return false;
+};
+
+export const isEntityMainEP = (entity: Entity): boolean => {
+  return entity.energyPower > -1 ? true : false;
+};
+
+export const isEntityOverDefend = (entity: Entity): boolean => {
+  const def = entity.defendPower ?? 0;
+  const maxDef = entity.maxDefendPower ?? 0;
+  return def > maxDef;
+};
+
+export const getDifferentDefendValue = (entity: Entity): number => {
+  const def = entity.defendPower ?? 0;
+  const maxDef = entity.maxDefendPower ?? 0;
+  return Math.abs(maxDef - def);
+};
+
+export const getCalculatedDamaged = (props: {
+  damageMade: number;
+  affectEntity: Entity;
+}): { resultDamage: number; blockedDamage: number } => {
+  const { damageMade, affectEntity } = props;
+  const def = affectEntity.defendPower ?? 0;
+  const damageReduction = 0.25 * def;
+  return {
+    resultDamage: Math.max(0, damageMade - damageReduction),
+    blockedDamage: damageReduction,
+  };
 };

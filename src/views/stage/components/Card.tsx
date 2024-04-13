@@ -5,7 +5,13 @@ import { convertNumberToPercentage, getColorByHp } from "../helpers/styles";
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
 import { useGameStore } from "../stores/GameStore";
 import { useUIStore } from "../stores/UI_Store";
-import { isEntityInEntities } from "../helpers/entity";
+import {
+  getDifferentDefendValue,
+  isEntityInEntities,
+  isEntityMainEP,
+  isEntityOverDefend,
+} from "../helpers/entity";
+import { StatusEnum } from "@/data/status";
 
 const Card = (thisCard: EntityDetails) => {
   const {
@@ -39,9 +45,6 @@ const Card = (thisCard: EntityDetails) => {
     thisCard.entity.maxManaEnergyPower
   );
 
-  const isEntityMainEP = () => {
-    return thisCard.entity.energyPower > -1 ? true : false;
-  };
   const [isHoveredCard, setIsHoveredCard] = useState(false);
   const wasAction = () => {
     return isEntityInEntities(thisCard.entity, entitiesTakenAction);
@@ -112,76 +115,106 @@ const Card = (thisCard: EntityDetails) => {
               }
             }
           } else {
-            alert("this entity was dead");
+            if (turn === "player") {
+              setCurrentEntity(thisCard);
+            }
+            setInfoOverlay(true);
           }
         }}
       >
         <div
-          className="flex flex-col w-24 h-fit rounded-md items-center justify-around hover:scale-110 border transition"
-          style={{
-            opacity: thisCard.entity.healthPower <= 0 ? 0.2 : 1,
-            borderColor: wasAction() ? "gray" : "",
-            boxShadow: handleColorActionCard(),
-          }}
+          rel="card-wrapper"
+          className={`p-2 rounded-lg ${
+            isEntityOverDefend(thisCard.entity) ? "bg-gray-600" : ""
+          }`}
         >
-          <p className="border-black border-b-2 w-full">
-            {thisCard.entity.name}
-          </p>
-          <img
-            className="object-cover"
-            width={500}
-            height={494}
-            src={`${BASE_URL_IMAGE_ENTITIES}/${thisCard.entity.imageUrl}`}
-            alt="no image"
-          />
           <div
-            rel="stats"
-            className="grid grid-cols-2 justify-items-start px-2 text-sm bg-black"
-          ></div>
-          <hr />
-          <div className="w-full bg-gray-200 relative rounded-lg dark:bg-gray-700">
-            <div
-              rel="HP bar"
-              className=" text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-md "
-              style={{
-                backgroundColor: getColorByHp(strCurrentHP),
-                width: strCurrentHP,
-              }}
+            className="w-24 h-fit rounded-md items-center justify-around hover:scale-110 hover:w-28 border transition"
+            style={{
+              opacity: thisCard.entity.status === StatusEnum.INACTIVE ? 0.2 : 1,
+              borderColor: wasAction() ? "gray" : "",
+              boxShadow: handleColorActionCard(),
+            }}
+          >
+            <p
+              className={`border-white border-b w-full p-1 ${
+                thisCard.entity.name.length > 10 ? "text-xs" : ""
+              }`}
             >
-              {strCurrentHP}
-            </div>
-            {thisCard.entity.maxManaEnergyPower > 0 && (
+              {thisCard.entity.name}
+            </p>
+            <img
+              className="object-cover"
+              width={500}
+              height={494}
+              src={`${BASE_URL_IMAGE_ENTITIES}/${thisCard.entity.imageUrl}`}
+              alt="no image"
+            />
+            <div
+              rel="stats"
+              className="grid grid-cols-2 justify-items-start px-2 text-sm bg-black"
+            ></div>
+            <hr />
+            <div className="w-full bg-gray-200 relative rounded-lg dark:bg-gray-700">
               <div
-                rel="MP/EP bar"
-                className=" text-xs font-medium text-blue-100 text-center leading-none rounded-md "
+                rel="HP bar"
+                className="text-xs font-medium text-blue-100 text-center p-0.5 leading-none "
                 style={{
-                  backgroundColor: isEntityMainEP()
-                    ? "rgb(75, 30, 130)"
-                    : "rgb(28, 85, 156)",
-                  width: strCurrentMEP,
+                  backgroundColor: getColorByHp(strCurrentHP),
+                  width: strCurrentHP,
                 }}
               >
-                {strCurrentMEP}
+                {strCurrentHP}
               </div>
-            )}
-            {isHoveredCard && (
-              <div className="text-xs text-left mx-2 ">
-                <p>
-                  HP: {thisCard.entity.healthPower} /{" "}
-                  {thisCard.entity.maxHealthPower}
-                </p>
-                <p>
-                  {thisCard.entity.energyPower > 0 ? "EP" : "MP"}:{" "}
-                  {thisCard.entity.energyPower > 0
-                    ? thisCard.entity.energyPower
-                    : thisCard.entity.manaPower}{" "}
-                  / {thisCard.entity.maxManaEnergyPower}
-                </p>
-              </div>
-            )}
+              {thisCard.entity.maxManaEnergyPower > 0 && (
+                <div
+                  rel="MP/EP bar"
+                  className=" text-xs font-medium text-blue-100 text-center leading-none rounded-es-lg rounded-ee-lg"
+                  style={{
+                    backgroundColor: isEntityMainEP(thisCard.entity)
+                      ? "rgb(75, 30, 130)"
+                      : "rgb(28, 85, 156)",
+                    width: strCurrentMEP,
+                  }}
+                >
+                  {strCurrentMEP}
+                </div>
+              )}
+              {isHoveredCard && (
+                <div className="text-xs text-left mx-2 ">
+                  <p>
+                    HP: {thisCard.entity.healthPower} /{" "}
+                    {thisCard.entity.maxHealthPower}
+                  </p>
+                  <p>
+                    {thisCard.entity.energyPower > 0 ? "EP" : "MP"}:{" "}
+                    {thisCard.entity.energyPower > 0
+                      ? thisCard.entity.energyPower
+                      : thisCard.entity.manaPower}{" "}
+                    / {thisCard.entity.maxManaEnergyPower}
+                  </p>
+                  {thisCard.entity.maxDefendPower && (
+                    <p
+                      className={`${
+                        getDifferentDefendValue(thisCard.entity) > 0
+                          ? "text-cyan-400"
+                          : ""
+                      }`}
+                    >
+                      {`DEF`}:{" "}
+                      {`${thisCard.entity.defendPower ?? ""} ${
+                        getDifferentDefendValue(thisCard.entity) > 0
+                          ? `(+${getDifferentDefendValue(thisCard.entity)})`
+                          : ""
+                      }`}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-        <p>{thisCard.position}</p>
+        <p className="text-xs">{thisCard.position}</p>
       </button>
     </>
   );

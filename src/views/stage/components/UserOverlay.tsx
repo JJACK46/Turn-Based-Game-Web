@@ -19,8 +19,7 @@ export default function UserOverlay() {
     currentEntityData,
     targetEntityData,
     remainPlayersCount,
-    lastHitDamage,
-    totalHitDamage,
+    infoDamage,
     entitiesTakenAction,
     isGameStart,
     resetCurrentEntity,
@@ -29,6 +28,7 @@ export default function UserOverlay() {
     startGame,
   } = useGameStore();
   const uiLogic = useUIStore();
+  const { blockedDamage, totalHitDamage, lastHitDamage } = infoDamage;
 
   return (
     <>
@@ -161,7 +161,8 @@ export default function UserOverlay() {
       )}
       {lastHitDamage > 0 && (
         <span className="absolute top-32 right-0 p-2 border-red-600 border-2 rounded z-10">
-          <p className="font-mono text-sm">Last Hits Damage: {lastHitDamage}</p>
+          <p className="font-mono text-sm">Hit Damage: {lastHitDamage}</p>
+          <p className="font-mono text-xs">Damage Blocked: {blockedDamage}</p>
           <p className="font-mono text-xs">Total Damage: {totalHitDamage}</p>
         </span>
       )}
