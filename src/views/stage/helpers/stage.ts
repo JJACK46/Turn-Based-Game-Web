@@ -59,19 +59,29 @@ export function updateRemainingActiveSkill(
   entities: EntityInstance[]
 ): EntityInstance[] {
   return entities.map((entity) => {
+    const updatedActiveSkills = entity.activeSkills.map((skillInstance) => {
+      const updatedSkillInstance = new SkillInstance({
+        ...skillInstance,
+        remainingTurn:
+          skillInstance.remainingTurn > 0
+            ? skillInstance.remainingTurn - 1
+            : skillInstance.remainingTurn,
+      });
+
+      return updatedSkillInstance;
+    });
+
+    //
+
+    const activeSkills = updatedActiveSkills.filter(
+      (skillInstance) => skillInstance.remainingTurn > 0
+    );
+
     const updatedEntity = new EntityInstance({
       ...entity,
-      hasActiveSkills: entity.activeSkills.map((skillInstance) => {
-        const updatedSkillInstance = new SkillInstance({
-          ...skillInstance,
-          remainingRound:
-            skillInstance.remainingRound > 0
-              ? skillInstance.remainingRound - 1
-              : skillInstance.remainingRound,
-        });
-        return updatedSkillInstance;
-      }),
+      activeSkills,
     });
+
     return updatedEntity;
   });
 }

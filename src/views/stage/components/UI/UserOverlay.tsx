@@ -16,8 +16,6 @@ export default function UserOverlay() {
       speedEnemyTeam,
       speedPlayerTeam,
       isGameStart,
-      remainEnemiesCount,
-      remainPlayersCount,
     },
     infoMarkedEntities,
     methodsGame: { startGame },
@@ -33,11 +31,20 @@ export default function UserOverlay() {
       {!isGameStart && (
         <span
           rel="most top z-index"
-          className="z-50 absolute h-full w-full bg-black/50 backdrop-blur top-0 left-0 items-center justify-center flex"
+          className="z-50 absolute h-full w-full bg-black/50 backdrop-blur top-0 left-0 items-center justify-center flex overflow-hidden"
         >
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col gap-2 justify-center items-center">
             <h1 className="text-3xl uppercase">{mapName}</h1>
-            <hr className="my-10 border w-screen" />
+            <p className="text-xl uppercase">
+              <q className="underline underline-offset-4">{turn}</q> start first
+            </p>
+            <div className="text-xs">
+              <p>
+                Player team speed: {speedPlayerTeam} / Enemy team speed:{" "}
+                {speedEnemyTeam}
+              </p>
+            </div>
+            <hr className="my-6 border w-screen" />
             <button
               className="rounded-lg p-2 text-2xl bg-orange-600 uppercase"
               onClick={() => {
@@ -49,7 +56,11 @@ export default function UserOverlay() {
           </div>
         </span>
       )}
-      <span className="grid grid-cols-3 w-full">
+      <span
+        className={`grid grid-cols-3 w-full transition-opacity duration-1000 ${
+          isGameStart ? "opacity-100" : "opacity-0"
+        }`}
+      >
         <div className="flex flex-col w-fit p-5 rounded-xl border-red-500 border-2">
           <p>{mapName}</p>
           <p className="uppercase text-sm ">round: {roundCount}</p>
@@ -59,20 +70,18 @@ export default function UserOverlay() {
         </div>
         <div className="flex justify-center items-center size-full ">
           <div className="rounded-xl p-2 w-full text-center">
-            <p>SPD Players: {speedPlayerTeam}</p>
-            <p>SPD Enemies: {speedEnemyTeam}</p>
-            <p>remain players : {remainPlayersCount}</p>
-            <p>remain enemies : {remainEnemiesCount}</p>
+            <p className="uppercase text-5xl">{turn}'s turn</p>
           </div>
         </div>
         <div className="flex flex-col w-fit justify-center uppercase justify-self-end p-5 rounded-xl border-red-500 border-2">
-          <p>turn: {turn}</p>
-          <hr />
           <p className=" text-sm">current: {currentEntity?.entity.name}</p>
           <p className=" text-sm">target: {targetEntity?.entity.name}</p>
         </div>
       </span>
-      <span className="absolute bottom-0 left-14 w-36 p-2 border-white border h-52 rounded-lg">
+      <span
+        className={`absolute bottom-5 left-20 w-36 p-2 border-white border h-52 rounded-lg duration-1000 transition-opacity
+        ${isGameStart ? "opacity-100" : "opacity-0"}`}
+      >
         <p className="uppercase">taken actions: </p>
         <hr />
         <ul className="flex flex-col items-start">
@@ -120,7 +129,7 @@ export default function UserOverlay() {
                 {currentEntity?.entity.skills.map((skill, index) => {
                   const skillInstance = new SkillInstance({
                     skill,
-                    remainingRound: 0,
+                    remainingTurn: 0,
                   });
                   return (
                     <button
@@ -170,10 +179,12 @@ export default function UserOverlay() {
         </span>
       )}
       {lastHitDamage > 0 && (
-        <span className="absolute top-32 right-0 p-2 border-red-600 border-2 rounded z-10">
-          <p className="font-mono text-sm">Hit Damage: {lastHitDamage}</p>
-          <p className="font-mono text-xs">Damage Blocked: {blockedDamage}</p>
-          <p className="font-mono text-xs">Total Damage: {totalHitDamage}</p>
+        <span className="absolute top-32 right-8 flex flex-col z-10">
+          <i className="font-medium text-lg">Hit Damage: {lastHitDamage}</i>
+          <i className="font-medium text-lg">Damage Blocked: {blockedDamage}</i>
+          <i className="font-medium text-2xl ">
+            Total Damage: {totalHitDamage}
+          </i>
         </span>
       )}
       {selectedSkill && targetEntity && (

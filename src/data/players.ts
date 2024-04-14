@@ -11,7 +11,7 @@ export const players: Entity[] = [
     attackDamageType: "physical",
     mana: -1,
     energy: 10,
-    health: 20,
+    health: 50,
     skills: [
       {
         name: "SMASH",
@@ -37,7 +37,7 @@ export const players: Entity[] = [
     trait: "Martial Arts",
     restoreManaOrEnergy: 5,
     maxManaEnergyPower: 10,
-    maxHealth: 20,
+    maxHealth: 50,
     maxAttackPower: 5,
   },
   {

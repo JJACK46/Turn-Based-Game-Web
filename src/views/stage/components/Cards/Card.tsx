@@ -145,10 +145,11 @@ const Card = (props: { instance: EntityInstance }) => {
           }`}
         >
           <div
-            className="w-24 h-fit rounded-md items-center justify-around hover:scale-110 hover:w-28 border transition"
+            className={`w-24 h-fit bg-slate-800 rounded-md items-center justify-around hover:scale-110 hover:w-28 border transition 
+            ${wasAction() ? "border-transparent" : ""}
+            `}
             style={{
               opacity: instance.entity.status === StatusEnum.INACTIVE ? 0.2 : 1,
-              borderColor: wasAction() ? "gray" : "",
               boxShadow: handleColorActionCard(),
             }}
           >
@@ -171,10 +172,10 @@ const Card = (props: { instance: EntityInstance }) => {
               className="grid grid-cols-2 justify-items-start px-2 text-sm bg-black"
             ></div>
             <hr />
-            <div className="w-full bg-gray-200 relative rounded-lg dark:bg-gray-700">
+            <div className="w-full relative bg-white/20">
               <div
                 rel="HP bar"
-                className="text-xs font-medium text-blue-100 text-center p-0.5 leading-none "
+                className="text-xs font-medium text-center p-0.5 leading-none "
                 style={{
                   backgroundColor: getColorByHp(strCurrentHP),
                   width: strCurrentHP,
@@ -182,10 +183,12 @@ const Card = (props: { instance: EntityInstance }) => {
               >
                 {strCurrentHP}
               </div>
-              {instance.entity.maxManaEnergyPower > 0 && (
+            </div>
+            {instance.entity.maxManaEnergyPower > 0 && (
+              <div className="w-full relative rounded-es-lg rounded-ee-lg bg-white/20">
                 <div
                   rel="MP/EP bar"
-                  className=" text-xs font-medium text-blue-100 text-center leading-none rounded-es-lg rounded-ee-lg"
+                  className="text-xs font-medium text-center rounded-es-lg rounded-ee-lg leading-none"
                   style={{
                     backgroundColor: instance.isUseEnergyPower()
                       ? "rgb(75, 30, 130)"
@@ -195,59 +198,55 @@ const Card = (props: { instance: EntityInstance }) => {
                 >
                   {strCurrentMEP}
                 </div>
-              )}
-              {isHoveredCard && (
-                <div className="text-xs text-left mx-2 ">
-                  <p>
-                    HP: {instance.entity.health} / {instance.entity.maxHealth}
+              </div>
+            )}
+            {isHoveredCard && (
+              <div className="text-xs text-left mx-2 ">
+                <p>
+                  HP: {instance.entity.health} / {instance.entity.maxHealth}
+                </p>
+                <p>
+                  {instance.entity.energy > 0 ? "EP" : "MP"}:{" "}
+                  {instance.entity.energy > 0
+                    ? instance.entity.energy
+                    : instance.entity.mana}{" "}
+                  / {instance.entity.maxManaEnergyPower}
+                </p>
+                {instance.entity.maxDefendPower && (
+                  <p
+                    className={`${
+                      instance.getDifferentValueFromInitial({ stat: "def" }) > 0
+                        ? "text-cyan-400"
+                        : ""
+                    }`}
+                  >
+                    {`DEF`}:{" "}
+                    {`${instance.entity.defend ?? ""} ${
+                      instance.getDifferentValueFromInitial({ stat: "def" }) > 0
+                        ? `(+${instance.getDifferentValueFromInitial({
+                            stat: "def",
+                          })})`
+                        : ""
+                    }`}
                   </p>
-                  <p>
-                    {instance.entity.energy > 0 ? "EP" : "MP"}:{" "}
-                    {instance.entity.energy > 0
-                      ? instance.entity.energy
-                      : instance.entity.mana}{" "}
-                    / {instance.entity.maxManaEnergyPower}
-                  </p>
-                  {instance.entity.maxDefendPower && (
-                    <p
-                      className={`${
-                        instance.getDifferentValueFromInitial({ stat: "def" }) >
-                        0
-                          ? "text-cyan-400"
-                          : ""
-                      }`}
-                    >
-                      {`DEF`}:{" "}
-                      {`${instance.entity.defend ?? ""} ${
-                        instance.getDifferentValueFromInitial({ stat: "def" }) >
-                        0
-                          ? `(+${instance.getDifferentValueFromInitial({
-                              stat: "def",
-                            })})`
-                          : ""
-                      }`}
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
-        <p className="text-xs">{instance.index}</p>
+        {isHoveredCard && (
+          <p className="text-xs p-2">Index: {instance.index}</p>
+        )}
         <div className="flex gap-2 justify-around">
           {selectedSkill?.isAttackSkill && currentEntity === instance && (
             <div className="flex flex-col justify-center items-center gap-1">
-              <div className="bg-white rounded-full p-1 ">
-                <img src={atkSymbol} width={18} alt="attacking" />
-              </div>
+              <img src={atkSymbol} width={18} alt="attacking" />
               <p className="text-xs">{selectedSkill.name}</p>
             </div>
           )}
           {selectedSkill?.isDefSkill && currentEntity === instance && (
             <div className="flex flex-col justify-center items-center gap-1">
-              <div className="bg-white rounded-full p-1">
-                <img src={defSymbol} width={18} alt="defending" />
-              </div>
+              <img src={defSymbol} width={18} alt="defending" />
               <p className="text-xs">{selectedSkill.name}</p>
             </div>
           )}

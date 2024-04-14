@@ -26,10 +26,14 @@ const StageView = (props: Props) => {
   }, []);
 
   return (
-    <div className="flex flex-row justify-around items-center w-full h-screen min-h-screen">
+    <div className="flex flex-row justify-around items-center w-full h-screen min-h-screen overflow-hidden">
       <StageWatcher>
         <NavBarView></NavBarView>
-        <div className="flex flex-col justify-around items-center w-full min-h-screen h-screen bg-slate-900">
+        <div className="flex flex-col justify-around items-center w-full min-h-screen h-screen mx-6">
+          <img
+            src="src/assets/images/maps/Astralis_city.jpeg"
+            className="-z-50 absolute left-0 top-0 w-full h-full object-fill blur-md"
+          />
           <EnemiesSection></EnemiesSection>
           <UserOverlay></UserOverlay>
           <PlayersSection></PlayersSection>

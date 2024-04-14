@@ -51,14 +51,14 @@ export class EntityInstance {
     index: number;
     position: Position;
     playable: boolean;
-    hasActiveSkills?: SkillInstance[];
+    activeSkills?: SkillInstance[];
   }) {
     this.instanceId = props.instanceId;
     this.entity = props.entity;
     this.index = props.index;
     this.position = props.position;
     this.playable = props.playable;
-    this.activeSkills = props.hasActiveSkills ?? [];
+    this.activeSkills = props.activeSkills ?? [];
   }
 
   get ATK() {
@@ -79,7 +79,7 @@ export class EntityInstance {
         (skill) =>
           new SkillInstance({
             skill,
-            remainingRound: skill.duration,
+            remainingTurn: skill.duration,
           })
       );
   }

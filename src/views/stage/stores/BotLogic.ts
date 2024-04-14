@@ -84,7 +84,7 @@ export const botAction = ({
             //self algorithm
             selectedSkill = new SkillInstance({
               skill: potentialEntity.entity.skills[1],
-              remainingRound: potentialEntity.entity.skills[1].duration ?? 0,
+              remainingTurn: potentialEntity.entity.skills[1].duration ?? 0,
             });
             setSelectSkill(selectedSkill);
             success = usingSkillToSelf({
@@ -123,7 +123,7 @@ export const botAction = ({
                 //default attack by first skill
                 selectedSkill = new SkillInstance({
                   skill: targetEntity.entity.skills[0],
-                  remainingRound: 0,
+                  remainingTurn: 0,
                 });
                 setSelectSkill(selectedSkill);
                 success = usingSkillToTargetEntity({

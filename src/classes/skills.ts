@@ -17,11 +17,11 @@ export type Skill = {
 
 export class SkillInstance {
   skill: Skill;
-  remainingRound: number;
+  remainingTurn: number;
 
-  constructor(props: { skill: Skill; remainingRound: number }) {
+  constructor(props: { skill: Skill; remainingTurn: number }) {
     this.skill = props.skill;
-    this.remainingRound = props.remainingRound;
+    this.remainingTurn = props.remainingTurn;
   }
 
   get name(): string {
@@ -97,9 +97,9 @@ export class SkillInstance {
       case "defend":
         if (sourceEntity.entity.defend && this.skill.emitValue) {
           sourceEntity.entity.defend += this.skill.emitValue;
-        }
-        if (sourceEntity.hasDurationSkills()) {
-          sourceEntity.activeSkills = sourceEntity.listDurationSkill;
+          if (sourceEntity.hasDurationSkills()) {
+            sourceEntity.activeSkills = sourceEntity.listDurationSkill;
+          }
         }
         return sourceEntity;
       case "restore":

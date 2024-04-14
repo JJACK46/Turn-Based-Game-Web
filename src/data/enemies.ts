@@ -197,7 +197,7 @@ export const monsters: Entity[] = [
         isAttackSkill: false,
         emitValueMultiply: -1,
         emitValue: 10,
-        duration: 1,
+        duration: 2,
       },
       {
         name: "Self Repair System",
