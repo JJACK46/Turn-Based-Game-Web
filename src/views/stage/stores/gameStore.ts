@@ -289,51 +289,49 @@ export const useGameStore = create<GameLogicType>((set) => ({
         targetEntity,
       } = prop;
 
-      if (skillInstance && skillInstance && targetEntity) {
-        if (sourceEntity.hasEnoughManaFor({ skill: skillInstance.skill })) {
-          if (skillInstance.skill.isAttackSkill) {
-            const { resultDamage, blockedDamage, damageMade, effectedTarget } =
-              skillInstance.effectToTarget({
-                sourceEntity,
-                targetEntity,
-              });
+      if (sourceEntity.hasEnoughManaFor({ skill: skillInstance.skill })) {
+        if (skillInstance.skill.isAttackSkill) {
+          const { resultDamage, blockedDamage, damageMade, effectedTarget } =
+            skillInstance.effectToTarget({
+              sourceEntity,
+              targetEntity,
+            });
 
-            if (effectedTarget.entity.health <= 0) {
-              effectedTarget.entity.status = StatusEnum.INACTIVE;
-            }
+          // if (effectedTarget.isAlive()) {
+          //   effectedTarget.entity.status = StatusEnum.INACTIVE;
+          // }
 
-            targetEntities[effectedTarget.index] = effectedTarget;
+          targetEntities[effectedTarget.index] = effectedTarget;
 
-            sourceEntities[sourceEntity.index] =
-              sourceEntity.updateManaFromUsed({
-                skill: skillInstance.skill,
-              });
+          sourceEntities[sourceEntity.index] = sourceEntity.updateManaFromUsed({
+            skill: skillInstance.skill,
+          });
 
-            set((state) => ({
-              ...state,
-              infoDamage: {
-                totalHitDamage: state.infoDamage.totalHitDamage + resultDamage,
-                lastHitDamage: damageMade,
-                blockedDamage: blockedDamage,
-              },
-              infoField: {
-                ...state.infoField,
-                playersFrontRow: isEnemyAction
-                  ? [...targetEntities]
-                  : [...sourceEntities],
-                enemiesFrontRow: isEnemyAction
-                  ? [...sourceEntities]
-                  : [...targetEntities],
-                targetEntityData: effectedTarget,
-              },
-            }));
-            return true; // Skill was used successfully
-          }
-        } else {
-          alert("not enough MP/EP");
-          return false;
+          set((state) => ({
+            ...state,
+            infoDamage: {
+              totalHitDamage: state.infoDamage.totalHitDamage + resultDamage,
+              lastHitDamage: damageMade,
+              blockedDamage: blockedDamage,
+            },
+            infoField: {
+              ...state.infoField,
+              playersFrontRow: isEnemyAction
+                ? [...targetEntities]
+                : [...sourceEntities],
+              enemiesFrontRow: isEnemyAction
+                ? [...sourceEntities]
+                : [...targetEntities],
+              targetEntityData: effectedTarget,
+            },
+          }));
+          return true; // Skill was used successfully
         }
+      } else {
+        alert("not enough MP/EP");
+        return false;
       }
+
       alert("condition use skill invalid");
       return false; // Skill was not used
     },

@@ -116,10 +116,10 @@ const Card = (props: { instance: EntityInstance }) => {
               }
             } else {
               //when click on enemy card
-              if (currentEntity) {
+              if (currentEntity && !isEntityPerforming) {
                 //select player card already
-                setEntityPerforming(true);
                 setTargetEntity(instance);
+                setEntityPerforming(true);
                 handleSkill();
               } else {
                 //not select player card yet
@@ -135,17 +135,15 @@ const Card = (props: { instance: EntityInstance }) => {
           }
         }}
       >
-        <p className="text-xs p-1">
-          {instance.activeSkills.map((s) => s.name)}
-        </p>
         <div
           rel="card-wrapper"
           className={`p-2 rounded-lg transition ${
-            instance.hasOverDefend() ? "bg-gray-600" : ""
-          }`}
+            instance.hasOverDefend() ? "bg-gray-500" : ""
+          }
+          ${isHoveredCard ? "scale-110" : ""}`}
         >
           <div
-            className={`w-24 h-fit bg-slate-800 rounded-md items-center justify-around hover:scale-110 hover:w-28 border transition 
+            className={`w-24 h-fit bg-slate-800 rounded-md items-center justify-around hover:w-32 border transition 
             ${wasAction() ? "border-transparent" : ""}
             `}
             style={{
@@ -153,6 +151,15 @@ const Card = (props: { instance: EntityInstance }) => {
               boxShadow: handleColorActionCard(),
             }}
           >
+            {isHoveredCard && (
+              <div className="flex flex-col justify-center items-center mt-2">
+                {instance.activeSkills.map((s) => (
+                  <p className="text-xs font-medium bg-cyan-500 w-fit rounded-full px-1">
+                    {s.name}
+                  </p>
+                ))}
+              </div>
+            )}
             <p
               className={`border-white border-b w-full p-1 ${
                 instance.entity.name.length > 10 ? "text-xs" : ""

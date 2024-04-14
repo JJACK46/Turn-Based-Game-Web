@@ -71,17 +71,11 @@ export function updateRemainingActiveSkill(
       return updatedSkillInstance;
     });
 
-    //
-
-    const activeSkills = updatedActiveSkills.filter(
-      (skillInstance) => skillInstance.remainingTurn > 0
-    );
-
     const updatedEntity = new EntityInstance({
       ...entity,
-      activeSkills,
+      activeSkills: updatedActiveSkills,
     });
 
-    return updatedEntity;
+    return updatedEntity.updateStat();
   });
 }

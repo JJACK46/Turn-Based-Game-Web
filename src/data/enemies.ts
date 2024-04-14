@@ -1,3 +1,4 @@
+import { BASE_ROUND } from "@/utils/constants";
 import { Entity } from "../classes/entity";
 import { StatusEnum } from "./status";
 
@@ -197,7 +198,7 @@ export const monsters: Entity[] = [
         isAttackSkill: false,
         emitValueMultiply: -1,
         emitValue: 10,
-        duration: 2,
+        duration: 1 * BASE_ROUND,
       },
       {
         name: "Self Repair System",

@@ -3,6 +3,7 @@ import { Armor } from "./armor";
 import { PowerType } from "./powerType";
 import { Weapon } from "./weapon";
 import { StatusEnum } from "../data/status";
+import { TraitEnum } from "@/data/trait";
 
 export type Entity = {
   id: number;
@@ -10,7 +11,9 @@ export type Entity = {
   imageUrl: string;
   attackDamageType: PowerType;
   level: number;
-  skills: Skill[];
+  // skills: Skill[];
+  normalHitSkill: Skill;
+  uniqueSkill: Skill;
   attackPower: number;
   healingPower?: number;
   defend?: number;
@@ -22,14 +25,14 @@ export type Entity = {
   maxDefendPower?: number;
   maxAttackPower: number;
   equipment?: {
-    weapon: Weapon;
-    armor: Armor;
+    weapon?: Weapon;
+    armor?: Armor;
   };
   playable?: true;
   status: StatusEnum;
   canTakeDamage: boolean;
   speed: number;
-  trait: string;
+  trait: TraitEnum;
   restoreManaOrEnergy: number;
   restoreHealth?: number;
   evasion?: number;
@@ -163,5 +166,22 @@ export class EntityInstance {
       default:
         return 0;
     }
+  }
+
+  updateStat(): EntityInstance {
+    for (let i = 0; i < this.activeSkills.length; i++) {
+      const curr = this.activeSkills[i];
+      if (curr.remainingTurn === 0) {
+        switch (curr.type) {
+          case "defend":
+            this.entity.defend! -= Math.max(0, curr.skill.emitValue ?? 0);
+            break;
+          default:
+            break;
+        }
+        this.activeSkills.splice(i, 1);
+      }
+    }
+    return this;
   }
 }

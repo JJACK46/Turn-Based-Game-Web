@@ -44,6 +44,10 @@ export class SkillInstance {
     return this.skill.type === "defend";
   }
 
+  get type() {
+    return this.skill.type;
+  }
+
   effectToTarget(props: {
     sourceEntity: EntityInstance;
     targetEntity: EntityInstance;

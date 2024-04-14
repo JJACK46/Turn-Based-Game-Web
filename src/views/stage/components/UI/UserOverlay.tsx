@@ -70,7 +70,7 @@ export default function UserOverlay() {
         </div>
         <div className="flex justify-center items-center size-full ">
           <div className="rounded-xl p-2 w-full text-center">
-            <p className="uppercase text-5xl">{turn}'s turn</p>
+            <p className="uppercase text-5xl ">{turn}'s turn</p>
           </div>
         </div>
         <div className="flex flex-col w-fit justify-center uppercase justify-self-end p-5 rounded-xl border-red-500 border-2">
@@ -213,7 +213,7 @@ export default function UserOverlay() {
         </>
       )}
 
-      {uiLogic.isInfoOverlay && <CardInfo />}
+      {uiLogic.isInfoOverlay && !uiLogic.isEntityPerforming && <CardInfo />}
 
       {uiLogic.isTurnWarning && <TurnWarning />}
 
