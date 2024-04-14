@@ -1,4 +1,4 @@
-import { Skill } from "./skills";
+import { Skill, SkillInstance } from "./skills";
 import { Armor } from "./armor";
 import { PowerType } from "./powerType";
 import { Weapon } from "./weapon";
@@ -12,8 +12,8 @@ export type Entity = {
   level: number;
   skills: Skill[];
   attackPower: number;
-  defendPower?: number;
   healingPower?: number;
+  defend?: number;
   health: number;
   mana: number;
   energy: number;
@@ -33,20 +33,67 @@ export type Entity = {
   restoreManaOrEnergy: number;
   restoreHealth?: number;
   evasion?: number;
-  activeSkills?: Skill[];
 };
 
-export type Site = "front" | "back";
+export type Position = "front" | "back";
 
 export class EntityInstance {
+  instanceId: string;
   entity: Entity;
-  position: number;
-  site: Site;
+  index: number;
+  position: Position;
+  playable: boolean;
+  activeSkills: SkillInstance[];
 
-  constructor(props: { entity: Entity; position: number; site: Site }) {
+  constructor(props: {
+    instanceId: string;
+    entity: Entity;
+    index: number;
+    position: Position;
+    playable: boolean;
+    hasActiveSkills?: SkillInstance[];
+  }) {
+    this.instanceId = props.instanceId;
     this.entity = props.entity;
+    this.index = props.index;
     this.position = props.position;
-    this.site = props.site;
+    this.playable = props.playable;
+    this.activeSkills = props.hasActiveSkills ?? [];
+  }
+
+  get ATK() {
+    return this.entity.attackPower;
+  }
+
+  get HP() {
+    return this.entity.health;
+  }
+
+  get listDurationSkill(): SkillInstance[] {
+    return this.entity.skills
+      .filter(
+        (skill): skill is Skill & { duration: number } =>
+          skill.duration !== undefined
+      )
+      .map(
+        (skill) =>
+          new SkillInstance({
+            skill,
+            remainingRound: skill.duration,
+          })
+      );
+  }
+
+  hasDurationSkills() {
+    return this.entity.skills.some((skill) => skill.duration);
+  }
+
+  hasActiveSkill() {
+    return this.activeSkills.length > 0;
+  }
+
+  isAlive() {
+    return this.entity.health > 0;
   }
 
   isUseEnergyPower() {
@@ -71,13 +118,13 @@ export class EntityInstance {
     return false;
   }
 
-  updateManaFromUsed(props: { skill: Skill }) {
+  updateManaFromUsed(props: { skill: Skill }): EntityInstance {
     const { skill } = props;
-    if (this.entity.mana > 0) {
-      this.entity.mana -= skill.requiredMana;
+    if (this.entity.mana >= skill.requiredMana) {
+      this.entity.mana -= Math.max(0, skill.requiredMana);
     }
-    if (this.entity.energy > 0 && skill.requiredEnergy) {
-      this.entity.energy -= skill.requiredEnergy;
+    if (this.entity.energy >= (skill.requiredEnergy ?? 0)) {
+      this.entity.energy -= Math.max(0, skill.requiredEnergy ?? 0);
     }
     return this;
   }
@@ -100,13 +147,13 @@ export class EntityInstance {
   }
 
   hasOverDefend(): boolean {
-    const def = this.entity.defendPower ?? 0;
+    const def = this.entity.defend ?? 0;
     const maxDef = this.entity.maxDefendPower ?? 0;
     return def > maxDef;
   }
 
   getDifferentValueFromInitial(props: { stat: "atk" | "def" }): number {
-    const def = this.entity.defendPower ?? 0;
+    const def = this.entity.defend ?? 0;
     const maxDef = this.entity.maxDefendPower ?? 0;
     switch (props.stat) {
       case "atk":

@@ -22,11 +22,7 @@ export default function UserOverlay() {
     infoMarkedEntities,
     methodsGame: { startGame },
     infoDamage,
-    infoIndicator: {
-      currentEntity: currentEntityData,
-      targetEntity: targetEntityData,
-      selectedSkill,
-    },
+    infoIndicator: { currentEntity, targetEntity, selectedSkill },
     methodsIndicator: { resetCurrentEntity, setSelectSkill, resetSelectSkill },
   } = useGameStore();
   const uiLogic = useUIStore();
@@ -72,16 +68,16 @@ export default function UserOverlay() {
         <div className="flex flex-col w-fit justify-center uppercase justify-self-end p-5 rounded-xl border-red-500 border-2">
           <p>turn: {turn}</p>
           <hr />
-          <p className=" text-sm">current: {currentEntityData?.entity.name}</p>
-          <p className=" text-sm">target: {targetEntityData?.entity.name}</p>
+          <p className=" text-sm">current: {currentEntity?.entity.name}</p>
+          <p className=" text-sm">target: {targetEntity?.entity.name}</p>
         </div>
       </span>
       <span className="absolute bottom-0 left-14 w-36 p-2 border-white border h-52 rounded-lg">
         <p className="uppercase">taken actions: </p>
         <hr />
         <ul className="flex flex-col items-start">
-          {infoMarkedEntities.takenAction.map((entity, index) => (
-            <li key={index}>{entity.name}</li>
+          {infoMarkedEntities.takenAction.map((e, index) => (
+            <li key={index}>{e.entity.name}</li>
           ))}
         </ul>
       </span>
@@ -99,29 +95,29 @@ export default function UserOverlay() {
               <div className="flex gap-4 items-center">
                 <div className="flex flex-row h-full bg-slate-500 p-2 rounded-3xl">
                   <img
-                    src={`${BASE_URL_IMAGE_ENTITIES}/${currentEntityData?.entity.imageUrl}`}
+                    src={`${BASE_URL_IMAGE_ENTITIES}/${currentEntity?.entity.imageUrl}`}
                     alt="no data"
                     className="h-full object-cover rounded-3xl"
                   />
                   <div className="flex flex-col h-full w-32 justify-center items-start p-5">
                     <p className="font-mono text-xl">
-                      {currentEntityData?.entity.name}
+                      {currentEntity?.entity.name}
                     </p>
                     <p className="font-mono text-md">
-                      lvl.{currentEntityData?.entity.level}
+                      lvl.{currentEntity?.entity.level}
                     </p>
                     <p className="font-mono text-md">
-                      ATK : {currentEntityData?.entity.attackPower}
+                      ATK : {currentEntity?.entity.attackPower}
                     </p>
                     <p className="font-mono text-md">
-                      DEF : {currentEntityData?.entity.defendPower ?? 0}
+                      DEF : {currentEntity?.entity.defend ?? 0}
                     </p>
                     <p className="font-mono text-md">
-                      HEAL : {currentEntityData?.entity.healingPower ?? 0}
+                      HEAL : {currentEntity?.entity.healingPower ?? 0}
                     </p>
                   </div>
                 </div>
-                {currentEntityData?.entity.skills.map((skill, index) => {
+                {currentEntity?.entity.skills.map((skill, index) => {
                   const skillInstance = new SkillInstance({
                     skill,
                     remainingRound: 0,
@@ -129,10 +125,17 @@ export default function UserOverlay() {
                   return (
                     <button
                       key={index}
-                      className="border-red-500 border-2 p-2 rounded-2xl w-40 h-full bg-black flex flex-col items-center justify-end"
+                      className={`border-red-500 border-2 p-2 rounded-2xl w-40 h-full bg-black flex flex-col items-center justify-end 
+                      ${
+                        currentEntity.hasEnoughManaFor({ skill: skill })
+                          ? ""
+                          : "opacity-20"
+                      }`}
                       onClick={() => {
-                        setSelectSkill(skillInstance);
-                        uiLogic.setSkillOverlay(false);
+                        if (currentEntity.hasEnoughManaFor({ skill: skill })) {
+                          setSelectSkill(skillInstance);
+                          uiLogic.setSkillOverlay(false);
+                        }
                       }}
                     >
                       <div>{skill.name}</div>
@@ -149,7 +152,7 @@ export default function UserOverlay() {
                             </li>
                           )}
                           <li>
-                            {`DMG: ${currentEntityData.getDamageMadeBy(
+                            {`DMG: ${currentEntity.getDamageMadeBy(
                               skillInstance
                             )}`}
                           </li>
@@ -173,7 +176,7 @@ export default function UserOverlay() {
           <p className="font-mono text-xs">Total Damage: {totalHitDamage}</p>
         </span>
       )}
-      {selectedSkill && targetEntityData && (
+      {selectedSkill && targetEntity && (
         <span className="absolute top-10 right-10 p-5 border-red-600 border-2 rounded-2xl z-10">
           <div className="flex flex-col size-full justify-center items-center  ">
             <p className="font-mono font-bold text-2xl text-red-600 uppercase">

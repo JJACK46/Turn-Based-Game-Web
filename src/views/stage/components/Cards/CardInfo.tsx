@@ -48,7 +48,7 @@ function CardInfo() {
                 </p>
                 <p className="font-mono text-lg w-1/2">Defence</p>
                 <p className="font-mono text-lg w-1/2">
-                  {currentEntityData?.entity.defendPower ?? 0}
+                  {currentEntityData?.entity.defend ?? 0}
                 </p>
                 <p className="font-mono text-lg w-1/2">Speed</p>
                 <p className="font-mono text-lg w-1/2">

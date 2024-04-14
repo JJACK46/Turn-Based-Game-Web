@@ -1,7 +1,6 @@
 import Card from "../Cards/Card";
 import CardPlaceholder from "../Cards/CardPlaceholder";
 import { useGameStore } from "../../stores/GameStore";
-import { EntityInstance } from "@/classes/entity";
 
 export default function PlayersSection() {
   const {
@@ -17,19 +16,7 @@ export default function PlayersSection() {
         <span rel="front" className={`flex justify-around`}>
           {playersFrontRow.length > 0 ? (
             playersFrontRow.map((player, index) => {
-              const key = `${player.name}-${player.id}-${index}`;
-              return (
-                <Card
-                  key={key}
-                  instance={
-                    new EntityInstance({
-                      entity: player,
-                      position: index,
-                      site: "front",
-                    })
-                  }
-                ></Card>
-              );
+              return <Card key={index} instance={player}></Card>;
             })
           ) : (
             <CardPlaceholder></CardPlaceholder>
@@ -40,19 +27,7 @@ export default function PlayersSection() {
         <span rel="back" className={`flex justify-around`}>
           {playersBackRow.length > 0 ? (
             playersBackRow.map((player, index) => {
-              const key = `${player.name}-${player.id}-${index}`;
-              return (
-                <Card
-                  key={key}
-                  instance={
-                    new EntityInstance({
-                      entity: player,
-                      position: index,
-                      site: "back",
-                    })
-                  }
-                ></Card>
-              );
+              return <Card key={index} instance={player}></Card>;
             })
           ) : (
             <CardPlaceholder></CardPlaceholder>

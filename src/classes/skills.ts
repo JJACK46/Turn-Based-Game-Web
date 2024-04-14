@@ -33,6 +33,17 @@ export class SkillInstance {
     return ep > -1;
   }
 
+  get isAttackSkill(): boolean {
+    return (
+      this.skill.isAttackSkill &&
+      (this.skill.type === "physical" || this.skill.type === "magic")
+    );
+  }
+
+  get isDefSkill(): boolean {
+    return this.skill.type === "defend";
+  }
+
   effectToTarget(props: {
     sourceEntity: EntityInstance;
     targetEntity: EntityInstance;
@@ -44,7 +55,7 @@ export class SkillInstance {
     resultDamage: number;
   } {
     const { sourceEntity: source, targetEntity: target } = props;
-    const targetDef = target.entity.defendPower ?? 0;
+    const targetDef = target.entity.defend ?? 0;
     const blockedDamage = 0.25 * targetDef;
     const damageMade = Math.round(
       source.entity.attackPower * this.skill.emitValueMultiply
@@ -63,8 +74,8 @@ export class SkillInstance {
     //not attack skill
     switch (this.skill.type) {
       case "defend":
-        if (source.entity.defendPower && this.skill.emitValue) {
-          source.entity.defendPower += this.skill.emitValue;
+        if (source.entity.defend && this.skill.emitValue) {
+          source.entity.defend += this.skill.emitValue;
         }
         break;
       default:
@@ -79,13 +90,16 @@ export class SkillInstance {
     };
   }
 
-  effectToSelf(sourceEntity: EntityInstance) {
+  effectToSelf(sourceEntity: EntityInstance): EntityInstance {
     if (this.skill.isAttackSkill)
       throw new Error("can not use attack skill to self");
     switch (this.skill.type) {
       case "defend":
-        if (sourceEntity.entity.defendPower && this.skill.emitValue) {
-          sourceEntity.entity.defendPower += this.skill.emitValue;
+        if (sourceEntity.entity.defend && this.skill.emitValue) {
+          sourceEntity.entity.defend += this.skill.emitValue;
+        }
+        if (sourceEntity.hasDurationSkills()) {
+          sourceEntity.activeSkills = sourceEntity.listDurationSkill;
         }
         return sourceEntity;
       case "restore":

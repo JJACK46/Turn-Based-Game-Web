@@ -5,24 +5,16 @@ import { convertNumberToPercentage, getColorByHp } from "../../helpers/styles";
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
 import { useGameStore } from "../../stores/GameStore";
 import { useUIStore } from "../../stores/UI_Store";
-// import {
-//   getDifferentDefendValue,
-//   isEntityInEntities,
-//   isEntityMainEP,
-//   isEntityOverDefend,
-// } from "../helpers/entity";
 import { StatusEnum } from "@/data/status";
 import { isEntityInEntities } from "../../helpers/entity";
+import atkSymbol from "@/assets/svgs/sword-symbol.svg";
+import defSymbol from "@/assets/svgs/shield-symbol.svg";
 
 const Card = (props: { instance: EntityInstance }) => {
   const { instance } = props;
   const {
     infoMarkedEntities,
-    infoIndicator: {
-      currentEntity: currentEntityData,
-      targetEntity: targetEntityData,
-      selectedSkill,
-    },
+    infoIndicator: { currentEntity, targetEntity, selectedSkill },
     methodsIndicator: {
       setCurrentEntity,
       setTargetEntity,
@@ -36,8 +28,14 @@ const Card = (props: { instance: EntityInstance }) => {
     methodsGame: { decreaseAction },
     methodsMark: { markEntityTakenAction },
   } = useGameStore();
-  const { setActionWarning, setTurnWarning, setSkillOverlay, setInfoOverlay } =
-    useUIStore();
+  const {
+    setActionWarning,
+    setTurnWarning,
+    setSkillOverlay,
+    setInfoOverlay,
+    setEntityPerforming,
+    isEntityPerforming,
+  } = useUIStore();
 
   const strCurrentHP = convertNumberToPercentage(
     instance.entity.health,
@@ -50,25 +48,25 @@ const Card = (props: { instance: EntityInstance }) => {
 
   const [isHoveredCard, setIsHoveredCard] = useState(false);
   const wasAction = () => {
-    return isEntityInEntities(instance.entity, infoMarkedEntities.takenAction);
+    return isEntityInEntities(instance, infoMarkedEntities.takenAction);
   };
 
   function handleColorActionCard() {
-    if (currentEntityData?.entity === instance.entity) {
+    if (currentEntity?.entity === instance.entity) {
       return "0px 0px 40px 0px #0ff";
     }
-    if (targetEntityData?.entity === instance.entity) {
+    if (targetEntity?.entity === instance.entity) {
       return "0px 0px 40px 0px red";
     }
     return "";
   }
 
   function handleSkill() {
-    if (selectedSkill && currentEntityData) {
+    if (selectedSkill && currentEntity) {
       const success = usingSkillToTargetEntity({
         skillInstance: selectedSkill,
         targetEntity: instance,
-        sourceEntity: currentEntityData,
+        sourceEntity: currentEntity,
         targetEntities: enemiesFrontRow,
         sourceEntities: playersFrontRow,
         isEnemyAction: false,
@@ -77,9 +75,10 @@ const Card = (props: { instance: EntityInstance }) => {
         resetSelectSkill();
         resetCurrentEntity();
         resetTargetEntity();
+        setEntityPerforming(false);
       }, 700);
       if (success) {
-        markEntityTakenAction(currentEntityData.entity);
+        markEntityTakenAction(currentEntity);
         decreaseAction(1);
       }
     }
@@ -97,8 +96,18 @@ const Card = (props: { instance: EntityInstance }) => {
             if (instance.entity.playable) {
               if (turn === "player") {
                 if (!wasAction()) {
-                  setCurrentEntity(instance);
-                  setSkillOverlay(true);
+                  if (!isEntityPerforming) {
+                    if (targetEntity) {
+                      setEntityPerforming(true);
+                    }
+                    setCurrentEntity(instance);
+                    setSkillOverlay(true);
+                  } else {
+                    alert("wait entity performing!");
+                    setTimeout(() => {
+                      setEntityPerforming(false);
+                    }, 800);
+                  }
                 } else {
                   setActionWarning(true);
                 }
@@ -107,8 +116,9 @@ const Card = (props: { instance: EntityInstance }) => {
               }
             } else {
               //when click on enemy card
-              if (currentEntityData) {
+              if (currentEntity) {
                 //select player card already
+                setEntityPerforming(true);
                 setTargetEntity(instance);
                 handleSkill();
               } else {
@@ -125,6 +135,9 @@ const Card = (props: { instance: EntityInstance }) => {
           }
         }}
       >
+        <p className="text-xs p-1">
+          {instance.activeSkills.map((s) => s.name)}
+        </p>
         <div
           rel="card-wrapper"
           className={`p-2 rounded-lg transition ${
@@ -205,7 +218,7 @@ const Card = (props: { instance: EntityInstance }) => {
                       }`}
                     >
                       {`DEF`}:{" "}
-                      {`${instance.entity.defendPower ?? ""} ${
+                      {`${instance.entity.defend ?? ""} ${
                         instance.getDifferentValueFromInitial({ stat: "def" }) >
                         0
                           ? `(+${instance.getDifferentValueFromInitial({
@@ -220,7 +233,25 @@ const Card = (props: { instance: EntityInstance }) => {
             </div>
           </div>
         </div>
-        <p className="text-xs">{instance.position}</p>
+        <p className="text-xs">{instance.index}</p>
+        <div className="flex gap-2 justify-around">
+          {selectedSkill?.isAttackSkill && currentEntity === instance && (
+            <div className="flex flex-col justify-center items-center gap-1">
+              <div className="bg-white rounded-full p-1 ">
+                <img src={atkSymbol} width={18} alt="attacking" />
+              </div>
+              <p className="text-xs">{selectedSkill.name}</p>
+            </div>
+          )}
+          {selectedSkill?.isDefSkill && currentEntity === instance && (
+            <div className="flex flex-col justify-center items-center gap-1">
+              <div className="bg-white rounded-full p-1">
+                <img src={defSymbol} width={18} alt="defending" />
+              </div>
+              <p className="text-xs">{selectedSkill.name}</p>
+            </div>
+          )}
+        </div>
       </button>
     </>
   );

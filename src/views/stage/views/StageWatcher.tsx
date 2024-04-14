@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useGameStore } from "../stores/GameStore";
 import { botAction } from "../stores/BotLogic";
 import { restoreManaForEntities } from "../helpers/entity";
+import { updateRemainingActiveSkill } from "../helpers/stage";
 
 export function StageWatcher({ children }: { children: React.ReactNode }) {
   const {
@@ -33,27 +34,57 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
   } = useGameStore();
   // const uiLogic = useUIStore();
 
+  // const allEntities = playersFrontRow.concat(
+  //   playersBackRow ?? [],
+  //   enemiesFrontRow,
+  //   enemiesBackRow ?? []
+  // );
+
   function restoreManaEveryEntity() {
     setEntities({
       entities: restoreManaForEntities(playersFrontRow),
       isPlayer: true,
-      site: "front",
+      position: "front",
     });
     setEntities({
       entities: restoreManaForEntities(enemiesFrontRow),
       isPlayer: false,
-      site: "front",
+      position: "front",
     });
     if (playersBackRow && enemiesBackRow) {
       setEntities({
         entities: restoreManaForEntities(playersBackRow),
         isPlayer: true,
-        site: "back",
+        position: "back",
       });
       setEntities({
         entities: restoreManaForEntities(enemiesBackRow),
         isPlayer: false,
-        site: "back",
+        position: "back",
+      });
+    }
+  }
+  function updateDurationOfActiveSkill() {
+    setEntities({
+      entities: updateRemainingActiveSkill(playersFrontRow),
+      isPlayer: true,
+      position: "front",
+    });
+    setEntities({
+      entities: updateRemainingActiveSkill(enemiesFrontRow),
+      isPlayer: false,
+      position: "front",
+    });
+    if (playersBackRow && enemiesBackRow) {
+      setEntities({
+        entities: updateRemainingActiveSkill(playersBackRow),
+        isPlayer: true,
+        position: "back",
+      });
+      setEntities({
+        entities: updateRemainingActiveSkill(enemiesBackRow),
+        isPlayer: false,
+        position: "back",
       });
     }
   }
@@ -84,6 +115,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
     if (cycleRound === 0) {
       increaseRound();
       restoreManaEveryEntity();
+      updateDurationOfActiveSkill();
       resetCycleRound();
     }
   }, [cycleRound]);

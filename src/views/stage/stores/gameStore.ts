@@ -1,9 +1,10 @@
-import { Entity, EntityInstance, Site } from "@/classes/entity";
+import { Entity, EntityInstance, Position } from "@/classes/entity";
 import { SkillInstance } from "@/classes/skills";
 import { TurnType } from "@/classes/turn";
 import { create } from "zustand";
 import { getAliveEntities, getSpeedOfTeam } from "../helpers/stage";
 import { StatusEnum } from "@/data/status";
+import { createUniqueID } from "@/utils/uniqueId";
 
 interface GameLogicType {
   infoGame: {
@@ -25,7 +26,7 @@ interface GameLogicType {
     selectedSkill: SkillInstance | null;
   };
   infoMarkedEntities: {
-    takenAction: Entity[];
+    takenAction: EntityInstance[];
     downtimeSkill: EntityInstance[];
   };
   infoDamage: {
@@ -34,7 +35,7 @@ interface GameLogicType {
     blockedDamage: number;
   };
   methodsMark: {
-    markEntityTakenAction: (e: Entity) => void;
+    markEntityTakenAction: (e: EntityInstance) => void;
     resetEntitiesTakenAction: () => void;
   };
   methodsGame: {
@@ -54,30 +55,30 @@ interface GameLogicType {
     updateCycleRound: () => void;
     resetCycleRound: () => void;
     calculateRemainEntities: (props: {
-      players: Entity[];
-      enemies: Entity[];
+      players: EntityInstance[];
+      enemies: EntityInstance[];
     }) => void;
   };
   infoField: {
-    enemiesFrontRow: Entity[];
-    enemiesBackRow?: Entity[];
-    playersFrontRow: Entity[];
-    playersBackRow?: Entity[];
+    enemiesFrontRow: EntityInstance[];
+    enemiesBackRow?: EntityInstance[];
+    playersFrontRow: EntityInstance[];
+    playersBackRow?: EntityInstance[];
   };
   methodsField: {
     setEntities: (props: {
-      entities: Entity[];
+      entities: EntityInstance[];
       isPlayer: boolean;
-      site: Site;
+      position: Position;
     }) => void;
   };
   methodsIndicator: {
     setTargetStatus: (props: {
       targetEntity: EntityInstance;
-      targetEntities: Entity[];
+      targetEntities: EntityInstance[];
       isPlayer: boolean;
     }) => void;
-    setSelectSkill: (s: SkillInstance) => void;
+    setSelectSkill: (s: SkillInstance | null) => void;
     resetSelectSkill: () => void;
     setCurrentEntity: (e: EntityInstance) => void;
     resetCurrentEntity: () => void;
@@ -87,14 +88,14 @@ interface GameLogicType {
       skillInstance: SkillInstance;
       sourceEntity: EntityInstance;
       targetEntity: EntityInstance;
-      sourceEntities: Entity[];
-      targetEntities: Entity[];
+      sourceEntities: EntityInstance[];
+      targetEntities: EntityInstance[];
       isEnemyAction: boolean;
     }) => boolean;
     usingSkillToSelf: (prop: {
       skillInstance: SkillInstance;
       sourceEntity: EntityInstance;
-      sourceEntities: Entity[];
+      sourceEntities: EntityInstance[];
       isEnemyAction: boolean;
     }) => boolean;
   };
@@ -146,10 +147,10 @@ export const useGameStore = create<GameLogicType>((set) => ({
       })),
   },
   methodsField: {
-    setEntities: ({ entities, isPlayer, site }) => {
+    setEntities: ({ entities, isPlayer, position }) => {
       set((state) => {
         if (isPlayer) {
-          if (site === "front") {
+          if (position === "front") {
             return {
               ...state,
               infoField: {
@@ -166,7 +167,7 @@ export const useGameStore = create<GameLogicType>((set) => ({
             },
           };
         } else {
-          if (site === "front") {
+          if (position === "front") {
             return {
               ...state,
               infoField: {
@@ -190,12 +191,8 @@ export const useGameStore = create<GameLogicType>((set) => ({
   },
   methodsIndicator: {
     setTargetStatus: (props) => {
-      const {
-        targetEntity: targetEntityDetail,
-        targetEntities,
-        isPlayer,
-      } = props;
-      const site = targetEntityDetail.site;
+      const { targetEntity, targetEntities, isPlayer } = props;
+      const site = targetEntity.position;
       set((state) => {
         if (isPlayer) {
           if (site === "front") {
@@ -228,7 +225,7 @@ export const useGameStore = create<GameLogicType>((set) => ({
         }
       });
     },
-    setSelectSkill: (skill: SkillInstance) => {
+    setSelectSkill: (skill: SkillInstance | null) => {
       set((prevState) => ({
         ...prevState,
         infoIndicator: {
@@ -295,26 +292,22 @@ export const useGameStore = create<GameLogicType>((set) => ({
       if (skillInstance && skillInstance && targetEntity) {
         if (sourceEntity.hasEnoughManaFor({ skill: skillInstance.skill })) {
           if (skillInstance.skill.isAttackSkill) {
-            // const newTargetEntityData = { ...targetEntity };
             const { resultDamage, blockedDamage, damageMade, effectedTarget } =
               skillInstance.effectToTarget({
                 sourceEntity,
                 targetEntity,
               });
-            // newTargetEntityData.entity.health -= resultDamage;
 
             if (effectedTarget.entity.health <= 0) {
               effectedTarget.entity.status = StatusEnum.INACTIVE;
             }
 
-            const newTargetFrontRow = [...targetEntities];
-            newTargetFrontRow[targetEntity.position] = effectedTarget.entity;
+            targetEntities[effectedTarget.index] = effectedTarget;
 
-            const newSourceFrontRow = [...sourceEntities];
-            newSourceFrontRow[sourceEntity.position] =
+            sourceEntities[sourceEntity.index] =
               sourceEntity.updateManaFromUsed({
                 skill: skillInstance.skill,
-              }).entity;
+              });
 
             set((state) => ({
               ...state,
@@ -326,11 +319,11 @@ export const useGameStore = create<GameLogicType>((set) => ({
               infoField: {
                 ...state.infoField,
                 playersFrontRow: isEnemyAction
-                  ? [...newTargetFrontRow]
-                  : [...newSourceFrontRow],
+                  ? [...targetEntities]
+                  : [...sourceEntities],
                 enemiesFrontRow: isEnemyAction
-                  ? [...newSourceFrontRow]
-                  : [...newTargetFrontRow],
+                  ? [...sourceEntities]
+                  : [...targetEntities],
                 targetEntityData: effectedTarget,
               },
             }));
@@ -357,10 +350,10 @@ export const useGameStore = create<GameLogicType>((set) => ({
           const effectedSourceEntity = skillInstance.effectToSelf(sourceEntity);
 
           const newSourceFrontRow = [...sourceEntities];
-          newSourceFrontRow[sourceEntity.position] =
+          newSourceFrontRow[sourceEntity.index] =
             effectedSourceEntity.updateManaFromUsed({
               skill: skillInstance.skill,
-            }).entity;
+            });
 
           set((state) => ({
             ...state,
@@ -418,14 +411,59 @@ export const useGameStore = create<GameLogicType>((set) => ({
           playersFrontRow,
           playersBackRow,
         } = props;
-        const enemies = enemiesFrontRow.concat(enemiesBackRow ?? []);
-        const players = playersFrontRow.concat(playersBackRow ?? []);
+
+        const enemies = [...enemiesFrontRow, ...(enemiesBackRow ?? [])];
+        const players = [...playersFrontRow, ...(playersBackRow ?? [])];
+
+        const createEntityInstances = (
+          entities: Entity[],
+          position: Position,
+          playable: boolean
+        ) =>
+          entities.map(
+            (ent, index) =>
+              new EntityInstance({
+                instanceId: createUniqueID({
+                  name: ent.name,
+                  id: ent.id,
+                  index,
+                  position,
+                }),
+                entity: ent,
+                index: index,
+                position,
+                playable,
+              })
+          );
+
+        const enemiesFrontRowInstance = createEntityInstances(
+          enemiesFrontRow,
+          "front",
+          false
+        );
+        const enemiesBackRowInstance = createEntityInstances(
+          enemiesBackRow ?? [],
+          "back",
+          false
+        );
+        const playersFrontRowInstance = createEntityInstances(
+          playersFrontRow,
+          "front",
+          true
+        );
+        const playersBackRowInstance = createEntityInstances(
+          playersBackRow ?? [],
+          "back",
+          true
+        );
+
         const speedEnemyTeam = getSpeedOfTeam(enemies);
         const speedPlayerTeam = getSpeedOfTeam(players);
         const turn: TurnType =
           speedEnemyTeam >= speedPlayerTeam ? "enemy" : "player";
         const availableActions =
           turn === "enemy" ? enemies.length : players.length;
+
         return {
           ...state,
           infoGame: {
@@ -440,7 +478,10 @@ export const useGameStore = create<GameLogicType>((set) => ({
             turn,
           },
           infoField: {
-            ...props,
+            enemiesFrontRow: enemiesFrontRowInstance,
+            enemiesBackRow: enemiesBackRowInstance,
+            playersFrontRow: playersFrontRowInstance,
+            playersBackRow: playersBackRowInstance,
           },
         };
       }),

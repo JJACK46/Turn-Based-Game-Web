@@ -1,7 +1,6 @@
 import Card from "../Cards/Card";
 import CardPlaceholder from "../Cards/CardPlaceholder";
 import { useGameStore } from "../../stores/GameStore";
-import { EntityInstance } from "@/classes/entity";
 
 export default function EnemiesSection() {
   const {
@@ -17,19 +16,7 @@ export default function EnemiesSection() {
         <span className={`flex justify-around`}>
           {enemiesBackRow.length > 0 ? (
             enemiesBackRow.map((enemy, index) => {
-              const key = `${enemy.name}-${enemy.id}-${index}`;
-              return (
-                <Card
-                  key={key}
-                  instance={
-                    new EntityInstance({
-                      entity: enemy,
-                      position: index,
-                      site: "back",
-                    })
-                  }
-                ></Card>
-              );
+              return <Card key={index} instance={enemy}></Card>;
             })
           ) : (
             <CardPlaceholder></CardPlaceholder>
@@ -39,19 +26,7 @@ export default function EnemiesSection() {
       <span className={`flex justify-around`}>
         {enemiesFrontRow.length > 0 ? (
           enemiesFrontRow.map((enemy, index) => {
-            const key = `${enemy.name}-${enemy.id}-${index}`;
-            return (
-              <Card
-                key={key}
-                instance={
-                  new EntityInstance({
-                    entity: enemy,
-                    position: index,
-                    site: "front",
-                  })
-                }
-              ></Card>
-            );
+            return <Card key={index} instance={enemy}></Card>;
           })
         ) : (
           <CardPlaceholder></CardPlaceholder>

@@ -10,11 +10,13 @@ type UILogic = {
   isInfoOverlay: boolean;
   isTurnWarning: boolean;
   isActionWarning: boolean;
+  isEntityPerforming: boolean;
   setSkillOverlay: (input: boolean) => void;
   setStageOverlay: (input: boolean) => void;
   setInfoOverlay: (input: boolean) => void;
   setTurnWarning: (input: boolean) => void;
   setActionWarning: (input: boolean) => void;
+  setEntityPerforming: (input: boolean) => void;
 };
 
 export const useUIStore = create<UILogic>((set) => ({
@@ -23,6 +25,9 @@ export const useUIStore = create<UILogic>((set) => ({
   isInfoOverlay: false,
   isTurnWarning: false,
   isActionWarning: false,
+  isEntityPerforming: false,
+  setEntityPerforming: (input: boolean) =>
+    set(() => ({ isEntityPerforming: input })),
   setSkillOverlay: (input: boolean) => set(() => ({ isSkillOverlay: input })),
 
   setStageOverlay: (input: boolean) => set(() => ({ isStageOverlay: input })),

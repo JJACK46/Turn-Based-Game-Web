@@ -179,7 +179,7 @@ export const monsters: Entity[] = [
     attackDamageType: "physical",
     mana: -1,
     health: 20,
-    defendPower: 10,
+    defend: 10,
     healingPower: 5,
     skills: [
       {

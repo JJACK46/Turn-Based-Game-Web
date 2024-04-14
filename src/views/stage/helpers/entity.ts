@@ -1,29 +1,30 @@
-import { Entity } from "@/classes/entity";
-import _ from "lodash";
+import { Entity, EntityInstance } from "@/classes/entity";
+// import _ from "lodash";
 
-export const isEntityInEntities = (entity: Entity, entities: Entity[]) => {
-  return entities.some((ent) => _.isEqual(ent.id, entity.id));
+export const isEntityInEntities = (
+  entityInstance: EntityInstance,
+  entities: EntityInstance[]
+) => {
+  return entities.some((e) => e.instanceId === entityInstance.instanceId);
 };
 
-export const restoreManaForEntities = (entities: Entity[]) => {
+export const restoreManaForEntities = (entities: EntityInstance[]) => {
   if (entities.length === 0) return [];
 
   const updated = [...entities];
 
   for (let i = 0; i < updated.length; i++) {
-    const restoreAmount = updated[i].restoreManaOrEnergy;
-    const maxManaEnergy = updated[i].maxManaEnergyPower;
+    const entity = updated[i].entity;
+    const restoreAmount = entity.restoreManaOrEnergy;
+    const maxManaEnergy = entity.maxManaEnergyPower;
     //energyPower = -1 mean it's entity does not involve with energy
-    if (updated[i].energy > -1 && updated[i].health > 0) {
-      updated[i].energy += restoreAmount;
-      updated[i].energy = Math.max(
-        0,
-        Math.min(updated[i].energy!, maxManaEnergy)
-      );
+    if (entity.energy > -1 && entity.health > 0) {
+      entity.energy += restoreAmount;
+      entity.energy = Math.max(0, Math.min(entity.energy, maxManaEnergy));
     }
-    if (updated[i].mana > -1 && updated[i].health > 0) {
-      updated[i].mana += restoreAmount;
-      updated[i].mana = Math.max(0, Math.min(updated[i].mana, maxManaEnergy));
+    if (entity.mana > -1 && entity.health > 0) {
+      entity.mana += restoreAmount;
+      entity.mana = Math.max(0, Math.min(entity.mana, maxManaEnergy));
     }
   }
 
