@@ -50,18 +50,19 @@ export const settingEntity = (entityData: Entity) => {
     entityData.uniqueSkill = TraitSkill[entityData.trait.id];
   }
   if (entityData.equipment?.weapon) {
+    entityData.skills = [];
     switch (entityData.equipment.weapon.type.id) {
       case WeaponEnum.BOW:
-        entityData.skills.push(bowSkillSet[entityData.trait.id][0])
-        entityData.skills.push(bowSkillSet[entityData.trait.id][1])
+        entityData.skills.push(bowSkillSet[entityData.trait.id][0]);
+        entityData.skills.push(bowSkillSet[entityData.trait.id][1]);
         break;
       case WeaponEnum.SWORD:
-        entityData.skills.push(swordSkillSet[entityData.trait.id][0])
-        entityData.skills.push(swordSkillSet[entityData.trait.id][1])
+        entityData.skills.push(swordSkillSet[entityData.trait.id][0]);
+        entityData.skills.push(swordSkillSet[entityData.trait.id][1]);
         break;
       case WeaponEnum.GUN:
-        entityData.skills.push(gunSkillSet[entityData.trait.id][0])
-        entityData.skills.push(gunSkillSet[entityData.trait.id][1])
+        entityData.skills.push(gunSkillSet[entityData.trait.id][0]);
+        entityData.skills.push(gunSkillSet[entityData.trait.id][1]);
         break;
     }
   }
