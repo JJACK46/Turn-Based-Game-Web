@@ -12,8 +12,8 @@ export type Entity = {
   attackDamageType: PowerType;
   level: number;
   skills: Skill[];
-  normalHitSkill: Skill;
-  uniqueSkill: Skill;
+  normalHitSkill?: Skill;
+  uniqueSkill?: Skill;
   attackPower: number;
   healingPower?: number;
   defend?: number;
