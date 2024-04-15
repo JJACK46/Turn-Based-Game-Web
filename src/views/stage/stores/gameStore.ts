@@ -1,6 +1,6 @@
 import { Entity, EntityInstance, Position } from "@/classes/entity";
 import { SkillInstance } from "@/classes/skills";
-import { TurnType } from "@/classes/turn";
+import { TurnType } from "@/data/types/turn";
 import { create } from "zustand";
 import { getAliveEntities, getSpeedOfTeam } from "../helpers/stage";
 import { StatusEnum } from "@/data/status";

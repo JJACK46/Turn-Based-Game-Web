@@ -1,44 +1,60 @@
-// import { useAppDispatch } from "@/app/hooks";
-import { FC, useEffect, useState } from "react";
-// import { setLoadingComplete } from "./features/loadingReducer";
+import { getRandomTrivia } from "@/data/trivia";
+import { useEffect, useState } from "react";
+import { useLoaderStore } from "./stores/loadingStore";
 
 interface Props {
   title: string;
 }
 
-const LoadingView: FC<Props> = (props) => {
+const LoadingView = (props: Props) => {
   const [progressValue, setProgressValue] = useState(0);
-  const [animate, setAnimate] = useState(false);
-  // const dispatch = useAppDispatch();
+  const [animate, setAnimate] = useState(true);
+  const [trivia, setTrivia] = useState<string | null>(null);
+  const { setLoading } = useLoaderStore();
+
+  useEffect(() => {
+    const fetchTrivia = async () => {
+      try {
+        const randomTrivia = await getRandomTrivia();
+        setTrivia(randomTrivia);
+      } catch (error) {
+        console.error("Error fetching trivia:", error);
+      }
+    };
+
+    fetchTrivia();
+
+    return () => {
+      // Cleanup if needed
+    };
+  }, []);
 
   useEffect(() => {
     const loadTime = setInterval(() => {
       setProgressValue((prevValue) => {
-        // Increment progressValue by 1
         const newValue = prevValue + 1;
-        // If progressValue reaches 100, clear the interval
         if (newValue === 100) {
           clearInterval(loadTime);
-          setAnimate(true);
           setTimeout(() => {
-            // dispatch(setLoadingComplete(true));
+            setAnimate(false);
+            setLoading(false);
           }, 500);
         }
         return newValue;
       });
     }, 20);
 
-    // Clear the interval when the component unmounts
     return () => clearInterval(loadTime);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       <span
         rel="loader-wrapper"
-        className={`absolute w-full h-full bg-black top-0 left-0 flex justify-center items-center 
+        className={`z-[100] overflow-hidden fixed w-full h-full bg-black inset-0 flex justify-center items-center 
         transition-opacity duration-500
-        ${animate ? "opacity-0" : "opacity-100"}`}
+        ${progressValue >= 100 ? "opacity-0" : "opacity-100"}`}
       >
         <div
           rel="loader-sub-wrapper"
@@ -46,15 +62,18 @@ const LoadingView: FC<Props> = (props) => {
         >
           <div
             rel="loader"
-            className="w-16 h-16 inline-block text-center border-4 rounded-lg border-white animate-pulse"
+            className={`w-16 h-20 inline-block text-center border-4 rounded-lg border-white ${
+              animate ? "animate-bounce" : ""
+            } `}
           ></div>
-          <p className="text-center my-2">{props.title}</p>
           <div className="w-40 h-2 bg-gray-600 rounded-lg">
             <div
               className="bg-white flex h-full rounded-lg"
               style={{ width: `${Math.min(progressValue, 100)}%` }}
             ></div>
           </div>
+          <p className="text-center text-2xl my-2">{props.title}</p>
+          <p>{trivia}</p>
         </div>
       </span>
     </>

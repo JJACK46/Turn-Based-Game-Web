@@ -1,7 +1,7 @@
 import { EntityInstance } from "@/classes/entity";
 import { useGameStore } from "./GameStore";
 import { isEntityInEntities } from "../helpers/entity";
-import { TurnType } from "@/classes/turn";
+import { TurnType } from "@/data/types/turn";
 import { SkillInstance } from "@/classes/skills";
 import { useUIStore } from "./UI_Store";
 

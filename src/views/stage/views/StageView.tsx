@@ -7,6 +7,8 @@ import PlayersSection from "../components/Field/PlayersSection";
 import { StageWatcher } from "./StageWatcher";
 import { useGameStore } from "../stores/GameStore";
 import { useEffect } from "react";
+import LoadingView from "@/views/loading/LoadingView";
+import { useLoaderStore } from "@/views/loading/stores/loadingStore";
 
 interface Props {
   tutorial?: true;
@@ -18,6 +20,7 @@ interface Props {
 }
 
 const StageView = (props: Props) => {
+  const { isLoading } = useLoaderStore();
   const {
     methodsGame: { setupGame },
   } = useGameStore();
@@ -26,7 +29,8 @@ const StageView = (props: Props) => {
   }, []);
 
   return (
-    <div className="flex flex-row justify-around items-center w-full h-screen min-h-screen overflow-hidden">
+    <div className="flex flex-row justify-around items-center h-screen min-h-screen overflow-hidden">
+      {isLoading && <LoadingView title={props.mapName}></LoadingView>}
       <StageWatcher>
         <NavBarView></NavBarView>
         <div className="flex flex-col justify-around items-center w-full min-h-screen h-screen mx-6">

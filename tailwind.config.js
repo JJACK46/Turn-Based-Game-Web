@@ -2,7 +2,11 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        "astralis-city": `url("https://shorturl.at/zGJL1")`,
+      },
+    },
   },
   plugins: [],
 };

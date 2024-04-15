@@ -35,9 +35,7 @@ function Menu() {
   return (
     <>
       <div className="absolute flex flex-col items-center size-full justify-center gap-5 bg-black">
-        <h1 className="font-mono font-extrabold text-7xl absolute top-20">
-          Select the World
-        </h1>
+        <h1 className=" text-7xl absolute top-20">Select the World</h1>
         <div className="flex flex-row gap-10 justify-evenly w-full p-20">
           {fieldData.map((item, index) => (
             <>

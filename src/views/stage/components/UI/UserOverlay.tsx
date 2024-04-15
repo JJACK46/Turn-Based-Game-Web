@@ -31,7 +31,7 @@ export default function UserOverlay() {
       {!isGameStart && (
         <span
           rel="most top z-index"
-          className="z-50 absolute h-full w-full bg-black/50 backdrop-blur top-0 left-0 items-center justify-center flex overflow-hidden"
+          className="z-50 fixed h-full w-full bg-black/50 backdrop-blur inset-0 items-center justify-center flex"
         >
           <div className="flex flex-col gap-2 justify-center items-center">
             <h1 className="text-3xl uppercase">{mapName}</h1>

@@ -1,4 +1,4 @@
-import { Team } from "../../classes/team";
+import { Team } from "../types/team";
 import { players } from "../players";
 
 export const UserTeams: Team[] = [{ name: "default", entities: [...players] }];
