@@ -8,7 +8,7 @@ export type Skill = {
   requiredEnergy?: number;
   requiredHealth?: number;
   comboAble?: true;
-  comboWith?: Skill[];
+  comboWith?: Skill;
   emitValueMultiply: number;
   emitValue?: number;
   requiredMana: number;

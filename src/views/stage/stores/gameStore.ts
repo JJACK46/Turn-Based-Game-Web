@@ -3,7 +3,7 @@ import { SkillInstance } from "@/classes/skills";
 import { TurnType } from "@/data/types/turn";
 import { create } from "zustand";
 import { getAliveEntities, getSpeedOfTeam } from "../helpers/stage";
-import { StatusEnum } from "@/data/status";
+// import { StatusEnum } from "@/data/status";
 import { createUniqueID } from "@/utils/uniqueId";
 
 interface GameLogicType {
