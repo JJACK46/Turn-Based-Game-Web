@@ -1,9 +1,9 @@
 import { EntityInstance } from "@/classes/entity";
-import { useGameStore } from "./GameStore";
+import { useGameStore } from "./gameStore";
 import { isEntityInEntities } from "../helpers/entity";
 import { TurnType } from "@/data/types/turn";
 import { SkillInstance } from "@/classes/skills";
-import { useUIStore } from "./UI_Store";
+import { useUIStore } from "./uiStore";
 
 const {
   methodsMark: { markEntityTakenAction },
@@ -31,7 +31,7 @@ const getMostAttackPowerEntityForBot = (
   let resultEntity: EntityInstance | undefined = undefined;
   for (const entity of entities) {
     if (
-      entity.isAlive() &&
+      entity.isAlive &&
       entity.ATK > maxATK &&
       !isEntityInEntities(entity, entitiesTakenAction)
     ) {
@@ -79,21 +79,29 @@ export const botAction = ({
           if (
             potentialEntity.hasHealthLowerThan({ threshold: 0.6 }) &&
             sourceEntityDef > 0 &&
+            potentialEntity.hasDefSkill &&
             !flag.skilledToSelf
           ) {
-            //self algorithm
-            selectedSkill = new SkillInstance({
-              skill: potentialEntity.entity.skills[1],
-              remainingTurn: potentialEntity.entity.skills[1].duration ?? 0,
-            });
-            setSelectSkill(selectedSkill);
-            success = usingSkillToSelf({
-              skillInstance: selectedSkill,
-              sourceEntity: potentialEntity,
-              sourceEntities,
-              isEnemyAction: true,
-            });
-            if (!success) setSelectSkill(null);
+            //self algorithm not stable yet
+            const bestSkill =
+              potentialEntity.hasDefSkill.length > 0
+                ? potentialEntity.hasDefSkill[0]
+                : null;
+            if (bestSkill) {
+              const selectedSkill = new SkillInstance({
+                skill: bestSkill!,
+                remainingTurn: potentialEntity.traitSkill.duration ?? 0,
+              });
+
+              setSelectSkill(selectedSkill);
+              success = usingSkillToSelf({
+                skillInstance: selectedSkill,
+                sourceEntity: potentialEntity,
+                sourceEntities,
+                isEnemyAction: true,
+              });
+              if (!success) setSelectSkill(null);
+            }
             flag.skilledToSelf = true;
           } else {
             //target algorithm
@@ -122,7 +130,7 @@ export const botAction = ({
               setTimeout(() => {
                 //default attack by first skill
                 selectedSkill = new SkillInstance({
-                  skill: targetEntity.entity.skills[0],
+                  skill: potentialEntity.normalHitSkill,
                   remainingTurn: 0,
                 });
                 setSelectSkill(selectedSkill);
@@ -142,13 +150,15 @@ export const botAction = ({
         }
         //finally reset indicator
         setTimeout(() => {
-          if (success) decreaseAction(1);
-          markEntityTakenAction(potentialEntity);
-          setEntityPerforming(false);
-          resetCurrentEntity();
-          resetTargetEntity();
-          resetSelectSkill();
-        }, 3000);
+          if (success) {
+            decreaseAction(1);
+            markEntityTakenAction(potentialEntity);
+            setEntityPerforming(false);
+            resetCurrentEntity();
+            resetTargetEntity();
+            resetSelectSkill();
+          }
+        }, 2700);
       }
       //not found source entity
     }

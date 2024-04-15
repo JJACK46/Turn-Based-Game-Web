@@ -1,10 +1,9 @@
 import { Armor } from "@/classes/armor";
 import { Entity, EntityInstance } from "@/classes/entity";
-import { Weapon, WeaponEnum } from "@/classes/weapon";
-import { bowSkillSet } from "@/data/bowSkillSet";
-import { gunSkillSet } from "@/data/gunSkillSet";
-import { swordSkillSet } from "@/data/swordSkillSet";
-import { TraitSkill } from "@/data/trait";
+import { Weapon } from "@/classes/weapon";
+// import { bowSkillSet } from "@/data/bowSkillSet";
+// import { gunSkillSet } from "@/data/gunSkillSet";
+// import { swordSkillSet } from "@/data/swordSkillSet";
 // import _ from "lodash";
 
 export const isEntityInEntities = (
@@ -46,36 +45,36 @@ export const getIndexEntitiesWithSkillDowntime = (entities: Entity[]) => {
 };
 
 export const settingEntity = (entityData: Entity) => {
-  if (!entityData.uniqueSkill) {
-    entityData.uniqueSkill = TraitSkill[entityData.trait.id];
-  }
+  // if (!entityData.traitSkill) {
+  //   entityData.traitSkill = TraitSkill[entityData.trait.id];
+  // }
   if (entityData.equipment?.weapon) {
     entityData.skills = [];
-    switch (entityData.equipment.weapon.type.id) {
-      case WeaponEnum.BOW:
-        entityData.skills.push(bowSkillSet[entityData.trait.id][0]);
-        entityData.skills.push(bowSkillSet[entityData.trait.id][1]);
-        break;
-      case WeaponEnum.SWORD:
-        entityData.skills.push(swordSkillSet[entityData.trait.id][0]);
-        entityData.skills.push(swordSkillSet[entityData.trait.id][1]);
-        break;
-      case WeaponEnum.GUN:
-        entityData.skills.push(gunSkillSet[entityData.trait.id][0]);
-        entityData.skills.push(gunSkillSet[entityData.trait.id][1]);
-        break;
-    }
+    // switch (entityData.equipment.weapon.type.id) {
+    //   case WeaponEnum.BOW:
+    //     entityData.skills.push(bowSkillSet[entityData.trait.id][0]);
+    //     entityData.skills.push(bowSkillSet[entityData.trait.id][1]);
+    //     break;
+    //   case WeaponEnum.SWORD:
+    //     entityData.skills.push(swordSkillSet[entityData.trait.id][0]);
+    //     entityData.skills.push(swordSkillSet[entityData.trait.id][1]);
+    //     break;
+    //   case WeaponEnum.GUN:
+    //     entityData.skills.push(gunSkillSet[entityData.trait.id][0]);
+    //     entityData.skills.push(gunSkillSet[entityData.trait.id][1]);
+    //     break;
+    // }
   }
-}
+};
 
 export const settingEntityWeapon = (entityData: Entity, equipment: Weapon) => {
   entityData.equipment = {
-    weapon: equipment
-  }
-}
+    weapon: equipment,
+  };
+};
 
 export const settingEntityArmor = (entityData: Entity, equipment: Armor) => {
   entityData.equipment = {
-    armor: equipment
-  }
-}
+    armor: equipment,
+  };
+};

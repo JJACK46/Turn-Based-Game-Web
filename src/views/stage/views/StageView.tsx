@@ -5,10 +5,10 @@ import EnemiesSection from "../components/Field/EnemiesSection";
 import UserOverlay from "../components/UI/UserOverlay";
 import PlayersSection from "../components/Field/PlayersSection";
 import { StageWatcher } from "./StageWatcher";
-import { useGameStore } from "../stores/GameStore";
 import { useEffect } from "react";
 import LoadingView from "@/views/loading/LoadingView";
 import { useLoaderStore } from "@/views/loading/stores/loadingStore";
+import { useGameStore } from "../stores/gameStore";
 
 interface Props {
   tutorial?: true;

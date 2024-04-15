@@ -3,12 +3,11 @@ import { EntityInstance } from "../../../../classes/entity";
 import { convertNumberToPercentage, getColorByHp } from "../../helpers/styles";
 
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
-import { useGameStore } from "../../stores/GameStore";
-import { useUIStore } from "../../stores/UI_Store";
-import { StatusEnum } from "@/data/status";
+import { useUIStore } from "../../stores/uiStore";
 import { isEntityInEntities } from "../../helpers/entity";
 import atkSymbol from "@/assets/svgs/sword-symbol.svg";
 import defSymbol from "@/assets/svgs/shield-symbol.svg";
+import { useGameStore } from "../../stores/gameStore";
 
 const Card = (props: { instance: EntityInstance }) => {
   const { instance } = props;
@@ -91,9 +90,9 @@ const Card = (props: { instance: EntityInstance }) => {
         onMouseLeave={() => setIsHoveredCard(false)}
         onClick={() => {
           //entity not dead
-          if (instance.entity.health > 0) {
+          if (instance.isAlive) {
             //when click on player card
-            if (instance.entity.playable) {
+            if (instance.playable) {
               if (turn === "player") {
                 if (!wasAction()) {
                   if (!isEntityPerforming) {
@@ -116,29 +115,32 @@ const Card = (props: { instance: EntityInstance }) => {
               }
             } else {
               //when click on enemy card
-              if (currentEntity && !isEntityPerforming) {
-                //select player card already
-                setTargetEntity(instance);
-                setEntityPerforming(true);
-                handleSkill();
-              } else {
-                //not select player card yet
-                setCurrentEntity(instance);
-                setInfoOverlay(true);
+              //prevent spam click
+              if (!isEntityPerforming) {
+                if (currentEntity) {
+                  //select player card already
+                  setTargetEntity(instance);
+                  setEntityPerforming(true);
+                  handleSkill();
+                } else {
+                  //not select player card yet
+                  setCurrentEntity(instance);
+                  setInfoOverlay(true);
+                }
               }
             }
           } else {
-            if (turn === "player") {
+            if (turn === "player" && instance.playable) {
               setCurrentEntity(instance);
+              setInfoOverlay(true);
             }
-            setInfoOverlay(true);
           }
         }}
       >
         <div
           rel="card-wrapper"
           className={`p-2 rounded-lg transition ${
-            instance.hasOverDefend() ? "bg-gray-500" : ""
+            instance.hasOverDefend ? "bg-gray-500" : ""
           }
           ${isHoveredCard ? "scale-110" : ""}`}
         >
@@ -147,14 +149,17 @@ const Card = (props: { instance: EntityInstance }) => {
             ${wasAction() ? "border-transparent" : ""}
             `}
             style={{
-              opacity: instance.entity.status === StatusEnum.INACTIVE ? 0.2 : 1,
+              opacity: !instance.isAlive ? 0.2 : 1,
               boxShadow: handleColorActionCard(),
             }}
           >
             {isHoveredCard && (
               <div className="flex flex-col justify-center items-center mt-2">
-                {instance.activeSkills.map((s) => (
-                  <p className="text-xs font-medium bg-cyan-500 w-fit rounded-full px-1">
+                {instance.activeSkills.map((s, index) => (
+                  <p
+                    key={index}
+                    className="text-xs font-medium bg-cyan-500 w-fit rounded-full px-1"
+                  >
                     {s.name}
                   </p>
                 ))}
@@ -173,6 +178,7 @@ const Card = (props: { instance: EntityInstance }) => {
               height={494}
               src={`${BASE_URL_IMAGE_ENTITIES}/${instance.entity.imageUrl}`}
               alt="no image"
+              draggable={false}
             />
             <div
               rel="stats"
@@ -197,7 +203,7 @@ const Card = (props: { instance: EntityInstance }) => {
                   rel="MP/EP bar"
                   className="text-xs font-medium text-center rounded-es-lg rounded-ee-lg leading-none"
                   style={{
-                    backgroundColor: instance.isUseEnergyPower()
+                    backgroundColor: instance.isUseEnergyPower
                       ? "rgb(75, 30, 130)"
                       : "rgb(28, 85, 156)",
                     width: strCurrentMEP,
@@ -209,12 +215,13 @@ const Card = (props: { instance: EntityInstance }) => {
             )}
             {isHoveredCard && (
               <div className="text-xs text-left mx-2 ">
+                <p>ATK: {instance.ATK}</p>
                 <p>
                   HP: {instance.entity.health} / {instance.entity.maxHealth}
                 </p>
                 <p>
-                  {instance.entity.energy > 0 ? "EP" : "MP"}:{" "}
-                  {instance.entity.energy > 0
+                  {instance.isUseEnergyPower ? "EP" : "MP"}:{" "}
+                  {instance.isUseEnergyPower
                     ? instance.entity.energy
                     : instance.entity.mana}{" "}
                   / {instance.entity.maxManaEnergyPower}
@@ -244,6 +251,7 @@ const Card = (props: { instance: EntityInstance }) => {
         {isHoveredCard && (
           <p className="text-xs p-2">Index: {instance.index}</p>
         )}
+        {/* action symbol */}
         <div className="flex gap-2 justify-around">
           {selectedSkill?.isAttackSkill && currentEntity === instance && (
             <div className="flex flex-col justify-center items-center gap-1">

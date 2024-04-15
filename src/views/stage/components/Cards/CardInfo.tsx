@@ -1,7 +1,7 @@
 import { Skill } from "@/classes/skills";
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
-import { useGameStore } from "../../stores/GameStore";
-import { useUIStore } from "../../stores/UI_Store";
+import { useGameStore } from "../../stores/gameStore";
+import { useUIStore } from "../../stores/uiStore";
 
 function CardInfo() {
   const { setInfoOverlay } = useUIStore();
@@ -61,7 +61,7 @@ function CardInfo() {
           <div className="flex flex-col justify-center gap-2 w-full">
             <h3 className="font-mono text-xl font-semibold">Skill</h3>
             <div className="flex flex-row gap-4">
-              {currentEntityData?.entity.skills.map(
+              {currentEntityData?.allSkills.map(
                 (skill: Skill, index: number) => (
                   <div
                     key={index}

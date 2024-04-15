@@ -1,4 +1,4 @@
-import { Status } from "../classes/status";
+import { Status } from "../../classes/status";
 
 export enum StatusEnum {
   NORMAL = "normal",
@@ -11,7 +11,7 @@ export enum StatusEnum {
   INACTIVE = "inactive",
 }
 
-export const statusData: { [key in StatusEnum]: Status } = {
+export const listStatus: { [key in StatusEnum]: Status } = {
   [StatusEnum.NORMAL]: { title: "Normal", canAction: true },
   [StatusEnum.STUNNED]: { title: "Stunned", canAction: false },
   [StatusEnum.FREEZE]: { title: "Freeze", canAction: false },

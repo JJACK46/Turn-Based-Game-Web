@@ -42,7 +42,7 @@ export const getMostAttackPowerEntity = (
 export const getAliveEntities = (
   entities: EntityInstance[]
 ): EntityInstance[] => {
-  return entities.filter((e) => e.entity.health > 0);
+  return entities.filter((e) => e.isAlive);
 };
 
 export const getUpdateEntityInRow = (props: {

@@ -1,6 +1,5 @@
 import { Entity } from "../classes/entity";
-import { monsters } from "./enemies";
-import { players } from "./players";
+import { EntitiesData } from "./entities";
 
 interface TutorialSet {
   enemies: Entity[];
@@ -8,6 +7,6 @@ interface TutorialSet {
 }
 
 export const tutorialSet: TutorialSet = {
-  enemies: [monsters[3], monsters[5], monsters[6]],
-  players: [players[0], players[3]],
+  enemies: [EntitiesData[5], EntitiesData[6], EntitiesData[11]],
+  players: [EntitiesData[10], EntitiesData[7]],
 };

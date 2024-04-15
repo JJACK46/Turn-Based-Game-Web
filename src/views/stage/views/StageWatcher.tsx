@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 // import { useUIStore } from "../stores/UI_Store";
-import { useGameStore } from "../stores/GameStore";
+import { useGameStore } from "../stores/gameStore";
 import { botAction } from "../stores/BotLogic";
 import { restoreManaForEntities } from "../helpers/entity";
 import { updateRemainingActiveSkill } from "../helpers/stage";
+import { PositionEnum } from "@/data/enums/position";
 
 export function StageWatcher({ children }: { children: React.ReactNode }) {
   const {
@@ -44,23 +45,23 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
     setEntities({
       entities: restoreManaForEntities(playersFrontRow),
       isPlayer: true,
-      position: "front",
+      position: PositionEnum.FRONT,
     });
     setEntities({
       entities: restoreManaForEntities(enemiesFrontRow),
       isPlayer: false,
-      position: "front",
+      position: PositionEnum.FRONT,
     });
     if (playersBackRow && enemiesBackRow) {
       setEntities({
         entities: restoreManaForEntities(playersBackRow),
         isPlayer: true,
-        position: "back",
+        position: PositionEnum.BACK,
       });
       setEntities({
         entities: restoreManaForEntities(enemiesBackRow),
         isPlayer: false,
-        position: "back",
+        position: PositionEnum.BACK,
       });
     }
   }
@@ -68,23 +69,23 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
     setEntities({
       entities: updateRemainingActiveSkill(playersFrontRow),
       isPlayer: true,
-      position: "front",
+      position: PositionEnum.FRONT,
     });
     setEntities({
       entities: updateRemainingActiveSkill(enemiesFrontRow),
       isPlayer: false,
-      position: "front",
+      position: PositionEnum.FRONT,
     });
     if (playersBackRow && enemiesBackRow) {
       setEntities({
         entities: updateRemainingActiveSkill(playersBackRow),
         isPlayer: true,
-        position: "back",
+        position: PositionEnum.BACK,
       });
       setEntities({
         entities: updateRemainingActiveSkill(enemiesBackRow),
         isPlayer: false,
-        position: "back",
+        position: PositionEnum.BACK,
       });
     }
   }

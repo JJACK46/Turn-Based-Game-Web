@@ -1,18 +1,37 @@
+import { PowerEnum } from "@/data/enums/power";
 import { EntityInstance } from "./entity";
-import { PowerType } from "./powerType";
+import { ActionTypeEnum } from "@/data/enums/actions";
+import { StatusEnum } from "@/data/enums/status";
+import { BASE_DAMAGE_REDUCTION } from "@/utils/constants";
+
+type ResultAffect = {
+  updatedSource: EntityInstance;
+  effectedTarget: EntityInstance;
+  damageMade: number;
+  blockedDamage: number;
+  resultDamage: number;
+};
 
 export type Skill = {
   name: string;
-  isAttackSkill: boolean;
-  type: PowerType;
-  requiredEnergy?: number;
+  describe?: string;
+  type: ActionTypeEnum;
+  requiredEnergy: number;
+  requiredMana: number;
   requiredHealth?: number;
   comboAble?: true;
   comboWith?: Skill;
   emitValueMultiply: number;
   emitValue?: number;
-  requiredMana: number;
+  power: PowerEnum;
+  effectStatus?: StatusEnum;
   duration?: number;
+  repeat?: number;
+  methodSkill?: (props: {
+    sourceEntity: EntityInstance;
+    targetEntity: EntityInstance;
+    thisSkill: SkillInstance;
+  }) => ResultAffect;
 };
 
 export class SkillInstance {
@@ -34,39 +53,52 @@ export class SkillInstance {
   }
 
   get isAttackSkill(): boolean {
-    return (
-      this.skill.isAttackSkill &&
-      (this.skill.type === "physical" || this.skill.type === "magic")
-    );
+    return this.skill.type === ActionTypeEnum.ATTACK;
   }
 
   get isDefSkill(): boolean {
-    return this.skill.type === "defend";
+    return this.skill.type === ActionTypeEnum.DEFEND;
   }
 
-  get type() {
+  get type(): ActionTypeEnum {
     return this.skill.type;
   }
 
   effectToTarget(props: {
     sourceEntity: EntityInstance;
     targetEntity: EntityInstance;
-  }): {
-    updatedSource: EntityInstance;
-    effectedTarget: EntityInstance;
-    damageMade: number;
-    blockedDamage: number;
-    resultDamage: number;
-  } {
+  }): ResultAffect {
     const { sourceEntity: source, targetEntity: target } = props;
-    const targetDef = target.entity.defend ?? 0;
-    const blockedDamage = 0.25 * targetDef;
-    const damageMade = Math.round(
-      source.entity.attackPower * this.skill.emitValueMultiply
-    );
-    const resultDamage = Math.max(0, damageMade - blockedDamage);
-    if (this.skill.isAttackSkill) {
+
+    if (this.skill.methodSkill) {
+      const {
+        updatedSource,
+        effectedTarget,
+        damageMade,
+        blockedDamage,
+        resultDamage,
+      } = this.skill.methodSkill({
+        sourceEntity: source,
+        targetEntity: target,
+        thisSkill: this,
+      });
+      return {
+        updatedSource: updatedSource,
+        effectedTarget: effectedTarget,
+        damageMade,
+        blockedDamage,
+        resultDamage,
+      };
+    }
+
+    const defaultAttackMethod = () => {
+      const blockedDamage = BASE_DAMAGE_REDUCTION * target.DEF;
+      const damageMade = Math.round(
+        source.entity.attackPower * this.skill.emitValueMultiply
+      );
+      const resultDamage = Math.max(0, Math.abs(damageMade - blockedDamage));
       target.entity.health -= resultDamage;
+
       return {
         updatedSource: source,
         effectedTarget: target,
@@ -74,48 +106,63 @@ export class SkillInstance {
         blockedDamage,
         resultDamage,
       };
-    }
-    //not attack skill
-    switch (this.skill.type) {
-      case "defend":
-        if (source.entity.defend && this.skill.emitValue) {
-          source.entity.defend += this.skill.emitValue;
-        }
+    };
+
+    let result;
+    switch (this.type) {
+      case ActionTypeEnum.ATTACK:
+        result = defaultAttackMethod();
         break;
+      // case ActionTypeEnum.DEFEND:
+      //   result = defaultDefendMethod();
+      //   break;
       default:
         break;
     }
-    return {
-      updatedSource: source,
-      effectedTarget: target,
-      damageMade,
-      blockedDamage,
-      resultDamage,
-    };
+
+    return (
+      result || {
+        updatedSource: source,
+        effectedTarget: target,
+        damageMade: 0,
+        blockedDamage: 0,
+        resultDamage: 0,
+      }
+    );
   }
 
   effectToSelf(sourceEntity: EntityInstance): EntityInstance {
-    if (this.skill.isAttackSkill)
-      throw new Error("can not use attack skill to self");
-    switch (this.skill.type) {
-      case "defend":
-        if (sourceEntity.entity.defend && this.skill.emitValue) {
-          sourceEntity.entity.defend += this.skill.emitValue;
-          if (sourceEntity.hasDurationSkills()) {
-            sourceEntity.activeSkills = sourceEntity.listDurationSkill;
+    if (this.isAttackSkill) throw new Error("can not use attack skill to self");
+
+    const defaultDefendSelfMethod = (): EntityInstance => {
+      if (sourceEntity.DEF > -1 && this.isDefSkill) {
+        const multiplier = this.skill.emitValueMultiply;
+        const emitValue = this.skill.emitValue;
+        if (sourceEntity.entity.defend) {
+          if (multiplier > 0) {
+            sourceEntity.entity.defend *= this.skill.emitValueMultiply;
+          } else {
+            sourceEntity.entity.defend +=
+              emitValue || multiplier * sourceEntity.DEF;
           }
         }
-        return sourceEntity;
-      case "restore":
-        if (sourceEntity.entity.energy > -1 && this.skill.emitValue) {
-          sourceEntity.entity.energy += this.skill.emitValue;
+        //maybe this can be reusable code
+        if (sourceEntity.hasDurationSkills) {
+          sourceEntity.activeSkills = sourceEntity.listDurationSkill;
         }
-        if (sourceEntity.entity.mana > -1 && this.skill.emitValue) {
-          sourceEntity.entity.mana += this.skill.emitValue;
-        }
-        return sourceEntity;
+      }
+      return sourceEntity;
+    };
+
+    let result;
+    switch (this.type) {
+      case ActionTypeEnum.DEFEND:
+        result = defaultDefendSelfMethod();
+        break;
       default:
-        return sourceEntity;
+        break;
     }
+
+    return result || sourceEntity;
   }
 }

@@ -1,6 +1,5 @@
 import Card from "../Cards/Card";
-import CardPlaceholder from "../Cards/CardPlaceholder";
-import { useGameStore } from "../../stores/GameStore";
+import { useGameStore } from "../../stores/gameStore";
 
 export default function EnemiesSection() {
   const {
@@ -22,7 +21,7 @@ export default function EnemiesSection() {
               return <Card key={index} instance={enemy}></Card>;
             })
           ) : (
-            <CardPlaceholder></CardPlaceholder>
+            <></>
           )}
         </span>
       )}
@@ -32,7 +31,7 @@ export default function EnemiesSection() {
             return <Card key={index} instance={enemy}></Card>;
           })
         ) : (
-          <CardPlaceholder></CardPlaceholder>
+          <></>
         )}
       </span>
     </div>

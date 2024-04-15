@@ -1,4 +1,4 @@
-import { useUIStore } from "../stores/UI_Store";
+import { useUIStore } from "../stores/uiStore";
 
 export function TurnWarning() {
   const { setTurnWarning } = useUIStore();

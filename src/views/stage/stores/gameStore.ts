@@ -1,10 +1,11 @@
-import { Entity, EntityInstance, Position } from "@/classes/entity";
+import { Entity, EntityInstance } from "@/classes/entity";
 import { SkillInstance } from "@/classes/skills";
 import { TurnType } from "@/data/types/turn";
 import { create } from "zustand";
 import { getAliveEntities, getSpeedOfTeam } from "../helpers/stage";
 // import { StatusEnum } from "@/data/status";
 import { createUniqueID } from "@/utils/uniqueId";
+import { PositionEnum } from "@/data/enums/position";
 
 interface GameLogicType {
   infoGame: {
@@ -69,7 +70,7 @@ interface GameLogicType {
     setEntities: (props: {
       entities: EntityInstance[];
       isPlayer: boolean;
-      position: Position;
+      position: PositionEnum;
     }) => void;
   };
   methodsIndicator: {
@@ -290,20 +291,16 @@ export const useGameStore = create<GameLogicType>((set) => ({
       } = prop;
 
       if (sourceEntity.hasEnoughManaFor({ skill: skillInstance.skill })) {
-        if (skillInstance.skill.isAttackSkill) {
+        if (skillInstance.isAttackSkill) {
           const { resultDamage, blockedDamage, damageMade, effectedTarget } =
             skillInstance.effectToTarget({
               sourceEntity,
               targetEntity,
             });
 
-          // if (effectedTarget.isAlive()) {
-          //   effectedTarget.entity.status = StatusEnum.INACTIVE;
-          // }
-
           targetEntities[effectedTarget.index] = effectedTarget;
 
-          sourceEntities[sourceEntity.index] = sourceEntity.updateManaFromUsed({
+          sourceEntities[sourceEntity.index] = sourceEntity.updateManaFromUse({
             skill: skillInstance.skill,
           });
 
@@ -347,9 +344,8 @@ export const useGameStore = create<GameLogicType>((set) => ({
         ) {
           const effectedSourceEntity = skillInstance.effectToSelf(sourceEntity);
 
-          const newSourceFrontRow = [...sourceEntities];
-          newSourceFrontRow[sourceEntity.index] =
-            effectedSourceEntity.updateManaFromUsed({
+          sourceEntities[sourceEntity.index] =
+            effectedSourceEntity.updateManaFromUse({
               skill: skillInstance.skill,
             });
 
@@ -359,9 +355,9 @@ export const useGameStore = create<GameLogicType>((set) => ({
               ...state.infoField,
               playersFrontRow: isEnemyAction
                 ? [...state.infoField.playersFrontRow]
-                : [...newSourceFrontRow],
+                : [...sourceEntities],
               enemiesFrontRow: isEnemyAction
-                ? [...newSourceFrontRow]
+                ? [...sourceEntities]
                 : [...state.infoField.playersFrontRow],
             },
           }));
@@ -415,7 +411,7 @@ export const useGameStore = create<GameLogicType>((set) => ({
 
         const createEntityInstances = (
           entities: Entity[],
-          position: Position,
+          position: PositionEnum,
           playable: boolean
         ) =>
           entities.map(
@@ -436,22 +432,22 @@ export const useGameStore = create<GameLogicType>((set) => ({
 
         const enemiesFrontRowInstance = createEntityInstances(
           enemiesFrontRow,
-          "front",
+          PositionEnum.FRONT,
           false
         );
         const enemiesBackRowInstance = createEntityInstances(
           enemiesBackRow ?? [],
-          "back",
+          PositionEnum.BACK,
           false
         );
         const playersFrontRowInstance = createEntityInstances(
           playersFrontRow,
-          "front",
+          PositionEnum.FRONT,
           true
         );
         const playersBackRowInstance = createEntityInstances(
           playersBackRow ?? [],
-          "back",
+          PositionEnum.BACK,
           true
         );
 

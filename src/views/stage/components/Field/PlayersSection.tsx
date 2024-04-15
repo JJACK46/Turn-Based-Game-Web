@@ -1,6 +1,5 @@
 import Card from "../Cards/Card";
-import CardPlaceholder from "../Cards/CardPlaceholder";
-import { useGameStore } from "../../stores/GameStore";
+import { useGameStore } from "../../stores/gameStore";
 
 export default function PlayersSection() {
   const {
@@ -22,7 +21,7 @@ export default function PlayersSection() {
               return <Card key={index} instance={player}></Card>;
             })
           ) : (
-            <CardPlaceholder></CardPlaceholder>
+            <></>
           )}
         </span>
       )}
@@ -33,7 +32,7 @@ export default function PlayersSection() {
               return <Card key={index} instance={player}></Card>;
             })
           ) : (
-            <CardPlaceholder></CardPlaceholder>
+            <></>
           )}
         </span>
       )}

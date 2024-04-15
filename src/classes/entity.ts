@@ -1,19 +1,19 @@
 import { Skill, SkillInstance } from "./skills";
 import { Armor } from "./armor";
-import { PowerType } from "./powerType";
 import { Weapon } from "./weapon";
-import { StatusEnum } from "../data/status";
-import { TraitType } from "@/data/trait";
+import { StatusEnum } from "../data/enums/status";
+import { TraitEnum } from "@/data/enums/trait";
+import { PositionEnum } from "@/data/enums/position";
+import { ActionTypeEnum } from "@/data/enums/actions";
 
 export type Entity = {
   id: number;
   name: string;
   imageUrl: string;
-  attackDamageType: PowerType;
   level: number;
   skills: Skill[];
-  normalHitSkill?: Skill;
-  uniqueSkill?: Skill;
+  normalHitSkill: Skill;
+  traitSkill: Skill;
   attackPower: number;
   healingPower?: number;
   defend?: number;
@@ -28,23 +28,19 @@ export type Entity = {
     weapon?: Weapon;
     armor?: Armor;
   };
-  playable?: true;
   status: StatusEnum;
-  canTakeDamage: boolean;
   speed: number;
-  trait: TraitType;
+  trait: TraitEnum;
   restoreManaOrEnergy: number;
   restoreHealth?: number;
-  evasion?: number;
+  evasion: number;
 };
-
-export type Position = "front" | "back";
 
 export class EntityInstance {
   instanceId: string;
   entity: Entity;
   index: number;
-  position: Position;
+  position: PositionEnum;
   playable: boolean;
   activeSkills: SkillInstance[];
 
@@ -52,7 +48,7 @@ export class EntityInstance {
     instanceId: string;
     entity: Entity;
     index: number;
-    position: Position;
+    position: PositionEnum;
     playable: boolean;
     activeSkills?: SkillInstance[];
   }) {
@@ -72,8 +68,13 @@ export class EntityInstance {
     return this.entity.health;
   }
 
+  get DEF() {
+    return this.entity.defend ?? 0;
+  }
+
   get listDurationSkill(): SkillInstance[] {
-    return this.entity.skills
+    return this.allSkills
+      .slice(1)
       .filter(
         (skill): skill is Skill & { duration: number } =>
           skill.duration !== undefined
@@ -87,33 +88,54 @@ export class EntityInstance {
       );
   }
 
-  hasDurationSkills() {
-    return this.entity.skills.some((skill) => skill.duration);
+  get allSkills(): Skill[] {
+    return [
+      this.entity.normalHitSkill,
+      ...this.entity.skills,
+      this.entity.traitSkill,
+    ];
   }
 
-  hasActiveSkill() {
+  get traitSkill() {
+    return this.entity.traitSkill;
+  }
+
+  get normalHitSkill() {
+    return this.entity.normalHitSkill;
+  }
+
+  get hasDefSkill(): Skill[] {
+    return this.allSkills.filter(
+      (skill) => skill.type === ActionTypeEnum.DEFEND
+    );
+  }
+
+  get hasDurationSkills(): boolean {
+    return this.allSkills.some((skill) => skill.duration);
+  }
+
+  get hasActiveSkill() {
     return this.activeSkills.length > 0;
   }
 
-  isAlive() {
+  get isAlive() {
     return this.entity.health > 0;
   }
 
-  isUseEnergyPower() {
+  get isUseEnergyPower() {
     return this.entity.energy > -1;
   }
 
-  getDamageMadeBy(props: { skill: Skill }): number {
+  calculateDamageMadeBy(props: { skill: Skill }): number {
     const { skill } = props;
     return Math.round(this.entity.attackPower * skill.emitValueMultiply);
   }
 
   hasEnoughManaFor(props: { skill: Skill }): boolean {
     const { skill } = props;
-    const skillRequiredEnergy = skill.requiredEnergy ?? 0;
 
     if (this.entity.energy > -1) {
-      return this.entity.energy >= skillRequiredEnergy;
+      return this.entity.energy >= skill.requiredEnergy;
     }
     if (this.entity.mana > -1) {
       return this.entity.mana >= skill.requiredMana;
@@ -121,7 +143,7 @@ export class EntityInstance {
     return false;
   }
 
-  updateManaFromUsed(props: { skill: Skill }): EntityInstance {
+  updateManaFromUse(props: { skill: Skill }): EntityInstance {
     const { skill } = props;
     if (this.entity.mana >= skill.requiredMana) {
       this.entity.mana -= Math.max(0, skill.requiredMana);
@@ -149,7 +171,7 @@ export class EntityInstance {
     return false;
   }
 
-  hasOverDefend(): boolean {
+  get hasOverDefend(): boolean {
     const def = this.entity.defend ?? 0;
     const maxDef = this.entity.maxDefendPower ?? 0;
     return def > maxDef;
@@ -170,11 +192,12 @@ export class EntityInstance {
 
   updateStat(): EntityInstance {
     for (let i = 0; i < this.activeSkills.length; i++) {
-      const curr = this.activeSkills[i];
-      if (curr.remainingTurn === 0) {
-        switch (curr.type) {
-          case "defend":
-            this.entity.defend! -= Math.max(0, curr.skill.emitValue ?? 0);
+      const instanceSkill = this.activeSkills[i];
+      if (instanceSkill.remainingTurn === 0) {
+        switch (instanceSkill.type) {
+          case ActionTypeEnum.DEFEND:
+            //reset to default
+            this.entity.defend! = this.entity.maxDefendPower!;
             break;
           default:
             break;

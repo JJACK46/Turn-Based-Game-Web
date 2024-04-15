@@ -1,8 +1,8 @@
 import CardInfo from "../Cards/CardInfo";
 import { ActionWarning, TurnWarning } from "../Warning";
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
-import { useGameStore } from "../../stores/GameStore";
-import { useUIStore } from "../../stores/UI_Store";
+import { useGameStore } from "../../stores/gameStore";
+import { useUIStore } from "../../stores/uiStore";
 import { SkillInstance } from "@/classes/skills";
 
 export default function UserOverlay() {
@@ -61,7 +61,7 @@ export default function UserOverlay() {
           isGameStart ? "opacity-100" : "opacity-0"
         }`}
       >
-        <div className="flex flex-col w-fit p-5 rounded-xl border-red-500 border-2">
+        <div className="select-none flex flex-col w-fit p-5 rounded-xl bg-black/50 border-red-500/50 border-2">
           <p>{mapName}</p>
           <p className="uppercase text-sm ">round: {roundCount}</p>
           <p className="uppercase text-xs">
@@ -70,12 +70,12 @@ export default function UserOverlay() {
         </div>
         <div className="flex justify-center items-center size-full ">
           <div className="rounded-xl p-2 w-full text-center">
-            <p className="uppercase text-5xl ">{turn}'s turn</p>
+            <p className="uppercase text-5xl select-none">{turn}'s turn</p>
           </div>
         </div>
-        <div className="flex flex-col w-fit justify-center uppercase justify-self-end p-5 rounded-xl border-red-500 border-2">
-          <p className=" text-sm">current: {currentEntity?.entity.name}</p>
-          <p className=" text-sm">target: {targetEntity?.entity.name}</p>
+        <div className="select-none flex flex-col w-fit justify-center uppercase justify-self-end p-5 rounded-xl bg-black/50 border-cyan-500/50 border-2">
+          <p className="text-sm">current: {currentEntity?.entity.name}</p>
+          <p className="text-sm">target: {targetEntity?.entity.name}</p>
         </div>
       </span>
       <span
@@ -99,34 +99,28 @@ export default function UserOverlay() {
             }}
             className="top-0 left-0 size-full"
           ></button>
-          <div className="absolute flex p-10">
+          <div className="fixed flex p-10">
             <div className="flex justify-around h-40 rounded-3xl">
               <div className="flex gap-4 items-center">
-                <div className="flex flex-row h-full bg-slate-500 p-2 rounded-3xl">
+                <div className="flex flex-row h-full bg-black/60 p-2 rounded-3xl">
                   <img
                     src={`${BASE_URL_IMAGE_ENTITIES}/${currentEntity?.entity.imageUrl}`}
                     alt="no data"
                     className="h-full object-cover rounded-3xl"
                   />
                   <div className="flex flex-col h-full w-32 justify-center items-start p-5">
-                    <p className="font-mono text-xl">
-                      {currentEntity?.entity.name}
-                    </p>
-                    <p className="font-mono text-md">
+                    <p className="text-xl">{currentEntity?.entity.name}</p>
+                    <p className=" text-md">
                       lvl.{currentEntity?.entity.level}
                     </p>
-                    <p className="font-mono text-md">
-                      ATK : {currentEntity?.entity.attackPower}
-                    </p>
-                    <p className="font-mono text-md">
-                      DEF : {currentEntity?.entity.defend ?? 0}
-                    </p>
-                    <p className="font-mono text-md">
+                    <p className="text-md">ATK : {currentEntity?.ATK}</p>
+                    <p className="text-md">DEF : {currentEntity?.DEF}</p>
+                    <p className="text-md">
                       HEAL : {currentEntity?.entity.healingPower ?? 0}
                     </p>
                   </div>
                 </div>
-                {currentEntity?.entity.skills.map((skill, index) => {
+                {currentEntity?.allSkills.map((skill, index) => {
                   const skillInstance = new SkillInstance({
                     skill,
                     remainingTurn: 0,
@@ -161,7 +155,7 @@ export default function UserOverlay() {
                             </li>
                           )}
                           <li>
-                            {`DMG: ${currentEntity.getDamageMadeBy(
+                            {`DMG: ${currentEntity.calculateDamageMadeBy(
                               skillInstance
                             )}`}
                           </li>
@@ -181,7 +175,7 @@ export default function UserOverlay() {
       {lastHitDamage > 0 && (
         <span className="absolute top-32 right-8 flex flex-col z-10">
           <i className="font-medium text-lg">Hit Damage: {lastHitDamage}</i>
-          <i className="font-medium text-lg">Damage Blocked: {blockedDamage}</i>
+          <i className="font-medium text-lg">Blocked Damage: {blockedDamage}</i>
           <i className="font-medium text-2xl ">
             Total Damage: {totalHitDamage}
           </i>
@@ -199,7 +193,7 @@ export default function UserOverlay() {
       {selectedSkill && turn === "player" && (
         <>
           <button
-            className="absolute right-10 bottom-10 p-10 border-2 border-blue-300 rounded-2xl hover:border-red-700"
+            className="absolute right-10 bottom-10 p-10 border-2 bg-black/50 border-blue-500/50 rounded-2xl hover:border-red-700"
             onClick={() => {
               resetSelectSkill();
               resetCurrentEntity();
