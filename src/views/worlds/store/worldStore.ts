@@ -1,26 +1,26 @@
 import { Armor } from "@/classes/armor";
 import { Entity } from "@/classes/entity";
 import { Weapon } from "@/classes/weapon";
+import { MapData } from "@/data/worlds/types/map";
 import { create } from "zustand";
 
 type World = {
   selectedWorld: {
     id: string;
-    background: string[];
+    worldImgUrl: string;
     entities: Entity[];
     boss: Entity | null;
     dropItems: (Weapon | Armor)[];
+    maps: MapData[];
   };
-  selectedMap: {
-    id: number;
-    entityLevel: number[];
-  };
-  setMap: (props: {
+  selectedMap: MapData;
+  setSelectedWorld: (props: {
     id: string;
-    background: string[];
+    worldImgUrl: string;
     entities: Entity[];
-    boss: Entity;
+    boss: Entity | null;
     dropItems: (Weapon | Armor)[];
+    maps: MapData[];
   }) => void;
   setEntityLevel: (max: number, min: number) => void;
 };
@@ -28,16 +28,19 @@ type World = {
 export const useWorldStore = create<World>((set) => ({
   selectedWorld: {
     id: "",
-    background: [],
+    worldImgUrl: "",
     entities: [],
     boss: null,
     dropItems: [],
+    maps: [],
   },
   selectedMap: {
-    id: -1,
-    entityLevel: [1, 10],
+    name: "",
+    entitiesLevel: [],
+    grade: "COMMON",
+    cardImageUrl: "",
   },
-  setMap: (props) => {
+  setSelectedWorld: (props) => {
     return set(() => ({
       selectedWorld: {
         ...props,

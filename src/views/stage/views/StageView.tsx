@@ -29,21 +29,23 @@ const StageView = (props: Props) => {
   }, []);
 
   return (
-    <div className="flex flex-row justify-around items-center h-screen min-h-screen overflow-hidden">
+    <span className="flex flex-row justify-around items-center h-screen min-h-screen overflow-hidden">
       {isLoading && <LoadingView title={props.mapName}></LoadingView>}
       <StageWatcher>
         <NavBarView></NavBarView>
         <div className="flex flex-col justify-around items-center w-full min-h-screen h-screen mx-6">
-          <img
-            src="src/assets/images/maps/Astralis_city.jpeg"
-            className="-z-50 absolute left-0 top-0 w-full h-full object-fill blur-md"
-          />
+          <div className="-z-[100] absolute inset-0">
+            <div
+              className="absolute left-[25%] top-[39%] w-[1024px] h-64 bg-gradient-to-r 
+            from-indigo-500 via-purple-500 to-orange-500 blur-[100px]"
+            ></div>
+          </div>
           <EnemiesSection></EnemiesSection>
           <UserOverlay></UserOverlay>
           <PlayersSection></PlayersSection>
         </div>
       </StageWatcher>
-    </div>
+    </span>
   );
 };
 

@@ -52,7 +52,7 @@ const LoadingView = (props: Props) => {
     <>
       <span
         rel="loader-wrapper"
-        className={`z-[100] overflow-hidden fixed w-full h-full bg-black inset-0 flex justify-center items-center 
+        className={`select-none z-[100] overflow-hidden fixed w-full h-full bg-black inset-0 flex justify-center items-center 
         transition-opacity duration-500
         ${progressValue >= 100 ? "opacity-0" : "opacity-100"}`}
       >

@@ -46,7 +46,7 @@ export default function UserOverlay() {
             </div>
             <hr className="my-6 border w-screen" />
             <button
-              className="rounded-lg p-2 text-2xl bg-orange-600 uppercase"
+              className="rounded-lg p-2 text-2xl bg-orange-600 uppercase border-2 border-transparent hover:border-white"
               onClick={() => {
                 startGame();
               }}
@@ -69,9 +69,7 @@ export default function UserOverlay() {
           </p>
         </div>
         <div className="flex justify-center items-center size-full ">
-          <div className="rounded-xl p-2 w-full text-center">
-            <p className="uppercase text-5xl select-none">{turn}'s turn</p>
-          </div>
+          <p className="uppercase text-5xl select-none">{turn}'s turn</p>
         </div>
         <div className="select-none flex flex-col w-fit justify-center uppercase justify-self-end p-5 rounded-xl bg-black/50 border-cyan-500/50 border-2">
           <p className="text-sm">current: {currentEntity?.entity.name}</p>

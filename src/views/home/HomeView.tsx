@@ -19,8 +19,8 @@ function HomeView() {
   return (
     <div
       className="flex flex-col w-full min-h-screen bg-black"
-      onMouseEnter={() => playLobbySoundtrack()}
-      onMouseOut={() => stop}
+      // onMouseEnter={() => playLobbySoundtrack()}
+      // onMouseOut={() => stop}
     >
       <div>
         <ReactPlayer
@@ -42,7 +42,7 @@ function HomeView() {
           Project APRILX
         </div>
 
-        <ButtonHome title="start" path="/Menu"></ButtonHome>
+        <ButtonHome title="start" path="/world"></ButtonHome>
         <ButtonHome
           title="tutorial"
           path="/tutorial"
