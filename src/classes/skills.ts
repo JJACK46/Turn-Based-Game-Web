@@ -10,6 +10,7 @@ type ResultAffect = {
   damageMade: number;
   blockedDamage: number;
   resultDamage: number;
+  missed: boolean;
 };
 
 export type Skill = {
@@ -88,6 +89,7 @@ export class SkillInstance {
         damageMade,
         blockedDamage,
         resultDamage,
+        missed: false,
       };
     }
 
@@ -96,8 +98,15 @@ export class SkillInstance {
       const damageMade = Math.round(
         source.entity.attackPower * this.skill.emitValueMultiply
       );
-      const resultDamage = Math.max(0, Math.abs(damageMade - blockedDamage));
+      const evasion = target.evasion;
+      let resultDamage = Math.max(0, damageMade - blockedDamage);
       target.entity.health -= resultDamage;
+      let missed = false;
+      const randomValue = Math.random();
+      if (randomValue < evasion) {
+        resultDamage = 0;
+        missed = true;
+      }
 
       return {
         updatedSource: source,
@@ -105,6 +114,7 @@ export class SkillInstance {
         damageMade,
         blockedDamage,
         resultDamage,
+        missed,
       };
     };
 
@@ -127,6 +137,7 @@ export class SkillInstance {
         damageMade: 0,
         blockedDamage: 0,
         resultDamage: 0,
+        missed: false,
       }
     );
   }

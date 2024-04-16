@@ -11,12 +11,12 @@ import { useLoaderStore } from "@/views/loading/stores/loadingStore";
 import { useGameStore } from "../stores/gameStore";
 
 interface Props {
-  tutorial?: true;
   mapName: string;
   enemiesFrontRow: Entity[];
   enemiesBackRow?: Entity[];
   playersFrontRow: Entity[];
   playersBackRow?: Entity[];
+  backgroundUrl?: string;
 }
 
 const StageView = (props: Props) => {
@@ -34,12 +34,20 @@ const StageView = (props: Props) => {
       <StageWatcher>
         <NavBarView></NavBarView>
         <div className="flex flex-col justify-around items-center w-full min-h-screen h-screen mx-6">
-          <div className="-z-[100] absolute inset-0">
-            <div
-              className="absolute left-[25%] top-[39%] w-[1024px] h-64 bg-gradient-to-r 
+          {props.backgroundUrl && (
+            <img
+              src={props.backgroundUrl}
+              className="-z-[100] absolute inset-0 w-full h-screen blur"
+            />
+          )}
+          {!props.backgroundUrl && (
+            <div className="-z-[100] absolute inset-0">
+              <div
+                className="absolute left-[25%] top-[39%] w-[1024px] h-64 bg-gradient-to-r 
             from-indigo-500 via-purple-500 to-orange-500 blur-[100px]"
-            ></div>
-          </div>
+              ></div>
+            </div>
+          )}
           <EnemiesSection></EnemiesSection>
           <UserOverlay></UserOverlay>
           <PlayersSection></PlayersSection>

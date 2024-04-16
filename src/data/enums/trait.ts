@@ -26,6 +26,10 @@ export enum TraitEnum {
   MAGIC_ANIMAL = "magic animal",
   MAGIC_GOLEM = "magic golem",
   UNKNOWN = "unknown",
+  // boss
+  BOSS_DOZOJO = "The Disastrous of AprilX",
+  BOSS_NEXOS = "The Perfection of Atralis Omega",
+  BOSS_VEXARIA = "The Deceitful of Gaia Realm",
 }
 
 export const listTraitSkill: { [key in TraitEnum]: Skill } = {
@@ -199,5 +203,29 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     requiredMana: 10,
     emitValueMultiply: 1,
     power: PowerEnum.MAGICAL,
+  },
+  [TraitEnum.BOSS_DOZOJO]: {
+    name: "Surge Energy",
+    requiredMana: 40,
+    requiredEnergy: 40,
+    type: ActionTypeEnum.ATTACK,
+    power: PowerEnum.HYBRID,
+    emitValueMultiply: 0.2,
+  },
+  [TraitEnum.BOSS_NEXOS]: {
+    name: "Artificial Perfection",
+    requiredMana: -1,
+    requiredEnergy: 80,
+    type: ActionTypeEnum.DEFEND,
+    power: PowerEnum.PHYSICAL,
+    emitValueMultiply: 0.2,
+  },
+  [TraitEnum.BOSS_VEXARIA]: {
+    name: "Dark Manipulation",
+    requiredMana: 80,
+    requiredEnergy: -1,
+    type: ActionTypeEnum.RESTORE,
+    power: PowerEnum.MAGICAL,
+    emitValueMultiply: 0.2,
   },
 };

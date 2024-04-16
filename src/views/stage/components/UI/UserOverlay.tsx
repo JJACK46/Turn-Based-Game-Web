@@ -24,7 +24,7 @@ export default function UserOverlay() {
     methodsIndicator: { resetCurrentEntity, setSelectSkill, resetSelectSkill },
   } = useGameStore();
   const uiLogic = useUIStore();
-  const { blockedDamage, totalHitDamage, lastHitDamage } = infoDamage;
+  const { blockedDamage, totalHitDamage, lastHitDamage, missed } = infoDamage;
 
   return (
     <>
@@ -177,6 +177,7 @@ export default function UserOverlay() {
           <i className="font-medium text-2xl ">
             Total Damage: {totalHitDamage}
           </i>
+          {missed && <i className="font-medium text-lg ">Missed !</i>}
         </span>
       )}
       {selectedSkill && targetEntity && (

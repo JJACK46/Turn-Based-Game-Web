@@ -22,28 +22,38 @@ function MapSelection() {
             {worldName}
           </h1>
         </section>
-        <MapSection backgroundUrl={maps[0].backgroundImageUrl ?? ""}>
-          {maps.map((map, index) => (
-            <>
+        {maps.length > 0 && (
+          <>
+            <MapSection backgroundUrl={maps[0].backgroundUrl ?? ""}>
+              {maps.map((map, index) => (
+                <MapCard
+                  key={index}
+                  name={map.name}
+                  cardImageUrl={map.cardImageUrl}
+                  details={map.details ?? ""}
+                  entitiesLevel={[1, 10]}
+                  grade={"COMMON"}
+                  backgroundUrl={map.backgroundUrl}
+                  enemyFrontRow={map.enemyFrontRow}
+                  enemyBackRow={map.enemyBackRow}
+                />
+              ))}
+            </MapSection>
+            <MapSection backgroundUrl={bossMap.backgroundUrl ?? ""}>
               <MapCard
-                key={index}
-                name={map.name}
-                imageUrl={map.cardImageUrl}
-                details={map.detail ?? ""}
-                enemyLevels={[1, 10]}
+                name={bossMap.name}
+                cardImageUrl={bossMap.cardImageUrl}
+                details={bossMap.details ?? ""}
+                entitiesLevel={[1, 10]}
+                grade="BOSS"
+                boss={bossMap.boss}
+                backgroundUrl={bossMap.backgroundUrl}
+                enemyFrontRow={bossMap.enemyFrontRow}
+                enemyBackRow={bossMap.enemyBackRow}
               />
-            </>
-          ))}
-        </MapSection>
-        <MapSection backgroundUrl={bossMap.backgroundImageUrl ?? ""}>
-          <MapCard
-            name={bossMap.name}
-            imageUrl={bossMap.cardImageUrl}
-            details={bossMap.detail ?? ""}
-            enemyLevels={[1, 10]}
-            boss
-          />
-        </MapSection>
+            </MapSection>
+          </>
+        )}
       </span>
     </>
   );

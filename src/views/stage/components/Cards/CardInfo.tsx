@@ -33,6 +33,7 @@ function CardInfo() {
             <div className="flex flex-col text-center justify-center items-center">
               <div className="font-mono text-3xl font-bold">
                 {currentEntityData?.entity.name}
+                <p className="text-sm"> {currentEntityData?.trait}</p>
                 <p className="fot-memo text-sm my-2 p-1 rounded-full bg-gray-700 uppercase">
                   {currentEntityData?.entity.status}
                 </p>

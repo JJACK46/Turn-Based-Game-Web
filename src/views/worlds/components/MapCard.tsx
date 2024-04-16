@@ -1,28 +1,29 @@
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
+import { Link } from "react-router-dom";
+import { useWorldStore } from "../store/worldStore";
+import { MapData } from "@/data/worlds/types/map";
 
-export const MapCard = (props: {
-  imageUrl: string;
-  name: string;
-  enemyLevels: number[];
-  details: string;
-  dropItems?: string[];
-  boss?: true;
-}) => {
+export const MapCard = (props: MapData) => {
+  const { setSelectedMap } = useWorldStore();
   return (
-    <button className="w-fit h-fit flex self-center">
+    <Link
+      to={`/stage`}
+      onClick={() => setSelectedMap(props)}
+      className="w-fit h-fit flex self-center"
+    >
       <div
         className={`overflow-hidden rounded-xl xl:scale-75 2xl:scale-100 h-96 w-32 p-3 flex flex-col gap-2 bg-black/70 text-left 
       border border-transparent hover:border-white ${
-        props.boss ? "xl:scale-100 2xl:scale-125 w-72 h-full" : ""
+        props.boss ? "xl:scale-105 2xl:scale-125 w-72 h-full" : ""
       }
     `}
       >
         <img
           className={`-z-10 object-cover rounded-ss-lg rounded-se-lg 
-          hover:scale-150 ${props.boss ? "hover:translate-y-10" : ""}`}
+           ${props.boss ? "hover:translate-y-10 hover:scale-150" : ""}`}
           src={
-            props.imageUrl.length > 0
-              ? `${props.imageUrl}`
+            props.cardImageUrl.length > 0
+              ? `${props.cardImageUrl}`
               : `${BASE_URL_IMAGE_ENTITIES}/robot_soldier_1.jpeg`
           }
         />
@@ -33,7 +34,7 @@ export const MapCard = (props: {
           {`${
             props.boss
               ? `???`
-              : `${props.enemyLevels[0]}-${props.enemyLevels[1]}`
+              : `${props.entitiesLevel[0]}-${props.entitiesLevel[1]}`
           }`}
         </p>
         <p className="text-sm">Drop Items: {`${props.dropItems ?? "???"}`}</p>
@@ -42,6 +43,6 @@ export const MapCard = (props: {
           {props.details}
         </p>
       </div>
-    </button>
+    </Link>
   );
 };

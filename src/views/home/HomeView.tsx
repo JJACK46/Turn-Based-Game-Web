@@ -2,8 +2,8 @@ import { useState } from "react";
 import SettingPopup from "./components/SettingPopup";
 import ButtonHome from "./components/ButtonHome";
 import ReactPlayer from "react-player";
-import useSound from "use-sound";
-import soundtrack from "@/assets/sounds/soundtracks/space-ambient-sci-fi.mp3";
+// import useSound from "use-sound";
+// import soundtrack from "@/assets/sounds/soundtracks/space-ambient-sci-fi.mp3";
 
 function HomeView() {
   const [setting, setSetting] = useState<boolean>(false);
@@ -11,10 +11,10 @@ function HomeView() {
     setSetting(true);
   };
 
-  const [playLobbySoundtrack, { stop }] = useSound(soundtrack, {
-    volume: 0.5,
-    interrupt: true,
-  });
+  // const [playLobbySoundtrack, { stop }] = useSound(soundtrack, {
+  //   volume: 0.5,
+  //   interrupt: true,
+  // });
 
   return (
     <div

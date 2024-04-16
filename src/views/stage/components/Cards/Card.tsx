@@ -37,11 +37,16 @@ const Card = (props: { instance: EntityInstance }) => {
   } = useUIStore();
 
   const strCurrentHP = convertNumberToPercentage(
-    instance.entity.health,
+    instance.HP,
     instance.entity.maxHealth
   );
-  const strCurrentMEP = convertNumberToPercentage(
-    instance.entity.energy > -1 ? instance.entity.energy : instance.entity.mana,
+  const strCurrentMP = convertNumberToPercentage(
+    instance.MP,
+    instance.entity.maxManaEnergyPower
+  );
+
+  const strCurrentEP = convertNumberToPercentage(
+    instance.EP,
     instance.entity.maxManaEnergyPower
   );
 
@@ -145,15 +150,16 @@ const Card = (props: { instance: EntityInstance }) => {
           ${isHoveredCard ? "scale-110" : ""}`}
         >
           <div
-            className={`w-24 h-fit bg-slate-800 rounded-md items-center justify-around hover:w-32 border transition 
+            className={`w-24 h-fit rounded-md items-center justify-around hover:w-32 border transition 
             ${wasAction() ? "border-transparent" : ""}
+             ${instance.isBoss ? "bg-black" : "bg-slate-800"}
             `}
             style={{
               opacity: !instance.isAlive ? 0.2 : 1,
               boxShadow: handleColorActionCard(),
             }}
           >
-            {isHoveredCard && (
+            {isHoveredCard && instance.hasActiveSkill && (
               <div className="flex flex-col justify-center items-center mt-2">
                 {instance.activeSkills.map((s, index) => (
                   <p
@@ -166,29 +172,24 @@ const Card = (props: { instance: EntityInstance }) => {
               </div>
             )}
             <p
-              className={`border-white border-b w-full p-1 ${
-                instance.entity.name.length > 10 ? "text-xs" : ""
-              }`}
+              className={`border-white border-b w-full p-1 
+              ${instance.entity.name.length > 10 ? "text-xs" : ""}
+              ${instance.isBoss ? "text-red-600 font-medium" : ""}
+              `}
             >
               {instance.entity.name}
             </p>
             <img
               className="object-cover"
-              width={500}
-              height={494}
               src={`${BASE_URL_IMAGE_ENTITIES}/${instance.entity.imageUrl}`}
               alt="no image"
               draggable={false}
             />
-            <div
-              rel="stats"
-              className="grid grid-cols-2 justify-items-start px-2 text-sm bg-black"
-            ></div>
             <hr />
-            <div className="w-full relative bg-white/20">
+            <div className="w-full relative bg-white/20 ">
               <div
                 rel="HP bar"
-                className="text-xs font-medium text-center p-0.5 leading-none "
+                className="text-xs font-medium text-center"
                 style={{
                   backgroundColor: getColorByHp(strCurrentHP),
                   width: strCurrentHP,
@@ -197,19 +198,45 @@ const Card = (props: { instance: EntityInstance }) => {
                 {strCurrentHP}
               </div>
             </div>
-            {instance.entity.maxManaEnergyPower > 0 && (
-              <div className="w-full relative rounded-es-lg rounded-ee-lg bg-white/20">
+            {instance.isUseHybrid && (
+              <div
+                className={`w-full relative flex flex-row bg-white/20 overflow-hidden`}
+              >
                 <div
-                  rel="MP/EP bar"
-                  className="text-xs font-medium text-center rounded-es-lg rounded-ee-lg leading-none"
-                  style={{
-                    backgroundColor: instance.isUseEnergyPower
-                      ? "rgb(75, 30, 130)"
-                      : "rgb(28, 85, 156)",
-                    width: strCurrentMEP,
-                  }}
+                  rel="EP bar"
+                  className={`text-xs font-medium text-center rounded-es-lg leading-none bg-violet-900`}
+                  style={{ width: strCurrentEP }}
                 >
-                  {strCurrentMEP}
+                  {strCurrentEP}
+                </div>
+                <div
+                  rel="MANA bar"
+                  className={`text-xs font-medium text-center rounded-ee-lg leading-none bg-blue-900`}
+                  style={{ width: strCurrentMP }}
+                >
+                  {strCurrentMP}
+                </div>
+              </div>
+            )}
+            {instance.isUseMana && !instance.isUseHybrid && (
+              <div className={`w-full relative bg-white/20 overflow-hidden`}>
+                <div
+                  rel="MP bar"
+                  className={`text-xs font-medium text-center rounded-es-lg rounded-ee-lg leading-none bg-blue-900`}
+                  style={{ width: strCurrentMP }}
+                >
+                  {strCurrentMP}
+                </div>
+              </div>
+            )}
+            {instance.isUseEnergy && !instance.isUseHybrid && (
+              <div className="w-full relative overflow-hidden bg-white/20">
+                <div
+                  rel="EP bar"
+                  className="text-xs font-medium text-center rounded-es-lg rounded-ee-lg leading-none bg-violet-900 "
+                  style={{ width: strCurrentEP }}
+                >
+                  {strCurrentEP}
                 </div>
               </div>
             )}
@@ -217,15 +244,25 @@ const Card = (props: { instance: EntityInstance }) => {
               <div className="text-xs text-left mx-2 ">
                 <p>ATK: {instance.ATK}</p>
                 <p>
-                  HP: {instance.entity.health} / {instance.entity.maxHealth}
+                  HP: {instance.HP} / {instance.entity.maxHealth}
                 </p>
-                <p>
-                  {instance.isUseEnergyPower ? "EP" : "MP"}:{" "}
-                  {instance.isUseEnergyPower
-                    ? instance.entity.energy
-                    : instance.entity.mana}{" "}
-                  / {instance.entity.maxManaEnergyPower}
-                </p>
+                {instance.isUseHybrid && (
+                  <p>
+                    MEP: {instance.MANERGY} /{" "}
+                    {instance.entity.maxManaEnergyPower}
+                  </p>
+                )}
+                {instance.isUseEnergy && !instance.isUseHybrid && (
+                  <p>
+                    EP: {instance.EP} / {instance.entity.maxManaEnergyPower}
+                  </p>
+                )}
+                {instance.isUseMana && !instance.isUseHybrid && (
+                  <p>
+                    MP: {instance.MP} / {instance.entity.maxManaEnergyPower}
+                  </p>
+                )}
+                {instance.evasion > 0 && <p>EV: {instance.evasion * 100}%</p>}
                 {instance.entity.maxDefendPower && (
                   <p
                     className={`${

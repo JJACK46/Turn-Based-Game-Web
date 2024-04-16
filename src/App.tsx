@@ -6,10 +6,14 @@ import StageView from "./views/stage/views/StageView";
 import { tutorialSet } from "./data/tutorial";
 import Credits from "./views/credits/CreditsView";
 import MapSelection from "./views/worlds/views/MapSelection";
+import { useWorldStore } from "./views/worlds/store/worldStore";
 
 function App() {
+  const { selectedMap } = useWorldStore();
+  const { name, enemyFrontRow, enemyBackRow, backgroundUrl } = selectedMap;
+
   return (
-    <div className="size-full min-w-max min-h-screen ">
+    <div className="size-full min-w-max min-h-screen">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomeView />} />
@@ -19,10 +23,21 @@ function App() {
             path="/tutorial"
             element={
               <StageView
-                tutorial
-                mapName="Tutorial"
+                mapName={"Tutorial"}
                 enemiesFrontRow={tutorialSet.enemies}
                 playersFrontRow={tutorialSet.players}
+              />
+            }
+          />
+          <Route
+            path="/stage"
+            element={
+              <StageView
+                mapName={name}
+                enemiesFrontRow={enemyFrontRow}
+                enemiesBackRow={enemyBackRow}
+                playersFrontRow={tutorialSet.players}
+                backgroundUrl={backgroundUrl}
               />
             }
           />

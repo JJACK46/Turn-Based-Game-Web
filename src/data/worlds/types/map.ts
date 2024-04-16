@@ -1,8 +1,16 @@
+import { Armor } from "@/classes/armor";
+import { Entity } from "@/classes/entity";
+import { Weapon } from "@/classes/weapon";
+
 export interface MapData {
   name: string;
   entitiesLevel: number[];
   grade: "COMMON" | "UNCOMMON" | "HARD" | "BOSS";
-  detail?: string;
+  details?: string;
+  dropItems?: (Weapon | Armor)[];
+  boss?: Entity;
   cardImageUrl: string;
-  backgroundImageUrl?: string;
+  backgroundUrl?: string;
+  enemyFrontRow: Entity[];
+  enemyBackRow?: Entity[];
 }

@@ -22,6 +22,7 @@ type World = {
     dropItems: (Weapon | Armor)[];
     maps: MapData[];
   }) => void;
+  setSelectedMap: (props: MapData) => void;
   setEntityLevel: (max: number, min: number) => void;
 };
 
@@ -39,6 +40,7 @@ export const useWorldStore = create<World>((set) => ({
     entitiesLevel: [],
     grade: "COMMON",
     cardImageUrl: "",
+    enemyFrontRow: [],
   },
   setSelectedWorld: (props) => {
     return set(() => ({
@@ -47,7 +49,13 @@ export const useWorldStore = create<World>((set) => ({
       },
     }));
   },
-
+  setSelectedMap: (props) => {
+    set(() => ({
+      selectedMap: {
+        ...props,
+      },
+    }));
+  },
   setEntityLevel: (min: number, max: number) =>
     set((state) => ({
       selectedMap: {

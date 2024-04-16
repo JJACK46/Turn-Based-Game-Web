@@ -34,6 +34,7 @@ interface GameLogicType {
     totalHitDamage: number;
     lastHitDamage: number;
     blockedDamage: number;
+    missed: boolean;
   };
   methodsMark: {
     markEntityTakenAction: (e: EntityInstance) => void;
@@ -124,6 +125,7 @@ export const useGameStore = create<GameLogicType>((set) => ({
     totalHitDamage: 0,
     lastHitDamage: 0,
     blockedDamage: 0,
+    missed: false,
   },
   infoMarkedEntities: {
     takenAction: [],
@@ -292,11 +294,16 @@ export const useGameStore = create<GameLogicType>((set) => ({
 
       if (sourceEntity.hasEnoughManaFor({ skill: skillInstance.skill })) {
         if (skillInstance.isAttackSkill) {
-          const { resultDamage, blockedDamage, damageMade, effectedTarget } =
-            skillInstance.effectToTarget({
-              sourceEntity,
-              targetEntity,
-            });
+          const {
+            resultDamage,
+            blockedDamage,
+            damageMade,
+            effectedTarget,
+            missed,
+          } = skillInstance.effectToTarget({
+            sourceEntity,
+            targetEntity,
+          });
 
           targetEntities[effectedTarget.index] = effectedTarget;
 
@@ -310,6 +317,7 @@ export const useGameStore = create<GameLogicType>((set) => ({
               totalHitDamage: state.infoDamage.totalHitDamage + resultDamage,
               lastHitDamage: damageMade,
               blockedDamage: blockedDamage,
+              missed,
             },
             infoField: {
               ...state.infoField,
@@ -544,6 +552,7 @@ export const useGameStore = create<GameLogicType>((set) => ({
             lastHitDamage: 0,
             totalHitDamage: 0,
             blockedDamage: 0,
+            missed: false,
           },
           infoMarkedEntities: {
             ...state.infoMarkedEntities,

@@ -8,14 +8,11 @@ export const MapSection = (props: {
           backgroundImage: `url(${props.backgroundUrl})`,
           backgroundSize: "cover",
         }
-      : {
-          backgroundImage: 'url("/images/maps/Astralis_city.jpeg")', // Fallback to a default background image
-          backgroundSize: "cover",
-        };
+      : {};
 
   return (
     <section
-      className={`z-0 px-10 flex flex-row justify-around w-full h-screen`}
+      className={`z-0 px-10 flex flex-row justify-around w-full h-screen sticky top-0`}
       style={backgroundStyle}
     >
       {props.children}

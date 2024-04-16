@@ -71,6 +71,32 @@ export class EntityInstance {
   get DEF() {
     return this.entity.defend ?? 0;
   }
+  get MP() {
+    return this.entity.mana ?? 0;
+  }
+  get EP() {
+    return this.entity.energy ?? 0;
+  }
+  get MANERGY() {
+    return this.entity.energy + this.entity.mana;
+  }
+
+  get trait() {
+    return this.entity.trait;
+  }
+
+  get evasion() {
+    return this.entity.evasion;
+  }
+
+  get isBoss() {
+    const boss = [
+      TraitEnum.BOSS_DOZOJO,
+      TraitEnum.BOSS_NEXOS,
+      TraitEnum.BOSS_VEXARIA,
+    ];
+    return boss.includes(this.entity.trait);
+  }
 
   get listDurationSkill(): SkillInstance[] {
     return this.allSkills
@@ -122,8 +148,16 @@ export class EntityInstance {
     return this.entity.health > 0;
   }
 
-  get isUseEnergyPower() {
+  get isUseEnergy() {
     return this.entity.energy > -1;
+  }
+
+  get isUseMana() {
+    return this.entity.mana > -1;
+  }
+
+  get isUseHybrid() {
+    return this.entity.energy > -1 && this.entity.mana > -1;
   }
 
   calculateDamageMadeBy(props: { skill: Skill }): number {

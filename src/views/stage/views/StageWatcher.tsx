@@ -109,7 +109,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
         });
       }
     }
-  }, [availableActions]);
+  }, [availableActions, isGameStart]);
 
   //update round
   useEffect(() => {
