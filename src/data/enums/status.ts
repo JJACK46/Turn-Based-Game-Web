@@ -1,4 +1,5 @@
 import { Status } from "../../classes/status";
+import { PowerEnum } from "./powers";
 
 export enum StatusEnum {
   NORMAL = "normal",
@@ -6,24 +7,59 @@ export enum StatusEnum {
   FREEZE = "freeze",
   POISON = "poison",
   VULNERABLE = "vulnerable",
-  IMMUNITY_MAGIC = "immunity magic",
+  IMMUNITY_MAGICAL = "immunity magic",
   IMMUNITY_PHYSICAL = "immunity physical",
+  DEFENSIVE = "defensive",
   INACTIVE = "inactive",
 }
 
 export const listStatus: { [key in StatusEnum]: Status } = {
-  [StatusEnum.NORMAL]: { title: "Normal", canAction: true },
-  [StatusEnum.STUNNED]: { title: "Stunned", canAction: false },
-  [StatusEnum.FREEZE]: { title: "Freeze", canAction: false },
-  [StatusEnum.POISON]: { title: "Poison", canAction: true },
-  [StatusEnum.VULNERABLE]: { title: "Vulnerable", canAction: true },
-  [StatusEnum.IMMUNITY_MAGIC]: { title: "Immunity magic", canAction: true },
-  [StatusEnum.IMMUNITY_PHYSICAL]: {
-    title: "Immunity physical",
-    canAction: true,
-  },
-  [StatusEnum.INACTIVE]: {
-    title: "Inactive",
+  [StatusEnum.NORMAL]: new Status({ name: "Normal", canAction: true }),
+  [StatusEnum.STUNNED]: new Status({
+    name: "Stunned",
     canAction: false,
-  },
+    duration: 1,
+  }),
+  [StatusEnum.FREEZE]: new Status({
+    name: "Freeze",
+    canAction: false,
+    duration: 1,
+    immuneTo: PowerEnum.HYBRID,
+  }),
+  [StatusEnum.POISON]: new Status({
+    name: "Poison",
+    canAction: true,
+    duration: 2,
+    valueMultiply: 0.1,
+    canDispel: true,
+  }),
+  [StatusEnum.VULNERABLE]: new Status({
+    name: "Vulnerable",
+    canAction: true,
+    duration: 2,
+    valueMultiply: 0.3,
+    canDispel: true,
+  }),
+  [StatusEnum.IMMUNITY_MAGICAL]: new Status({
+    name: "Immunity magic",
+    canAction: true,
+    immuneTo: PowerEnum.MAGICAL,
+    duration: 1,
+  }),
+  [StatusEnum.IMMUNITY_PHYSICAL]: new Status({
+    name: "Immunity physical",
+    canAction: true,
+    immuneTo: PowerEnum.PHYSICAL,
+    duration: 1,
+  }),
+  [StatusEnum.DEFENSIVE]: new Status({
+    name: "Defensive Buff",
+    canAction: true,
+    valueMultiply: 1,
+    duration: 1,
+  }),
+  [StatusEnum.INACTIVE]: new Status({
+    name: "Inactive",
+    canAction: false,
+  }),
 };

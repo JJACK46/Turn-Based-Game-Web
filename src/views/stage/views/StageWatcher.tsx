@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { useGameStore } from "../stores/gameStore";
 import { botAction } from "../stores/BotLogic";
 import { restoreManaForEntities } from "../helpers/entity";
-import { updateRemainingActiveSkill } from "../helpers/stage";
-import { PositionEnum } from "@/data/enums/position";
+import { updateRemainingActive } from "../helpers/stage";
+import { PositionEnum } from "@/data/enums/positions";
 
 export function StageWatcher({ children }: { children: React.ReactNode }) {
   const {
@@ -65,25 +65,25 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
       });
     }
   }
-  function updateDurationOfActiveSkill() {
+  function updateRemainingActiveAll() {
     setEntities({
-      entities: updateRemainingActiveSkill(playersFrontRow),
+      entities: updateRemainingActive(playersFrontRow),
       isPlayer: true,
       position: PositionEnum.FRONT,
     });
     setEntities({
-      entities: updateRemainingActiveSkill(enemiesFrontRow),
+      entities: updateRemainingActive(enemiesFrontRow),
       isPlayer: false,
       position: PositionEnum.FRONT,
     });
     if (playersBackRow && enemiesBackRow) {
       setEntities({
-        entities: updateRemainingActiveSkill(playersBackRow),
+        entities: updateRemainingActive(playersBackRow),
         isPlayer: true,
         position: PositionEnum.BACK,
       });
       setEntities({
-        entities: updateRemainingActiveSkill(enemiesBackRow),
+        entities: updateRemainingActive(enemiesBackRow),
         isPlayer: false,
         position: PositionEnum.BACK,
       });
@@ -116,7 +116,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
     if (cycleRound === 0) {
       increaseRound();
       restoreManaEveryEntity();
-      updateDurationOfActiveSkill();
+      updateRemainingActiveAll();
       resetCycleRound();
     }
   }, [cycleRound]);

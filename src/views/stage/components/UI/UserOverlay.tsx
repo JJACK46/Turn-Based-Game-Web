@@ -1,9 +1,10 @@
 import CardInfo from "../Cards/CardInfo";
 import { ActionWarning, TurnWarning } from "../Warning";
-import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
+import { BASE_DELAY_SKILL, BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
 import { useGameStore } from "../../stores/gameStore";
 import { useUIStore } from "../../stores/uiStore";
 import { SkillInstance } from "@/classes/skills";
+import { useEffect } from "react";
 
 export default function UserOverlay() {
   const {
@@ -22,9 +23,21 @@ export default function UserOverlay() {
     infoDamage,
     infoIndicator: { currentEntity, targetEntity, selectedSkill },
     methodsIndicator: { resetCurrentEntity, setSelectSkill, resetSelectSkill },
+    setInfoDamage,
   } = useGameStore();
   const uiLogic = useUIStore();
   const { blockedDamage, totalHitDamage, lastHitDamage, missed } = infoDamage;
+
+  useEffect(() => {
+    setTimeout(() => {
+      setInfoDamage({
+        totalHitDamage: 0,
+        lastHitDamage: 0,
+        blockedDamage: 0,
+        missed: false,
+      });
+    }, BASE_DELAY_SKILL * 0.8);
+  }, [totalHitDamage]);
 
   return (
     <>
@@ -170,16 +183,20 @@ export default function UserOverlay() {
           </div>
         </span>
       )}
-      {lastHitDamage > 0 && (
-        <span className="absolute top-32 right-8 flex flex-col z-10">
+      <span className="absolute top-32 right-8 flex flex-col z-10">
+        {lastHitDamage > 0 && (
           <i className="font-medium text-lg">Hit Damage: {lastHitDamage}</i>
+        )}
+        {blockedDamage > 0 && !missed && (
           <i className="font-medium text-lg">Blocked Damage: {blockedDamage}</i>
+        )}
+        {totalHitDamage > 0 && !missed && (
           <i className="font-medium text-2xl ">
             Total Damage: {totalHitDamage}
           </i>
-          {missed && <i className="font-medium text-lg ">Missed !</i>}
-        </span>
-      )}
+        )}
+        {missed && <i className="font-medium text-lg ">Missed !</i>}
+      </span>
       {selectedSkill && targetEntity && (
         <span className="absolute top-10 right-10 p-5 border-red-600 border-2 rounded-2xl z-10">
           <div className="flex flex-col size-full justify-center items-center  ">

@@ -17,7 +17,7 @@ const Card = (props: { instance: EntityInstance }) => {
     methodsIndicator: {
       setCurrentEntity,
       setTargetEntity,
-      usingSkillToTargetEntity,
+      usingSkillToTarget: usingSkillToTargetEntity,
       resetCurrentEntity,
       resetSelectSkill,
       resetTargetEntity,
@@ -55,13 +55,22 @@ const Card = (props: { instance: EntityInstance }) => {
     return isEntityInEntities(instance, infoMarkedEntities.takenAction);
   };
 
+  const [currentHP, setCurrentHP] = useState(instance.HP);
+
   function handleColorActionCard() {
     if (currentEntity?.entity === instance.entity) {
       return "0px 0px 40px 0px #0ff";
     }
-    if (targetEntity?.entity === instance.entity) {
+    // if (targetEntity?.entity === instance.entity) {
+    //   return "0px 0px 40px 0px red";
+    // }
+    if (instance.HP < currentHP) {
+      setTimeout(() => {
+        setCurrentHP(instance.HP);
+      }, 1200);
       return "0px 0px 40px 0px red";
     }
+
     return "";
   }
 
@@ -100,17 +109,30 @@ const Card = (props: { instance: EntityInstance }) => {
             if (instance.playable) {
               if (turn === "player") {
                 if (!wasAction()) {
-                  if (!isEntityPerforming) {
-                    if (targetEntity) {
-                      setEntityPerforming(true);
+                  if (!selectedSkill) {
+                    if (!isEntityPerforming) {
+                      if (targetEntity) {
+                        setEntityPerforming(true);
+                      }
+                      setCurrentEntity(instance);
+                      setSkillOverlay(true);
+                    } else {
+                      alert("wait entity performing!");
+                      setTimeout(() => {
+                        setEntityPerforming(false);
+                      }, 800);
                     }
-                    setCurrentEntity(instance);
-                    setSkillOverlay(true);
                   } else {
-                    alert("wait entity performing!");
-                    setTimeout(() => {
-                      setEntityPerforming(false);
-                    }, 800);
+                    //use skill to friend
+                    alert("pre use skill to friend");
+                    // usingSkillToTargetEntity({
+                    //   targetEntity: instance,
+                    //   skillInstance: selectedSkill,
+                    //   sourceEntity: currentEntity!,
+                    //   sourceEntities: instance,
+                    //   targetEntities: instance.selfRow,
+                    //   isEnemyAction: false,
+                    // });
                   }
                 } else {
                   setActionWarning(true);
@@ -249,7 +271,7 @@ const Card = (props: { instance: EntityInstance }) => {
                 {instance.isUseHybrid && (
                   <p>
                     MEP: {instance.MANERGY} /{" "}
-                    {instance.entity.maxManaEnergyPower}
+                    {instance.entity.maxManaEnergyPower * 2}
                   </p>
                 )}
                 {instance.isUseEnergy && !instance.isUseHybrid && (
@@ -296,7 +318,7 @@ const Card = (props: { instance: EntityInstance }) => {
               <p className="text-xs">{selectedSkill.name}</p>
             </div>
           )}
-          {selectedSkill?.isDefSkill && currentEntity === instance && (
+          {selectedSkill?.isDefendSkill && currentEntity === instance && (
             <div className="flex flex-col justify-center items-center gap-1">
               <img src={defSymbol} width={18} alt="defending" />
               <p className="text-xs">{selectedSkill.name}</p>

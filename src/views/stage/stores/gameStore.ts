@@ -3,9 +3,17 @@ import { SkillInstance } from "@/classes/skills";
 import { TurnType } from "@/data/types/turn";
 import { create } from "zustand";
 import { getAliveEntities, getSpeedOfTeam } from "../helpers/stage";
-// import { StatusEnum } from "@/data/status";
 import { createUniqueID } from "@/utils/uniqueId";
-import { PositionEnum } from "@/data/enums/position";
+import { PositionEnum } from "@/data/enums/positions";
+// import { immer } from "zustand/middleware/immer";
+import { produce } from "immer";
+
+type InfoDamage = {
+  totalHitDamage: number;
+  lastHitDamage: number;
+  blockedDamage: number;
+  missed: boolean;
+};
 
 interface GameLogicType {
   infoGame: {
@@ -30,12 +38,7 @@ interface GameLogicType {
     takenAction: EntityInstance[];
     downtimeSkill: EntityInstance[];
   };
-  infoDamage: {
-    totalHitDamage: number;
-    lastHitDamage: number;
-    blockedDamage: number;
-    missed: boolean;
-  };
+  infoDamage: InfoDamage;
   methodsMark: {
     markEntityTakenAction: (e: EntityInstance) => void;
     resetEntitiesTakenAction: () => void;
@@ -86,7 +89,7 @@ interface GameLogicType {
     resetCurrentEntity: () => void;
     setTargetEntity: (e: EntityInstance) => void;
     resetTargetEntity: () => void;
-    usingSkillToTargetEntity: (props: {
+    usingSkillToTarget: (props: {
       skillInstance: SkillInstance;
       sourceEntity: EntityInstance;
       targetEntity: EntityInstance;
@@ -101,6 +104,7 @@ interface GameLogicType {
       isEnemyAction: boolean;
     }) => boolean;
   };
+  setInfoDamage: (props: InfoDamage) => void;
 }
 
 export const useGameStore = create<GameLogicType>((set) => ({
@@ -192,6 +196,12 @@ export const useGameStore = create<GameLogicType>((set) => ({
     targetEntity: null,
     selectedSkill: null,
   },
+  setInfoDamage(props) {
+    set((state) => ({
+      ...state,
+      infoDamage: { ...props },
+    }));
+  },
   methodsIndicator: {
     setTargetStatus: (props) => {
       const { targetEntity, targetEntities, isPlayer } = props;
@@ -282,7 +292,7 @@ export const useGameStore = create<GameLogicType>((set) => ({
         },
       }));
     },
-    usingSkillToTargetEntity: (prop) => {
+    usingSkillToTarget: (prop) => {
       const {
         sourceEntities,
         targetEntities,
@@ -293,53 +303,80 @@ export const useGameStore = create<GameLogicType>((set) => ({
       } = prop;
 
       if (sourceEntity.hasEnoughManaFor({ skill: skillInstance.skill })) {
-        if (skillInstance.isAttackSkill) {
+        let resultDamage = 0;
+        let blockedDamage = 0;
+        let damageMade = 0;
+        let missed = false;
+        let updatedTarget = targetEntity;
+        let updatedTargetEntities = [...targetEntities]; // Create a shallow copy
+        const updatedSourceEntities = [...sourceEntities]; // Create a shallow copy
+
+        if (!skillInstance.isAttackAOE) {
+          // Single target
           const {
-            resultDamage,
-            blockedDamage,
-            damageMade,
+            resultDamage: res,
+            blockedDamage: blocked,
+            damageMade: dmg,
             effectedTarget,
-            missed,
+            missed: miss,
           } = skillInstance.effectToTarget({
             sourceEntity,
             targetEntity,
           });
 
-          targetEntities[effectedTarget.index] = effectedTarget;
+          updatedTargetEntities[effectedTarget.index] = effectedTarget;
 
-          sourceEntities[sourceEntity.index] = sourceEntity.updateManaFromUse({
-            skill: skillInstance.skill,
-          });
+          updatedSourceEntities[sourceEntity.index] =
+            sourceEntity.updateManaFromUse({
+              skill: skillInstance.skill,
+            });
+          resultDamage = res;
+          blockedDamage = blocked;
+          damageMade = dmg;
+          missed = miss;
+          updatedTarget = effectedTarget;
+        } else {
+          // AOE target
+          const { resultDamage: resAOE, effectedTargets } =
+            skillInstance.effectToAOE({
+              sourceEntity,
+              targetEntities,
+            });
 
-          set((state) => ({
-            ...state,
-            infoDamage: {
-              totalHitDamage: state.infoDamage.totalHitDamage + resultDamage,
-              lastHitDamage: damageMade,
-              blockedDamage: blockedDamage,
-              missed,
-            },
-            infoField: {
-              ...state.infoField,
-              playersFrontRow: isEnemyAction
-                ? [...targetEntities]
-                : [...sourceEntities],
-              enemiesFrontRow: isEnemyAction
-                ? [...sourceEntities]
-                : [...targetEntities],
-              targetEntityData: effectedTarget,
-            },
-          }));
-          return true; // Skill was used successfully
+          updatedTargetEntities = effectedTargets;
+
+          updatedSourceEntities[sourceEntity.index] =
+            sourceEntity.updateManaFromUse({
+              skill: skillInstance.skill,
+            });
+          resultDamage = resAOE;
         }
+
+        // Update state
+
+        set(
+          produce((state) => {
+            state.infoDamage.totalHitDamage += resultDamage;
+            state.infoDamage.lastHitDamage = damageMade;
+            state.infoDamage.blockedDamage = blockedDamage;
+            state.infoDamage.missed = missed;
+            state.infoField.playersFrontRow = isEnemyAction
+              ? [...updatedTargetEntities]
+              : [...updatedSourceEntities];
+            state.infoField.enemiesFrontRow = isEnemyAction
+              ? [...updatedSourceEntities]
+              : [...updatedTargetEntities];
+            state.infoField.targetEntityData = updatedTarget;
+          })
+        );
+
+        return true;
       } else {
-        alert("not enough MP/EP");
+        console.log("Not enough MP/EP");
         return false;
       }
-
-      alert("condition use skill invalid");
-      return false; // Skill was not used
     },
+
     usingSkillToSelf: (prop) => {
       const { sourceEntities, isEnemyAction, skillInstance, sourceEntity } =
         prop;

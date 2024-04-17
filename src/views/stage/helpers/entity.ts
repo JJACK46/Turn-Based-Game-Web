@@ -78,3 +78,7 @@ export const settingEntityArmor = (entityData: Entity, equipment: Armor) => {
     armor: equipment,
   };
 };
+
+// export const findRowFromEntity = (props :{entity: EntityInstance, row: Entity[]}) => {
+
+// };

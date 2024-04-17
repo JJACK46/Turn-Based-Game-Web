@@ -1,8 +1,8 @@
 import { Entity } from "@/classes/entity";
 import { StatusEnum } from "./enums/status";
-import { TraitEnum, listTraitSkill } from "./enums/trait";
-import { ActionTypeEnum } from "./enums/actions";
-import { PowerEnum } from "./enums/power";
+import { TraitEnum, listTraitSkill } from "./enums/traits";
+import { EmitTypeEnum } from "./enums/actions";
+import { PowerEnum } from "./enums/powers";
 
 export const EntitiesData: Entity[] = [
   {
@@ -18,7 +18,7 @@ export const EntitiesData: Entity[] = [
       name: "Normal Attack",
       requiredMana: 0,
       emitValueMultiply: 1,
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       power: PowerEnum.PHYSICAL,
       requiredEnergy: 0,
     },
@@ -45,7 +45,7 @@ export const EntitiesData: Entity[] = [
     skills: [],
     normalHitSkill: {
       name: "Normal Attack",
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       requiredEnergy: 0,
       requiredMana: 0,
       emitValueMultiply: 1,
@@ -72,7 +72,7 @@ export const EntitiesData: Entity[] = [
     skills: [],
     normalHitSkill: {
       name: "Normal Attack",
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       requiredEnergy: 0,
       requiredMana: 0,
       emitValueMultiply: 1,
@@ -102,7 +102,7 @@ export const EntitiesData: Entity[] = [
     speed: 6,
     normalHitSkill: {
       name: "Normal Attack",
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       requiredEnergy: 0,
       requiredMana: 0,
       emitValueMultiply: 1,
@@ -128,7 +128,7 @@ export const EntitiesData: Entity[] = [
     skills: [],
     normalHitSkill: {
       name: "Normal Attack",
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       requiredEnergy: 0,
       requiredMana: 0,
       emitValueMultiply: 1,
@@ -156,7 +156,7 @@ export const EntitiesData: Entity[] = [
     skills: [],
     normalHitSkill: {
       name: "Normal Attack",
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       requiredEnergy: 0,
       requiredMana: 0,
       emitValueMultiply: 1,
@@ -186,7 +186,7 @@ export const EntitiesData: Entity[] = [
     skills: [],
     normalHitSkill: {
       name: "Normal Attack",
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       requiredEnergy: 0,
       requiredMana: 0,
       emitValueMultiply: 1,
@@ -216,7 +216,7 @@ export const EntitiesData: Entity[] = [
     skills: [],
     normalHitSkill: {
       name: "Normal Hit",
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       requiredEnergy: 0,
       requiredMana: 0,
       emitValueMultiply: 1,
@@ -245,7 +245,7 @@ export const EntitiesData: Entity[] = [
       name: "Normal Attack",
       requiredMana: -1,
       requiredEnergy: 0,
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       emitValueMultiply: 1,
       power: PowerEnum.PHYSICAL,
     },
@@ -274,7 +274,7 @@ export const EntitiesData: Entity[] = [
       name: "Normal Attack",
       requiredMana: -1,
       requiredEnergy: 0,
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       power: PowerEnum.MAGICAL,
       emitValueMultiply: 1,
     },
@@ -295,13 +295,13 @@ export const EntitiesData: Entity[] = [
     level: 1,
     attackPower: 12,
     mana: 20,
-    health: 15,
+    health: 30,
     skills: [],
     normalHitSkill: {
       name: "Normal Attack",
       requiredMana: -1,
       requiredEnergy: 0,
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       emitValueMultiply: 1,
       power: PowerEnum.MAGICAL,
     },
@@ -312,7 +312,7 @@ export const EntitiesData: Entity[] = [
     restoreManaOrEnergy: 5,
     maxManaEnergyPower: 20,
     energy: -1,
-    maxHealth: 15,
+    maxHealth: 30,
     maxAttackPower: 12,
     evasion: 0,
   },
@@ -330,7 +330,7 @@ export const EntitiesData: Entity[] = [
       name: "Normal Attack",
       requiredMana: -1,
       requiredEnergy: 0,
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       emitValueMultiply: 1,
       power: PowerEnum.PHYSICAL,
     },
@@ -360,7 +360,7 @@ export const EntitiesData: Entity[] = [
       name: "Normal Attack",
       requiredMana: -1,
       requiredEnergy: 0,
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       emitValueMultiply: 1,
       power: PowerEnum.HYBRID,
     },
@@ -369,7 +369,7 @@ export const EntitiesData: Entity[] = [
     traitSkill: listTraitSkill[TraitEnum.BOSS_DOZOJO],
     trait: TraitEnum.BOSS_DOZOJO,
     restoreManaOrEnergy: 10,
-    maxManaEnergyPower: 80,
+    maxManaEnergyPower: 40,
     energy: 40,
     maxHealth: 200,
     maxDefendPower: 50,
@@ -390,7 +390,7 @@ export const EntitiesData: Entity[] = [
       name: "Normal Attack",
       requiredMana: -1,
       requiredEnergy: 0,
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       emitValueMultiply: 1,
       power: PowerEnum.PHYSICAL,
     },
@@ -420,7 +420,7 @@ export const EntitiesData: Entity[] = [
       name: "Normal Attack",
       requiredMana: -1,
       requiredEnergy: 0,
-      type: ActionTypeEnum.ATTACK,
+      type: EmitTypeEnum.ATTACK,
       emitValueMultiply: 1,
       power: PowerEnum.MAGICAL,
     },

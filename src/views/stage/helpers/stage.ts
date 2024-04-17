@@ -1,5 +1,6 @@
 import { Entity, EntityInstance } from "@/classes/entity";
 import { SkillInstance } from "@/classes/skills";
+import { Status } from "@/classes/status";
 
 export function getSpeedOfTeam(entities: Entity[]) {
   return entities.reduce((sum, entity) => entity.speed + sum, 0);
@@ -55,7 +56,7 @@ export const getUpdateEntityInRow = (props: {
   });
 };
 
-export function updateRemainingActiveSkill(
+export function updateRemainingActive(
   entities: EntityInstance[]
 ): EntityInstance[] {
   return entities.map((entity) => {
@@ -71,9 +72,22 @@ export function updateRemainingActiveSkill(
       return updatedSkillInstance;
     });
 
+    const updatedActiveStatus = entity.activeStatus.map((status) => {
+      const updatedStatusInstance = new Status({
+        ...status,
+        duration:
+          (status.duration ?? 0) > 0
+            ? (status.duration ?? 0) - 1
+            : status.duration,
+      });
+
+      return updatedStatusInstance;
+    });
+
     const updatedEntity = new EntityInstance({
       ...entity,
       activeSkills: updatedActiveSkills,
+      activeStatus: updatedActiveStatus,
     });
 
     return updatedEntity.updateStat();

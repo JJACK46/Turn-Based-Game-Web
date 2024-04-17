@@ -41,9 +41,9 @@ const StageView = (props: Props) => {
             />
           )}
           {!props.backgroundUrl && (
-            <div className="-z-[100] absolute inset-0">
+            <div className="-z-[100] absolute inset-0 w-full h-full">
               <div
-                className="absolute left-[25%] top-[39%] w-[1024px] h-64 bg-gradient-to-r 
+                className="absolute left-[20%] top-[35%] w-[1024px] h-64 bg-gradient-to-r 
             from-indigo-500 via-purple-500 to-orange-500 blur-[100px]"
               ></div>
             </div>

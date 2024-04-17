@@ -1,9 +1,8 @@
 import { Skill } from "@/classes/skills";
-import { ActionTypeEnum } from "./actions";
-import { PowerEnum } from "./power";
-import { BASE_DAMAGE_REDUCTION, BASE_ROUND } from "@/utils/constants";
+import { EmitTypeEnum } from "./actions";
+import { PowerEnum } from "./powers";
+import { BASE_ROUND } from "@/utils/constants";
 import { StatusEnum } from "./status";
-import { EntityInstance } from "@/classes/entity";
 
 export enum TraitEnum {
   //earth aprilX
@@ -37,13 +36,13 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     name: "Humanity",
     requiredMana: -1,
     requiredEnergy: 10,
-    type: ActionTypeEnum.HEALING,
+    type: EmitTypeEnum.HEALING,
     power: PowerEnum.PHYSICAL,
     emitValueMultiply: 0.2, //heal self 20% of health
   },
   [TraitEnum.INSECT]: {
     name: "poison",
-    type: ActionTypeEnum.ATTACK,
+    type: EmitTypeEnum.ATTACK,
     requiredEnergy: 10,
     requiredMana: -1,
     emitValueMultiply: 1.1,
@@ -53,7 +52,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   },
   [TraitEnum.SPIRIT]: {
     name: "",
-    type: ActionTypeEnum.ATTACK,
+    type: EmitTypeEnum.ATTACK,
     requiredEnergy: 10,
     requiredMana: -1,
     emitValueMultiply: -1,
@@ -63,7 +62,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   },
   [TraitEnum.BIG_CREATURE]: {
     name: "",
-    type: ActionTypeEnum.ATTACK,
+    type: EmitTypeEnum.ATTACK,
     requiredEnergy: 10,
     requiredMana: -1,
     emitValueMultiply: 0.5,
@@ -74,39 +73,47 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   },
   [TraitEnum.ARMED_ROBOT]: {
     name: "Missile Rain",
-    type: ActionTypeEnum.ATTACK,
-    requiredEnergy: 10,
+    type: EmitTypeEnum.ATTACK_AOE,
+    requiredEnergy: 2,
     requiredMana: -1,
     emitValueMultiply: 0.2,
     emitValue: -1,
     power: PowerEnum.PHYSICAL,
     repeat: 10,
-    duration: 1 * BASE_ROUND,
-    methodSkill(props) {
-      const { sourceEntity, targetEntity, thisSkill } = props;
-      const blockedDamage = BASE_DAMAGE_REDUCTION * targetEntity.DEF;
-      const damageMade = sourceEntity.ATK * thisSkill.skill.emitValueMultiply;
-      const resultDamage = Math.max(0, damageMade - blockedDamage);
-      const effectedTarget: EntityInstance = new EntityInstance({
-        ...targetEntity,
-        entity: {
-          ...targetEntity.entity,
-          health: targetEntity.entity.health - resultDamage,
-        },
-      });
+    random: true,
+    // specialToTargetMethod(props) {
+    //   const { sourceEntity, targetEntity, thisSkill } = props;
+    //   const blockedDamage = BASE_DAMAGE_REDUCTION * targetEntity.DEF;
+    //   const damageMade = sourceEntity.ATK * thisSkill.skill.emitValueMultiply;
+    //   const evasion = targetEntity.evasion;
+    //   const randomValue = Math.random();
+    //   let missed = false;
+    //   let resultDamage = Math.max(0, damageMade - blockedDamage);
+    //    if (randomValue < evasion) {
+    //      resultDamage = 0;
+    //      missed = true;
+    //    }
+    //   const effectedTarget: EntityInstance = new EntityInstance({
+    //     ...targetEntity,
+    //     entity: {
+    //       ...targetEntity.entity,
+    //       health: targetEntity.entity.health - resultDamage,
+    //     },
+    //   });
 
-      return {
-        updatedSource: sourceEntity,
-        effectedTarget,
-        damageMade,
-        blockedDamage,
-        resultDamage,
-      };
-    },
+    //   return {
+    //     updatedSource: sourceEntity,
+    //     effectedTarget,
+    //     damageMade,
+    //     blockedDamage,
+    //     resultDamage,
+    //     missed,
+    //   };
+    // },
   },
   [TraitEnum.UNARMED_ROBOT]: {
     name: "Untouchable",
-    type: ActionTypeEnum.DEFEND,
+    type: EmitTypeEnum.DEFEND,
     requiredEnergy: 10,
     requiredMana: -1,
     emitValueMultiply: 2,
@@ -116,7 +123,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   },
   [TraitEnum.CYBORG]: {
     name: "",
-    type: ActionTypeEnum.DEFEND,
+    type: EmitTypeEnum.DEFEND,
     requiredEnergy: 10,
     requiredMana: -1,
     emitValueMultiply: 1,
@@ -126,7 +133,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   },
   [TraitEnum.AUTOMATION]: {
     name: "self repair",
-    type: ActionTypeEnum.HEALING,
+    type: EmitTypeEnum.HEALING,
     requiredEnergy: 10,
     requiredMana: -1,
     emitValueMultiply: 1,
@@ -134,7 +141,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   },
   [TraitEnum.GOBLIN]: {
     name: "",
-    type: ActionTypeEnum.ATTACK,
+    type: EmitTypeEnum.ATTACK,
     requiredEnergy: 0,
     requiredMana: 10,
     emitValueMultiply: 1,
@@ -142,7 +149,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   },
   [TraitEnum.ELF]: {
     name: "",
-    type: ActionTypeEnum.ATTACK,
+    type: EmitTypeEnum.ATTACK,
     requiredEnergy: -1,
     requiredMana: 10,
     emitValueMultiply: 1,
@@ -150,7 +157,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   },
   [TraitEnum.ORC]: {
     name: "",
-    type: ActionTypeEnum.ATTACK,
+    type: EmitTypeEnum.ATTACK,
     requiredEnergy: -1,
     requiredMana: 10,
     emitValueMultiply: 1,
@@ -158,7 +165,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   },
   [TraitEnum.DEMON]: {
     name: "",
-    type: ActionTypeEnum.ATTACK,
+    type: EmitTypeEnum.ATTACK,
     requiredEnergy: -1,
     requiredMana: 10,
     emitValueMultiply: 1,
@@ -166,7 +173,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   },
   [TraitEnum.ANGEL]: {
     name: "",
-    type: ActionTypeEnum.ATTACK,
+    type: EmitTypeEnum.ATTACK,
     requiredEnergy: -1,
     requiredMana: 10,
     emitValueMultiply: 1,
@@ -174,7 +181,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   },
   [TraitEnum.MAGIC_GOLEM]: {
     name: "",
-    type: ActionTypeEnum.ATTACK,
+    type: EmitTypeEnum.ATTACK,
     requiredEnergy: -1,
     requiredMana: 10,
     emitValueMultiply: 1,
@@ -182,7 +189,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   },
   [TraitEnum.UNKNOWN]: {
     name: "",
-    type: ActionTypeEnum.ATTACK,
+    type: EmitTypeEnum.ATTACK,
     requiredEnergy: -1,
     requiredMana: -1,
     emitValueMultiply: 1,
@@ -190,7 +197,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   },
   [TraitEnum.INHUMAN]: {
     name: "",
-    type: ActionTypeEnum.ATTACK,
+    type: EmitTypeEnum.ATTACK,
     requiredEnergy: 10,
     requiredMana: -1,
     emitValueMultiply: 1,
@@ -198,7 +205,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   },
   [TraitEnum.MAGIC_ANIMAL]: {
     name: "",
-    type: ActionTypeEnum.ATTACK,
+    type: EmitTypeEnum.ATTACK,
     requiredEnergy: -1,
     requiredMana: 10,
     emitValueMultiply: 1,
@@ -208,7 +215,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     name: "Surge Energy",
     requiredMana: 40,
     requiredEnergy: 40,
-    type: ActionTypeEnum.ATTACK,
+    type: EmitTypeEnum.ATTACK,
     power: PowerEnum.HYBRID,
     emitValueMultiply: 0.2,
   },
@@ -216,7 +223,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     name: "Artificial Perfection",
     requiredMana: -1,
     requiredEnergy: 80,
-    type: ActionTypeEnum.DEFEND,
+    type: EmitTypeEnum.DEFEND,
     power: PowerEnum.PHYSICAL,
     emitValueMultiply: 0.2,
   },
@@ -224,7 +231,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     name: "Dark Manipulation",
     requiredMana: 80,
     requiredEnergy: -1,
-    type: ActionTypeEnum.RESTORE,
+    type: EmitTypeEnum.RESTORE,
     power: PowerEnum.MAGICAL,
     emitValueMultiply: 0.2,
   },

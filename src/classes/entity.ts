@@ -2,9 +2,10 @@ import { Skill, SkillInstance } from "./skills";
 import { Armor } from "./armor";
 import { Weapon } from "./weapon";
 import { StatusEnum } from "../data/enums/status";
-import { TraitEnum } from "@/data/enums/trait";
-import { PositionEnum } from "@/data/enums/position";
-import { ActionTypeEnum } from "@/data/enums/actions";
+import { TraitEnum } from "@/data/enums/traits";
+import { PositionEnum } from "@/data/enums/positions";
+import { EmitTypeEnum } from "@/data/enums/actions";
+import { Status } from "./status";
 
 export type Entity = {
   id: number;
@@ -43,6 +44,7 @@ export class EntityInstance {
   position: PositionEnum;
   playable: boolean;
   activeSkills: SkillInstance[];
+  activeStatus: Status[];
 
   constructor(props: {
     instanceId: string;
@@ -51,6 +53,7 @@ export class EntityInstance {
     position: PositionEnum;
     playable: boolean;
     activeSkills?: SkillInstance[];
+    activeStatus?: Status[];
   }) {
     this.instanceId = props.instanceId;
     this.entity = props.entity;
@@ -58,6 +61,7 @@ export class EntityInstance {
     this.position = props.position;
     this.playable = props.playable;
     this.activeSkills = props.activeSkills ?? [];
+    this.activeStatus = props.activeStatus ?? [];
   }
 
   get ATK() {
@@ -72,10 +76,10 @@ export class EntityInstance {
     return this.entity.defend ?? 0;
   }
   get MP() {
-    return this.entity.mana ?? 0;
+    return Math.max(0, this.entity.mana);
   }
   get EP() {
-    return this.entity.energy ?? 0;
+    return Math.max(0, this.entity.energy);
   }
   get MANERGY() {
     return this.entity.energy + this.entity.mana;
@@ -87,6 +91,10 @@ export class EntityInstance {
 
   get evasion() {
     return this.entity.evasion;
+  }
+
+  get status() {
+    return this.entity.status;
   }
 
   get isBoss() {
@@ -131,9 +139,19 @@ export class EntityInstance {
   }
 
   get hasDefSkill(): Skill[] {
-    return this.allSkills.filter(
-      (skill) => skill.type === ActionTypeEnum.DEFEND
-    );
+    return this.allSkills.filter((skill) => skill.type === EmitTypeEnum.DEFEND);
+  }
+
+  get hasAttackAOE(): SkillInstance[] {
+    return this.allSkills
+      .filter((skill) => skill.type === EmitTypeEnum.ATTACK_AOE)
+      .map(
+        (skill) =>
+          new SkillInstance({
+            skill,
+            remainingTurn: skill.duration ?? 0,
+          })
+      );
   }
 
   get hasDurationSkills(): boolean {
@@ -229,7 +247,7 @@ export class EntityInstance {
       const instanceSkill = this.activeSkills[i];
       if (instanceSkill.remainingTurn === 0) {
         switch (instanceSkill.type) {
-          case ActionTypeEnum.DEFEND:
+          case EmitTypeEnum.DEFEND:
             //reset to default
             this.entity.defend! = this.entity.maxDefendPower!;
             break;
@@ -240,5 +258,21 @@ export class EntityInstance {
       }
     }
     return this;
+  }
+
+  updateSelfActiveSkills() {
+    if (this.hasDurationSkills) {
+      this.activeSkills = this.listDurationSkill;
+    }
+  }
+
+  applyActiveSkills(skill: SkillInstance) {
+    if (skill.hasDuration > 0) {
+      this.activeSkills.push(skill);
+    }
+  }
+
+  applyStatus(status: Status) {
+    this.activeStatus.push(status);
   }
 }
