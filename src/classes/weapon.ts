@@ -1,11 +1,11 @@
-import { PowerType } from "./powerType";
+import { PowerEnum } from "@/data/enums/powers";
 
 export type Weapon = {
   id: number;
   name: string;
   type: WeaponType;
   powerValue: number;
-  damageType: PowerType;
+  damageType: PowerEnum;
 };
 
 // export type WeaponType = {
@@ -20,9 +20,9 @@ export type Weapon = {
 // };
 
 export type WeaponType = {
-  id:number
-  name:string
-}
+  id: number;
+  name: string;
+};
 
 export enum WeaponEnum {
   BOW = 0,
@@ -30,18 +30,17 @@ export enum WeaponEnum {
   GUN = 2,
 }
 
-export const WeaponTypeData:WeaponType[] = [
+export const WeaponTypeData: WeaponType[] = [
   {
-    id:0,
-    name:"bow",
+    id: 0,
+    name: "bow",
   },
   {
-    id:1,
-    name:"sword",
+    id: 1,
+    name: "sword",
   },
   {
-    id:2,
-    name:"gun",
-  }
-]
-
+    id: 2,
+    name: "gun",
+  },
+];

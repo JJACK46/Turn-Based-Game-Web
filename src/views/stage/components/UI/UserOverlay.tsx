@@ -3,7 +3,6 @@ import { ActionWarning, TurnWarning } from "../Warning";
 import { BASE_DELAY_SKILL, BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
 import { useGameStore } from "../../stores/gameStore";
 import { useUIStore } from "../../stores/uiStore";
-import { SkillInstance } from "@/classes/skills";
 import { useEffect } from "react";
 
 export default function UserOverlay() {
@@ -37,7 +36,7 @@ export default function UserOverlay() {
         missed: false,
       });
     }, BASE_DELAY_SKILL * 0.8);
-  }, [totalHitDamage]);
+  }, [setInfoDamage, totalHitDamage]);
 
   return (
     <>
@@ -70,7 +69,7 @@ export default function UserOverlay() {
         </span>
       )}
       <span
-        className={`grid grid-cols-3 w-full transition-opacity duration-1000 ${
+        className={`z-30 grid grid-cols-3 w-full transition-opacity duration-1000 ${
           isGameStart ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -85,8 +84,8 @@ export default function UserOverlay() {
           <p className="uppercase text-5xl select-none">{turn}'s turn</p>
         </div>
         <div className="select-none flex flex-col w-fit justify-center uppercase justify-self-end p-5 rounded-xl bg-black/50 border-cyan-500/50 border-2">
-          <p className="text-sm">current: {currentEntity?.entity.name}</p>
-          <p className="text-sm">target: {targetEntity?.entity.name}</p>
+          <p className="text-sm">current: {currentEntity?.name}</p>
+          <p className="text-sm">target: {targetEntity?.name}</p>
         </div>
       </span>
       <span
@@ -97,12 +96,12 @@ export default function UserOverlay() {
         <hr />
         <ul className="flex flex-col items-start">
           {infoMarkedEntities.takenAction.map((e, index) => (
-            <li key={index}>{e.entity.name}</li>
+            <li key={index}>{e.name}</li>
           ))}
         </ul>
       </span>
       {uiLogic.isSkillOverlay && (
-        <span className="absolute inset-0 flex items-end justify-end size-full z-10">
+        <span className="z-40 fixed inset-0 flex items-end justify-end size-full">
           <button
             onClick={() => {
               uiLogic.setSkillOverlay(false);
@@ -115,27 +114,23 @@ export default function UserOverlay() {
               <div className="flex gap-4 items-center">
                 <div className="flex flex-row h-full bg-black/60 p-2 rounded-3xl">
                   <img
-                    src={`${BASE_URL_IMAGE_ENTITIES}/${currentEntity?.entity.imageUrl}`}
+                    src={`${BASE_URL_IMAGE_ENTITIES}/${currentEntity?.imageUrl}`}
                     alt="no data"
                     className="h-full object-cover rounded-3xl"
                   />
                   <div className="flex flex-col h-full w-32 justify-center items-start p-5">
-                    <p className="text-xl">{currentEntity?.entity.name}</p>
-                    <p className=" text-md">
-                      lvl.{currentEntity?.entity.level}
-                    </p>
-                    <p className="text-md">ATK : {currentEntity?.ATK}</p>
-                    <p className="text-md">DEF : {currentEntity?.DEF}</p>
+                    <p className="text-xl">{currentEntity?.name}</p>
+                    <p className=" text-md">lvl.{currentEntity?.level}</p>
                     <p className="text-md">
-                      HEAL : {currentEntity?.entity.healingPower ?? 0}
+                      ATK : {currentEntity?.attackPower}
+                    </p>
+                    <p className="text-md">DEF : {currentEntity?.defend}</p>
+                    <p className="text-md">
+                      HEAL : {currentEntity?.healingPower ?? 0}
                     </p>
                   </div>
                 </div>
                 {currentEntity?.allSkills.map((skill, index) => {
-                  const skillInstance = new SkillInstance({
-                    skill,
-                    remainingTurn: 0,
-                  });
                   return (
                     <button
                       key={index}
@@ -147,7 +142,7 @@ export default function UserOverlay() {
                       }`}
                       onClick={() => {
                         if (currentEntity.hasEnoughManaFor({ skill: skill })) {
-                          setSelectSkill(skillInstance);
+                          setSelectSkill(skill);
                           uiLogic.setSkillOverlay(false);
                         }
                       }}
@@ -155,20 +150,21 @@ export default function UserOverlay() {
                       <div>{skill.name}</div>
                       <div className="text-sm">
                         <ul className="flex flex-row gap-3">
-                          {(skill.requiredEnergy || skill.requiredMana > 0) && (
+                          {(skill.requiredEnergy > 0 ||
+                            skill.requiredMana > 0) && (
                             <li>
                               {`${skill ? "EP:" : "MP:"}`}{" "}
                               {`${
-                                skillInstance.isSkillRequiredEnergy
+                                skill.requiredEnergy > 0
                                   ? skill.requiredEnergy
                                   : skill.requiredMana
                               }`}
                             </li>
                           )}
                           <li>
-                            {`DMG: ${currentEntity.calculateDamageMadeBy(
-                              skillInstance
-                            )}`}
+                            {`DMG: ${currentEntity.calculateDamageMadeBy({
+                              skill,
+                            })}`}
                           </li>
                         </ul>
                       </div>
@@ -215,7 +211,7 @@ export default function UserOverlay() {
               resetCurrentEntity();
             }}
           >
-            <p className="uppercase">{selectedSkill.skill.name}</p>
+            <p className="uppercase">{selectedSkill.name}</p>
 
             <hr className="my-2" />
             <p className="uppercase text-xs">cancel</p>

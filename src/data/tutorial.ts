@@ -1,9 +1,9 @@
-import { Entity } from "../classes/entity";
+import { EntityType } from "../classes/entity";
 import { EntitiesData } from "./entities";
 
 interface TutorialSet {
-  enemies: Entity[];
-  players: Entity[];
+  enemies: EntityType[];
+  players: EntityType[];
 }
 
 export const tutorialSet: TutorialSet = {

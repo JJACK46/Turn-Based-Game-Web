@@ -1,12 +1,15 @@
 import { PowerEnum } from "@/data/enums/powers";
-import { EntityInstance } from "./entity";
+import { Entity } from "./entity";
 import { EmitTypeEnum } from "@/data/enums/actions";
-import { StatusEnum, listStatus } from "@/data/enums/status";
 import { BASE_DAMAGE_REDUCTION } from "@/utils/constants";
+import {
+  EffectSkillEnum,
+  listDefaultEffectSkill as listDefaultEffectSkill,
+} from "@/data/enums/effectSkills";
 
 type ResultAffectSingle = {
-  updatedSource: EntityInstance;
-  effectedTarget: EntityInstance;
+  updatedSource: Entity;
+  effectedTarget: Entity;
   damageMade: number;
   blockedDamage: number;
   resultDamage: number;
@@ -14,104 +17,141 @@ type ResultAffectSingle = {
 };
 
 type ResultAffectMultiple = {
-  updatedSource: EntityInstance;
-  effectedTargets: EntityInstance[];
+  updatedSource: Entity;
+  effectedTargets: Entity[];
   resultDamage: number;
 };
 
-export type Skill = {
+export type SkillType = {
   name: string;
   describe?: string;
   type: EmitTypeEnum;
   requiredEnergy: number;
   requiredMana: number;
   requiredHealth?: number;
-  comboAble?: true;
-  comboWith?: Skill;
+  comboAble?: boolean | true;
+  comboWith?: SkillType | null;
   emitValueMultiply: number;
   emitValue?: number;
   power: PowerEnum;
-  effectStatus?: StatusEnum;
   duration?: number;
   repeat?: number;
-  random?: true;
+  randomTarget?: true | boolean;
   specialToTargetMethod?: (props: {
-    sourceEntity: EntityInstance;
-    targetEntity: EntityInstance;
-    thisSkill: SkillInstance;
+    sourceEntity: Entity;
+    targetEntity: Entity;
+    thisSkill: Skill;
   }) => ResultAffectSingle;
 };
 
-export class SkillInstance {
-  skill: Skill;
-  remainingTurn: number;
+export class Skill implements SkillType {
+  duration: number;
+  describe?: string | undefined;
+  requiredEnergy: number;
+  requiredMana: number;
+  requiredHealth: number;
+  // comboAble: boolean;
+  // comboWith: SkillType | null;
+  power: PowerEnum;
+  repeat: number;
+  randomTarget: boolean;
+  name: string;
+  type: EmitTypeEnum;
+  emitValueMultiply: number;
+  emitValue: number;
+  specialToTargetMethod?:
+    | ((props: {
+        sourceEntity: Entity;
+        targetEntity: Entity;
+        thisSkill: Skill;
+      }) => ResultAffectSingle)
+    | undefined;
 
-  constructor(props: { skill: Skill; remainingTurn: number }) {
-    this.skill = props.skill;
-    this.remainingTurn = props.remainingTurn;
-  }
-
-  get name(): string {
-    return this.skill.name;
-  }
-
-  get isSkillRequiredEnergy(): boolean {
-    const ep = this.skill.requiredEnergy ?? -1;
-    return ep > -1;
+  constructor({
+    name,
+    type,
+    emitValueMultiply,
+    duration,
+    describe,
+    requiredEnergy,
+    requiredMana,
+    requiredHealth,
+    // comboAble,
+    // comboWith,
+    power,
+    repeat,
+    randomTarget,
+    emitValue,
+    specialToTargetMethod,
+  }: {
+    name: string;
+    type: EmitTypeEnum;
+    emitValueMultiply: number;
+    duration?: number;
+    describe?: string;
+    requiredEnergy?: number;
+    requiredMana?: number;
+    requiredHealth?: number;
+    // comboAble?: true;
+    // comboWith?: SkillType;
+    power: PowerEnum;
+    repeat?: number;
+    randomTarget?: boolean;
+    emitValue?: number;
+    specialToTargetMethod?: (props: {
+      sourceEntity: Entity;
+      targetEntity: Entity;
+      thisSkill: Skill;
+    }) => ResultAffectSingle;
+  }) {
+    this.name = name;
+    this.type = type;
+    this.emitValueMultiply = emitValueMultiply;
+    this.duration = duration ?? 0;
+    this.describe = describe;
+    this.requiredEnergy = requiredEnergy ?? -1;
+    this.requiredMana = requiredMana ?? -1;
+    this.requiredHealth = requiredHealth ?? -1;
+    // this.comboAble = comboAble ?? false;
+    // this.comboWith = comboWith ?? null;
+    this.power = power;
+    this.repeat = repeat ?? 0;
+    this.randomTarget = randomTarget ?? false;
+    this.emitValue = emitValue ?? 0;
+    this.specialToTargetMethod = specialToTargetMethod;
   }
 
   get isAttackSkill(): boolean {
     const attackTypes = [EmitTypeEnum.ATTACK, EmitTypeEnum.ATTACK_AOE];
-    return attackTypes.includes(this.skill.type);
+    return attackTypes.includes(this.type);
   }
 
   get isDefendSkill(): boolean {
     const defTypes = [EmitTypeEnum.DEFEND, EmitTypeEnum.DEFEND_AOE];
-    return defTypes.includes(this.skill.type);
-  }
-
-  get type(): EmitTypeEnum {
-    return this.skill.type;
+    return defTypes.includes(this.type);
   }
 
   get hasDuration() {
-    return this.skill.duration ?? 0;
+    return this.duration > 0 ? true : false;
   }
 
   get isAttackAOE() {
-    return this.skill.type === EmitTypeEnum.ATTACK_AOE;
-  }
-
-  get repeatTimes() {
-    return this.skill.repeat ?? 0;
-  }
-
-  get emitValueMultiply() {
-    return this.skill.emitValueMultiply;
-  }
-
-  get emitValue() {
-    return this.skill.emitValue ?? 0;
+    return this.type === EmitTypeEnum.ATTACK_AOE;
   }
 
   get requiredTotalManaOrEnergy() {
     return (
-      (Math.max(0, this.skill.requiredEnergy) +
-        Math.max(0, this.skill.requiredMana)) *
-      (this.skill.repeat ?? 1)
+      (Math.max(0, this.requiredEnergy) + Math.max(0, this.requiredMana)) *
+      this.repeat
     );
   }
 
-  get isRandom() {
-    return this.skill.random;
-  }
-
   effectToTarget(props: {
-    sourceEntity: EntityInstance;
-    targetEntity: EntityInstance;
+    sourceEntity: Entity;
+    targetEntity: Entity;
   }): ResultAffectSingle {
     const { sourceEntity: source, targetEntity: target } = props;
-    const blockedDamage = BASE_DAMAGE_REDUCTION * target.DEF;
+    const blockedDamage = BASE_DAMAGE_REDUCTION * target.defend;
     const evasion = target.evasion;
     const randomValue = Math.random();
     let missed = false;
@@ -125,7 +165,7 @@ export class SkillInstance {
     };
 
     //special method
-    if (this.skill.specialToTargetMethod) {
+    if (this.specialToTargetMethod) {
       const {
         updatedSource,
         effectedTarget,
@@ -133,7 +173,7 @@ export class SkillInstance {
         blockedDamage,
         resultDamage,
         missed,
-      } = this.skill.specialToTargetMethod({
+      } = this.specialToTargetMethod({
         sourceEntity: source,
         targetEntity: target,
         thisSkill: this,
@@ -149,14 +189,16 @@ export class SkillInstance {
     }
 
     const defaultAttackMethod = (): ResultAffectSingle => {
-      const damageMade = Math.round(source.ATK * this.skill.emitValueMultiply);
+      const damageMade = Math.round(
+        source.attackPower * this.emitValueMultiply
+      );
       let resultDamage = Math.max(0, damageMade - blockedDamage);
       if (randomValue < evasion) {
         resultDamage = 0;
         missed = true;
       }
 
-      target.entity.health -= resultDamage;
+      target.health -= resultDamage;
 
       return {
         updatedSource: source,
@@ -179,18 +221,27 @@ export class SkillInstance {
     return result;
   }
 
-  effectToSelf(sourceEntity: EntityInstance): EntityInstance {
+  effectToSelf(sourceEntity: Entity): Entity {
     if (this.isAttackSkill) throw new Error("can not use attack skill to self");
 
-    const defaultDefendSelfMethod = (): EntityInstance => {
-      if (sourceEntity.DEF > 0 && this.isDefendSkill) {
-        if (this.emitValueMultiply > 0) {
-          sourceEntity.entity.defend! *= this.emitValueMultiply;
-        } else {
-          sourceEntity.entity.defend! += this.emitValue;
-        }
-        sourceEntity.updateSelfActiveSkills();
+    const defaultDefendSelfMethod = (): Entity => {
+      // if (this.isDefendSkill) {
+      //   if (sourceEntity.DEF > 0) {
+      //     if (this.emitValueMultiply > 0) {
+      //       sourceEntity.entity.defend! *= this.emitValueMultiply;
+      //     } else {
+      //       sourceEntity.entity.defend! += this.emitValue;
+      //     }
+      //     sourceEntity.updateSelfActiveSkills();
+      //   }
+      // }
+      const defaultEffectDef =
+        listDefaultEffectSkill[EffectSkillEnum.ENHANCE_DEFEND];
+      if (this.emitValueMultiply > 0) {
+        defaultEffectDef.emitValueMultiplier = this.emitValueMultiply;
       }
+      sourceEntity.applyEffectSkills(defaultEffectDef);
+
       return sourceEntity;
     };
 
@@ -206,12 +257,9 @@ export class SkillInstance {
     return result || sourceEntity;
   }
 
-  effectToAOE(props: {
-    sourceEntity: EntityInstance;
-    targetEntities: EntityInstance[];
-  }) {
+  effectToAOE(props: { sourceEntity: Entity; targetEntities: Entity[] }) {
     const { sourceEntity: source, targetEntities: targets } = props;
-    const damageBase = Math.round(source.ATK * this.skill.emitValueMultiply);
+    const damageBase = Math.round(source.attackPower * this.emitValueMultiply);
     let resultDamage = 0;
     let result: ResultAffectMultiple = {
       updatedSource: source,
@@ -219,29 +267,34 @@ export class SkillInstance {
       resultDamage: 0,
     };
     const defaultAttackAOEMethod = (): ResultAffectMultiple => {
-      if (this.isRandom) {
-        const targetIndex = Math.round(Math.random() * 10) % targets.length;
-        const blockedDamage = BASE_DAMAGE_REDUCTION * targets[targetIndex].DEF;
+      if (this.randomTarget) {
+        let targetIndex = Math.round(Math.random() * 10) % targets.length;
+        while (!targets[targetIndex].isAlive) {
+          targetIndex++;
+        }
+        const blockedDamage =
+          BASE_DAMAGE_REDUCTION * targets[targetIndex].defend;
+
         const evasion = targets[targetIndex].evasion;
         const randomValue = Math.random();
         resultDamage = Math.max(0, damageBase - blockedDamage);
         if (randomValue < evasion) {
           resultDamage = 0;
         }
-        targets[targetIndex].entity.health -= resultDamage;
+        targets[targetIndex].health -= resultDamage;
       } else {
         for (const target of targets) {
-          const blockedDamage = BASE_DAMAGE_REDUCTION * target.DEF;
+          const blockedDamage = BASE_DAMAGE_REDUCTION * target.defend;
           const evasion = target.evasion;
           const randomValue = Math.random();
 
-          resultDamage = Math.max(0, damageBase - blockedDamage);
+          resultDamage += Math.max(0, damageBase - blockedDamage);
 
           if (randomValue < evasion) {
             resultDamage = 0;
           }
 
-          target.entity.health -= resultDamage;
+          target.health -= resultDamage;
         }
       }
       return {
@@ -252,7 +305,9 @@ export class SkillInstance {
     };
     const defaultDefendAOEMethod = (): ResultAffectMultiple => {
       for (const target of targets) {
-        target.applyStatus(listStatus[StatusEnum.DEFENSIVE]);
+        target.applyEffectSkills(
+          listDefaultEffectSkill[EffectSkillEnum.ENHANCE_DEFEND]
+        );
       }
       return {
         updatedSource: source,

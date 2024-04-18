@@ -1,18 +1,22 @@
-import { Skill, SkillInstance } from "./skills";
+import { Skill } from "./skills";
 import { Armor } from "./armor";
 import { Weapon } from "./weapon";
-import { StatusEnum } from "../data/enums/status";
 import { TraitEnum } from "@/data/enums/traits";
 import { PositionEnum } from "@/data/enums/positions";
 import { EmitTypeEnum } from "@/data/enums/actions";
-import { Status } from "./status";
+import { StatusEnum } from "@/data/enums/status";
+import {
+  EffectSkillEnum,
+  listDefaultEffectSkill,
+} from "@/data/enums/effectSkills";
+import { EffectSkill } from "./effect";
 
-export type Entity = {
+export type EntityType = {
   id: number;
   name: string;
   imageUrl: string;
   level: number;
-  skills: Skill[];
+  equipmentSkills?: Skill[];
   normalHitSkill: Skill;
   traitSkill: Skill;
   attackPower: number;
@@ -37,64 +41,138 @@ export type Entity = {
   evasion: number;
 };
 
-export class EntityInstance {
+export class Entity implements EntityType {
   instanceId: string;
-  entity: Entity;
+  id: number;
+  status: StatusEnum;
+  evasion: number;
   index: number;
+  trait: TraitEnum;
   position: PositionEnum;
   playable: boolean;
-  activeSkills: SkillInstance[];
-  activeStatus: Status[];
-
-  constructor(props: {
+  activateSkills: Skill[];
+  effectedSkills: EffectSkill[];
+  equipmentSkills: Skill[];
+  normalHitSkill: Skill;
+  traitSkill: Skill;
+  name: string;
+  imageUrl: string;
+  level: number;
+  attackPower: number;
+  healingPower: number;
+  defend: number;
+  health: number;
+  mana: number;
+  energy: number;
+  maxManaEnergyPower: number;
+  maxHealth: number;
+  maxDefendPower: number;
+  maxAttackPower: number;
+  equipment?:
+    | { weapon?: Weapon | undefined; armor?: Armor | undefined }
+    | undefined;
+  speed: number;
+  restoreManaOrEnergy: number;
+  restoreHealth: number;
+  constructor({
+    id,
+    instanceId,
+    name,
+    index,
+    position,
+    playable,
+    activateSkills,
+    effectedSkills,
+    imageUrl,
+    level,
+    attackPower,
+    healingPower,
+    defend,
+    health,
+    mana,
+    energy,
+    maxManaEnergyPower,
+    maxHealth,
+    maxDefendPower,
+    maxAttackPower,
+    equipment,
+    speed,
+    restoreManaOrEnergy,
+    equipmentSkills,
+    trait,
+    normalHitSkill,
+    traitSkill,
+    status,
+    evasion,
+    restoreHealth,
+  }: {
+    id: number;
     instanceId: string;
-    entity: Entity;
+    name: string;
     index: number;
     position: PositionEnum;
     playable: boolean;
-    activeSkills?: SkillInstance[];
-    activeStatus?: Status[];
+    activateSkills?: Skill[];
+    effectedSkills?: EffectSkill[];
+    imageUrl: string;
+    level: number;
+    attackPower: number;
+    healingPower: number;
+    defend: number;
+    health: number;
+    mana: number;
+    energy: number;
+    maxManaEnergyPower: number;
+    maxHealth: number;
+    maxDefendPower: number;
+    maxAttackPower: number;
+    equipment?:
+      | { weapon?: Weapon | undefined; armor?: Armor | undefined }
+      | undefined;
+    speed: number;
+    restoreManaOrEnergy: number;
+    equipmentSkills?: Skill[];
+    trait: TraitEnum;
+    normalHitSkill: Skill;
+    traitSkill: Skill;
+    status: StatusEnum;
+    evasion: number;
+    restoreHealth: number;
   }) {
-    this.instanceId = props.instanceId;
-    this.entity = props.entity;
-    this.index = props.index;
-    this.position = props.position;
-    this.playable = props.playable;
-    this.activeSkills = props.activeSkills ?? [];
-    this.activeStatus = props.activeStatus ?? [];
+    this.id = id;
+    this.instanceId = instanceId;
+    this.name = name;
+    this.imageUrl = imageUrl;
+    this.index = index;
+    this.position = position;
+    this.playable = playable;
+    this.level = level;
+    this.activateSkills = activateSkills ?? [];
+    this.effectedSkills = effectedSkills ?? [];
+    this.attackPower = attackPower;
+    this.healingPower = healingPower;
+    this.defend = defend;
+    this.health = health;
+    this.mana = mana;
+    this.energy = energy;
+    this.maxManaEnergyPower = maxManaEnergyPower;
+    this.maxHealth = maxHealth;
+    this.maxDefendPower = maxDefendPower;
+    this.maxAttackPower = maxAttackPower;
+    this.equipment = equipment;
+    this.speed = speed;
+    this.restoreManaOrEnergy = restoreManaOrEnergy;
+    this.equipmentSkills = equipmentSkills ?? [];
+    this.trait = trait;
+    this.normalHitSkill = normalHitSkill;
+    this.traitSkill = traitSkill;
+    this.status = status;
+    this.evasion = evasion;
+    this.restoreHealth = restoreHealth;
   }
 
-  get ATK() {
-    return this.entity.attackPower;
-  }
-
-  get HP() {
-    return this.entity.health;
-  }
-
-  get DEF() {
-    return this.entity.defend ?? 0;
-  }
-  get MP() {
-    return Math.max(0, this.entity.mana);
-  }
-  get EP() {
-    return Math.max(0, this.entity.energy);
-  }
   get MANERGY() {
-    return this.entity.energy + this.entity.mana;
-  }
-
-  get trait() {
-    return this.entity.trait;
-  }
-
-  get evasion() {
-    return this.entity.evasion;
-  }
-
-  get status() {
-    return this.entity.status;
+    return Math.max(0, this.energy) + Math.max(0, this.mana);
   }
 
   get isBoss() {
@@ -103,120 +181,88 @@ export class EntityInstance {
       TraitEnum.BOSS_NEXOS,
       TraitEnum.BOSS_VEXARIA,
     ];
-    return boss.includes(this.entity.trait);
+    return boss.includes(this.trait);
   }
 
-  get listDurationSkill(): SkillInstance[] {
-    return this.allSkills
-      .slice(1)
-      .filter(
-        (skill): skill is Skill & { duration: number } =>
-          skill.duration !== undefined
-      )
-      .map(
-        (skill) =>
-          new SkillInstance({
-            skill,
-            remainingTurn: skill.duration,
-          })
-      );
+  get listDurationSkill(): Skill[] {
+    return this.allSkills.slice(1);
   }
 
   get allSkills(): Skill[] {
-    return [
-      this.entity.normalHitSkill,
-      ...this.entity.skills,
-      this.entity.traitSkill,
-    ];
-  }
-
-  get traitSkill() {
-    return this.entity.traitSkill;
-  }
-
-  get normalHitSkill() {
-    return this.entity.normalHitSkill;
+    return [this.normalHitSkill, ...this.equipmentSkills, this.traitSkill];
   }
 
   get hasDefSkill(): Skill[] {
     return this.allSkills.filter((skill) => skill.type === EmitTypeEnum.DEFEND);
   }
 
-  get hasAttackAOE(): SkillInstance[] {
-    return this.allSkills
-      .filter((skill) => skill.type === EmitTypeEnum.ATTACK_AOE)
-      .map(
-        (skill) =>
-          new SkillInstance({
-            skill,
-            remainingTurn: skill.duration ?? 0,
-          })
-      );
+  get hasAttackAOE(): Skill[] {
+    return this.allSkills.filter(
+      (skill) => skill.type === EmitTypeEnum.ATTACK_AOE
+    );
   }
 
   get hasDurationSkills(): boolean {
-    return this.allSkills.some((skill) => skill.duration);
+    return this.allSkills.some((skill) => skill.duration > 0);
   }
 
   get hasActiveSkill() {
-    return this.activeSkills.length > 0;
+    return this.activateSkills.length > 0;
   }
 
   get isAlive() {
-    return this.entity.health > 0;
+    return this.health > 0;
   }
 
   get isUseEnergy() {
-    return this.entity.energy > -1;
+    return this.energy > -1;
   }
 
   get isUseMana() {
-    return this.entity.mana > -1;
+    return this.mana > -1;
   }
 
   get isUseHybrid() {
-    return this.entity.energy > -1 && this.entity.mana > -1;
+    return this.energy > -1 && this.mana > -1;
   }
 
   calculateDamageMadeBy(props: { skill: Skill }): number {
     const { skill } = props;
-    return Math.round(this.entity.attackPower * skill.emitValueMultiply);
+    return Math.round(this.attackPower * skill.emitValueMultiply);
   }
 
   hasEnoughManaFor(props: { skill: Skill }): boolean {
     const { skill } = props;
 
-    if (this.entity.energy > -1) {
-      return this.entity.energy >= skill.requiredEnergy;
+    if (this.energy > -1) {
+      return this.energy >= skill.requiredEnergy;
     }
-    if (this.entity.mana > -1) {
-      return this.entity.mana >= skill.requiredMana;
+    if (this.mana > -1) {
+      return this.mana >= skill.requiredMana;
     }
     return false;
   }
 
-  updateManaFromUse(props: { skill: Skill }): EntityInstance {
+  updateManaFromUse(props: { skill: Skill }): Entity {
     const { skill } = props;
-    if (this.entity.mana >= skill.requiredMana) {
-      this.entity.mana -= Math.max(0, skill.requiredMana);
+    if (this.mana >= skill.requiredMana) {
+      this.mana -= Math.max(0, skill.requiredMana);
     }
-    if (this.entity.energy >= (skill.requiredEnergy ?? 0)) {
-      this.entity.energy -= Math.max(0, skill.requiredEnergy ?? 0);
+    if (this.energy >= (skill.requiredEnergy ?? 0)) {
+      this.energy -= Math.max(0, skill.requiredEnergy ?? 0);
     }
     return this;
   }
 
   hasHealthLowerThan(props: {
     threshold: number;
-    targetEntity?: Entity;
+    targetEntity?: EntityType;
   }): boolean {
     const { threshold, targetEntity } = props;
     if (targetEntity) {
-      return targetEntity.health > this.entity.health;
+      return targetEntity.health > this.health;
     }
-    const ratio = parseFloat(
-      (this.entity.health / this.entity.maxHealth).toFixed(2)
-    );
+    const ratio = parseFloat((this.health / this.maxHealth).toFixed(2));
     if (ratio <= threshold) {
       return true;
     }
@@ -224,17 +270,17 @@ export class EntityInstance {
   }
 
   get hasOverDefend(): boolean {
-    const def = this.entity.defend ?? 0;
-    const maxDef = this.entity.maxDefendPower ?? 0;
+    const def = this.defend ?? 0;
+    const maxDef = this.maxDefendPower ?? 0;
     return def > maxDef;
   }
 
   getDifferentValueFromInitial(props: { stat: "atk" | "def" }): number {
-    const def = this.entity.defend ?? 0;
-    const maxDef = this.entity.maxDefendPower ?? 0;
+    const def = this.defend ?? 0;
+    const maxDef = this.maxDefendPower ?? 0;
     switch (props.stat) {
       case "atk":
-        return Math.abs(this.entity.maxAttackPower - this.entity.attackPower);
+        return Math.abs(this.maxAttackPower - this.attackPower);
       case "def":
         return Math.abs(maxDef - def);
       default:
@@ -242,37 +288,49 @@ export class EntityInstance {
     }
   }
 
-  updateStat(): EntityInstance {
-    for (let i = 0; i < this.activeSkills.length; i++) {
-      const instanceSkill = this.activeSkills[i];
-      if (instanceSkill.remainingTurn === 0) {
-        switch (instanceSkill.type) {
-          case EmitTypeEnum.DEFEND:
+  updateStatRemainingSkills(): Entity {
+    for (let i = 0; i < this.activateSkills.length; i++) {
+      const skill = this.activateSkills[i];
+      if (skill.duration === 0) {
+        this.defend = this.maxDefendPower;
+        // switch (skill) {
+        //   case skill:
+        //     //reset to default
+        //     break;
+        //   default:
+        //     break;
+        // }
+        this.activateSkills.splice(i, 1);
+      }
+    }
+    for (let i = 0; i < this.effectedSkills.length; i++) {
+      const skill = this.effectedSkills[i];
+      console.log(skill);
+      if (skill.duration === 0) {
+        switch (skill.key) {
+          case EffectSkillEnum.ENHANCE_DEFEND:
             //reset to default
-            this.entity.defend! = this.entity.maxDefendPower!;
+            this.defend = this.maxDefendPower;
             break;
           default:
             break;
         }
-        this.activeSkills.splice(i, 1);
+        this.effectedSkills.splice(i, 1);
       }
     }
     return this;
   }
 
-  updateSelfActiveSkills() {
-    if (this.hasDurationSkills) {
-      this.activeSkills = this.listDurationSkill;
+  applyEffectSkills(skill: EffectSkill) {
+    if (skill.duration > 0) {
+      this.effectedSkills.push(skill);
+      switch (skill) {
+        case listDefaultEffectSkill[EffectSkillEnum.ENHANCE_DEFEND]:
+          this.defend += this.defend * skill.emitValueMultiplier;
+          break;
+        default:
+          break;
+      }
     }
-  }
-
-  applyActiveSkills(skill: SkillInstance) {
-    if (skill.hasDuration > 0) {
-      this.activeSkills.push(skill);
-    }
-  }
-
-  applyStatus(status: Status) {
-    this.activeStatus.push(status);
   }
 }

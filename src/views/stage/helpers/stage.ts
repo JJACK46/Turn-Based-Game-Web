@@ -1,22 +1,22 @@
-import { Entity, EntityInstance } from "@/classes/entity";
-import { SkillInstance } from "@/classes/skills";
-import { Status } from "@/classes/status";
+import { EffectSkill } from "@/classes/effect";
+import { EntityType, Entity } from "@/classes/entity";
+import { Skill } from "@/classes/skills";
 
-export function getSpeedOfTeam(entities: Entity[]) {
+export function getSpeedOfTeam(entities: EntityType[]) {
   return entities.reduce((sum, entity) => entity.speed + sum, 0);
 }
 
 export const getLeastHealthEntity = (
-  entities: EntityInstance[]
-): EntityInstance | undefined => {
+  entities: Entity[]
+): Entity | undefined => {
   if (entities.length === 0) return undefined;
 
   let leastHP = Infinity;
-  let resultEntity: EntityInstance | undefined = undefined;
+  let resultEntity: Entity | undefined = undefined;
 
   for (const entity of entities) {
-    if (entity.ATK < leastHP) {
-      leastHP = entity.HP;
+    if (entity.attackPower < leastHP) {
+      leastHP = entity.health;
       resultEntity = entity;
     }
   }
@@ -24,31 +24,29 @@ export const getLeastHealthEntity = (
 };
 
 export const getMostAttackPowerEntity = (
-  entities: EntityInstance[]
-): EntityInstance | undefined => {
+  entities: Entity[]
+): Entity | undefined => {
   if (entities.length === 0) return undefined;
 
   let maxATK = 0;
-  let resultEntity: EntityInstance | undefined = undefined;
+  let resultEntity: Entity | undefined = undefined;
 
   for (const entity of entities) {
-    if (entity.ATK > maxATK) {
-      maxATK = entity.ATK;
+    if (entity.attackPower > maxATK) {
+      maxATK = entity.attackPower;
       resultEntity = entity;
     }
   }
   return resultEntity;
 };
 
-export const getAliveEntities = (
-  entities: EntityInstance[]
-): EntityInstance[] => {
+export const getAliveEntities = (entities: Entity[]): Entity[] => {
   return entities.filter((e) => e.isAlive);
 };
 
 export const getUpdateEntityInRow = (props: {
-  target: EntityInstance;
-  entities: EntityInstance[];
+  target: Entity;
+  entities: Entity[];
 }) => {
   const { target, entities } = props;
   return entities.map((entity) => {
@@ -56,40 +54,32 @@ export const getUpdateEntityInRow = (props: {
   });
 };
 
-export function updateRemainingActive(
-  entities: EntityInstance[]
-): EntityInstance[] {
+export function updateRemainingSkills(entities: Entity[]): Entity[] {
   return entities.map((entity) => {
-    const updatedActiveSkills = entity.activeSkills.map((skillInstance) => {
-      const updatedSkillInstance = new SkillInstance({
-        ...skillInstance,
-        remainingTurn:
-          skillInstance.remainingTurn > 0
-            ? skillInstance.remainingTurn - 1
-            : skillInstance.remainingTurn,
+    const activateSkills = entity.activateSkills.map((skill) => {
+      const updated = new Skill({
+        ...skill,
+        duration: skill.duration - 1,
       });
 
-      return updatedSkillInstance;
+      return updated;
     });
 
-    const updatedActiveStatus = entity.activeStatus.map((status) => {
-      const updatedStatusInstance = new Status({
-        ...status,
-        duration:
-          (status.duration ?? 0) > 0
-            ? (status.duration ?? 0) - 1
-            : status.duration,
+    const effectedSkills = entity.effectedSkills.map((skill) => {
+      const updated = new EffectSkill({
+        ...skill,
+        duration: skill.duration - 1,
       });
 
-      return updatedStatusInstance;
+      return updated;
     });
 
-    const updatedEntity = new EntityInstance({
+    const updatedEntity = new Entity({
       ...entity,
-      activeSkills: updatedActiveSkills,
-      activeStatus: updatedActiveStatus,
+      activateSkills,
+      effectedSkills,
     });
 
-    return updatedEntity.updateStat();
+    return updatedEntity.updateStatRemainingSkills();
   });
 }

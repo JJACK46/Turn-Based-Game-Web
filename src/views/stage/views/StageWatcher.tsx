@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useGameStore } from "../stores/gameStore";
 import { botAction } from "../stores/BotLogic";
 import { restoreManaForEntities } from "../helpers/entity";
-import { updateRemainingActive } from "../helpers/stage";
+import { updateRemainingSkills } from "../helpers/stage";
 import { PositionEnum } from "@/data/enums/positions";
 
 export function StageWatcher({ children }: { children: React.ReactNode }) {
@@ -67,23 +67,23 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
   }
   function updateRemainingActiveAll() {
     setEntities({
-      entities: updateRemainingActive(playersFrontRow),
+      entities: updateRemainingSkills(playersFrontRow),
       isPlayer: true,
       position: PositionEnum.FRONT,
     });
     setEntities({
-      entities: updateRemainingActive(enemiesFrontRow),
+      entities: updateRemainingSkills(enemiesFrontRow),
       isPlayer: false,
       position: PositionEnum.FRONT,
     });
     if (playersBackRow && enemiesBackRow) {
       setEntities({
-        entities: updateRemainingActive(playersBackRow),
+        entities: updateRemainingSkills(playersBackRow),
         isPlayer: true,
         position: PositionEnum.BACK,
       });
       setEntities({
-        entities: updateRemainingActive(enemiesBackRow),
+        entities: updateRemainingSkills(enemiesBackRow),
         isPlayer: false,
         position: PositionEnum.BACK,
       });

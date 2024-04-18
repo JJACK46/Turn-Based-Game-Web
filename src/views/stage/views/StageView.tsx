@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Entity } from "../../../classes/entity";
+import { EntityType } from "../../../classes/entity";
 import NavBarView from "../components/UI/NavBar";
 import EnemiesSection from "../components/Field/EnemiesSection";
 import UserOverlay from "../components/UI/UserOverlay";
@@ -12,10 +12,10 @@ import { useGameStore } from "../stores/gameStore";
 
 interface Props {
   mapName: string;
-  enemiesFrontRow: Entity[];
-  enemiesBackRow?: Entity[];
-  playersFrontRow: Entity[];
-  playersBackRow?: Entity[];
+  enemiesFrontRow: EntityType[];
+  enemiesBackRow?: EntityType[];
+  playersFrontRow: EntityType[];
+  playersBackRow?: EntityType[];
   backgroundUrl?: string;
 }
 

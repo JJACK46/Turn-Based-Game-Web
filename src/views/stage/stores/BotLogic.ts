@@ -1,8 +1,7 @@
-import { EntityInstance } from "@/classes/entity";
+import { Entity } from "@/classes/entity";
 import { useGameStore } from "./gameStore";
 import { isEntityInEntities } from "../helpers/entity";
 import { TurnType } from "@/data/types/turn";
-import { SkillInstance } from "@/classes/skills";
 import { useUIStore } from "./uiStore";
 import { BASE_DELAY_SKILL } from "@/utils/constants";
 
@@ -23,20 +22,20 @@ const {
 const { setEntityPerforming } = useUIStore.getState();
 
 const getMostAttackPowerEntityForBot = (
-  entities: EntityInstance[],
-  entitiesTakenAction: EntityInstance[]
-): EntityInstance | undefined => {
+  entities: Entity[],
+  entitiesTakenAction: Entity[]
+): Entity | undefined => {
   if (entities.length === 0) return undefined;
 
   let maxATK = 0;
-  let resultEntity: EntityInstance | undefined = undefined;
+  let resultEntity: Entity | undefined = undefined;
   for (const entity of entities) {
     if (
       entity.isAlive &&
-      entity.ATK > maxATK &&
+      entity.attackPower > maxATK &&
       !isEntityInEntities(entity, entitiesTakenAction)
     ) {
-      maxATK = entity.ATK;
+      maxATK = entity.attackPower;
       resultEntity = entity;
     }
   }
@@ -52,9 +51,9 @@ export const botAction = ({
 }: {
   turn: TurnType;
   availableActions: number;
-  sourceEntities: EntityInstance[];
-  targetEntities: EntityInstance[];
-  entitiesTakenAction: EntityInstance[];
+  sourceEntities: Entity[];
+  targetEntities: Entity[];
+  entitiesTakenAction: Entity[];
 }) => {
   const delay = (ms: number) =>
     new Promise((resolve) => {
@@ -77,13 +76,11 @@ export const botAction = ({
           skilledToSelf: false,
         };
         setCurrentEntity(potentialEntity);
-        const sourceEntityDef = potentialEntity.entity.defend ?? 0;
 
         //check condition for use skill
         while (!success) {
           if (
             potentialEntity.hasHealthLowerThan({ threshold: 0.6 }) &&
-            sourceEntityDef > 0 &&
             potentialEntity.hasDefSkill &&
             !flag.skilledToSelf
           ) {
@@ -93,14 +90,11 @@ export const botAction = ({
                 ? potentialEntity.hasDefSkill[0]
                 : null;
             if (bestDefSkill) {
-              const selectedSkill = new SkillInstance({
-                skill: bestDefSkill!,
-                remainingTurn: potentialEntity.traitSkill.duration ?? 0,
-              });
+              const selectedSkill = potentialEntity.traitSkill;
 
               setSelectSkill(selectedSkill);
               success = usingSkillToSelf({
-                skillInstance: selectedSkill,
+                skill: selectedSkill,
                 sourceEntity: potentialEntity,
                 sourceEntities,
                 isEnemyAction: true,
@@ -114,25 +108,22 @@ export const botAction = ({
             //check it has aoe
             if (
               listAttackAOE.length > 0 &&
-              potentialEntity.EP + potentialEntity.MP >=
-                skillAOE.requiredTotalManaOrEnergy
+              potentialEntity.MANERGY >= skillAOE.requiredTotalManaOrEnergy
             ) {
               //not best algorithm
               setTimeout(() => {
                 const usingSkill = async () => {
-                  for (let i = 0; i < skillAOE.repeatTimes; i++) {
+                  for (let i = 0; i < skillAOE.repeat; i++) {
                     setSelectSkill(skillAOE);
                     usingSkillToTarget({
-                      skillInstance: skillAOE,
+                      skill: skillAOE,
                       sourceEntity: potentialEntity,
                       targetEntity: targetEntities[0], //any
                       targetEntities: targetEntities,
                       sourceEntities,
                       isEnemyAction: true,
                     });
-                    await delay(
-                      (BASE_DELAY_SKILL * 0.3) / skillAOE.repeatTimes
-                    );
+                    await delay((BASE_DELAY_SKILL * 0.3) / skillAOE.repeat);
                   }
                 };
                 usingSkill();
@@ -143,16 +134,16 @@ export const botAction = ({
               //if single target
               //target algorithm
               let leastHP = Infinity;
-              let targetEntity: EntityInstance | null = null;
+              let targetEntity: Entity | null = null;
               const targetedEntitiesID: string[] = [];
 
               for (const target of targetEntities) {
                 if (
-                  target.HP <= leastHP &&
-                  target.HP > 0 &&
+                  target.health <= leastHP &&
+                  target.isAlive &&
                   !targetedEntitiesID.includes(target.instanceId)
                 ) {
-                  leastHP = target.entity.health;
+                  leastHP = target.health;
                   targetEntity = target;
                 }
               }
@@ -166,13 +157,10 @@ export const botAction = ({
 
                 setTimeout(() => {
                   //default attack by first skill
-                  selectedSkill = new SkillInstance({
-                    skill: potentialEntity.normalHitSkill,
-                    remainingTurn: 0,
-                  });
+                  selectedSkill = potentialEntity.normalHitSkill;
                   setSelectSkill(selectedSkill);
                   success = usingSkillToTarget({
-                    skillInstance: selectedSkill,
+                    skill: selectedSkill,
                     sourceEntity: potentialEntity,
                     targetEntity: targetEntity,
                     targetEntities: targetEntities,

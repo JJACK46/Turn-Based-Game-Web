@@ -1,12 +1,12 @@
-import { Entity, EntityInstance } from "@/classes/entity";
-import { SkillInstance } from "@/classes/skills";
+import { EntityType, Entity } from "@/classes/entity";
+import { Skill } from "@/classes/skills";
 import { TurnType } from "@/data/types/turn";
 import { create } from "zustand";
 import { getAliveEntities, getSpeedOfTeam } from "../helpers/stage";
-import { createUniqueID } from "@/utils/uniqueId";
 import { PositionEnum } from "@/data/enums/positions";
-// import { immer } from "zustand/middleware/immer";
-import { produce } from "immer";
+import { immer } from "zustand/middleware/immer";
+// import { produce } from "immer";
+import { createEntityInstances } from "@/utils/createEntity";
 
 type InfoDamage = {
   totalHitDamage: number;
@@ -30,17 +30,18 @@ interface GameLogicType {
     speedPlayerTeam: number;
   };
   infoIndicator: {
-    currentEntity: EntityInstance | null;
-    targetEntity: EntityInstance | null;
-    selectedSkill: SkillInstance | null;
+    currentEntity: Entity | null;
+    targetEntity: Entity | null;
+    targetEntities: Entity[] | null;
+    selectedSkill: Skill | null;
   };
   infoMarkedEntities: {
-    takenAction: EntityInstance[];
-    downtimeSkill: EntityInstance[];
+    takenAction: Entity[];
+    downtimeSkill: Entity[];
   };
   infoDamage: InfoDamage;
   methodsMark: {
-    markEntityTakenAction: (e: EntityInstance) => void;
+    markEntityTakenAction: (e: Entity) => void;
     resetEntitiesTakenAction: () => void;
   };
   methodsGame: {
@@ -51,552 +52,553 @@ interface GameLogicType {
     endGame: () => void;
     setupGame: (props: {
       mapName: string;
-      enemiesFrontRow: Entity[];
-      enemiesBackRow?: Entity[];
-      playersFrontRow: Entity[];
-      playersBackRow?: Entity[];
+      enemiesFrontRow: EntityType[];
+      enemiesBackRow?: EntityType[];
+      playersFrontRow: EntityType[];
+      playersBackRow?: EntityType[];
     }) => void;
     increaseRound: () => void;
     updateCycleRound: () => void;
     resetCycleRound: () => void;
     calculateRemainEntities: (props: {
-      players: EntityInstance[];
-      enemies: EntityInstance[];
+      players: Entity[];
+      enemies: Entity[];
     }) => void;
   };
   infoField: {
-    enemiesFrontRow: EntityInstance[];
-    enemiesBackRow?: EntityInstance[];
-    playersFrontRow: EntityInstance[];
-    playersBackRow?: EntityInstance[];
+    enemiesFrontRow: Entity[];
+    enemiesBackRow?: Entity[];
+    playersFrontRow: Entity[];
+    playersBackRow?: Entity[];
   };
   methodsField: {
     setEntities: (props: {
-      entities: EntityInstance[];
+      entities: Entity[];
       isPlayer: boolean;
       position: PositionEnum;
     }) => void;
   };
   methodsIndicator: {
     setTargetStatus: (props: {
-      targetEntity: EntityInstance;
-      targetEntities: EntityInstance[];
+      targetEntity: Entity;
+      targetEntities: Entity[];
       isPlayer: boolean;
     }) => void;
-    setSelectSkill: (s: SkillInstance | null) => void;
+    setSelectSkill: (s: Skill | null) => void;
     resetSelectSkill: () => void;
-    setCurrentEntity: (e: EntityInstance) => void;
+    setCurrentEntity: (e: Entity) => void;
     resetCurrentEntity: () => void;
-    setTargetEntity: (e: EntityInstance) => void;
+    setTargetEntity: (e: Entity) => void;
     resetTargetEntity: () => void;
     usingSkillToTarget: (props: {
-      skillInstance: SkillInstance;
-      sourceEntity: EntityInstance;
-      targetEntity: EntityInstance;
-      sourceEntities: EntityInstance[];
-      targetEntities: EntityInstance[];
+      skill: Skill;
+      sourceEntity: Entity;
+      targetEntity: Entity;
+      sourceEntities: Entity[];
+      targetEntities: Entity[];
       isEnemyAction: boolean;
     }) => boolean;
     usingSkillToSelf: (prop: {
-      skillInstance: SkillInstance;
-      sourceEntity: EntityInstance;
-      sourceEntities: EntityInstance[];
+      skill: Skill;
+      sourceEntity: Entity;
+      sourceEntities: Entity[];
       isEnemyAction: boolean;
     }) => boolean;
   };
   setInfoDamage: (props: InfoDamage) => void;
 }
 
-export const useGameStore = create<GameLogicType>((set) => ({
-  infoField: {
-    enemiesFrontRow: [],
-    playersFrontRow: [],
-  },
-  infoGame: {
-    isGameStart: false,
-    mapName: "",
-    cycleRound: 2,
-    turn: null,
-    maxActions: 0,
-    availableActions: -1,
-    roundCount: 1,
-    speedEnemyTeam: 0,
-    speedPlayerTeam: 0,
-    remainEnemiesCount: 0,
-    remainPlayersCount: 0,
-  },
-  infoDamage: {
-    totalHitDamage: 0,
-    lastHitDamage: 0,
-    blockedDamage: 0,
-    missed: false,
-  },
-  infoMarkedEntities: {
-    takenAction: [],
-    downtimeSkill: [],
-  },
-  methodsMark: {
-    resetEntitiesTakenAction: () =>
+export const useGameStore = create<GameLogicType>()(
+  immer((set) => ({
+    infoField: {
+      enemiesFrontRow: [],
+      playersFrontRow: [],
+    },
+    infoGame: {
+      isGameStart: false,
+      mapName: "",
+      cycleRound: 2,
+      turn: null,
+      maxActions: 0,
+      availableActions: -1,
+      roundCount: 1,
+      speedEnemyTeam: 0,
+      speedPlayerTeam: 0,
+      remainEnemiesCount: 0,
+      remainPlayersCount: 0,
+    },
+    infoDamage: {
+      totalHitDamage: 0,
+      lastHitDamage: 0,
+      blockedDamage: 0,
+      missed: false,
+    },
+    infoMarkedEntities: {
+      takenAction: [],
+      downtimeSkill: [],
+    },
+    methodsMark: {
+      resetEntitiesTakenAction: () =>
+        set((state) => ({
+          ...state,
+          infoMarkedEntities: {
+            ...state.infoMarkedEntities,
+            entitiesTakenAction: [],
+          },
+        })),
+      markEntityTakenAction: (entity) =>
+        set((state) => ({
+          ...state,
+          infoMarkedEntities: {
+            ...state.infoMarkedEntities,
+            takenAction: [...state.infoMarkedEntities.takenAction, entity],
+          },
+        })),
+    },
+    methodsField: {
+      setEntities: ({ entities, isPlayer, position }) => {
+        set((state) => {
+          if (isPlayer) {
+            if (position === "front") {
+              return {
+                ...state,
+                infoField: {
+                  ...state.infoField,
+                  playersFrontRow: [...entities],
+                },
+              };
+            }
+            return {
+              ...state,
+              infoField: {
+                ...state.infoField,
+                playersBackRow: [...entities],
+              },
+            };
+          } else {
+            if (position === "front") {
+              return {
+                ...state,
+                infoField: {
+                  ...state.infoField,
+                  enemiesFrontRow: [...entities],
+                },
+              };
+            }
+            return {
+              ...state,
+              infoField: { ...state.infoField, enemiesBackRow: [...entities] },
+            };
+          }
+        });
+      },
+    },
+    infoIndicator: {
+      currentEntity: null,
+      targetEntity: null,
+      selectedSkill: null,
+      targetEntities: null,
+    },
+    setInfoDamage(props) {
       set((state) => ({
         ...state,
-        infoMarkedEntities: {
-          ...state.infoMarkedEntities,
-          entitiesTakenAction: [],
-        },
-      })),
-    markEntityTakenAction: (entity) =>
-      set((state) => ({
-        ...state,
-        infoMarkedEntities: {
-          ...state.infoMarkedEntities,
-          takenAction: [...state.infoMarkedEntities.takenAction, entity],
-        },
-      })),
-  },
-  methodsField: {
-    setEntities: ({ entities, isPlayer, position }) => {
-      set((state) => {
-        if (isPlayer) {
-          if (position === "front") {
+        infoDamage: { ...props },
+      }));
+    },
+    methodsIndicator: {
+      setTargetStatus: (props) => {
+        const { targetEntity, targetEntities, isPlayer } = props;
+        const site = targetEntity.position;
+        set((state) => {
+          if (isPlayer) {
+            if (site === "front") {
+              return {
+                ...state,
+                infoField: {
+                  ...state.infoField,
+                  playersFrontRow: targetEntities,
+                },
+              };
+            }
             return {
               ...state,
-              infoField: {
-                ...state.infoField,
-                playersFrontRow: [...entities],
-              },
+              infoField: { ...state.infoField, playersBackRow: targetEntities },
             };
-          }
-          return {
-            ...state,
-            infoField: {
-              ...state.infoField,
-              playersBackRow: [...entities],
-            },
-          };
-        } else {
-          if (position === "front") {
+          } else {
+            if (site === "front") {
+              return {
+                ...state,
+                infoField: {
+                  ...state.infoField,
+                  enemiesFrontRow: targetEntities,
+                },
+              };
+            }
             return {
               ...state,
-              infoField: {
-                ...state.infoField,
-                enemiesFrontRow: [...entities],
-              },
+              infoField: { ...state.infoField, enemiesBackRow: targetEntities },
             };
           }
-          return {
-            ...state,
-            infoField: { ...state.infoField, enemiesBackRow: [...entities] },
-          };
-        }
-      });
-    },
-  },
-  infoIndicator: {
-    currentEntity: null,
-    targetEntity: null,
-    selectedSkill: null,
-  },
-  setInfoDamage(props) {
-    set((state) => ({
-      ...state,
-      infoDamage: { ...props },
-    }));
-  },
-  methodsIndicator: {
-    setTargetStatus: (props) => {
-      const { targetEntity, targetEntities, isPlayer } = props;
-      const site = targetEntity.position;
-      set((state) => {
-        if (isPlayer) {
-          if (site === "front") {
-            return {
-              ...state,
-              infoField: {
-                ...state.infoField,
-                playersFrontRow: targetEntities,
-              },
-            };
-          }
-          return {
-            ...state,
-            infoField: { ...state.infoField, playersBackRow: targetEntities },
-          };
-        } else {
-          if (site === "front") {
-            return {
-              ...state,
-              infoField: {
-                ...state.infoField,
-                enemiesFrontRow: targetEntities,
-              },
-            };
-          }
-          return {
-            ...state,
-            infoField: { ...state.infoField, enemiesBackRow: targetEntities },
-          };
-        }
-      });
-    },
-    setSelectSkill: (skill: SkillInstance | null) => {
-      set((prevState) => ({
-        ...prevState,
-        infoIndicator: {
-          ...prevState.infoIndicator,
-          selectedSkill: skill,
-        },
-      }));
-    },
-    resetSelectSkill: () => {
-      set((prevState) => ({
-        ...prevState,
-        infoIndicator: {
-          ...prevState.infoIndicator,
-          selectedSkill: null,
-        },
-      }));
-    },
-    setCurrentEntity: (entity: EntityInstance) => {
-      set((prevState) => ({
-        ...prevState,
-        infoIndicator: {
-          ...prevState.infoIndicator,
-          currentEntity: entity,
-        },
-      }));
-    },
-    resetCurrentEntity: () => {
-      set((prevState) => ({
-        ...prevState,
-        infoIndicator: {
-          ...prevState.infoIndicator,
-          currentEntity: null,
-        },
-      }));
-    },
-    setTargetEntity: (entity: EntityInstance) => {
-      set((prevState) => ({
-        ...prevState,
-        infoIndicator: {
-          ...prevState.infoIndicator,
-          targetEntity: entity,
-        },
-      }));
-    },
-    resetTargetEntity: () => {
-      set((prevState) => ({
-        ...prevState,
-        infoIndicator: {
-          ...prevState.infoIndicator,
-          targetEntity: null,
-        },
-      }));
-    },
-    usingSkillToTarget: (prop) => {
-      const {
-        sourceEntities,
-        targetEntities,
-        isEnemyAction,
-        skillInstance,
-        sourceEntity,
-        targetEntity,
-      } = prop;
+        });
+      },
+      setSelectSkill: (skill: Skill | null) => {
+        set((prevState) => ({
+          ...prevState,
+          infoIndicator: {
+            ...prevState.infoIndicator,
+            selectedSkill: skill,
+          },
+        }));
+      },
+      resetSelectSkill: () => {
+        set((prevState) => ({
+          ...prevState,
+          infoIndicator: {
+            ...prevState.infoIndicator,
+            selectedSkill: null,
+          },
+        }));
+      },
+      setCurrentEntity: (entity: Entity) => {
+        set((prevState) => ({
+          ...prevState,
+          infoIndicator: {
+            ...prevState.infoIndicator,
+            currentEntity: entity,
+          },
+        }));
+      },
+      resetCurrentEntity: () => {
+        set((prevState) => ({
+          ...prevState,
+          infoIndicator: {
+            ...prevState.infoIndicator,
+            currentEntity: null,
+          },
+        }));
+      },
+      setTargetEntity: (entity: Entity) => {
+        set((state) => {
+          state.infoIndicator.targetEntity = entity;
+        });
+        // set(
+        //   produce((state) => {
+        //     state.infoIndicator.targetEntity = entity;
+        //   })
+        // );
+      },
+      resetTargetEntity: () => {
+        set((prevState) => ({
+          ...prevState,
+          infoIndicator: {
+            ...prevState.infoIndicator,
+            targetEntity: null,
+          },
+        }));
+      },
+      usingSkillToTarget: (prop) => {
+        const {
+          sourceEntities,
+          targetEntities,
+          isEnemyAction,
+          skill,
+          sourceEntity,
+          targetEntity,
+        } = prop;
 
-      if (sourceEntity.hasEnoughManaFor({ skill: skillInstance.skill })) {
-        let resultDamage = 0;
-        let blockedDamage = 0;
-        let damageMade = 0;
-        let missed = false;
-        let updatedTarget = targetEntity;
-        let updatedTargetEntities = [...targetEntities]; // Create a shallow copy
-        const updatedSourceEntities = [...sourceEntities]; // Create a shallow copy
+        if (sourceEntity.hasEnoughManaFor({ skill: skill })) {
+          let resultDamage = 0;
+          let blockedDamage = 0;
+          let damageMade = 0;
+          let missed = false;
+          let updatedTarget = targetEntity;
+          let updatedTargetEntities = [...targetEntities]; // Create a shallow copy
+          const updatedSourceEntities = [...sourceEntities]; // Create a shallow copy
 
-        if (!skillInstance.isAttackAOE) {
-          // Single target
-          const {
-            resultDamage: res,
-            blockedDamage: blocked,
-            damageMade: dmg,
-            effectedTarget,
-            missed: miss,
-          } = skillInstance.effectToTarget({
-            sourceEntity,
-            targetEntity,
-          });
+          if (skill.isAttackSkill) {
+            if (!skill.isAttackAOE) {
+              // Single target
+              const {
+                resultDamage: res,
+                blockedDamage: blocked,
+                damageMade: dmg,
+                effectedTarget,
+                missed: miss,
+              } = skill.effectToTarget({
+                sourceEntity,
+                targetEntity,
+              });
 
-          updatedTargetEntities[effectedTarget.index] = effectedTarget;
+              updatedTargetEntities[effectedTarget.index] = effectedTarget;
 
-          updatedSourceEntities[sourceEntity.index] =
-            sourceEntity.updateManaFromUse({
-              skill: skillInstance.skill,
-            });
-          resultDamage = res;
-          blockedDamage = blocked;
-          damageMade = dmg;
-          missed = miss;
-          updatedTarget = effectedTarget;
-        } else {
-          // AOE target
-          const { resultDamage: resAOE, effectedTargets } =
-            skillInstance.effectToAOE({
-              sourceEntity,
-              targetEntities,
+              updatedSourceEntities[sourceEntity.index] =
+                sourceEntity.updateManaFromUse({
+                  skill: skill,
+                });
+              resultDamage = res;
+              blockedDamage = blocked;
+              damageMade = dmg;
+              missed = miss;
+              updatedTarget = effectedTarget;
+            } else {
+              // AOE target
+              const { resultDamage: resAOE, effectedTargets } =
+                skill.effectToAOE({
+                  sourceEntity,
+                  targetEntities,
+                });
+
+              updatedTargetEntities = effectedTargets;
+
+              updatedSourceEntities[sourceEntity.index] =
+                sourceEntity.updateManaFromUse({
+                  skill: skill,
+                });
+              resultDamage = resAOE;
+            }
+
+            // Update state (with immer)
+            set((state) => {
+              state.infoDamage.totalHitDamage += resultDamage;
+              state.infoDamage.lastHitDamage = damageMade;
+              state.infoDamage.blockedDamage = blockedDamage;
+              state.infoDamage.missed = missed;
+              state.infoField.playersFrontRow = isEnemyAction
+                ? [...updatedTargetEntities]
+                : [...updatedSourceEntities];
+              state.infoField.enemiesFrontRow = isEnemyAction
+                ? [...updatedSourceEntities]
+                : [...updatedTargetEntities];
+              state.infoIndicator.targetEntity = updatedTarget;
             });
 
-          updatedTargetEntities = effectedTargets;
+            return true;
+          }
+          //buff skill
 
-          updatedSourceEntities[sourceEntity.index] =
-            sourceEntity.updateManaFromUse({
-              skill: skillInstance.skill,
-            });
-          resultDamage = resAOE;
-        }
-
-        // Update state
-
-        set(
-          produce((state) => {
-            state.infoDamage.totalHitDamage += resultDamage;
-            state.infoDamage.lastHitDamage = damageMade;
-            state.infoDamage.blockedDamage = blockedDamage;
-            state.infoDamage.missed = missed;
+          set((state) => {
             state.infoField.playersFrontRow = isEnemyAction
               ? [...updatedTargetEntities]
               : [...updatedSourceEntities];
             state.infoField.enemiesFrontRow = isEnemyAction
               ? [...updatedSourceEntities]
               : [...updatedTargetEntities];
-            state.infoField.targetEntityData = updatedTarget;
-          })
-        );
-
-        return true;
-      } else {
-        console.log("Not enough MP/EP");
-        return false;
-      }
-    },
-
-    usingSkillToSelf: (prop) => {
-      const { sourceEntities, isEnemyAction, skillInstance, sourceEntity } =
-        prop;
-
-      if (skillInstance && sourceEntity) {
-        if (
-          sourceEntity.hasEnoughManaFor({
-            skill: skillInstance.skill,
-          })
-        ) {
-          const effectedSourceEntity = skillInstance.effectToSelf(sourceEntity);
-
-          sourceEntities[sourceEntity.index] =
-            effectedSourceEntity.updateManaFromUse({
-              skill: skillInstance.skill,
-            });
-
-          set((state) => ({
-            ...state,
-            infoField: {
-              ...state.infoField,
-              playersFrontRow: isEnemyAction
-                ? [...state.infoField.playersFrontRow]
-                : [...sourceEntities],
-              enemiesFrontRow: isEnemyAction
-                ? [...sourceEntities]
-                : [...state.infoField.playersFrontRow],
-            },
-          }));
-
-          return true; // Skill was used successfully
+            state.infoIndicator.targetEntity = updatedTarget;
+          });
+          return true;
         } else {
-          console.log("not enough MP/EP");
+          console.log("Not enough MP/EP");
           return false;
         }
-      }
-      return false; // Skill was not used
-    },
-  },
-  methodsGame: {
-    increaseRound: () => {
-      set((state) => ({
-        ...state,
-        infoGame: {
-          ...state.infoGame,
-          roundCount: state.infoGame.roundCount + 1,
-        },
-      }));
-    },
-    updateCycleRound: () => {
-      set((state) => ({
-        ...state,
-        infoGame: {
-          ...state.infoGame,
-          cycleRound: state.infoGame.cycleRound - 1,
-        },
-      }));
-    },
-    resetCycleRound: () => {
-      set((state) => ({
-        ...state,
-        infoGame: { ...state.infoGame, cycleRound: 2 },
-      }));
-    },
-    setupGame: (props) =>
-      set((state) => {
-        const {
-          mapName,
-          enemiesFrontRow,
-          enemiesBackRow,
-          playersFrontRow,
-          playersBackRow,
-        } = props;
+      },
 
-        const enemies = [...enemiesFrontRow, ...(enemiesBackRow ?? [])];
-        const players = [...playersFrontRow, ...(playersBackRow ?? [])];
+      usingSkillToSelf: (prop) => {
+        const { sourceEntities, isEnemyAction, skill, sourceEntity } = prop;
+        const updatedEntities = [...sourceEntities];
+        if (skill && sourceEntity) {
+          if (
+            sourceEntity.hasEnoughManaFor({
+              skill: skill,
+            })
+          ) {
+            const effectedSourceEntity = skill.effectToSelf(sourceEntity);
 
-        const createEntityInstances = (
-          entities: Entity[],
-          position: PositionEnum,
-          playable: boolean
-        ) =>
-          entities.map(
-            (ent, index) =>
-              new EntityInstance({
-                instanceId: createUniqueID({
-                  name: ent.name,
-                  id: ent.id,
-                  index,
-                  position,
-                }),
-                entity: ent,
-                index: index,
-                position,
-                playable,
-              })
+            updatedEntities[sourceEntity.index] =
+              effectedSourceEntity.updateManaFromUse({
+                skill: skill,
+              });
+
+            set((state) => {
+              state.infoField.enemiesFrontRow = isEnemyAction
+                ? updatedEntities
+                : state.infoField.enemiesFrontRow;
+              state.infoField.playersFrontRow = !isEnemyAction
+                ? updatedEntities
+                : state.infoField.playersFrontRow;
+            });
+            // set((state) => ({
+            //   ...state,
+            //   infoField: {
+            //     ...state.infoField,
+            //     playersFrontRow: isEnemyAction
+            //       ? [...state.infoField.playersFrontRow]
+            //       : [...updatedEntities],
+            //     enemiesFrontRow: isEnemyAction
+            //       ? [...updatedEntities]
+            //       : [...state.infoField.playersFrontRow],
+            //   },
+            // }));
+
+            return true; // Skill was used successfully
+          } else {
+            console.log("not enough MP/EP");
+            return false;
+          }
+        }
+        return false; // Skill was not used
+      },
+    },
+    methodsGame: {
+      increaseRound: () => {
+        set((state) => ({
+          ...state,
+          infoGame: {
+            ...state.infoGame,
+            roundCount: state.infoGame.roundCount + 1,
+          },
+        }));
+      },
+      updateCycleRound: () => {
+        set((state) => ({
+          ...state,
+          infoGame: {
+            ...state.infoGame,
+            cycleRound: state.infoGame.cycleRound - 1,
+          },
+        }));
+      },
+      resetCycleRound: () => {
+        set((state) => ({
+          ...state,
+          infoGame: { ...state.infoGame, cycleRound: 2 },
+        }));
+      },
+      setupGame: (props) =>
+        set((state) => {
+          const {
+            mapName,
+            enemiesFrontRow,
+            enemiesBackRow,
+            playersFrontRow,
+            playersBackRow,
+          } = props;
+
+          const enemies = [...enemiesFrontRow, ...(enemiesBackRow ?? [])];
+          const players = [...playersFrontRow, ...(playersBackRow ?? [])];
+
+          const enemiesFrontRowInstance = createEntityInstances(
+            enemiesFrontRow,
+            PositionEnum.FRONT,
+            false
+          );
+          const enemiesBackRowInstance = createEntityInstances(
+            enemiesBackRow ?? [],
+            PositionEnum.BACK,
+            false
+          );
+          const playersFrontRowInstance = createEntityInstances(
+            playersFrontRow,
+            PositionEnum.FRONT,
+            true
+          );
+          const playersBackRowInstance = createEntityInstances(
+            playersBackRow ?? [],
+            PositionEnum.BACK,
+            true
           );
 
-        const enemiesFrontRowInstance = createEntityInstances(
-          enemiesFrontRow,
-          PositionEnum.FRONT,
-          false
-        );
-        const enemiesBackRowInstance = createEntityInstances(
-          enemiesBackRow ?? [],
-          PositionEnum.BACK,
-          false
-        );
-        const playersFrontRowInstance = createEntityInstances(
-          playersFrontRow,
-          PositionEnum.FRONT,
-          true
-        );
-        const playersBackRowInstance = createEntityInstances(
-          playersBackRow ?? [],
-          PositionEnum.BACK,
-          true
-        );
+          const speedEnemyTeam = getSpeedOfTeam(enemies);
+          const speedPlayerTeam = getSpeedOfTeam(players);
+          const turn: TurnType =
+            speedEnemyTeam >= speedPlayerTeam ? "enemy" : "player";
+          const availableActions =
+            turn === "enemy" ? enemies.length : players.length;
 
-        const speedEnemyTeam = getSpeedOfTeam(enemies);
-        const speedPlayerTeam = getSpeedOfTeam(players);
-        const turn: TurnType =
-          speedEnemyTeam >= speedPlayerTeam ? "enemy" : "player";
-        const availableActions =
-          turn === "enemy" ? enemies.length : players.length;
-
-        return {
+          return {
+            ...state,
+            infoGame: {
+              ...state.infoGame,
+              mapName,
+              speedEnemyTeam,
+              speedPlayerTeam,
+              availableActions,
+              maxActions: availableActions,
+              remainEnemiesCount: enemies.length,
+              remainPlayersCount: players.length,
+              turn,
+            },
+            infoField: {
+              enemiesFrontRow: enemiesFrontRowInstance,
+              enemiesBackRow: enemiesBackRowInstance,
+              playersFrontRow: playersFrontRowInstance,
+              playersBackRow: playersBackRowInstance,
+            },
+          };
+        }),
+      startGame: () =>
+        set((state) => ({
+          ...state,
+          infoGame: { ...state.infoGame, isGameStart: true },
+        })),
+      endGame: () =>
+        set((state) => ({
+          ...state,
+          infoGame: { ...state.infoGame, isGameStart: false },
+        })),
+      increaseAction: (n: number) =>
+        set((state) => ({
           ...state,
           infoGame: {
             ...state.infoGame,
-            mapName,
-            speedEnemyTeam,
-            speedPlayerTeam,
-            availableActions,
-            maxActions: availableActions,
-            remainEnemiesCount: enemies.length,
-            remainPlayersCount: players.length,
-            turn,
+            availableActions: state.infoGame.availableActions + n,
           },
-          infoField: {
-            enemiesFrontRow: enemiesFrontRowInstance,
-            enemiesBackRow: enemiesBackRowInstance,
-            playersFrontRow: playersFrontRowInstance,
-            playersBackRow: playersBackRowInstance,
-          },
-        };
-      }),
-    startGame: () =>
-      set((state) => ({
-        ...state,
-        infoGame: { ...state.infoGame, isGameStart: true },
-      })),
-    endGame: () =>
-      set((state) => ({
-        ...state,
-        infoGame: { ...state.infoGame, isGameStart: false },
-      })),
-    increaseAction: (n: number) =>
-      set((state) => ({
-        ...state,
-        infoGame: {
-          ...state.infoGame,
-          availableActions: state.infoGame.availableActions + n,
-        },
-      })),
-    decreaseAction: (n: number) =>
-      set((state) => ({
-        ...state,
-        infoGame: {
-          ...state.infoGame,
-          availableActions: state.infoGame.availableActions - n,
-        },
-      })),
-    calculateRemainEntities: ({ players, enemies }) =>
-      set((state) => ({
-        ...state,
-        infoGame: {
-          ...state.infoGame,
-          remainPlayersCount: getAliveEntities(players).length,
-          remainEnemiesCount: getAliveEntities(enemies).length,
-        },
-      })),
-    switchTurn: () => {
-      set((state) => {
-        const newTurn: TurnType =
-          state.infoGame.turn === "enemy" ? "player" : "enemy";
-        const remainEnemiesCount = getAliveEntities(
-          state.infoField.enemiesFrontRow.concat(
-            state.infoField.enemiesBackRow ?? []
-          )
-        ).length;
-        const remainPlayersCount = getAliveEntities(
-          state.infoField.playersFrontRow.concat(
-            state.infoField.playersBackRow ?? []
-          )
-        ).length;
-        const entitiesCount: number =
-          newTurn === "enemy" ? remainEnemiesCount : remainPlayersCount;
-        return {
+        })),
+      decreaseAction: (n: number) =>
+        set((state) => ({
           ...state,
           infoGame: {
             ...state.infoGame,
-            remainEnemiesCount,
-            remainPlayersCount,
-            turn: newTurn,
-            availableActions: entitiesCount,
-            maxActions: entitiesCount,
+            availableActions: state.infoGame.availableActions - n,
           },
-          infoDamage: {
-            lastHitDamage: 0,
-            totalHitDamage: 0,
-            blockedDamage: 0,
-            missed: false,
+        })),
+      calculateRemainEntities: ({ players, enemies }) =>
+        set((state) => ({
+          ...state,
+          infoGame: {
+            ...state.infoGame,
+            remainPlayersCount: getAliveEntities(players).length,
+            remainEnemiesCount: getAliveEntities(enemies).length,
           },
-          infoMarkedEntities: {
-            ...state.infoMarkedEntities,
-            takenAction: [],
-          },
-        };
-      });
+        })),
+      switchTurn: () => {
+        set((state) => {
+          const newTurn: TurnType =
+            state.infoGame.turn === "enemy" ? "player" : "enemy";
+          const remainEnemiesCount = getAliveEntities(
+            state.infoField.enemiesFrontRow.concat(
+              state.infoField.enemiesBackRow ?? []
+            )
+          ).length;
+          const remainPlayersCount = getAliveEntities(
+            state.infoField.playersFrontRow.concat(
+              state.infoField.playersBackRow ?? []
+            )
+          ).length;
+          const entitiesCount: number =
+            newTurn === "enemy" ? remainEnemiesCount : remainPlayersCount;
+          return {
+            ...state,
+            infoGame: {
+              ...state.infoGame,
+              remainEnemiesCount,
+              remainPlayersCount,
+              turn: newTurn,
+              availableActions: entitiesCount,
+              maxActions: entitiesCount,
+            },
+            infoDamage: {
+              lastHitDamage: 0,
+              totalHitDamage: 0,
+              blockedDamage: 0,
+              missed: false,
+            },
+            infoMarkedEntities: {
+              ...state.infoMarkedEntities,
+              takenAction: [],
+            },
+          };
+        });
+      },
     },
-  },
-}));
+  }))
+);

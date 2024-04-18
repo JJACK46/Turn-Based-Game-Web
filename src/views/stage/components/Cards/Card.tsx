@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { EntityInstance } from "../../../../classes/entity";
+import { Entity } from "../../../../classes/entity";
 import { convertNumberToPercentage, getColorByHp } from "../../helpers/styles";
 
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
@@ -8,8 +8,9 @@ import { isEntityInEntities } from "../../helpers/entity";
 import atkSymbol from "@/assets/svgs/sword-symbol.svg";
 import defSymbol from "@/assets/svgs/shield-symbol.svg";
 import { useGameStore } from "../../stores/gameStore";
+import { PositionEnum } from "@/data/enums/positions";
 
-const Card = (props: { instance: EntityInstance }) => {
+const Card = (props: { instance: Entity }) => {
   const { instance } = props;
   const {
     infoMarkedEntities,
@@ -23,7 +24,7 @@ const Card = (props: { instance: EntityInstance }) => {
       resetTargetEntity,
     },
     infoGame: { turn },
-    infoField: { playersFrontRow, enemiesFrontRow },
+    infoField: { playersFrontRow, enemiesFrontRow, playersBackRow },
     methodsGame: { decreaseAction },
     methodsMark: { markEntityTakenAction },
   } = useGameStore();
@@ -37,17 +38,17 @@ const Card = (props: { instance: EntityInstance }) => {
   } = useUIStore();
 
   const strCurrentHP = convertNumberToPercentage(
-    instance.HP,
-    instance.entity.maxHealth
+    instance.health,
+    instance.maxHealth
   );
   const strCurrentMP = convertNumberToPercentage(
-    instance.MP,
-    instance.entity.maxManaEnergyPower
+    instance.mana,
+    instance.maxManaEnergyPower
   );
 
   const strCurrentEP = convertNumberToPercentage(
-    instance.EP,
-    instance.entity.maxManaEnergyPower
+    instance.energy,
+    instance.maxManaEnergyPower
   );
 
   const [isHoveredCard, setIsHoveredCard] = useState(false);
@@ -55,29 +56,31 @@ const Card = (props: { instance: EntityInstance }) => {
     return isEntityInEntities(instance, infoMarkedEntities.takenAction);
   };
 
-  const [currentHP, setCurrentHP] = useState(instance.HP);
+  const [currentHP, setCurrentHP] = useState(instance.health);
 
-  function handleColorActionCard() {
-    if (currentEntity?.entity === instance.entity) {
+  function handleActionStyle() {
+    if (currentEntity === instance) {
       return "0px 0px 40px 0px #0ff";
     }
-    // if (targetEntity?.entity === instance.entity) {
-    //   return "0px 0px 40px 0px red";
-    // }
-    if (instance.HP < currentHP) {
-      setTimeout(() => {
-        setCurrentHP(instance.HP);
-      }, 1200);
+    if (targetEntity === instance) {
       return "0px 0px 40px 0px red";
     }
-
     return "";
+  }
+
+  function handleAttackedStyle() {
+    if (instance.health < currentHP) {
+      setTimeout(() => {
+        setCurrentHP(instance.health);
+      }, 150);
+      return "opacity-75 scale-95";
+    }
   }
 
   function handleSkill() {
     if (selectedSkill && currentEntity) {
       const success = usingSkillToTargetEntity({
-        skillInstance: selectedSkill,
+        skill: selectedSkill,
         targetEntity: instance,
         sourceEntity: currentEntity,
         targetEntities: enemiesFrontRow,
@@ -124,15 +127,22 @@ const Card = (props: { instance: EntityInstance }) => {
                     }
                   } else {
                     //use skill to friend
-                    alert("pre use skill to friend");
-                    // usingSkillToTargetEntity({
-                    //   targetEntity: instance,
-                    //   skillInstance: selectedSkill,
-                    //   sourceEntity: currentEntity!,
-                    //   sourceEntities: instance,
-                    //   targetEntities: instance.selfRow,
-                    //   isEnemyAction: false,
-                    // });
+                    if (!selectedSkill.isAttackSkill) {
+                      usingSkillToTargetEntity({
+                        targetEntity: instance,
+                        skill: selectedSkill,
+                        sourceEntity: currentEntity!,
+                        sourceEntities:
+                          instance.position === PositionEnum.FRONT
+                            ? playersFrontRow
+                            : playersBackRow!,
+                        targetEntities:
+                          instance.position === PositionEnum.FRONT
+                            ? playersFrontRow
+                            : playersBackRow!,
+                        isEnemyAction: false,
+                      });
+                    }
                   }
                 } else {
                   setActionWarning(true);
@@ -166,24 +176,28 @@ const Card = (props: { instance: EntityInstance }) => {
       >
         <div
           rel="card-wrapper"
-          className={`p-2 rounded-lg transition ${
+          className={`relative p-2 rounded-lg transition  ${
             instance.hasOverDefend ? "bg-gray-500" : ""
           }
-          ${isHoveredCard ? "scale-110" : ""}`}
+          ${handleAttackedStyle()}
+         `}
         >
           <div
-            className={`w-24 h-fit rounded-md items-center justify-around hover:w-32 border transition 
+            className={`z-10 absolute inset-0 rounded-lg ${handleAttackedStyle()}`}
+          ></div>
+          <div
+            className={`w-24 h-fit rounded-md items-center hover:scale-110 hover:w-32 justify-around  border transition 
             ${wasAction() ? "border-transparent" : ""}
              ${instance.isBoss ? "bg-black" : "bg-slate-800"}
             `}
             style={{
               opacity: !instance.isAlive ? 0.2 : 1,
-              boxShadow: handleColorActionCard(),
+              boxShadow: handleActionStyle(),
             }}
           >
             {isHoveredCard && instance.hasActiveSkill && (
               <div className="flex flex-col justify-center items-center mt-2">
-                {instance.activeSkills.map((s, index) => (
+                {instance.activateSkills.map((s, index) => (
                   <p
                     key={index}
                     className="text-xs font-medium bg-cyan-500 w-fit rounded-full px-1"
@@ -195,15 +209,15 @@ const Card = (props: { instance: EntityInstance }) => {
             )}
             <p
               className={`border-white border-b w-full p-1 
-              ${instance.entity.name.length > 10 ? "text-xs" : ""}
+              ${instance.name.length > 10 ? "text-xs" : ""}
               ${instance.isBoss ? "text-red-600 font-medium" : ""}
               `}
             >
-              {instance.entity.name}
+              {instance.name}
             </p>
             <img
               className="object-cover"
-              src={`${BASE_URL_IMAGE_ENTITIES}/${instance.entity.imageUrl}`}
+              src={`${BASE_URL_IMAGE_ENTITIES}/${instance.imageUrl}`}
               alt="no image"
               draggable={false}
             />
@@ -264,28 +278,27 @@ const Card = (props: { instance: EntityInstance }) => {
             )}
             {isHoveredCard && (
               <div className="text-xs text-left mx-2 ">
-                <p>ATK: {instance.ATK}</p>
+                <p>ATK: {instance.attackPower}</p>
                 <p>
-                  HP: {instance.HP} / {instance.entity.maxHealth}
+                  HP: {instance.health} / {instance.maxHealth}
                 </p>
                 {instance.isUseHybrid && (
                   <p>
-                    MEP: {instance.MANERGY} /{" "}
-                    {instance.entity.maxManaEnergyPower * 2}
+                    MEP: {instance.MANERGY} / {instance.maxManaEnergyPower * 2}
                   </p>
                 )}
                 {instance.isUseEnergy && !instance.isUseHybrid && (
                   <p>
-                    EP: {instance.EP} / {instance.entity.maxManaEnergyPower}
+                    EP: {instance.energy} / {instance.maxManaEnergyPower}
                   </p>
                 )}
                 {instance.isUseMana && !instance.isUseHybrid && (
                   <p>
-                    MP: {instance.MP} / {instance.entity.maxManaEnergyPower}
+                    MP: {instance.mana} / {instance.maxManaEnergyPower}
                   </p>
                 )}
                 {instance.evasion > 0 && <p>EV: {instance.evasion * 100}%</p>}
-                {instance.entity.maxDefendPower && (
+                {instance.maxDefendPower > 0 && (
                   <p
                     className={`${
                       instance.getDifferentValueFromInitial({ stat: "def" }) > 0
@@ -294,7 +307,7 @@ const Card = (props: { instance: EntityInstance }) => {
                     }`}
                   >
                     {`DEF`}:{" "}
-                    {`${instance.entity.defend ?? ""} ${
+                    {`${instance.defend} ${
                       instance.getDifferentValueFromInitial({ stat: "def" }) > 0
                         ? `(+${instance.getDifferentValueFromInitial({
                             stat: "def",

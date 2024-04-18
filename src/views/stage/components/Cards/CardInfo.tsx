@@ -1,4 +1,4 @@
-import { Skill } from "@/classes/skills";
+import { SkillType } from "@/classes/skills";
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
 import { useGameStore } from "../../stores/gameStore";
 import { useUIStore } from "../../stores/uiStore";
@@ -26,34 +26,34 @@ function CardInfo() {
                 className="object-cover"
                 width={500}
                 height={494}
-                src={`${BASE_URL_IMAGE_ENTITIES}/${currentEntityData?.entity.imageUrl}`}
+                src={`${BASE_URL_IMAGE_ENTITIES}/${currentEntityData?.imageUrl}`}
                 alt="no image"
               />
             </div>
             <div className="flex flex-col text-center justify-center items-center">
               <div className="font-mono text-3xl font-bold">
-                {currentEntityData?.entity.name}
+                {currentEntityData?.name}
                 <p className="text-sm"> {currentEntityData?.trait}</p>
                 <p className="fot-memo text-sm my-2 p-1 rounded-full bg-gray-700 uppercase">
-                  {currentEntityData?.entity.status}
+                  {currentEntityData?.status}
                 </p>
               </div>
               <div className="flex justify-around flex-wrap">
                 <p className="font-mono text-lg w-1/2">Level</p>
                 <p className="font-mono text-lg w-1/2">
-                  {currentEntityData?.entity.level}
+                  {currentEntityData?.level}
                 </p>
                 <p className="font-mono text-lg w-1/2">Attack</p>
                 <p className="font-mono text-lg w-1/2">
-                  {currentEntityData?.entity.attackPower}
+                  {currentEntityData?.attackPower}
                 </p>
                 <p className="font-mono text-lg w-1/2">Defence</p>
                 <p className="font-mono text-lg w-1/2">
-                  {currentEntityData?.entity.defend ?? 0}
+                  {currentEntityData?.defend ?? 0}
                 </p>
                 <p className="font-mono text-lg w-1/2">Speed</p>
                 <p className="font-mono text-lg w-1/2">
-                  {currentEntityData?.entity.speed}
+                  {currentEntityData?.speed}
                 </p>
               </div>
             </div>
@@ -63,7 +63,7 @@ function CardInfo() {
             <h3 className="font-mono text-xl font-semibold">Skill</h3>
             <div className="flex flex-row gap-4">
               {currentEntityData?.allSkills.map(
-                (skill: Skill, index: number) => (
+                (skill: SkillType, index: number) => (
                   <div
                     key={index}
                     className="flex flex-col justify-center items-center w-1/4 text-center py-3 border-2 border-red-600"

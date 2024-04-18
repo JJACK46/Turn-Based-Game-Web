@@ -1,8 +1,6 @@
 import { Skill } from "@/classes/skills";
 import { EmitTypeEnum } from "./actions";
 import { PowerEnum } from "./powers";
-import { BASE_ROUND } from "@/utils/constants";
-import { StatusEnum } from "./status";
 
 export enum TraitEnum {
   //earth aprilX
@@ -32,207 +30,183 @@ export enum TraitEnum {
 }
 
 export const listTraitSkill: { [key in TraitEnum]: Skill } = {
-  [TraitEnum.HUMAN]: {
+  [TraitEnum.HUMAN]: new Skill({
     name: "Humanity",
     requiredMana: -1,
     requiredEnergy: 10,
     type: EmitTypeEnum.HEALING,
     power: PowerEnum.PHYSICAL,
-    emitValueMultiply: 0.2, //heal self 20% of health
-  },
-  [TraitEnum.INSECT]: {
+    emitValueMultiply: 0.4,
+    duration: 0,
+  }),
+  [TraitEnum.INSECT]: new Skill({
     name: "poison",
     type: EmitTypeEnum.ATTACK,
     requiredEnergy: 10,
     requiredMana: -1,
     emitValueMultiply: 1.1,
     power: PowerEnum.PHYSICAL,
-    effectStatus: StatusEnum.POISON,
-    duration: 2 * BASE_ROUND,
-  },
-  [TraitEnum.SPIRIT]: {
-    name: "",
+    duration: 2,
+  }),
+  [TraitEnum.SPIRIT]: new Skill({
+    name: "fear",
     type: EmitTypeEnum.ATTACK,
     requiredEnergy: 10,
     requiredMana: -1,
     emitValueMultiply: -1,
     power: PowerEnum.MAGICAL,
-    effectStatus: StatusEnum.FREEZE,
-    duration: 1 * BASE_ROUND,
-  },
-  [TraitEnum.BIG_CREATURE]: {
-    name: "",
+    duration: 1,
+  }),
+  [TraitEnum.BIG_CREATURE]: new Skill({
+    name: "stomped",
     type: EmitTypeEnum.ATTACK,
     requiredEnergy: 10,
     requiredMana: -1,
     emitValueMultiply: 0.5,
-    emitValue: -1,
     power: PowerEnum.PHYSICAL,
-    effectStatus: StatusEnum.STUNNED,
-    duration: 1 * BASE_ROUND,
-  },
-  [TraitEnum.ARMED_ROBOT]: {
+  }),
+  [TraitEnum.ARMED_ROBOT]: new Skill({
     name: "Missile Rain",
     type: EmitTypeEnum.ATTACK_AOE,
     requiredEnergy: 2,
-    requiredMana: -1,
     emitValueMultiply: 0.2,
     emitValue: -1,
     power: PowerEnum.PHYSICAL,
     repeat: 10,
-    random: true,
-    // specialToTargetMethod(props) {
-    //   const { sourceEntity, targetEntity, thisSkill } = props;
-    //   const blockedDamage = BASE_DAMAGE_REDUCTION * targetEntity.DEF;
-    //   const damageMade = sourceEntity.ATK * thisSkill.skill.emitValueMultiply;
-    //   const evasion = targetEntity.evasion;
-    //   const randomValue = Math.random();
-    //   let missed = false;
-    //   let resultDamage = Math.max(0, damageMade - blockedDamage);
-    //    if (randomValue < evasion) {
-    //      resultDamage = 0;
-    //      missed = true;
-    //    }
-    //   const effectedTarget: EntityInstance = new EntityInstance({
-    //     ...targetEntity,
-    //     entity: {
-    //       ...targetEntity.entity,
-    //       health: targetEntity.entity.health - resultDamage,
-    //     },
-    //   });
-
-    //   return {
-    //     updatedSource: sourceEntity,
-    //     effectedTarget,
-    //     damageMade,
-    //     blockedDamage,
-    //     resultDamage,
-    //     missed,
-    //   };
-    // },
-  },
-  [TraitEnum.UNARMED_ROBOT]: {
+    randomTarget: true,
+  }),
+  [TraitEnum.UNARMED_ROBOT]: new Skill({
     name: "Untouchable",
     type: EmitTypeEnum.DEFEND,
-    requiredEnergy: 10,
-    requiredMana: -1,
-    emitValueMultiply: 2,
+    requiredEnergy: 30,
+    emitValueMultiply: 10,
     power: PowerEnum.PHYSICAL,
-    effectStatus: StatusEnum.IMMUNITY_PHYSICAL,
-    duration: 1 * BASE_ROUND,
-  },
-  [TraitEnum.CYBORG]: {
-    name: "",
+    duration: 2,
+  }),
+  [TraitEnum.CYBORG]: new Skill({
+    name: "shield up",
     type: EmitTypeEnum.DEFEND,
     requiredEnergy: 10,
     requiredMana: -1,
     emitValueMultiply: 1,
     power: PowerEnum.PHYSICAL,
-    effectStatus: StatusEnum.IMMUNITY_PHYSICAL,
-    duration: 1 * BASE_ROUND,
-  },
-  [TraitEnum.AUTOMATION]: {
+    duration: 1,
+  }),
+  [TraitEnum.AUTOMATION]: new Skill({
     name: "self repair",
     type: EmitTypeEnum.HEALING,
     requiredEnergy: 10,
     requiredMana: -1,
     emitValueMultiply: 1,
     power: PowerEnum.PHYSICAL,
-  },
-  [TraitEnum.GOBLIN]: {
+    duration: 3,
+  }),
+  [TraitEnum.GOBLIN]: new Skill({
     name: "",
     type: EmitTypeEnum.ATTACK,
     requiredEnergy: 0,
     requiredMana: 10,
     emitValueMultiply: 1,
     power: PowerEnum.PHYSICAL,
-  },
-  [TraitEnum.ELF]: {
+    duration: 0,
+  }),
+  [TraitEnum.ELF]: new Skill({
     name: "",
     type: EmitTypeEnum.ATTACK,
-    requiredEnergy: -1,
+    requiredEnergy: 0,
     requiredMana: 10,
     emitValueMultiply: 1,
     power: PowerEnum.MAGICAL,
-  },
-  [TraitEnum.ORC]: {
+    duration: 0,
+  }),
+  [TraitEnum.ORC]: new Skill({
     name: "",
     type: EmitTypeEnum.ATTACK,
-    requiredEnergy: -1,
+    requiredEnergy: 0,
     requiredMana: 10,
-    emitValueMultiply: 1,
-    power: PowerEnum.MAGICAL,
-  },
-  [TraitEnum.DEMON]: {
-    name: "",
-    type: EmitTypeEnum.ATTACK,
-    requiredEnergy: -1,
-    requiredMana: 10,
-    emitValueMultiply: 1,
-    power: PowerEnum.MAGICAL,
-  },
-  [TraitEnum.ANGEL]: {
-    name: "",
-    type: EmitTypeEnum.ATTACK,
-    requiredEnergy: -1,
-    requiredMana: 10,
-    emitValueMultiply: 1,
-    power: PowerEnum.MAGICAL,
-  },
-  [TraitEnum.MAGIC_GOLEM]: {
-    name: "",
-    type: EmitTypeEnum.ATTACK,
-    requiredEnergy: -1,
-    requiredMana: 10,
-    emitValueMultiply: 1,
-    power: PowerEnum.MAGICAL,
-  },
-  [TraitEnum.UNKNOWN]: {
-    name: "",
-    type: EmitTypeEnum.ATTACK,
-    requiredEnergy: -1,
-    requiredMana: -1,
-    emitValueMultiply: 1,
-    power: PowerEnum.MAGICAL,
-  },
-  [TraitEnum.INHUMAN]: {
-    name: "",
-    type: EmitTypeEnum.ATTACK,
-    requiredEnergy: 10,
-    requiredMana: -1,
     emitValueMultiply: 1,
     power: PowerEnum.PHYSICAL,
-  },
-  [TraitEnum.MAGIC_ANIMAL]: {
+    duration: 0,
+  }),
+  [TraitEnum.DEMON]: new Skill({
+    name: "Soulflame Burst",
+    type: EmitTypeEnum.ATTACK_AOE,
+    requiredEnergy: 0,
+    requiredMana: 20,
+    emitValueMultiply: 0.5,
+    power: PowerEnum.MAGICAL,
+  }),
+  [TraitEnum.ANGEL]: new Skill({
     name: "",
     type: EmitTypeEnum.ATTACK,
-    requiredEnergy: -1,
+    requiredEnergy: 0,
     requiredMana: 10,
     emitValueMultiply: 1,
-    power: PowerEnum.MAGICAL,
-  },
-  [TraitEnum.BOSS_DOZOJO]: {
-    name: "Surge Energy",
-    requiredMana: 40,
-    requiredEnergy: 40,
+    power: PowerEnum.PHYSICAL,
+    duration: 0,
+  }),
+  [TraitEnum.MAGIC_GOLEM]: new Skill({
+    name: "",
     type: EmitTypeEnum.ATTACK,
+    requiredEnergy: 0,
+    requiredMana: 10,
+    emitValueMultiply: 1,
+    power: PowerEnum.PHYSICAL,
+    duration: 0,
+  }),
+  [TraitEnum.UNKNOWN]: new Skill({
+    name: "",
+    type: EmitTypeEnum.ATTACK,
+    requiredEnergy: 0,
+    requiredMana: 10,
+    emitValueMultiply: 1,
+    power: PowerEnum.PHYSICAL,
+    duration: 0,
+  }),
+  [TraitEnum.INHUMAN]: new Skill({
+    name: "",
+    type: EmitTypeEnum.ATTACK,
+    requiredEnergy: 0,
+    requiredMana: 10,
+    emitValueMultiply: 1,
+    power: PowerEnum.PHYSICAL,
+    duration: 0,
+  }),
+  [TraitEnum.MAGIC_ANIMAL]: new Skill({
+    name: "",
+    type: EmitTypeEnum.ATTACK,
+    requiredEnergy: 0,
+    requiredMana: 10,
+    emitValueMultiply: 1,
+    power: PowerEnum.PHYSICAL,
+    duration: 0,
+  }),
+  [TraitEnum.BOSS_DOZOJO]: new Skill({
+    name: "World's Corruption",
+    requiredMana: 40 / 20,
+    requiredEnergy: 40 / 20,
+    type: EmitTypeEnum.ATTACK_AOE,
     power: PowerEnum.HYBRID,
-    emitValueMultiply: 0.2,
-  },
-  [TraitEnum.BOSS_NEXOS]: {
+    emitValueMultiply: 0.5,
+    repeat: 5,
+    randomTarget: true,
+  }),
+  [TraitEnum.BOSS_NEXOS]: new Skill({
     name: "Artificial Perfection",
     requiredMana: -1,
     requiredEnergy: 80,
     type: EmitTypeEnum.DEFEND,
     power: PowerEnum.PHYSICAL,
     emitValueMultiply: 0.2,
-  },
-  [TraitEnum.BOSS_VEXARIA]: {
+    duration: 0,
+  }),
+  [TraitEnum.BOSS_VEXARIA]: new Skill({
     name: "Dark Manipulation",
     requiredMana: 80,
     requiredEnergy: -1,
     type: EmitTypeEnum.RESTORE,
     power: PowerEnum.MAGICAL,
     emitValueMultiply: 0.2,
-  },
+    duration: 0,
+  }),
 };

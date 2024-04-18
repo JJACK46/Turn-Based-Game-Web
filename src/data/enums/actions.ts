@@ -4,6 +4,8 @@ export enum EmitTypeEnum {
   HEALING = "healing",
   RESTORE = "restore",
   SHIELD = "shield",
+  BUFF = "buff",
+  DE_BUFF = "de-buff",
   ATTACK_AOE = "attack aoe",
   DEFEND_AOE = "defend aoe",
   HEALING_AOE = "healing aoe",

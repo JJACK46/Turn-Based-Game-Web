@@ -1,6 +1,6 @@
-import { Entity } from "../../classes/entity";
+import { EntityType } from "../../classes/entity";
 
 export type Team = {
   name: string;
-  entities: Entity[];
+  entities: EntityType[];
 };

@@ -1,4 +1,4 @@
-import { Entity } from "@/classes/entity";
+import { EntityType } from "@/classes/entity";
 import { AstralisOmegaMaps } from "./astralis-omega/maps";
 import { EarthAprilXMaps } from "./earth-aprilx/maps";
 import { GaiaRealmMaps } from "./gaia-realm/maps";
@@ -13,8 +13,8 @@ interface WorldData {
   info: string;
   urlImg: string;
   maps: MapData[];
-  entities: Entity[];
-  boss: Entity | null;
+  entities: EntityType[];
+  boss: EntityType | null;
   dropItems: (Weapon | Armor)[];
 }
 

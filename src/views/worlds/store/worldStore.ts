@@ -1,5 +1,5 @@
 import { Armor } from "@/classes/armor";
-import { Entity } from "@/classes/entity";
+import { EntityType } from "@/classes/entity";
 import { Weapon } from "@/classes/weapon";
 import { MapData } from "@/data/worlds/types/map";
 import { create } from "zustand";
@@ -8,8 +8,8 @@ type World = {
   selectedWorld: {
     id: string;
     worldImgUrl: string;
-    entities: Entity[];
-    boss: Entity | null;
+    entities: EntityType[];
+    boss: EntityType | null;
     dropItems: (Weapon | Armor)[];
     maps: MapData[];
   };
@@ -17,8 +17,8 @@ type World = {
   setSelectedWorld: (props: {
     id: string;
     worldImgUrl: string;
-    entities: Entity[];
-    boss: Entity | null;
+    entities: EntityType[];
+    boss: EntityType | null;
     dropItems: (Weapon | Armor)[];
     maps: MapData[];
   }) => void;

@@ -3,7 +3,7 @@ import { useUIStore } from "../stores/uiStore";
 export function TurnWarning() {
   const { setTurnWarning } = useUIStore();
   return (
-    <span className="absolute inset-0 flex items-center justify-center size-full z-10">
+    <span className="fixed inset-0 flex items-center justify-center size-full z-50">
       <button
         onClick={() => {
           setTurnWarning(false);
@@ -20,7 +20,7 @@ export function TurnWarning() {
 export function ActionWarning() {
   const { setActionWarning } = useUIStore();
   return (
-    <span className="absolute inset-0 flex items-center justify-center size-full z-10">
+    <span className="fixed inset-0 flex items-center justify-center size-full z-50">
       <button
         onClick={() => {
           setActionWarning(false);
