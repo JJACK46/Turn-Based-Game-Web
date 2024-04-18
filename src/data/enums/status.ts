@@ -1,6 +1,11 @@
 import { Status } from "../../classes/status";
 import { PowerEnum } from "./powers";
 
+export enum UsingStatusEnum {
+  INUSE = "inuse",
+  READY = "ready",
+}
+
 export enum StatusEnum {
   NORMAL = "normal",
   STUNNED = "stunned",

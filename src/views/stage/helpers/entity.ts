@@ -1,6 +1,7 @@
 import { Armor } from "@/classes/armor";
 import { Entity, EntityInstance } from "@/classes/entity";
 import { Weapon } from "@/classes/weapon";
+import { UsingStatusEnum } from "@/data/enums/status";
 // import { bowSkillSet } from "@/data/bowSkillSet";
 // import { gunSkillSet } from "@/data/gunSkillSet";
 // import { swordSkillSet } from "@/data/swordSkillSet";
@@ -71,13 +72,20 @@ export const settingEntityWeapon = (entityData: Entity, equipment: Weapon) => {
   entityData.equipment = {
     weapon: equipment,
   };
+  equipment.status = UsingStatusEnum.INUSE
 };
 
 export const settingEntityArmor = (entityData: Entity, equipment: Armor) => {
   entityData.equipment = {
     armor: equipment,
   };
+  equipment.status = UsingStatusEnum.INUSE
 };
+
+// export const setHoldingItem = (entityData: Entity, equipment: Item) => {
+//   entityData.holdingItem = equipment
+//   equipment.status = UsingStatusEnum.INUSE
+// };
 
 // export const findRowFromEntity = (props :{entity: EntityInstance, row: Entity[]}) => {
 

@@ -7,6 +7,7 @@ import { tutorialSet } from "./data/tutorial";
 import Credits from "./views/credits/CreditsView";
 import MapSelection from "./views/worlds/views/MapSelection";
 import { useWorldStore } from "./views/worlds/store/worldStore";
+import TeamSetup from "./views/teamsetup/view/TeamSetup";
 
 function App() {
   const { selectedMap } = useWorldStore();
@@ -42,6 +43,7 @@ function App() {
             }
           />
           <Route path="/credits" element={<Credits />} />
+          <Route path="/teamSetup" element={<TeamSetup />} />
         </Routes>
       </BrowserRouter>
     </div>

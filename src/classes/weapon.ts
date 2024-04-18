@@ -1,47 +1,20 @@
-import { PowerType } from "./powerType";
+import { PowerEnum } from "@/data/enums/powers";
+import { UsingStatusEnum } from "@/data/enums/status";
+
 
 export type Weapon = {
   id: number;
   name: string;
-  type: WeaponType;
+  type: WeaponEnum;
+  level: number;
   powerValue: number;
-  damageType: PowerType;
+  damageType: PowerEnum;
+  status: UsingStatusEnum
 };
 
-// export type WeaponType = {
-//   id:0
-//   name:"bow"
-// } | {
-//   id:1
-//   name:"sword"
-// } | {
-//   id:"2"
-//   name:"gun"
-// };
-
-export type WeaponType = {
-  id:number
-  name:string
-}
-
 export enum WeaponEnum {
-  BOW = 0,
-  SWORD = 1,
-  GUN = 2,
+  BOW = "bow",
+  SWORD = "sword",
+  GUN = "gun",
 }
-
-export const WeaponTypeData:WeaponType[] = [
-  {
-    id:0,
-    name:"bow",
-  },
-  {
-    id:1,
-    name:"sword",
-  },
-  {
-    id:2,
-    name:"gun",
-  }
-]
 
