@@ -38,6 +38,8 @@ export type EntityType = {
   trait: TraitEnum;
   restoreManaOrEnergy: number;
   restoreHealth?: number;
+  position: PositionEnum | PositionEnum.NONE;
+  // holdingItem : item[]
   evasion: number;
 };
 

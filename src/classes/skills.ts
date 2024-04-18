@@ -23,14 +23,16 @@ type ResultAffectMultiple = {
 };
 
 export type SkillType = {
+  id?: string;
   name: string;
   describe?: string;
   type: EmitTypeEnum;
   requiredEnergy: number;
   requiredMana: number;
   requiredHealth?: number;
-  comboAble?: boolean | true;
-  comboWith?: SkillType | null;
+  comboAble?: true;
+  comboWith?: string;
+  comboSkill?: Skill;
   emitValueMultiply: number;
   emitValue?: number;
   power: PowerEnum;

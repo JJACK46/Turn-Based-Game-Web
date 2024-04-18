@@ -3,7 +3,8 @@ import { PowerEnum } from "@/data/enums/powers";
 export type Weapon = {
   id: number;
   name: string;
-  type: WeaponType;
+  type: WeaponEnum;
+  level: number;
   powerValue: number;
   damageType: PowerEnum;
 };
