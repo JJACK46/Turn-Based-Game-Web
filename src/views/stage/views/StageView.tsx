@@ -2,7 +2,7 @@
 import { EntityType } from "../../../classes/entity";
 import NavBarView from "../components/UI/NavBar";
 import EnemiesSection from "../components/Field/EnemiesSection";
-import UserOverlay from "../components/UI/UserOverlay";
+import UserOverlay from "../components/UI/UserOvarlay/UserOverlay";
 import PlayersSection from "../components/Field/PlayersSection";
 import { StageWatcher } from "./StageWatcher";
 import { useEffect } from "react";

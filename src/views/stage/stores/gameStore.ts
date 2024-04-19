@@ -356,35 +356,51 @@ export const useGameStore = create<GameLogicType>()(
                 });
               resultDamage = resAOE;
             }
-
-            // Update state (with immer)
+            // Update state (immer)
             set((state) => {
               state.infoDamage.totalHitDamage += resultDamage;
               state.infoDamage.lastHitDamage = damageMade;
               state.infoDamage.blockedDamage = blockedDamage;
               state.infoDamage.missed = missed;
-              state.infoField.playersFrontRow = isEnemyAction
-                ? [...updatedTargetEntities]
-                : [...updatedSourceEntities];
-              state.infoField.enemiesFrontRow = isEnemyAction
-                ? [...updatedSourceEntities]
-                : [...updatedTargetEntities];
               state.infoIndicator.targetEntity = updatedTarget;
             });
+            if (isEnemyAction) {
+              set((state) => {
+                state.infoField.enemiesFrontRow = updatedSourceEntities;
+                state.infoField.playersFrontRow = updatedTargetEntities;
+              });
+            } else {
+              //player turn
+              set((state) => {
+                state.infoField.playersFrontRow = updatedSourceEntities;
+                state.infoField.enemiesFrontRow = updatedTargetEntities;
+              });
+            }
 
             return true;
           }
           //buff skill
-
-          set((state) => {
-            state.infoField.playersFrontRow = isEnemyAction
-              ? [...updatedTargetEntities]
-              : [...updatedSourceEntities];
-            state.infoField.enemiesFrontRow = isEnemyAction
-              ? [...updatedSourceEntities]
-              : [...updatedTargetEntities];
-            state.infoIndicator.targetEntity = updatedTarget;
+          console.log("test");
+          const { effectedTarget } = skill.effectToTarget({
+            sourceEntity,
+            targetEntity,
           });
+          updatedTargetEntities[effectedTarget.index] = effectedTarget;
+
+          updatedSourceEntities[sourceEntity.index] =
+            sourceEntity.updateManaFromUse({
+              skill: skill,
+            });
+          if (isEnemyAction) {
+            set((state) => {
+              state.infoField.enemiesFrontRow = updatedSourceEntities;
+              state.infoIndicator.targetEntity = updatedTarget;
+            });
+          } else {
+            set((state) => {
+              state.infoField.playersFrontRow = updatedSourceEntities;
+            });
+          }
           return true;
         } else {
           console.log("Not enough MP/EP");

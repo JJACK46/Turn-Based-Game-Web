@@ -8,6 +8,8 @@ import Credits from "./views/credits/CreditsView";
 import MapSelection from "./views/worlds/views/MapSelection";
 import { useWorldStore } from "./views/worlds/store/worldStore";
 import TeamSetup from "./views/teamsetup/view/TeamSetup";
+import { MenuView } from "./views/menu/views/MenuView";
+import { CodexView } from "./views/codex/views/CodexView";
 
 function App() {
   const { selectedMap } = useWorldStore();
@@ -18,8 +20,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomeView />} />
-          <Route path="/world" element={<WorldSelection />} />
-          <Route path="/world/:name" element={<MapSelection />} />
+          <Route path="/worlds" element={<WorldSelection />} />
+          <Route path="/worlds/:name" element={<MapSelection />} />
           <Route
             path="/tutorial"
             element={
@@ -44,6 +46,8 @@ function App() {
           />
           <Route path="/credits" element={<Credits />} />
           <Route path="/teamSetup" element={<TeamSetup />} />
+          <Route path="/menu" element={<MenuView />} />
+          <Route path="/codex" element={<CodexView />} />
         </Routes>
       </BrowserRouter>
     </div>

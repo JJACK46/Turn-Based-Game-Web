@@ -29,6 +29,14 @@ export enum TraitEnum {
   BOSS_VEXARIA = "The Deceitful of Gaia Realm",
 }
 
+export const isBoss = (trait: TraitEnum): boolean => {
+  return [
+    TraitEnum.BOSS_DOZOJO,
+    TraitEnum.BOSS_NEXOS,
+    TraitEnum.BOSS_VEXARIA,
+  ].includes(trait);
+};
+
 export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   [TraitEnum.HUMAN]: new Skill({
     name: "Humanity",
@@ -74,6 +82,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     power: PowerEnum.PHYSICAL,
     repeat: 10,
     randomTarget: true,
+    soundPath: "/sounds/sfx/missile-rocket-firing.wav",
   }),
   [TraitEnum.UNARMED_ROBOT]: new Skill({
     name: "Untouchable",

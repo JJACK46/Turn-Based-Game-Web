@@ -228,7 +228,7 @@ export class Entity implements EntityType {
     return this.energy > -1 && this.mana > -1;
   }
 
-  calculateDamageMadeBy(props: { skill: Skill }): number {
+  calculateAmountMadeBy(props: { skill: Skill }): number {
     const { skill } = props;
     return Math.round(this.attackPower * skill.emitValueMultiply);
   }

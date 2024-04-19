@@ -21,7 +21,7 @@ interface WorldData {
 export const listWorlds: WorldData[] = [
   {
     id: "earth-aprilx",
-    title: "Earth-AprilX: The Ravaged Homeworld",
+    title: "Earth AprilX: The Ravaged Homeworld",
     path: "",
     info: "In a distant future, humanity's insatiable thirst for power and resources has led to the cataclysmic transformation of Earth into a war-torn wasteland. Dubbed Earth-AprilX, this once-vibrant planet now bears the scars of endless conflict and environmental degradation, a grim testament to humanity's folly.",
     urlImg: "Earth-AprilX.jpeg",

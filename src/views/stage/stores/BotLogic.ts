@@ -59,10 +59,10 @@ export const botAction = ({
     new Promise((resolve) => {
       return setTimeout(resolve, ms);
     });
+
   //delay enemy action per an entity
   setTimeout(() => {
     if (turn === "enemy" && availableActions > 0) {
-      setEntityPerforming(true);
       const potentialEntity = getMostAttackPowerEntityForBot(
         sourceEntities,
         entitiesTakenAction
@@ -90,8 +90,8 @@ export const botAction = ({
                 ? potentialEntity.hasDefSkill[0]
                 : null;
             if (bestDefSkill) {
+              setEntityPerforming(true);
               const selectedSkill = potentialEntity.traitSkill;
-
               setSelectSkill(selectedSkill);
               success = usingSkillToSelf({
                 skill: selectedSkill,
@@ -99,7 +99,9 @@ export const botAction = ({
                 sourceEntities,
                 isEnemyAction: true,
               });
-              if (!success) setSelectSkill(null);
+              if (!success) {
+                setSelectSkill(null);
+              }
             }
             flag.skilledToSelf = true;
           } else {
@@ -110,6 +112,7 @@ export const botAction = ({
               listAttackAOE.length > 0 &&
               potentialEntity.MANERGY >= skillAOE.requiredTotalManaOrEnergy
             ) {
+              setEntityPerforming(true);
               //not best algorithm
               setTimeout(() => {
                 const usingSkill = async () => {
@@ -127,7 +130,6 @@ export const botAction = ({
                   }
                 };
                 usingSkill();
-                setSelectSkill(null);
               }, BASE_DELAY_SKILL);
               success = true;
             } else {
@@ -157,8 +159,8 @@ export const botAction = ({
 
                 setTimeout(() => {
                   //default attack by first skill
+                  setEntityPerforming(true);
                   selectedSkill = potentialEntity.normalHitSkill;
-                  setSelectSkill(selectedSkill);
                   success = usingSkillToTarget({
                     skill: selectedSkill,
                     sourceEntity: potentialEntity,
@@ -177,14 +179,14 @@ export const botAction = ({
         //finally reset indicator
         setTimeout(() => {
           if (success) {
-            decreaseAction(1);
-            markEntityTakenAction(potentialEntity);
-            setEntityPerforming(false);
             resetCurrentEntity();
             resetTargetEntity();
             resetSelectSkill();
+            setEntityPerforming(false);
+            markEntityTakenAction(potentialEntity);
+            decreaseAction(1);
           }
-        }, BASE_DELAY_SKILL * 1.8);
+        }, BASE_DELAY_SKILL * 1.4);
       }
       //not found source entity
     }

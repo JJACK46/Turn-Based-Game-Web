@@ -13,7 +13,7 @@ type AppConfig = {
   setFont: (input: string) => void;
 };
 
-export const useUIStore = create<AppConfig>((set) => ({
+export const useAppStore = create<AppConfig>((set) => ({
   font: "",
   volume: {
     master: 1,

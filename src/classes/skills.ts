@@ -39,6 +39,7 @@ export type SkillType = {
   duration?: number;
   repeat?: number;
   randomTarget?: true | boolean;
+  soundPath?: string;
   specialToTargetMethod?: (props: {
     sourceEntity: Entity;
     targetEntity: Entity;
@@ -48,7 +49,7 @@ export type SkillType = {
 
 export class Skill implements SkillType {
   duration: number;
-  describe?: string | undefined;
+  describe?: string;
   requiredEnergy: number;
   requiredMana: number;
   requiredHealth: number;
@@ -61,6 +62,7 @@ export class Skill implements SkillType {
   type: EmitTypeEnum;
   emitValueMultiply: number;
   emitValue: number;
+  soundPath?: string;
   specialToTargetMethod?:
     | ((props: {
         sourceEntity: Entity;
@@ -84,6 +86,7 @@ export class Skill implements SkillType {
     repeat,
     randomTarget,
     emitValue,
+    soundPath,
     specialToTargetMethod,
   }: {
     name: string;
@@ -100,6 +103,7 @@ export class Skill implements SkillType {
     repeat?: number;
     randomTarget?: boolean;
     emitValue?: number;
+    soundPath?: string | undefined;
     specialToTargetMethod?: (props: {
       sourceEntity: Entity;
       targetEntity: Entity;
@@ -120,17 +124,23 @@ export class Skill implements SkillType {
     this.repeat = repeat ?? 0;
     this.randomTarget = randomTarget ?? false;
     this.emitValue = emitValue ?? 0;
+    this.soundPath = soundPath;
     this.specialToTargetMethod = specialToTargetMethod;
   }
 
   get isAttackSkill(): boolean {
-    const attackTypes = [EmitTypeEnum.ATTACK, EmitTypeEnum.ATTACK_AOE];
-    return attackTypes.includes(this.type);
+    const attacks = [EmitTypeEnum.ATTACK, EmitTypeEnum.ATTACK_AOE];
+    return attacks.includes(this.type);
   }
 
   get isDefendSkill(): boolean {
-    const defTypes = [EmitTypeEnum.DEFEND, EmitTypeEnum.DEFEND_AOE];
-    return defTypes.includes(this.type);
+    const defs = [EmitTypeEnum.DEFEND, EmitTypeEnum.DEFEND_AOE];
+    return defs.includes(this.type);
+  }
+
+  get isHealSkill(): boolean {
+    const heals = [EmitTypeEnum.HEALING, EmitTypeEnum.HEALING_AOE];
+    return heals.includes(this.type);
   }
 
   get hasDuration() {
@@ -211,10 +221,29 @@ export class Skill implements SkillType {
         missed,
       };
     };
+    const defaultHealMethod = (): ResultAffectSingle => {
+      const healAmount = Math.round(
+        source.attackPower * this.emitValueMultiply
+      );
+
+      target.health += Math.min(target.maxHealth, healAmount);
+
+      return {
+        updatedSource: source,
+        effectedTarget: target,
+        damageMade: 0,
+        blockedDamage,
+        resultDamage: 0,
+        missed,
+      };
+    };
 
     switch (this.type) {
       case EmitTypeEnum.ATTACK:
         result = defaultAttackMethod();
+        break;
+      case EmitTypeEnum.HEALING:
+        result = defaultHealMethod();
         break;
       default:
         break;
@@ -270,7 +299,7 @@ export class Skill implements SkillType {
     };
     const defaultAttackAOEMethod = (): ResultAffectMultiple => {
       if (this.randomTarget) {
-        let targetIndex = Math.round(Math.random() * 10) % targets.length;
+        let targetIndex = Math.floor(Math.random() * targets.length);
         while (!targets[targetIndex].isAlive) {
           targetIndex++;
         }

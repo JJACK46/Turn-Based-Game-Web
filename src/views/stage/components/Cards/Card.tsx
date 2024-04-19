@@ -2,13 +2,14 @@ import { useState } from "react";
 import { Entity } from "../../../../classes/entity";
 import { convertNumberToPercentage, getColorByHp } from "../../helpers/styles";
 
-import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
+import { BASE_DELAY_SKILL, BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
 import { useUIStore } from "../../stores/uiStore";
 import { isEntityInEntities } from "../../helpers/entity";
 import atkSymbol from "@/assets/svgs/sword-symbol.svg";
 import defSymbol from "@/assets/svgs/shield-symbol.svg";
 import { useGameStore } from "../../stores/gameStore";
 import { PositionEnum } from "@/data/enums/positions";
+import { SoundPlayer } from "@/utils/SoundPlayer";
 
 const Card = (props: { instance: Entity }) => {
   const { instance } = props;
@@ -79,29 +80,82 @@ const Card = (props: { instance: Entity }) => {
 
   function handleSkill() {
     if (selectedSkill && currentEntity) {
-      const success = usingSkillToTargetEntity({
-        skill: selectedSkill,
-        targetEntity: instance,
-        sourceEntity: currentEntity,
-        targetEntities: enemiesFrontRow,
-        sourceEntities: playersFrontRow,
-        isEnemyAction: false,
-      });
-      setTimeout(() => {
-        resetSelectSkill();
-        resetCurrentEntity();
-        resetTargetEntity();
-        setEntityPerforming(false);
-      }, 700);
-      if (success) {
-        markEntityTakenAction(currentEntity);
-        decreaseAction(1);
+      let success = false;
+      setEntityPerforming(true);
+      if (selectedSkill.isAttackSkill) {
+        if (selectedSkill === currentEntity.traitSkill) {
+          setTimeout(() => {
+            success = usingSkillToTargetEntity({
+              skill: selectedSkill,
+              targetEntity: instance,
+              sourceEntity: currentEntity,
+              targetEntities: enemiesFrontRow,
+              sourceEntities: playersFrontRow,
+              isEnemyAction: false,
+            });
+
+            if (success) {
+              resetSelectSkill();
+              resetCurrentEntity();
+              resetTargetEntity();
+              setEntityPerforming(false);
+              markEntityTakenAction(currentEntity);
+              decreaseAction(1);
+            }
+          }, BASE_DELAY_SKILL);
+        } else {
+          //normal attack
+          setTimeout(() => {
+            success = usingSkillToTargetEntity({
+              skill: selectedSkill,
+              targetEntity: instance,
+              sourceEntity: currentEntity,
+              targetEntities: enemiesFrontRow,
+              sourceEntities: playersFrontRow,
+              isEnemyAction: false,
+            });
+            if (success) {
+              resetSelectSkill();
+              resetCurrentEntity();
+              resetTargetEntity();
+              setEntityPerforming(false);
+              markEntityTakenAction(currentEntity);
+              decreaseAction(1);
+            }
+          }, 100);
+        }
+      } else {
+        //buff team
+        setTimeout(() => {
+          success = usingSkillToTargetEntity({
+            targetEntity: instance,
+            skill: selectedSkill,
+            sourceEntity: currentEntity!,
+            sourceEntities:
+              instance.position === PositionEnum.FRONT
+                ? playersFrontRow
+                : playersBackRow!,
+            targetEntities: enemiesFrontRow,
+            isEnemyAction: false,
+          });
+          if (success) {
+            resetSelectSkill();
+            resetCurrentEntity();
+            resetTargetEntity();
+            setEntityPerforming(false);
+            markEntityTakenAction(currentEntity);
+            decreaseAction(1);
+          }
+        }, 100);
       }
     }
   }
 
   return (
     <>
+      {selectedSkill?.soundPath ? (
+        <SoundPlayer soundFilePath={selectedSkill.soundPath} />
+      ) : null}
       <button
         onMouseEnter={() => setIsHoveredCard(true)}
         onMouseLeave={() => setIsHoveredCard(false)}
@@ -114,34 +168,18 @@ const Card = (props: { instance: Entity }) => {
                 if (!wasAction()) {
                   if (!selectedSkill) {
                     if (!isEntityPerforming) {
-                      if (targetEntity) {
-                        setEntityPerforming(true);
-                      }
                       setCurrentEntity(instance);
                       setSkillOverlay(true);
                     } else {
                       alert("wait entity performing!");
                       setTimeout(() => {
                         setEntityPerforming(false);
-                      }, 800);
+                      }, BASE_DELAY_SKILL / 3);
                     }
                   } else {
                     //use skill to friend
                     if (!selectedSkill.isAttackSkill) {
-                      usingSkillToTargetEntity({
-                        targetEntity: instance,
-                        skill: selectedSkill,
-                        sourceEntity: currentEntity!,
-                        sourceEntities:
-                          instance.position === PositionEnum.FRONT
-                            ? playersFrontRow
-                            : playersBackRow!,
-                        targetEntities:
-                          instance.position === PositionEnum.FRONT
-                            ? playersFrontRow
-                            : playersBackRow!,
-                        isEnemyAction: false,
-                      });
+                      handleSkill();
                     }
                   }
                 } else {
@@ -186,7 +224,7 @@ const Card = (props: { instance: Entity }) => {
             className={`z-10 absolute inset-0 rounded-lg ${handleAttackedStyle()}`}
           ></div>
           <div
-            className={`w-24 h-fit rounded-md items-center hover:scale-110 hover:w-32 justify-around  border transition 
+            className={`w-24 h-fit rounded-md items-center hover:scale-110 hover:w-32 justify-around border transition overflow-hidden
             ${wasAction() ? "border-transparent" : ""}
              ${instance.isBoss ? "bg-black" : "bg-slate-800"}
             `}
@@ -240,14 +278,14 @@ const Card = (props: { instance: Entity }) => {
               >
                 <div
                   rel="EP bar"
-                  className={`text-xs font-medium text-center rounded-es-lg leading-none bg-violet-900`}
+                  className={`text-xs font-medium text-center rounded-es-md leading-none bg-violet-900`}
                   style={{ width: strCurrentEP }}
                 >
                   {strCurrentEP}
                 </div>
                 <div
                   rel="MANA bar"
-                  className={`text-xs font-medium text-center rounded-ee-lg leading-none bg-blue-900`}
+                  className={`text-xs font-medium text-center rounded-ee-md leading-none bg-blue-900`}
                   style={{ width: strCurrentMP }}
                 >
                   {strCurrentMP}
@@ -258,7 +296,7 @@ const Card = (props: { instance: Entity }) => {
               <div className={`w-full relative bg-white/20 overflow-hidden`}>
                 <div
                   rel="MP bar"
-                  className={`text-xs font-medium text-center rounded-es-lg rounded-ee-lg leading-none bg-blue-900`}
+                  className={`text-xs font-medium text-center rounded-es-md rounded-ee-md leading-none bg-blue-900`}
                   style={{ width: strCurrentMP }}
                 >
                   {strCurrentMP}
@@ -269,7 +307,7 @@ const Card = (props: { instance: Entity }) => {
               <div className="w-full relative overflow-hidden bg-white/20">
                 <div
                   rel="EP bar"
-                  className="text-xs font-medium text-center rounded-es-lg rounded-ee-lg leading-none bg-violet-900 "
+                  className="text-xs font-medium text-center rounded-es-md rounded-ee-md leading-none bg-violet-900 "
                   style={{ width: strCurrentEP }}
                 >
                   {strCurrentEP}

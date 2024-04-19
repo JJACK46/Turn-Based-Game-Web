@@ -4,6 +4,7 @@ import { TraitEnum, listTraitSkill } from "./enums/traits";
 import { EmitTypeEnum } from "./enums/actions";
 import { PowerEnum } from "./enums/powers";
 import { Skill } from "@/classes/skills";
+import { PositionEnum } from "./enums/positions";
 
 export const EntitiesData: EntityType[] = [
   {
@@ -33,6 +34,7 @@ export const EntitiesData: EntityType[] = [
     maxAttackPower: 3,
     traitSkill: listTraitSkill[TraitEnum.INHUMAN],
     evasion: 0,
+    position: PositionEnum.NONE,
   },
   {
     id: 2,
@@ -61,6 +63,7 @@ export const EntitiesData: EntityType[] = [
     maxHealth: 30,
     maxAttackPower: 7,
     evasion: 0,
+    position: PositionEnum.NONE,
   },
   {
     id: 3,
@@ -89,6 +92,7 @@ export const EntitiesData: EntityType[] = [
     maxHealth: 30,
     maxAttackPower: 10,
     evasion: 0,
+    position: PositionEnum.NONE,
   },
   {
     id: 4,
@@ -117,6 +121,7 @@ export const EntitiesData: EntityType[] = [
     maxHealth: 40,
     maxAttackPower: 6,
     evasion: 0,
+    position: PositionEnum.NONE,
   },
   {
     id: 5,
@@ -145,6 +150,7 @@ export const EntitiesData: EntityType[] = [
     maxHealth: 20,
     maxAttackPower: 2,
     evasion: 0,
+    position: PositionEnum.NONE,
   },
   {
     id: 6,
@@ -173,6 +179,7 @@ export const EntitiesData: EntityType[] = [
     maxHealth: 25,
     maxAttackPower: 10,
     evasion: 0,
+    position: PositionEnum.NONE,
   },
   {
     id: 7,
@@ -204,6 +211,7 @@ export const EntitiesData: EntityType[] = [
     maxAttackPower: 5,
     traitSkill: listTraitSkill[TraitEnum.ARMED_ROBOT],
     evasion: 0,
+    position: PositionEnum.NONE,
   },
   {
     id: 8,
@@ -222,6 +230,7 @@ export const EntitiesData: EntityType[] = [
       type: EmitTypeEnum.ATTACK,
       power: PowerEnum.PHYSICAL,
       requiredEnergy: 0,
+      soundPath: "/sounds/sfx/punch.mp3",
     }),
     status: StatusEnum.NORMAL,
     speed: 10,
@@ -232,6 +241,7 @@ export const EntitiesData: EntityType[] = [
     maxHealth: 50,
     maxAttackPower: 5,
     evasion: 0.1,
+    position: PositionEnum.NONE,
   },
   {
     id: 9,
@@ -260,6 +270,7 @@ export const EntitiesData: EntityType[] = [
     maxHealth: 10,
     maxAttackPower: 15,
     evasion: 0,
+    position: PositionEnum.NONE,
   },
   {
     id: 10,
@@ -288,6 +299,7 @@ export const EntitiesData: EntityType[] = [
     maxHealth: 8,
     maxAttackPower: 15,
     evasion: 0,
+    position: PositionEnum.NONE,
   },
   {
     id: 11,
@@ -303,6 +315,7 @@ export const EntitiesData: EntityType[] = [
       type: EmitTypeEnum.ATTACK,
       emitValueMultiply: 1,
       power: PowerEnum.MAGICAL,
+      soundPath: "/sounds/sfx/sword-attack.wav",
     }),
     status: StatusEnum.NORMAL,
     speed: 10,
@@ -314,6 +327,7 @@ export const EntitiesData: EntityType[] = [
     maxHealth: 30,
     maxAttackPower: 12,
     evasion: 0,
+    position: PositionEnum.NONE,
   },
   {
     id: 12,
@@ -330,6 +344,7 @@ export const EntitiesData: EntityType[] = [
       type: EmitTypeEnum.ATTACK,
       emitValueMultiply: 1,
       power: PowerEnum.PHYSICAL,
+      soundPath: "/sounds/sfx/punch.mp3",
     }),
     status: StatusEnum.NORMAL,
     speed: 2,
@@ -342,6 +357,7 @@ export const EntitiesData: EntityType[] = [
     maxDefendPower: 20,
     maxAttackPower: 3,
     evasion: 0,
+    position: PositionEnum.NONE,
   },
   {
     id: 777,
@@ -370,6 +386,7 @@ export const EntitiesData: EntityType[] = [
     maxDefendPower: 50,
     maxAttackPower: 40,
     evasion: 0.2,
+    position: PositionEnum.NONE,
   },
   {
     id: 888,
@@ -398,6 +415,7 @@ export const EntitiesData: EntityType[] = [
     maxDefendPower: 150,
     maxAttackPower: 40,
     evasion: 0,
+    position: PositionEnum.NONE,
   },
   {
     id: 999,
@@ -426,5 +444,6 @@ export const EntitiesData: EntityType[] = [
     maxDefendPower: 20,
     maxAttackPower: 40,
     evasion: 0.5,
+    position: PositionEnum.NONE,
   },
 ];

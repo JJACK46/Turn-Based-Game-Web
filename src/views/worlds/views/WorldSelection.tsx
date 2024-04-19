@@ -15,7 +15,7 @@ function WorldSelection() {
         <div className="flex flex-row gap-10 justify-evenly w-full p-20">
           {listWorlds.map((map, index) => (
             <Link
-              to={`/world/${map.title}`}
+              to={`/worlds/${map.title}`}
               key={index}
               onClick={() =>
                 setSelectedWorld({

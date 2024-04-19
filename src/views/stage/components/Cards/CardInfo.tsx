@@ -10,7 +10,7 @@ function CardInfo() {
     methodsIndicator: { resetCurrentEntity },
   } = useGameStore();
   return (
-    <span className="absolute inset-0 flex items-center justify-center size-full z-10">
+    <span className="absolute inset-0 flex items-center justify-center size-full z-40">
       <button
         onClick={() => {
           setInfoOverlay(false);

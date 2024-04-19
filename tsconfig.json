@@ -25,6 +25,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "public/sounds", "public/sounds"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -42,7 +42,7 @@ function HomeView() {
           Project APRILX
         </div>
 
-        <ButtonHome title="start" path="/world"></ButtonHome>
+        <ButtonHome title="start" path="/menu"></ButtonHome>
         <ButtonHome
           title="tutorial"
           path="/tutorial"
