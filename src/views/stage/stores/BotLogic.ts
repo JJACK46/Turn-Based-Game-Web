@@ -70,7 +70,6 @@ export const botAction = ({
 
       //if found source entity already
       if (potentialEntity && !entitiesTakenAction.includes(potentialEntity)) {
-        let selectedSkill;
         let success = false;
         const flag = {
           skilledToSelf: false,
@@ -99,9 +98,6 @@ export const botAction = ({
                 sourceEntities,
                 isEnemyAction: true,
               });
-              if (!success) {
-                setSelectSkill(null);
-              }
             }
             flag.skilledToSelf = true;
           } else {
@@ -112,12 +108,12 @@ export const botAction = ({
               listAttackAOE.length > 0 &&
               potentialEntity.MANERGY >= skillAOE.requiredTotalManaOrEnergy
             ) {
-              setEntityPerforming(true);
+              setSelectSkill(skillAOE);
               //not best algorithm
               setTimeout(() => {
                 const usingSkill = async () => {
                   for (let i = 0; i < skillAOE.repeat; i++) {
-                    setSelectSkill(skillAOE);
+                    setEntityPerforming(true);
                     usingSkillToTarget({
                       skill: skillAOE,
                       sourceEntity: potentialEntity,
@@ -152,6 +148,8 @@ export const botAction = ({
 
               if (targetEntity) {
                 targetedEntitiesID.push(targetEntity.instanceId);
+                const skill = potentialEntity.normalHitSkill;
+                setSelectSkill(skill);
                 //set target
                 setTimeout(() => {
                   setTargetEntity(targetEntity);
@@ -160,9 +158,8 @@ export const botAction = ({
                 setTimeout(() => {
                   //default attack by first skill
                   setEntityPerforming(true);
-                  selectedSkill = potentialEntity.normalHitSkill;
                   success = usingSkillToTarget({
-                    skill: selectedSkill,
+                    skill,
                     sourceEntity: potentialEntity,
                     targetEntity: targetEntity,
                     targetEntities: targetEntities,

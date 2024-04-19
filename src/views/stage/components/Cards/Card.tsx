@@ -9,7 +9,7 @@ import atkSymbol from "@/assets/svgs/sword-symbol.svg";
 import defSymbol from "@/assets/svgs/shield-symbol.svg";
 import { useGameStore } from "../../stores/gameStore";
 import { PositionEnum } from "@/data/enums/positions";
-import { SoundPlayer } from "@/utils/SoundPlayer";
+import { SFXPlayer } from "@/utils/SFXPlayer";
 
 const Card = (props: { instance: Entity }) => {
   const { instance } = props;
@@ -154,7 +154,7 @@ const Card = (props: { instance: Entity }) => {
   return (
     <>
       {selectedSkill?.soundPath ? (
-        <SoundPlayer soundFilePath={selectedSkill.soundPath} />
+        <SFXPlayer soundFilePath={selectedSkill.soundPath} />
       ) : null}
       <button
         onMouseEnter={() => setIsHoveredCard(true)}
@@ -191,14 +191,14 @@ const Card = (props: { instance: Entity }) => {
             } else {
               //when click on enemy card
               //prevent spam click
-              if (!isEntityPerforming) {
+              if (!isEntityPerforming && turn === "player") {
                 if (currentEntity) {
-                  //select player card already
+                  //select player card already (attacking)
                   setTargetEntity(instance);
                   setEntityPerforming(true);
                   handleSkill();
                 } else {
-                  //not select player card yet
+                  //not select player card yet (open info)
                   setCurrentEntity(instance);
                   setInfoOverlay(true);
                 }

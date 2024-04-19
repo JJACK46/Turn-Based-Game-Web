@@ -36,6 +36,7 @@ function MapSelection() {
                   backgroundUrl={map.backgroundUrl}
                   enemyFrontRow={map.enemyFrontRow}
                   enemyBackRow={map.enemyBackRow}
+                  soundtrackPath={map.soundtrackPath}
                 />
               ))}
             </MapSection>
@@ -50,6 +51,7 @@ function MapSelection() {
                 backgroundUrl={bossMap.backgroundUrl}
                 enemyFrontRow={bossMap.enemyFrontRow}
                 enemyBackRow={bossMap.enemyBackRow}
+                soundtrackPath={bossMap.soundtrackPath}
               />
             </MapSection>
           </>

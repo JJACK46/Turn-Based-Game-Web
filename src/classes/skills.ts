@@ -300,9 +300,14 @@ export class Skill implements SkillType {
     const defaultAttackAOEMethod = (): ResultAffectMultiple => {
       if (this.randomTarget) {
         let targetIndex = Math.floor(Math.random() * targets.length);
-        while (!targets[targetIndex].isAlive) {
-          targetIndex++;
+        const aliveTargetsCount = targets.filter(
+          (target) => target.isAlive
+        ).length;
+        while (!targets[targetIndex].isAlive && aliveTargetsCount !== 0) {
+          targetIndex = Math.floor(Math.random() * targets.length);
+          if (targets[targetIndex].isAlive) break;
         }
+
         const blockedDamage =
           BASE_DAMAGE_REDUCTION * targets[targetIndex].defend;
 

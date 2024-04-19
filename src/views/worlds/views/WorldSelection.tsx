@@ -13,18 +13,21 @@ function WorldSelection() {
       <div className="absolute flex flex-col items-center size-full justify-center gap-5 bg-black">
         <h1 className=" text-7xl absolute top-20">Select the World</h1>
         <div className="flex flex-row gap-10 justify-evenly w-full p-20">
-          {listWorlds.map((map, index) => (
+          {listWorlds.map((world, index) => (
             <Link
-              to={`/worlds/${map.title}`}
+              to={`/worlds/${world.title}`}
               key={index}
               onClick={() =>
                 setSelectedWorld({
-                  id: map.id,
-                  entities: map.entities,
-                  worldImgUrl: map.urlImg,
-                  boss: map.boss,
-                  dropItems: map.dropItems,
-                  maps: map.maps,
+                  id: world.id ?? "",
+                  entities: world.entities,
+                  worldImgUrl: world.worldImgUrl,
+                  boss: world.boss,
+                  dropItems: world.dropItems,
+                  maps: world.maps,
+                  title: world.title,
+                  path: "",
+                  info: world.info,
                 })
               }
               className={`text-lg w-40 h-56 hover:h-96 hover:w-96 
@@ -45,11 +48,11 @@ function WorldSelection() {
               <img
                 className="object-cover w-full h-full rounded-lg"
                 draggable={false}
-                src={`${BASE_URL_IMAGE_WORLDS}/${map.urlImg}`}
+                src={`${BASE_URL_IMAGE_WORLDS}/${world.worldImgUrl}`}
               ></img>
-              <p className="mt-2">{map.title}</p>
+              <p className="mt-2">{world.title}</p>
               {hoveredIndex === index && (
-                <p className="text-sm text-left">{map.info}</p>
+                <p className="text-sm text-left">{world.info}</p>
               )}
             </Link>
           ))}

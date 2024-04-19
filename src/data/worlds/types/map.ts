@@ -11,6 +11,7 @@ export interface MapData {
   boss?: EntityType;
   cardImageUrl: string;
   backgroundUrl?: string;
+  soundtrackPath?: string;
   enemyFrontRow: EntityType[];
   enemyBackRow?: EntityType[];
 }

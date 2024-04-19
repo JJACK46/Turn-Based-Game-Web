@@ -6,6 +6,8 @@ import { botAction } from "../stores/BotLogic";
 import { restoreManaForEntities } from "../helpers/entity";
 import { updateRemainingSkills } from "../helpers/stage";
 import { PositionEnum } from "@/data/enums/positions";
+import { SoundtrackPlayer } from "@/utils/SoundtrackPlayer";
+import { useWorldStore } from "@/views/worlds/store/worldStore";
 
 export function StageWatcher({ children }: { children: React.ReactNode }) {
   const {
@@ -33,6 +35,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
     methodsField: { setEntities },
     infoMarkedEntities,
   } = useGameStore();
+  const { selectedMap, selectedWorld } = useWorldStore();
   // const uiLogic = useUIStore();
 
   // const allEntities = playersFrontRow.concat(
@@ -135,5 +138,14 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
     }
   }, [remainEnemiesCount, remainPlayersCount]);
 
-  return <>{children}</>;
+  useEffect(() => {}, [selectedMap, selectedWorld]);
+
+  return (
+    <>
+      {selectedMap.soundtrackPath ? (
+        <SoundtrackPlayer soundFilePath={selectedMap.soundtrackPath} />
+      ) : null}
+      {children}
+    </>
+  );
 }

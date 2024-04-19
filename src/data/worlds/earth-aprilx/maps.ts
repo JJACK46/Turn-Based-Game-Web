@@ -83,5 +83,6 @@ export const EarthAprilXMaps: MapData[] = [
     backgroundUrl: `${BASE_URL_IMAGE_MAPS}/map_dojozo.jpg`,
     boss: boss,
     enemyFrontRow: [boss!],
+    soundtrackPath: "/sounds/soundtracks/ATSMXN&XTOM-The_Raven.mp3",
   },
 ];
