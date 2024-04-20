@@ -7,7 +7,7 @@ export const MapCard = (props: MapData) => {
   const { setSelectedMap } = useWorldStore();
   return (
     <Link
-      to={`/stage`}
+      to={`/team-setup`}
       onClick={() => setSelectedMap(props)}
       className="w-fit h-fit flex self-center"
     >

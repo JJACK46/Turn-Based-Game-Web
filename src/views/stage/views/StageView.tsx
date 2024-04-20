@@ -1,21 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { EntityType } from "../../../classes/entity";
 import NavBarView from "../components/UI/NavBar";
 import EnemiesSection from "../components/Field/EnemiesSection";
-import UserOverlay from "../components/UI/UserOvarlay/UserOverlay";
+import UserOverlay from "../components/UI/UserOverlay/UserOverlay";
 import PlayersSection from "../components/Field/PlayersSection";
 import { StageWatcher } from "./StageWatcher";
 import { useEffect } from "react";
 import LoadingView from "@/views/loading/LoadingView";
 import { useLoaderStore } from "@/views/loading/stores/loadingStore";
 import { useGameStore } from "../stores/gameStore";
+import { Entity } from "@/classes/entity";
 
 interface Props {
   mapName: string;
-  enemiesFrontRow: EntityType[];
-  enemiesBackRow?: EntityType[];
-  playersFrontRow: EntityType[];
-  playersBackRow?: EntityType[];
+  enemiesFrontRow: Entity[];
+  enemiesBackRow?: Entity[];
+  playersFrontRow: Entity[];
+  playersBackRow?: Entity[];
   backgroundUrl?: string;
 }
 

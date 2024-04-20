@@ -1,7 +1,6 @@
 import { Entity } from "@/classes/entity";
-import { useGameStore } from "./gameStore";
+import { TurnType, useGameStore } from "./gameStore";
 import { isEntityInEntities } from "../helpers/entity";
-import { TurnType } from "@/data/types/turn";
 import { useUIStore } from "./uiStore";
 import { BASE_DELAY_SKILL } from "@/utils/constants";
 
@@ -32,10 +31,10 @@ const getMostAttackPowerEntityForBot = (
   for (const entity of entities) {
     if (
       entity.isAlive &&
-      entity.attackPower > maxATK &&
+      entity.attack.value > maxATK &&
       !isEntityInEntities(entity, entitiesTakenAction)
     ) {
-      maxATK = entity.attackPower;
+      maxATK = entity.attack.value;
       resultEntity = entity;
     }
   }
@@ -90,7 +89,7 @@ export const botAction = ({
                 : null;
             if (bestDefSkill) {
               setEntityPerforming(true);
-              const selectedSkill = potentialEntity.traitSkill;
+              const selectedSkill = potentialEntity.skills.traitSkill;
               setSelectSkill(selectedSkill);
               success = usingSkillToSelf({
                 skill: selectedSkill,
@@ -106,7 +105,7 @@ export const botAction = ({
             //check it has aoe
             if (
               listAttackAOE.length > 0 &&
-              potentialEntity.MANERGY >= skillAOE.requiredTotalManaOrEnergy
+              potentialEntity.allCapacity >= skillAOE.requiredTotalManaOrEnergy
             ) {
               setSelectSkill(skillAOE);
               //not best algorithm
@@ -137,18 +136,18 @@ export const botAction = ({
 
               for (const target of targetEntities) {
                 if (
-                  target.health <= leastHP &&
+                  target.health.value <= leastHP &&
                   target.isAlive &&
-                  !targetedEntitiesID.includes(target.instanceId)
+                  !targetedEntitiesID.includes(target.instanceId!)
                 ) {
-                  leastHP = target.health;
+                  leastHP = target.health.value;
                   targetEntity = target;
                 }
               }
 
               if (targetEntity) {
-                targetedEntitiesID.push(targetEntity.instanceId);
-                const skill = potentialEntity.normalHitSkill;
+                targetedEntitiesID.push(targetEntity.instanceId!);
+                const skill = potentialEntity.skills.normalHitSkill;
                 setSelectSkill(skill);
                 //set target
                 setTimeout(() => {

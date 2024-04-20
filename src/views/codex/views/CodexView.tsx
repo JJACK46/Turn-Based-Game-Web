@@ -31,8 +31,8 @@ export function CodexView() {
         <p>Total robot: {armedRobot.concat(unarmedRobot).length}</p>
       </div>
       <span className=" grid grid-cols-10 gap-5 justify-evenly items-center">
-        {entities.map((entity) => (
-          <button onClick={() => setSelectedEntity(entity)}>
+        {entities.map((entity, index) => (
+          <button key={index} onClick={() => setSelectedEntity(entity)}>
             <div
               className="select-none flex flex-col overflow-hidden justify-center items-center border rounded h-full 
           bg-slate-800 hover:scale-105

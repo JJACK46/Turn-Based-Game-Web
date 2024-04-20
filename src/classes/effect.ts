@@ -1,7 +1,7 @@
 import { PowerEnum } from "@/data/enums/powers";
 
 export class EffectSkill {
-  key: string;
+  name: string;
   emitValueMultiplier: number;
   value: number;
   powerType: PowerEnum;
@@ -10,7 +10,7 @@ export class EffectSkill {
   canAction: boolean;
 
   constructor({
-    key,
+    name,
     emitValueMultiplier,
     powerType,
     value,
@@ -18,7 +18,7 @@ export class EffectSkill {
     canDispel,
     canAction,
   }: {
-    key: string;
+    name: string;
     emitValueMultiplier: number;
     powerType: PowerEnum;
     value?: number;
@@ -26,7 +26,7 @@ export class EffectSkill {
     canDispel?: boolean;
     canAction?: boolean;
   }) {
-    this.key = key;
+    this.name = name;
     this.emitValueMultiplier = emitValueMultiplier;
     this.powerType = powerType;
     this.value = value ?? 0;

@@ -29,10 +29,10 @@ export function SkillOverlay() {
               <div className="flex flex-col h-full w-32 justify-center items-start p-5">
                 <p className="text-xl">{currentEntity?.name}</p>
                 <p className=" text-md">lvl.{currentEntity?.level}</p>
-                <p className="text-md">ATK : {currentEntity?.attackPower}</p>
-                <p className="text-md">DEF : {currentEntity?.defend}</p>
+                <p className="text-md">ATK : {currentEntity?.attack.value}</p>
+                <p className="text-md">DEF : {currentEntity?.defend.value}</p>
                 <p className="text-md">
-                  HEAL : {currentEntity?.healingPower ?? 0}
+                  HEAL : {currentEntity?.heal?.value ?? 0}
                 </p>
               </div>
             </div>

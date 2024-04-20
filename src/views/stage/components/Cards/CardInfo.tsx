@@ -1,7 +1,7 @@
-import { SkillType } from "@/classes/skills";
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
 import { useGameStore } from "../../stores/gameStore";
 import { useUIStore } from "../../stores/uiStore";
+import { Skill } from "@/classes/skills";
 
 function CardInfo() {
   const { setInfoOverlay } = useUIStore();
@@ -45,11 +45,11 @@ function CardInfo() {
                 </p>
                 <p className="font-mono text-lg w-1/2">Attack</p>
                 <p className="font-mono text-lg w-1/2">
-                  {currentEntityData?.attackPower}
+                  {currentEntityData?.attack.value}
                 </p>
                 <p className="font-mono text-lg w-1/2">Defence</p>
                 <p className="font-mono text-lg w-1/2">
-                  {currentEntityData?.defend ?? 0}
+                  {currentEntityData?.defend.value ?? 0}
                 </p>
                 <p className="font-mono text-lg w-1/2">Speed</p>
                 <p className="font-mono text-lg w-1/2">
@@ -63,7 +63,7 @@ function CardInfo() {
             <h3 className="font-mono text-xl font-semibold">Skill</h3>
             <div className="flex flex-row gap-4">
               {currentEntityData?.allSkills.map(
-                (skill: SkillType, index: number) => (
+                (skill: Skill, index: number) => (
                   <div
                     key={index}
                     className="flex flex-col justify-center items-center w-1/4 text-center py-3 border-2 border-red-600"
@@ -71,7 +71,6 @@ function CardInfo() {
                     <h3>{skill.name}</h3>
                     <p>{skill.type}</p>
                     <p>{skill.emitValueMultiply}x</p>
-                    {skill.comboAble && <p>{skill.comboWith?.toString()}</p>}
                     <p>MP/EP: {skill.requiredEnergy ?? skill.requiredMana}</p>
                   </div>
                 )

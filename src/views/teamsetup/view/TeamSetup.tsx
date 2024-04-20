@@ -1,5 +1,6 @@
 import { Entity } from "@/classes/entity";
 import { useInventoryStore } from "../store/inventoryStore";
+import { Link } from "react-router-dom";
 
 export default function TeamSetup() {
   const {
@@ -35,7 +36,9 @@ export default function TeamSetup() {
           </div>
         </div>
         <div className="flex flex-col overflow-hidden h-full w-2/5 justify-around border-2 border-white rounded-xl">
-          <h1 className="flex text-4xl text-center justify-center items-center p-2 px-32 w-full">INVENTORY</h1>
+          <h1 className="flex text-4xl text-center justify-center items-center p-2 px-32 w-full">
+            INVENTORY
+          </h1>
           <div className=" w-full h-2/6">
             <h1>Character</h1>
             <div className="flex justify-around w-full h-5/6 bg-slate-600">
@@ -68,9 +71,11 @@ export default function TeamSetup() {
                 ))} */}
             </div>
           </div>
-          
         </div>
       </div>
+      <Link to={"/stage"} className="uppercase border p-2 px-10 rounded-lg">
+        confirm
+      </Link>
     </div>
   );
 }

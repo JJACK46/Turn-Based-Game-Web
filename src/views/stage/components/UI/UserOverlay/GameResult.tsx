@@ -8,10 +8,11 @@ export function GameResultOverlay() {
 
   return (
     <span
-      className={`z-50 fixed inset-0 size-full bg-black/80 flex flex-col gap-10 justify-center items-center`}
+      className={`z-50 fixed inset-0 size-full bg-black/80 flex flex-col gap-8 justify-center items-center`}
     >
       <p className={`flex text-9xl uppercase`}>{gameResult}</p>
-      <Link to={"/"} className="text-3xl rounded border py-0.5 px-2">
+      <hr className="w-full" />
+      <Link to={"/"} className="text-3xl rounded-lg border py-1 px-10">
         BACK
       </Link>
     </span>

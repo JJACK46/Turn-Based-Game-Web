@@ -136,7 +136,7 @@ export default function UserOverlay() {
         </>
       )}
       {uiLogic.isEntityPerforming &&
-        currentEntity?.traitSkill === selectedSkill &&
+        currentEntity?.skills.traitSkill === selectedSkill &&
         selectedSkill.isAttackSkill &&
         currentEntity?.playable && <FlexSkillOverlay />}
       {uiLogic.isInfoOverlay && !uiLogic.isEntityPerforming && <CardInfo />}

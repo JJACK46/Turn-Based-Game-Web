@@ -10,6 +10,7 @@ import { useWorldStore } from "./views/worlds/store/worldStore";
 import TeamSetup from "./views/teamsetup/view/TeamSetup";
 import { MenuView } from "./views/menu/views/MenuView";
 import { CodexView } from "./views/codex/views/CodexView";
+import { TestUI } from "./views/home/components/Test";
 
 function App() {
   const { selectedMap } = useWorldStore();
@@ -48,6 +49,8 @@ function App() {
           <Route path="/teamSetup" element={<TeamSetup />} />
           <Route path="/menu" element={<MenuView />} />
           <Route path="/codex" element={<CodexView />} />
+          <Route path="/team-setup" element={<TeamSetup />}></Route>
+          <Route path="/test-ui" element={<TestUI />} />
         </Routes>
       </BrowserRouter>
     </div>

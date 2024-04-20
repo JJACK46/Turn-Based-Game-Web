@@ -1,10 +1,9 @@
-import { EntityType, Entity } from "@/classes/entity";
+import { Entity } from "@/classes/entity";
 import { Skill } from "@/classes/skills";
 import { create } from "zustand";
 import { getAliveEntities, getSpeedOfTeam } from "../helpers/stage";
 import { PositionEnum } from "@/data/enums/positions";
 import { immer } from "zustand/middleware/immer";
-// import { produce } from "immer";
 import { createEntityInstances } from "@/utils/createEntity";
 
 type InfoDamage = {
@@ -14,7 +13,7 @@ type InfoDamage = {
   missed: boolean;
 };
 
-type TurnType = "player" | "enemy" | null;
+export type TurnType = "player" | "enemy" | null;
 
 type GameResultType = "victory" | "defeat" | null;
 
@@ -52,15 +51,15 @@ interface GameLogicType {
     increaseAction: (n: number) => void;
     decreaseAction: (n: number) => void;
     switchTurn: () => void;
-    updateRemainingEntity: (turn: TurnType) => void;
+    updateRemainingEntity: () => void;
     startGame: () => void;
     endGame: () => void;
     setupGame: (props: {
       mapName: string;
-      enemiesFrontRow: EntityType[];
-      enemiesBackRow?: EntityType[];
-      playersFrontRow: EntityType[];
-      playersBackRow?: EntityType[];
+      enemiesFrontRow: Entity[];
+      enemiesBackRow?: Entity[];
+      playersFrontRow: Entity[];
+      playersBackRow?: Entity[];
     }) => void;
     increaseRound: () => void;
     updateCycleRound: () => void;
@@ -331,9 +330,9 @@ export const useGameStore = create<GameLogicType>()(
                 targetEntity,
               });
 
-              updatedTargetEntities[effectedTarget.index] = effectedTarget;
+              updatedTargetEntities[effectedTarget.index!] = effectedTarget;
 
-              updatedSourceEntities[sourceEntity.index] =
+              updatedSourceEntities[sourceEntity.index!] =
                 sourceEntity.updateManaFromUse({
                   skill: skill,
                 });
@@ -352,7 +351,7 @@ export const useGameStore = create<GameLogicType>()(
 
               updatedTargetEntities = effectedTargets;
 
-              updatedSourceEntities[sourceEntity.index] =
+              updatedSourceEntities[sourceEntity.index!] =
                 sourceEntity.updateManaFromUse({
                   skill: skill,
                 });
@@ -382,28 +381,32 @@ export const useGameStore = create<GameLogicType>()(
             return true;
           }
           //buff skill
-          console.log("test");
-          const { effectedTarget } = skill.effectToTarget({
-            sourceEntity,
-            targetEntity,
-          });
-          updatedTargetEntities[effectedTarget.index] = effectedTarget;
+          if (targetEntity.playable) {
+            const { effectedTarget } = skill.effectToTarget({
+              sourceEntity,
+              targetEntity,
+            });
+            updatedTargetEntities[effectedTarget.index!] = effectedTarget;
 
-          updatedSourceEntities[sourceEntity.index] =
-            sourceEntity.updateManaFromUse({
-              skill: skill,
-            });
-          if (isEnemyAction) {
-            set((state) => {
-              state.infoField.enemiesFrontRow = updatedSourceEntities;
-              state.infoIndicator.targetEntity = updatedTarget;
-            });
-          } else {
-            set((state) => {
-              state.infoField.playersFrontRow = updatedSourceEntities;
-            });
+            updatedSourceEntities[sourceEntity.index!] =
+              sourceEntity.updateManaFromUse({
+                skill: skill,
+              });
+            if (isEnemyAction) {
+              set((state) => {
+                state.infoField.enemiesFrontRow = updatedTargetEntities;
+                state.infoIndicator.targetEntity = effectedTarget;
+              });
+            } else {
+              set((state) => {
+                state.infoField.playersFrontRow = updatedTargetEntities;
+                state.infoIndicator.targetEntity = effectedTarget;
+              });
+            }
+            return true;
           }
-          return true;
+          //use to enemy
+          return false;
         } else {
           console.log("Not enough MP/EP");
           return false;
@@ -421,7 +424,7 @@ export const useGameStore = create<GameLogicType>()(
           ) {
             const effectedSourceEntity = skill.effectToSelf(sourceEntity);
 
-            updatedEntities[sourceEntity.index] =
+            updatedEntities[sourceEntity.index!] =
               effectedSourceEntity.updateManaFromUse({
                 skill: skill,
               });
@@ -608,7 +611,7 @@ export const useGameStore = create<GameLogicType>()(
           };
         });
       },
-      updateRemainingEntity: (newTurn) => {
+      updateRemainingEntity: () => {
         set((state) => {
           // Count the number of remaining alive entities for enemies
           const remainEnemiesCount = getAliveEntities(
@@ -627,7 +630,6 @@ export const useGameStore = create<GameLogicType>()(
           // Update the state with the new remaining entity counts and turn
           state.infoGame.remainEnemiesCount = remainEnemiesCount;
           state.infoGame.remainPlayersCount = remainPlayersCount;
-          state.infoGame.turn = newTurn;
 
           // Return the updated state
           return state;

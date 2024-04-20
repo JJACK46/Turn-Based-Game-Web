@@ -38,17 +38,17 @@ const Card = (props: { instance: Entity }) => {
   } = useUIStore();
 
   const strCurrentHP = convertNumberToPercentage(
-    instance.health,
-    instance.maxHealth
+    instance.health.value,
+    instance.health.max
   );
   const strCurrentMP = convertNumberToPercentage(
-    instance.mana,
-    instance.maxManaEnergyPower
+    instance.capacity?.mana?.value ?? 0,
+    instance.capacity?.mana?.max ?? 0
   );
 
   const strCurrentEP = convertNumberToPercentage(
-    instance.energy,
-    instance.maxManaEnergyPower
+    instance.capacity?.energy?.value ?? 0,
+    instance.capacity?.energy?.max ?? 0
   );
 
   const [isHoveredCard, setIsHoveredCard] = useState(false);
@@ -82,7 +82,7 @@ const Card = (props: { instance: Entity }) => {
       let success = false;
       setEntityPerforming(true);
       if (selectedSkill.isAttackSkill) {
-        if (selectedSkill === currentEntity.traitSkill) {
+        if (selectedSkill === currentEntity.skills.traitSkill) {
           setTimeout(() => {
             success = usingSkillToTargetEntity({
               skill: selectedSkill,
@@ -134,7 +134,10 @@ const Card = (props: { instance: Entity }) => {
               instance.position === PositionEnum.FRONT
                 ? playersFrontRow
                 : playersBackRow!,
-            targetEntities: enemiesFrontRow,
+            targetEntities:
+              instance.position === PositionEnum.FRONT
+                ? playersFrontRow
+                : playersBackRow!,
             isEnemyAction: false,
           });
           if (success) {
@@ -229,12 +232,12 @@ const Card = (props: { instance: Entity }) => {
               boxShadow: handleActionStyle(),
             }}
           >
-            {isHoveredCard && instance.hasActiveSkill && (
+            {isHoveredCard && instance.hasEffectedSkill && (
               <div className="flex flex-col justify-center items-center mt-2">
-                {instance.activateSkills.map((s, index) => (
+                {instance.effectedSkills?.map((s, index) => (
                   <p
                     key={index}
-                    className="text-xs font-medium bg-cyan-500 w-fit rounded-full px-1"
+                    className="text-xs capitalize font-medium bg-cyan-500 w-fit rounded-full px-1"
                   >
                     {s.name}
                   </p>
@@ -312,27 +315,25 @@ const Card = (props: { instance: Entity }) => {
             )}
             {isHoveredCard && (
               <div className="text-xs text-left mx-2 ">
-                <p>ATK: {instance.attackPower}</p>
+                <p>ATK: {instance.attack.value}</p>
                 <p>
-                  HP: {instance.health} / {instance.maxHealth}
+                  HP: {instance.health.value} / {instance.health.max}
                 </p>
-                {instance.isUseHybrid && (
-                  <p>
-                    MEP: {instance.MANERGY} / {instance.maxManaEnergyPower * 2}
-                  </p>
-                )}
+                {instance.isUseHybrid && <p>MEP: {instance.allCapacity}</p>}
                 {instance.isUseEnergy && !instance.isUseHybrid && (
                   <p>
-                    EP: {instance.energy} / {instance.maxManaEnergyPower}
+                    EP: {instance.capacity?.energy?.value} /{" "}
+                    {instance.capacity?.energy?.max}
                   </p>
                 )}
                 {instance.isUseMana && !instance.isUseHybrid && (
                   <p>
-                    MP: {instance.mana} / {instance.maxManaEnergyPower}
+                    MP: {instance.capacity?.mana?.value} /{" "}
+                    {instance.capacity?.mana?.max}
                   </p>
                 )}
                 {instance.evasion > 0 && <p>EV: {instance.evasion * 100}%</p>}
-                {instance.maxDefendPower > 0 && (
+                {instance.defend.value > 0 && (
                   <p
                     className={`${
                       instance.getDifferentValueFromInitial({ stat: "def" }) > 0
@@ -341,7 +342,7 @@ const Card = (props: { instance: Entity }) => {
                     }`}
                   >
                     {`DEF`}:{" "}
-                    {`${instance.defend} ${
+                    {`${instance.defend.value} ${
                       instance.getDifferentValueFromInitial({ stat: "def" }) > 0
                         ? `(+${instance.getDifferentValueFromInitial({
                             stat: "def",

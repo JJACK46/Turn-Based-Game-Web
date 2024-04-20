@@ -9,6 +9,16 @@ export type Weapon = {
   damageType: PowerEnum;
 };
 
+// PowerEnum -> Physical / magical / hybrid
+// - bow -> Physical
+// - gun -> Physical
+// - sword
+// - dagger
+// - shield -> physical
+// - magic wand
+// - healing staff
+// - polearm
+
 // export type WeaponType = {
 //   id:0
 //   name:"bow"

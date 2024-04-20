@@ -10,8 +10,13 @@ export function MenuView() {
   return (
     <>
       <div className="flex flex-col h-screen overflow-hidden select-none">
-        {fieldMenu.map((menu) => (
-          <MenuButton title={menu.title} path={menu.path} bg={menu.bg} />
+        {fieldMenu.map((menu, index) => (
+          <MenuButton
+            key={index}
+            title={menu.title}
+            path={menu.path}
+            bg={menu.bg}
+          />
         ))}
       </div>
     </>

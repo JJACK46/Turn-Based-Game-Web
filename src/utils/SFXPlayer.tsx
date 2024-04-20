@@ -38,7 +38,7 @@ export const SFXPlayer = ({
 
   useEffect(() => {
     // if (currentEntity?.selectedSound) {
-    if (currentEntity?.selectedSound) {
+    if (currentEntity?.selectedSoundPath) {
       play();
     }
     // }

@@ -100,7 +100,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
   //update turn
   useEffect(() => {
     if (isGameStart) {
-      updateRemainingEntity(turn);
+      updateRemainingEntity();
       setTimeout(() => {
         if (availableActions === 0 && turn) {
           switchTurn();
@@ -152,8 +152,8 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
       {selectedSkill?.soundPath ? (
         <SFXPlayer soundFilePath={selectedSkill.soundPath} />
       ) : null}
-      {currentEntity?.selectedSound ? (
-        <SFXPlayer soundFilePath={currentEntity.selectedSound} />
+      {currentEntity?.selectedSoundPath ? (
+        <SFXPlayer soundFilePath={currentEntity.selectedSoundPath} />
       ) : null}
     </>
   );

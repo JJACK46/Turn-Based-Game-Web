@@ -1,8 +1,7 @@
 import { EffectSkill } from "@/classes/effect";
-import { EntityType, Entity } from "@/classes/entity";
-import { Skill } from "@/classes/skills";
+import { Entity } from "@/classes/entity";
 
-export function getSpeedOfTeam(entities: EntityType[]) {
+export function getSpeedOfTeam(entities: Entity[]) {
   return entities.reduce((sum, entity) => entity.speed + sum, 0);
 }
 
@@ -15,8 +14,8 @@ export const getLeastHealthEntity = (
   let resultEntity: Entity | undefined = undefined;
 
   for (const entity of entities) {
-    if (entity.attackPower < leastHP) {
-      leastHP = entity.health;
+    if (entity.attack.value < leastHP) {
+      leastHP = entity.health.value;
       resultEntity = entity;
     }
   }
@@ -32,8 +31,8 @@ export const getMostAttackPowerEntity = (
   let resultEntity: Entity | undefined = undefined;
 
   for (const entity of entities) {
-    if (entity.attackPower > maxATK) {
-      maxATK = entity.attackPower;
+    if (entity.attack.value > maxATK) {
+      maxATK = entity.attack.value;
       resultEntity = entity;
     }
   }
@@ -56,16 +55,7 @@ export const getUpdateEntityInRow = (props: {
 
 export function updateRemainingSkills(entities: Entity[]): Entity[] {
   return entities.map((entity) => {
-    const activateSkills = entity.activateSkills.map((skill) => {
-      const updated = new Skill({
-        ...skill,
-        duration: skill.duration - 1,
-      });
-
-      return updated;
-    });
-
-    const effectedSkills = entity.effectedSkills.map((skill) => {
+    const updatedSkill = entity.effectedSkills?.map((skill) => {
       const updated = new EffectSkill({
         ...skill,
         duration: skill.duration - 1,
@@ -74,12 +64,8 @@ export function updateRemainingSkills(entities: Entity[]): Entity[] {
       return updated;
     });
 
-    const updatedEntity = new Entity({
-      ...entity,
-      activateSkills,
-      effectedSkills,
-    });
+    entity.effectedSkills = updatedSkill;
 
-    return updatedEntity.updateStatRemainingSkills();
+    return entity.updateStatRemainingEffect();
   });
 }
