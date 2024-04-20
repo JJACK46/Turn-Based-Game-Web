@@ -8,5 +8,5 @@ interface TutorialSet {
 
 export const tutorialSet: TutorialSet = {
   enemies: [EntitiesData[5], EntitiesData[6], EntitiesData[11]],
-  players: [EntitiesData[10], EntitiesData[7]],
+  players: [EntitiesData[10], EntitiesData[7], EntitiesData[8]],
 };

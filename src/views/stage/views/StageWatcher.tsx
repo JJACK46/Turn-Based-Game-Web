@@ -8,6 +8,7 @@ import { updateRemainingSkills } from "../helpers/stage";
 import { PositionEnum } from "@/data/enums/positions";
 import { SoundtrackPlayer } from "@/utils/SoundtrackPlayer";
 import { useWorldStore } from "@/views/worlds/store/worldStore";
+import { SFXPlayer } from "@/utils/SFXPlayer";
 
 export function StageWatcher({ children }: { children: React.ReactNode }) {
   const {
@@ -25,6 +26,8 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
       resetCycleRound,
       updateCycleRound,
       endGame,
+      setGameResult,
+      updateRemainingEntity,
     },
     infoField: {
       playersFrontRow,
@@ -33,9 +36,10 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
       enemiesBackRow,
     },
     methodsField: { setEntities },
+    infoIndicator: { selectedSkill, currentEntity },
     infoMarkedEntities,
   } = useGameStore();
-  const { selectedMap, selectedWorld } = useWorldStore();
+  const { selectedMap } = useWorldStore();
   // const uiLogic = useUIStore();
 
   // const allEntities = playersFrontRow.concat(
@@ -68,7 +72,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
       });
     }
   }
-  function updateRemainingActiveAll() {
+  function updateRemainingActiveSkill() {
     setEntities({
       entities: updateRemainingSkills(playersFrontRow),
       isPlayer: true,
@@ -96,6 +100,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
   //update turn
   useEffect(() => {
     if (isGameStart) {
+      updateRemainingEntity(turn);
       setTimeout(() => {
         if (availableActions === 0 && turn) {
           switchTurn();
@@ -119,7 +124,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
     if (cycleRound === 0) {
       increaseRound();
       restoreManaEveryEntity();
-      updateRemainingActiveAll();
+      updateRemainingActiveSkill();
       resetCycleRound();
     }
   }, [cycleRound]);
@@ -129,16 +134,14 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
     if (isGameStart) {
       if (remainEnemiesCount === 0) {
         endGame();
-        alert("VICTORY");
+        setGameResult("victory");
       }
       if (remainPlayersCount === 0) {
         endGame();
-        alert("DEFEAT");
+        setGameResult("defeat");
       }
     }
   }, [remainEnemiesCount, remainPlayersCount]);
-
-  useEffect(() => {}, [selectedMap, selectedWorld]);
 
   return (
     <>
@@ -146,6 +149,12 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
         <SoundtrackPlayer soundFilePath={selectedMap.soundtrackPath} />
       ) : null}
       {children}
+      {selectedSkill?.soundPath ? (
+        <SFXPlayer soundFilePath={selectedSkill.soundPath} />
+      ) : null}
+      {currentEntity?.selectedSound ? (
+        <SFXPlayer soundFilePath={currentEntity.selectedSound} />
+      ) : null}
     </>
   );
 }

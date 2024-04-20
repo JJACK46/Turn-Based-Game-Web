@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { SkillOverlay } from "./Skill";
 import { InfoDamageOverlay } from "./InfoDamage";
 import { FlexSkillOverlay } from "./FlexSkill";
+import { GameResultOverlay } from "./GameResult";
 
 export default function UserOverlay() {
   const {
@@ -19,6 +20,7 @@ export default function UserOverlay() {
       speedEnemyTeam,
       speedPlayerTeam,
       isGameStart,
+      gameResult,
     },
     infoMarkedEntities,
     methodsGame: { startGame },
@@ -41,9 +43,12 @@ export default function UserOverlay() {
     }, BASE_DELAY_SKILL * 0.8);
   }, [setInfoDamage, totalHitDamage]);
 
+  useEffect(() => {}, [gameResult]);
+
   return (
     <>
-      {!isGameStart && (
+      {gameResult && <GameResultOverlay></GameResultOverlay>}
+      {!isGameStart && !gameResult && (
         <span
           rel="most top z-index"
           className="z-50 fixed h-full w-full bg-black/50 backdrop-blur inset-0 items-center justify-center flex"

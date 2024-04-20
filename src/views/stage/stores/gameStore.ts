@@ -1,6 +1,5 @@
 import { EntityType, Entity } from "@/classes/entity";
 import { Skill } from "@/classes/skills";
-import { TurnType } from "@/data/types/turn";
 import { create } from "zustand";
 import { getAliveEntities, getSpeedOfTeam } from "../helpers/stage";
 import { PositionEnum } from "@/data/enums/positions";
@@ -15,6 +14,10 @@ type InfoDamage = {
   missed: boolean;
 };
 
+type TurnType = "player" | "enemy" | null;
+
+type GameResultType = "victory" | "defeat" | null;
+
 interface GameLogicType {
   infoGame: {
     mapName: string;
@@ -28,6 +31,7 @@ interface GameLogicType {
     cycleRound: number;
     speedEnemyTeam: number;
     speedPlayerTeam: number;
+    gameResult: GameResultType;
   };
   infoIndicator: {
     currentEntity: Entity | null;
@@ -48,6 +52,7 @@ interface GameLogicType {
     increaseAction: (n: number) => void;
     decreaseAction: (n: number) => void;
     switchTurn: () => void;
+    updateRemainingEntity: (turn: TurnType) => void;
     startGame: () => void;
     endGame: () => void;
     setupGame: (props: {
@@ -64,6 +69,7 @@ interface GameLogicType {
       players: Entity[];
       enemies: Entity[];
     }) => void;
+    setGameResult: (p: GameResultType) => void;
   };
   infoField: {
     enemiesFrontRow: Entity[];
@@ -126,6 +132,7 @@ export const useGameStore = create<GameLogicType>()(
       speedPlayerTeam: 0,
       remainEnemiesCount: 0,
       remainPlayersCount: 0,
+      gameResult: null,
     },
     infoDamage: {
       totalHitDamage: 0,
@@ -281,11 +288,6 @@ export const useGameStore = create<GameLogicType>()(
         set((state) => {
           state.infoIndicator.targetEntity = entity;
         });
-        // set(
-        //   produce((state) => {
-        //     state.infoIndicator.targetEntity = entity;
-        //   })
-        // );
       },
       resetTargetEntity: () => {
         set((prevState) => ({
@@ -432,18 +434,6 @@ export const useGameStore = create<GameLogicType>()(
                 ? updatedEntities
                 : state.infoField.playersFrontRow;
             });
-            // set((state) => ({
-            //   ...state,
-            //   infoField: {
-            //     ...state.infoField,
-            //     playersFrontRow: isEnemyAction
-            //       ? [...state.infoField.playersFrontRow]
-            //       : [...updatedEntities],
-            //     enemiesFrontRow: isEnemyAction
-            //       ? [...updatedEntities]
-            //       : [...state.infoField.playersFrontRow],
-            //   },
-            // }));
 
             return true; // Skill was used successfully
           } else {
@@ -478,6 +468,11 @@ export const useGameStore = create<GameLogicType>()(
           ...state,
           infoGame: { ...state.infoGame, cycleRound: 2 },
         }));
+      },
+      setGameResult: (newValue) => {
+        set((state) => {
+          state.infoGame.gameResult = newValue;
+        });
       },
       setupGame: (props) =>
         set((state) => {
@@ -596,8 +591,6 @@ export const useGameStore = create<GameLogicType>()(
             ...state,
             infoGame: {
               ...state.infoGame,
-              remainEnemiesCount,
-              remainPlayersCount,
               turn: newTurn,
               availableActions: entitiesCount,
               maxActions: entitiesCount,
@@ -613,6 +606,31 @@ export const useGameStore = create<GameLogicType>()(
               takenAction: [],
             },
           };
+        });
+      },
+      updateRemainingEntity: (newTurn) => {
+        set((state) => {
+          // Count the number of remaining alive entities for enemies
+          const remainEnemiesCount = getAliveEntities(
+            state.infoField.enemiesFrontRow.concat(
+              state.infoField.enemiesBackRow ?? []
+            )
+          ).length;
+
+          // Count the number of remaining alive entities for players
+          const remainPlayersCount = getAliveEntities(
+            state.infoField.playersFrontRow.concat(
+              state.infoField.playersBackRow ?? []
+            )
+          ).length;
+
+          // Update the state with the new remaining entity counts and turn
+          state.infoGame.remainEnemiesCount = remainEnemiesCount;
+          state.infoGame.remainPlayersCount = remainPlayersCount;
+          state.infoGame.turn = newTurn;
+
+          // Return the updated state
+          return state;
         });
       },
     },

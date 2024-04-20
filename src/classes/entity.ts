@@ -41,6 +41,7 @@ export type EntityType = {
   position: PositionEnum | PositionEnum.NONE;
   // holdingItem : item[]
   evasion: number;
+  selectedSound?: string;
 };
 
 export class Entity implements EntityType {
@@ -76,6 +77,7 @@ export class Entity implements EntityType {
   speed: number;
   restoreManaOrEnergy: number;
   restoreHealth: number;
+  selectedSound?: string;
   constructor({
     id,
     instanceId,
@@ -107,6 +109,7 @@ export class Entity implements EntityType {
     status,
     evasion,
     restoreHealth,
+    selectedSound,
   }: {
     id: number;
     instanceId: string;
@@ -140,6 +143,7 @@ export class Entity implements EntityType {
     status: StatusEnum;
     evasion: number;
     restoreHealth: number;
+    selectedSound?: string;
   }) {
     this.id = id;
     this.instanceId = instanceId;
@@ -171,6 +175,7 @@ export class Entity implements EntityType {
     this.status = status;
     this.evasion = evasion;
     this.restoreHealth = restoreHealth;
+    this.selectedSound = selectedSound;
   }
 
   get MANERGY() {

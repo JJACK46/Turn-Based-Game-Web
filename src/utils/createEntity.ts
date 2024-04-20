@@ -33,6 +33,7 @@ export const createEntityInstances = (
       restoreManaOrEnergy,
       restoreHealth = 0,
       evasion,
+      selectedSound,
     } = ent;
 
     const entity = new Entity({
@@ -66,6 +67,7 @@ export const createEntityInstances = (
       restoreManaOrEnergy,
       restoreHealth,
       evasion,
+      selectedSound,
     });
 
     return entity;

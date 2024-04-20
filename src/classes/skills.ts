@@ -226,7 +226,7 @@ export class Skill implements SkillType {
         source.attackPower * this.emitValueMultiply
       );
 
-      target.health += Math.min(target.maxHealth, healAmount);
+      target.health = Math.min(target.maxHealth, target.health + healAmount);
 
       return {
         updatedSource: source,

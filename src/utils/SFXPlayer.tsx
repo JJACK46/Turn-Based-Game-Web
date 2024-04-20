@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import useSound from "use-sound";
 import { useUIStore } from "@/views/stage/stores/uiStore";
@@ -12,6 +13,7 @@ export const SFXPlayer = ({
   const { isEntityPerforming } = useUIStore();
   const {
     infoDamage: { totalHitDamage },
+    infoIndicator: { currentEntity },
   } = useGameStore();
 
   const [play, { stop }] = useSound(soundFilePath, {
@@ -32,8 +34,15 @@ export const SFXPlayer = ({
     return () => {
       clearTimeout(timeout);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEntityPerforming, totalHitDamage]);
+
+  useEffect(() => {
+    // if (currentEntity?.selectedSound) {
+    if (currentEntity?.selectedSound) {
+      play();
+    }
+    // }
+  }, [currentEntity]);
 
   return null;
 };

@@ -199,6 +199,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     emitValueMultiply: 0.5,
     repeat: 5,
     randomTarget: true,
+    soundPath: "/sounds/sfx/flame_burst.wav",
   }),
   [TraitEnum.BOSS_NEXOS]: new Skill({
     name: "Artificial Perfection",

@@ -9,7 +9,6 @@ import atkSymbol from "@/assets/svgs/sword-symbol.svg";
 import defSymbol from "@/assets/svgs/shield-symbol.svg";
 import { useGameStore } from "../../stores/gameStore";
 import { PositionEnum } from "@/data/enums/positions";
-import { SFXPlayer } from "@/utils/SFXPlayer";
 
 const Card = (props: { instance: Entity }) => {
   const { instance } = props;
@@ -153,9 +152,6 @@ const Card = (props: { instance: Entity }) => {
 
   return (
     <>
-      {selectedSkill?.soundPath ? (
-        <SFXPlayer soundFilePath={selectedSkill.soundPath} />
-      ) : null}
       <button
         onMouseEnter={() => setIsHoveredCard(true)}
         onMouseLeave={() => setIsHoveredCard(false)}
