@@ -16,6 +16,7 @@ type Inventory = {
 
 type Methods = {
   setRowForEntity: (props: { row: PositionEnum; entity: Entity }) => void;
+  setEntities : (entities : Entity[]) => void;
 };
 
 export const useInventoryStore = create<Inventory & Methods>()(
@@ -55,5 +56,11 @@ export const useInventoryStore = create<Inventory & Methods>()(
         }
       }
     },
+    setEntities(entities) {
+      set((state) => {
+        state.entityInventory = entities;
+      });
+    },
   }))
+
 );
