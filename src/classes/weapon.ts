@@ -1,13 +1,44 @@
 import { PowerEnum } from "@/data/enums/powers";
+import { UsingStatusEnum } from "@/data/enums/status";
 
-export type Weapon = {
+export class Weapon {
   id: number;
   name: string;
   type: WeaponEnum;
   level: number;
   powerValue: number;
   damageType: PowerEnum;
-};
+  status: UsingStatusEnum;
+  image:string;
+  constructor({
+    id,
+    name,
+    type,
+    level,
+    power,
+    damageType,
+    status,
+    image,
+  }: {
+    id: number;
+    name: string;
+    type: WeaponEnum;
+    level: number;
+    power: number;
+    damageType: PowerEnum;
+    status: UsingStatusEnum;
+    image:string;
+  }) {
+    this.id=id;
+    this.name=name;
+    this.type=type;
+    this.level=level;
+    this.powerValue=power;
+    this.damageType=damageType;
+    this.status=status;
+    this.image=image;
+  }
+}
 
 // PowerEnum -> Physical / magical / hybrid
 
