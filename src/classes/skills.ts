@@ -61,6 +61,7 @@ export class Skill {
     randomTarget,
     soundPath,
     specialToTargetMethod,
+    effectSkill,
   }: {
     id?: string;
     name: string;
@@ -81,6 +82,7 @@ export class Skill {
       targetEntity: Entity;
       thisSkill: Skill;
     }) => ResultAffectSingle;
+    effectSkill?: EffectSkill;
   }) {
     this.id = id;
     this.name = name;
@@ -96,10 +98,15 @@ export class Skill {
     this.randomTarget = randomTarget ?? false;
     this.soundPath = soundPath;
     this.specialToTargetMethod = specialToTargetMethod;
+    this.effectSkill = effectSkill;
   }
 
   get isAttackSkill(): boolean {
-    const attacks = [EmitTypeEnum.ATTACK, EmitTypeEnum.ATTACK_AOE];
+    const attacks = [
+      EmitTypeEnum.ATTACK,
+      EmitTypeEnum.ATTACK_AOE,
+      EmitTypeEnum.DE_BUFF,
+    ];
     return attacks.includes(this.type);
   }
 
@@ -166,7 +173,7 @@ export class Skill {
       };
     }
 
-    const defaultAttackMethod = (): ResultAffectSingle => {
+    const defaultAttack = (): ResultAffectSingle => {
       const damageMade = Math.round(
         source.attack.value * this.emitValueMultiply
       );
@@ -187,15 +194,30 @@ export class Skill {
         missed,
       };
     };
-    const defaultHealMethod = (): ResultAffectSingle => {
-      const healAmount = Math.round(
-        source.attack.value * this.emitValueMultiply
-      );
+    const defaultHeal = (): ResultAffectSingle => {
+      if (!source.heal) throw new Error("this entity can not heal");
+      const amount = Math.round(source.heal.value * this.emitValueMultiply);
 
       target.health.value = Math.min(
         target.health.max,
-        target.health.value + healAmount
+        target.health.value + amount
       );
+
+      return {
+        updatedSource: source,
+        effectedTarget: target,
+        damageMade: 0,
+        blockedDamage,
+        resultDamage: 0,
+        missed,
+      };
+    };
+    const defaultBuffAndDeBuff = (): ResultAffectSingle => {
+      const effect = this.effectSkill;
+      if (effect) {
+        effect.emitValueMultiplier = this.emitValueMultiply;
+        target.applyEffectSkills({ ...effect });
+      }
 
       return {
         updatedSource: source,
@@ -209,10 +231,16 @@ export class Skill {
 
     switch (this.type) {
       case EmitTypeEnum.ATTACK:
-        result = defaultAttackMethod();
+        result = defaultAttack();
         break;
       case EmitTypeEnum.HEALING:
-        result = defaultHealMethod();
+        result = defaultHeal();
+        break;
+      case EmitTypeEnum.BUFF:
+        result = defaultBuffAndDeBuff();
+        break;
+      case EmitTypeEnum.DE_BUFF:
+        result = defaultBuffAndDeBuff();
         break;
       default:
         break;
@@ -228,9 +256,10 @@ export class Skill {
       const defaultEffectDef =
         listDefaultEffectSkill[EffectSkillEnum.ENHANCE_DEFEND];
       if (this.emitValueMultiply > 0) {
+        //use value from skill instead effectSkill
         defaultEffectDef.emitValueMultiplier = this.emitValueMultiply;
       }
-      sourceEntity.applyEffectSkills(defaultEffectDef);
+      sourceEntity.applyEffectSkills({ ...defaultEffectDef });
 
       return sourceEntity;
     };
@@ -240,6 +269,7 @@ export class Skill {
       case EmitTypeEnum.DEFEND:
         result = defaultDefendSelfMethod();
         break;
+
       default:
         break;
     }

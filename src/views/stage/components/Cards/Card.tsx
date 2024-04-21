@@ -56,7 +56,7 @@ const Card = (props: { instance: Entity }) => {
     return isEntityInEntities(instance, infoMarkedEntities.takenAction);
   };
 
-  const [currentHP, setCurrentHP] = useState(instance.health);
+  const [currentHP, setCurrentHP] = useState(instance.health.max);
 
   function handleActionStyle() {
     if (currentEntity === instance) {
@@ -69,9 +69,9 @@ const Card = (props: { instance: Entity }) => {
   }
 
   function handleAttackedStyle() {
-    if (instance.health < currentHP) {
+    if (instance.health.value < currentHP) {
       setTimeout(() => {
-        setCurrentHP(instance.health);
+        setCurrentHP(instance.health.value);
       }, 150);
       return "opacity-75 scale-95";
     }
@@ -212,17 +212,21 @@ const Card = (props: { instance: Entity }) => {
         }}
       >
         <div
-          rel="card-wrapper"
+          rel="card-bg"
           className={`relative p-2 rounded-lg transition  ${
-            instance.hasOverDefend ? "bg-gray-500" : ""
+            instance.hasOverDefend ? "animate-shimmerBuffDef" : ""
           }
-          ${handleAttackedStyle()}
+          ${handleAttackedStyle()} 
          `}
         >
           <div
-            className={`z-10 absolute inset-0 rounded-lg ${handleAttackedStyle()}`}
+            rel="card-warper"
+            className={`z-10 absolute inset-0 rounded-lg ${
+              !instance.isCanAction ? "animate-shimmerStun opacity-35" : ""
+            } size-full`}
           ></div>
           <div
+            rel="card"
             className={`w-24 h-fit rounded-md items-center hover:scale-110 hover:w-32 justify-around border transition overflow-hidden
             ${wasAction() ? "border-transparent" : ""}
              ${instance.isBoss ? "bg-black" : "bg-slate-800"}
@@ -237,7 +241,9 @@ const Card = (props: { instance: Entity }) => {
                 {instance.effectedSkills?.map((s, index) => (
                   <p
                     key={index}
-                    className="text-xs capitalize font-medium bg-cyan-500 w-fit rounded-full px-1"
+                    className={`only:text-xs italic capitalize font-medium ${
+                      s.canAction ? "text-cyan-500" : "text-violet-700"
+                    }  w-fit rounded-full px-1`}
                   >
                     {s.name}
                   </p>

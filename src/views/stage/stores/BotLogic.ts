@@ -69,11 +69,19 @@ export const botAction = ({
 
       //if found source entity already
       if (potentialEntity && !entitiesTakenAction.includes(potentialEntity)) {
+        setCurrentEntity(potentialEntity);
+        if (!potentialEntity.isCanAction) {
+          setTimeout(() => {
+            markEntityTakenAction(potentialEntity);
+            resetCurrentEntity();
+            decreaseAction(1);
+          }, BASE_DELAY_SKILL * 0.4);
+          return;
+        }
         let success = false;
         const flag = {
           skilledToSelf: false,
         };
-        setCurrentEntity(potentialEntity);
 
         //check condition for use skill
         while (!success) {
@@ -184,7 +192,6 @@ export const botAction = ({
           }
         }, BASE_DELAY_SKILL * 1.4);
       }
-      //not found source entity
     }
   }, BASE_DELAY_SKILL * 0.3);
 };

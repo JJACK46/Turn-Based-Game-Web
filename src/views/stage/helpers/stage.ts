@@ -1,4 +1,3 @@
-import { EffectSkill } from "@/classes/effect";
 import { Entity } from "@/classes/entity";
 
 export function getSpeedOfTeam(entities: Entity[]) {
@@ -53,19 +52,6 @@ export const getUpdateEntityInRow = (props: {
   });
 };
 
-export function updateRemainingSkills(entities: Entity[]): Entity[] {
-  return entities.map((entity) => {
-    const updatedSkill = entity.effectedSkills?.map((skill) => {
-      const updated = new EffectSkill({
-        ...skill,
-        duration: skill.duration - 1,
-      });
-
-      return updated;
-    });
-
-    entity.effectedSkills = updatedSkill;
-
-    return entity.updateStatRemainingEffect();
-  });
+export function updateRemainingEffect(entities: Entity[]): Entity[] {
+  return entities.map((entity) => entity.updateStatRemainingEffect());
 }

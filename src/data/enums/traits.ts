@@ -1,6 +1,7 @@
 import { Skill } from "@/classes/skills";
 import { EmitTypeEnum } from "./actions";
 import { PowerEnum } from "./powers";
+import { EffectSkillEnum, listDefaultEffectSkill } from "./effectSkills";
 
 export enum TraitEnum {
   //earth aprilX
@@ -40,7 +41,6 @@ export const isBoss = (trait: TraitEnum): boolean => {
 export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   [TraitEnum.HUMAN]: new Skill({
     name: "Humanity",
-    requiredMana: -1,
     requiredEnergy: 10,
     type: EmitTypeEnum.HEALING,
     power: PowerEnum.PHYSICAL,
@@ -51,7 +51,6 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     name: "poison",
     type: EmitTypeEnum.ATTACK,
     requiredEnergy: 10,
-    requiredMana: -1,
     emitValueMultiply: 1.1,
     power: PowerEnum.PHYSICAL,
     duration: 2,
@@ -60,25 +59,23 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     name: "fear",
     type: EmitTypeEnum.ATTACK,
     requiredEnergy: 10,
-    requiredMana: -1,
     emitValueMultiply: -1,
     power: PowerEnum.MAGICAL,
     duration: 1,
   }),
   [TraitEnum.BIG_CREATURE]: new Skill({
     name: "stomped",
-    type: EmitTypeEnum.ATTACK,
+    type: EmitTypeEnum.DE_BUFF,
     requiredEnergy: 10,
-    requiredMana: -1,
-    emitValueMultiply: 0.5,
+    emitValueMultiply: 0,
     power: PowerEnum.PHYSICAL,
+    effectSkill: listDefaultEffectSkill[EffectSkillEnum.STUN],
   }),
   [TraitEnum.ARMED_ROBOT]: new Skill({
     name: "Missile Rain",
     type: EmitTypeEnum.ATTACK_AOE,
     requiredEnergy: 2,
     emitValueMultiply: 0.2,
-    emitValue: -1,
     power: PowerEnum.PHYSICAL,
     repeat: 10,
     randomTarget: true,
@@ -96,7 +93,6 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     name: "shield up",
     type: EmitTypeEnum.DEFEND,
     requiredEnergy: 10,
-    requiredMana: -1,
     emitValueMultiply: 1,
     power: PowerEnum.PHYSICAL,
     duration: 1,
@@ -105,7 +101,6 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     name: "self repair",
     type: EmitTypeEnum.HEALING,
     requiredEnergy: 10,
-    requiredMana: -1,
     emitValueMultiply: 1,
     power: PowerEnum.PHYSICAL,
     duration: 3,
@@ -122,7 +117,6 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   [TraitEnum.ELF]: new Skill({
     name: "",
     type: EmitTypeEnum.ATTACK,
-    requiredEnergy: 0,
     requiredMana: 10,
     emitValueMultiply: 1,
     power: PowerEnum.MAGICAL,
@@ -131,7 +125,6 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   [TraitEnum.ORC]: new Skill({
     name: "",
     type: EmitTypeEnum.ATTACK,
-    requiredEnergy: 0,
     requiredMana: 10,
     emitValueMultiply: 1,
     power: PowerEnum.PHYSICAL,
@@ -140,7 +133,6 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   [TraitEnum.DEMON]: new Skill({
     name: "Soulflame Burst",
     type: EmitTypeEnum.ATTACK_AOE,
-    requiredEnergy: 0,
     requiredMana: 20,
     emitValueMultiply: 0.5,
     power: PowerEnum.MAGICAL,

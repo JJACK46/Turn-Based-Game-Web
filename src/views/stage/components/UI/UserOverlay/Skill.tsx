@@ -26,7 +26,7 @@ export function SkillOverlay() {
                 alt="no data"
                 className="h-full object-cover rounded-3xl"
               />
-              <div className="flex flex-col h-full w-32 justify-center items-start p-5">
+              <div className="flex flex-col h-full justify-center items-start p-5">
                 <p className="text-xl">{currentEntity?.name}</p>
                 <p className=" text-md">lvl.{currentEntity?.level}</p>
                 <p className="text-md">ATK : {currentEntity?.attack.value}</p>
@@ -82,6 +82,9 @@ export function SkillOverlay() {
                       )}
                     </ul>
                   </div>
+                  <p className="mt-2 text-xs py-0.5 border rounded px-1">
+                    {`${skill.type}`}
+                  </p>
                 </button>
               );
             })}

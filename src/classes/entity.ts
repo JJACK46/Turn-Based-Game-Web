@@ -5,10 +5,7 @@ import { TraitEnum } from "@/data/enums/traits";
 import { PositionEnum } from "@/data/enums/positions";
 import { EmitTypeEnum } from "@/data/enums/actions";
 import { StatusEnum } from "@/data/enums/status";
-import {
-  EffectSkillEnum,
-  listDefaultEffectSkill,
-} from "@/data/enums/effectSkills";
+import { EffectSkillEnum } from "@/data/enums/effectSkills";
 import { EffectSkill } from "./effect";
 
 // export type EntityType = {
@@ -53,7 +50,7 @@ export class Entity {
   evasion: number;
   trait: TraitEnum;
   position: PositionEnum;
-  effectedSkills?: EffectSkill[];
+  effectedSkills: EffectSkill[];
   skills: {
     equipmentSkills?: Skill[];
     normalHitSkill: Skill;
@@ -134,7 +131,7 @@ export class Entity {
     this.evasion = evasion;
     this.trait = trait;
     this.position = position;
-    this.effectedSkills = effectedSkills;
+    this.effectedSkills = effectedSkills ?? [];
     this.skills = skills;
     this.name = name;
     this.imageUrl = imageUrl;
@@ -181,7 +178,7 @@ export class Entity {
   }
 
   get hasEffectedSkill() {
-    return this.effectedSkills ? true : false;
+    return this.effectedSkills.length > 0 ? true : false;
   }
 
   get isAlive() {
@@ -207,6 +204,11 @@ export class Entity {
         (this.capacity.energy ? true : false)
       );
     }
+  }
+
+  get isCanAction() {
+    const found = this.effectedSkills.findIndex((fx) => fx.canAction === false);
+    return found === -1;
   }
 
   calculateAmountMadeBy(props: { skill: Skill }): number {
@@ -276,36 +278,44 @@ export class Entity {
   }
 
   updateStatRemainingEffect(): Entity {
-    if (this.effectedSkills) {
-      for (let i = 0; i < this.effectedSkills.length; i++) {
-        const skill = this.effectedSkills[i];
-        if (skill.duration === 0) {
-          switch (skill.name) {
-            case EffectSkillEnum.ENHANCE_DEFEND:
-              //reset to default
-              this.defend.value = this.defend.max;
-              break;
-            default:
-              break;
-          }
-          this.effectedSkills.splice(i, 1);
+    for (let i = 0; i < this.effectedSkills.length; i++) {
+      const effect = this.effectedSkills[i];
+      effect.duration--;
+      if (effect.duration === 0) {
+        switch (effect.name) {
+          case EffectSkillEnum.ENHANCE_DEFEND:
+            //reset to default
+            this.defend.value = this.defend.max;
+            break;
+          default:
+            break;
+        }
+        this.effectedSkills.splice(i, 1);
+      } else {
+        switch (effect.name) {
+          case EffectSkillEnum.ENHANCE_DEFEND:
+            this.defend.value *= effect.emitValueMultiplier;
+            break;
+          default:
+            break;
         }
       }
     }
+
     return this;
   }
 
   applyEffectSkills(effect: EffectSkill) {
-    this.effectedSkills = [];
-    if (effect.duration > 0) {
-      this.effectedSkills.push(effect);
-      switch (effect) {
-        case listDefaultEffectSkill[EffectSkillEnum.ENHANCE_DEFEND]:
-          this.defend.value *= effect.emitValueMultiplier;
-          break;
-        default:
-          break;
-      }
-    }
+    if (effect.duration <= 0)
+      throw new Error("can not apply effect that has duration = 0 ");
+
+    this.effectedSkills.push(effect);
+    // switch (effect) {
+    //   case listDefaultEffectSkill[EffectSkillEnum.ENHANCE_DEFEND]:
+    //     this.defend.value *= effect.emitValueMultiplier;
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
 }
