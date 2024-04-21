@@ -8,39 +8,6 @@ import { StatusEnum } from "@/data/enums/status";
 import { EffectSkillEnum } from "@/data/enums/effectSkills";
 import { EffectSkill } from "./effect";
 
-// export type EntityType = {
-//   id: number;
-//   name: string;
-//   imageUrl: string;
-//   level: number;
-//   equipmentSkills?: Skill[];
-//   normalHitSkill: Skill;
-//   traitSkill: Skill;
-//   attackPower: number;
-//   healingPower?: number;
-//   defend?: number;
-//   health: number;
-//   mana: number;
-//   energy: number;
-//   maxManaEnergyPower: number;
-//   maxHealth: number;
-//   maxDefendPower?: number;
-//   maxAttackPower: number;
-//   equipment?: {
-//     weapon?: Weapon;
-//     armor?: Armor;
-//   };
-//   status: StatusEnum;
-//   speed: number;
-//   trait: TraitEnum;
-//   restoreManaOrEnergy: number;
-//   restoreHealth?: number;
-//   position: PositionEnum | PositionEnum.NONE;
-//   // holdingItem : item[]
-//   evasion: number;
-//   selectedSound?: string;
-// };
-
 export class Entity {
   instanceId?: string;
   index?: number;
@@ -61,7 +28,7 @@ export class Entity {
   level: number;
   attack: { value: number; max: number };
   heal?: { value: number; max: number };
-  defend: { value: number; max: number };
+  defense: { value: number; max: number };
   health: { value: number; max: number; restore?: number };
   capacity?: {
     mana?: { value: number; max: number; restore: number };
@@ -87,7 +54,7 @@ export class Entity {
     level,
     attack,
     heal,
-    defend,
+    defense,
     health,
     capacity,
     equipment,
@@ -113,7 +80,7 @@ export class Entity {
     level: number;
     attack: { value: number; max: number };
     heal?: { value: number; max: number };
-    defend: { value: number; max: number };
+    defense: { value: number; max: number };
     health: { value: number; max: number; restore?: number };
     capacity?: {
       mana?: { value: number; max: number; restore: number };
@@ -138,7 +105,7 @@ export class Entity {
     this.level = level;
     this.attack = attack;
     this.heal = heal;
-    this.defend = defend;
+    this.defense = defense;
     this.health = health;
     this.capacity = capacity;
     this.equipment = equipment;
@@ -168,12 +135,14 @@ export class Entity {
   }
 
   get hasDefSkill(): Skill[] {
-    return this.allSkills.filter((skill) => skill.type === EmitTypeEnum.DEFEND);
+    return this.allSkills.filter(
+      (skill) => skill.emitType === EmitTypeEnum.DEFEND
+    );
   }
 
   get hasAttackAOE(): Skill[] {
     return this.allSkills.filter(
-      (skill) => skill.type === EmitTypeEnum.ATTACK_AOE
+      (skill) => skill.emitType === EmitTypeEnum.ATTACK_AOE
     );
   }
 
@@ -209,6 +178,17 @@ export class Entity {
   get isCanAction() {
     const found = this.effectedSkills.findIndex((fx) => fx.canAction === false);
     return found === -1;
+  }
+
+  get isPoisoned() {
+    const found = this.effectedSkills.findIndex(
+      (fx) => fx.name === EffectSkillEnum.POISON
+    );
+    return found > -1;
+  }
+
+  get hasOverHealth() {
+    return this.health.value > this.health.max;
   }
 
   calculateAmountMadeBy(props: { skill: Skill }): number {
@@ -263,7 +243,7 @@ export class Entity {
   }
 
   get hasOverDefend(): boolean {
-    return this.defend.value > this.defend.max;
+    return this.defense.value > this.defense.max;
   }
 
   getDifferentValueFromInitial(props: { stat: "atk" | "def" }): number {
@@ -271,51 +251,75 @@ export class Entity {
       case "atk":
         return Math.abs(this.attack.max - this.attack.value);
       case "def":
-        return Math.abs(this.defend.max - this.defend.value);
+        return Math.abs(this.defense.max - this.defense.value);
       default:
         return 0;
     }
   }
 
-  updateStatRemainingEffect(): Entity {
+  updateRemainingEffect(): Entity {
     for (let i = 0; i < this.effectedSkills.length; i++) {
       const effect = this.effectedSkills[i];
       effect.duration--;
+
       if (effect.duration === 0) {
-        switch (effect.name) {
-          case EffectSkillEnum.ENHANCE_DEFEND:
-            //reset to default
-            this.defend.value = this.defend.max;
-            break;
-          default:
-            break;
-        }
+        this.processEffect(effect);
         this.effectedSkills.splice(i, 1);
+        i--; // Decrement index since array is modified
       } else {
-        switch (effect.name) {
-          case EffectSkillEnum.ENHANCE_DEFEND:
-            this.defend.value *= effect.emitValueMultiplier;
-            break;
-          default:
-            break;
-        }
+        this.processEffect(effect);
       }
     }
-
     return this;
   }
 
   applyEffectSkills(effect: EffectSkill) {
-    if (effect.duration <= 0)
-      throw new Error("can not apply effect that has duration = 0 ");
+    if (effect.immediately) {
+      this.processEffect(effect);
+    }
 
-    this.effectedSkills.push(effect);
-    // switch (effect) {
-    //   case listDefaultEffectSkill[EffectSkillEnum.ENHANCE_DEFEND]:
-    //     this.defend.value *= effect.emitValueMultiplier;
-    //     break;
-    //   default:
-    //     break;
-    // }
+    const duplicateIndex = this.effectedSkills.findIndex(
+      (fx) => fx.name === effect.name
+    );
+    if (duplicateIndex > -1) {
+      //found duplicate effect then reset duration
+      this.effectedSkills[duplicateIndex].duration = effect.duration;
+    } else {
+      this.effectedSkills.push(effect);
+    }
+  }
+
+  processEffect(effect: EffectSkill) {
+    let attackModifier = 0;
+    let defenseModifier = 0;
+    let healthModifier = 0;
+
+    switch (effect.name) {
+      case EffectSkillEnum.ENHANCE_DEFEND:
+        defenseModifier =
+          effect.duration === 0 ? 0 : effect.emitValueMultiplier;
+        this.defense.value =
+          this.defense.max + Math.floor(this.defense.max * defenseModifier);
+        break;
+      case EffectSkillEnum.ENHANCE_ATTACK:
+        attackModifier = effect.duration === 0 ? 0 : effect.emitValueMultiplier;
+        this.attack.value =
+          this.attack.value + Math.floor(this.attack.max * attackModifier);
+        break;
+      case EffectSkillEnum.POISON:
+        this.health.value -= Math.floor(
+          this.health.max * effect.emitValueMultiplier
+        );
+        break;
+      case EffectSkillEnum.ENHANCE_HEALTH:
+        healthModifier =
+          effect.duration === 0
+            ? -effect.emitValueMultiplier
+            : effect.emitValueMultiplier;
+        this.health.value += Math.floor(this.health.max * healthModifier);
+        break;
+      default:
+        break;
+    }
   }
 }

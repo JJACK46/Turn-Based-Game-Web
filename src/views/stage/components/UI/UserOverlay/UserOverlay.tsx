@@ -1,4 +1,4 @@
-import CardInfo from "../../Cards/CardInfo";
+import InfoPopup from "./InfoPopup";
 import { ActionWarning, TurnWarning } from "./Warning";
 import { BASE_DELAY_SKILL } from "@/utils/constants";
 import { useGameStore } from "../../../stores/gameStore";
@@ -139,7 +139,7 @@ export default function UserOverlay() {
         currentEntity?.skills.traitSkill === selectedSkill &&
         selectedSkill.isAttackSkill &&
         currentEntity?.playable && <FlexSkillOverlay />}
-      {uiLogic.isInfoOverlay && !uiLogic.isEntityPerforming && <CardInfo />}
+      {uiLogic.isInfoOverlay && !uiLogic.isEntityPerforming && <InfoPopup />}
       {uiLogic.isTurnWarning && <TurnWarning />}
       {uiLogic.isActionWarning && <ActionWarning />}
     </>

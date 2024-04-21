@@ -1,4 +1,5 @@
 import { PowerEnum } from "@/data/enums/powers";
+import { Skill } from "./skills";
 
 export class EffectSkill {
   name: string;
@@ -6,8 +7,10 @@ export class EffectSkill {
   value: number;
   powerType: PowerEnum;
   duration: number;
-  canDispel: boolean;
+  canDispelWith: Skill | null;
   canAction: boolean;
+  isNegative: boolean;
+  immediately: boolean;
 
   constructor({
     name,
@@ -15,23 +18,29 @@ export class EffectSkill {
     powerType,
     value,
     duration,
-    canDispel,
+    canDispelWith,
     canAction,
+    isNegative,
+    immediately,
   }: {
     name: string;
     emitValueMultiplier: number;
     powerType: PowerEnum;
     value?: number;
     duration?: number;
-    canDispel?: boolean;
+    canDispelWith?: Skill;
     canAction?: boolean;
+    isNegative: boolean;
+    immediately?: boolean;
   }) {
     this.name = name;
     this.emitValueMultiplier = emitValueMultiplier;
     this.powerType = powerType;
     this.value = value ?? 0;
     this.duration = duration ?? 0;
-    this.canDispel = canDispel ?? true;
+    this.canDispelWith = canDispelWith ?? null;
     this.canAction = canAction ?? true;
+    this.isNegative = isNegative;
+    this.immediately = immediately ?? false;
   }
 }

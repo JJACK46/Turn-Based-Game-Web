@@ -1,10 +1,10 @@
-import { Entity } from "@/classes/entity";
 import { Skill } from "@/classes/skills";
 import { create } from "zustand";
 import { getAliveEntities, getSpeedOfTeam } from "../helpers/stage";
 import { PositionEnum } from "@/data/enums/positions";
 import { immer } from "zustand/middleware/immer";
 import { createEntityInstances } from "@/utils/createEntity";
+import { Entity } from "@/classes/entity";
 
 type InfoDamage = {
   totalHitDamage: number;
@@ -51,7 +51,7 @@ interface GameLogicType {
     increaseAction: (n: number) => void;
     decreaseAction: (n: number) => void;
     switchTurn: () => void;
-    updateRemainingEntity: () => void;
+    updateRemainingEntities: () => void;
     startGame: () => void;
     endGame: () => void;
     setupGame: (props: {
@@ -611,9 +611,10 @@ export const useGameStore = create<GameLogicType>()(
           };
         });
       },
-      updateRemainingEntity: () => {
+      updateRemainingEntities: () => {
         set((state) => {
           // Count the number of remaining alive entities for enemies
+
           const remainEnemiesCount = getAliveEntities(
             state.infoField.enemiesFrontRow.concat(
               state.infoField.enemiesBackRow ?? []

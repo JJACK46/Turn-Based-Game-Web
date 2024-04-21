@@ -4,9 +4,9 @@ export type Weapon = {
   id: number;
   name: string;
   type: WeaponEnum;
+  damageType: PowerEnum;
   level: number;
   powerValue: number;
-  damageType: PowerEnum;
 };
 
 // PowerEnum -> Physical / magical / hybrid

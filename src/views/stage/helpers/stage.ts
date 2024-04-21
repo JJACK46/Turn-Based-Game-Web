@@ -53,5 +53,5 @@ export const getUpdateEntityInRow = (props: {
 };
 
 export function updateRemainingEffect(entities: Entity[]): Entity[] {
-  return entities.map((entity) => entity.updateStatRemainingEffect());
+  return entities.map((entity) => entity.updateRemainingEffect());
 }

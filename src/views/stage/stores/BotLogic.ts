@@ -1,8 +1,8 @@
-import { Entity } from "@/classes/entity";
 import { TurnType, useGameStore } from "./gameStore";
 import { isEntityInEntities } from "../helpers/entity";
 import { useUIStore } from "./uiStore";
 import { BASE_DELAY_SKILL } from "@/utils/constants";
+import { Entity } from "@/classes/entity";
 
 const {
   methodsMark: { markEntityTakenAction },
@@ -30,8 +30,8 @@ const getMostAttackPowerEntityForBot = (
   let resultEntity: Entity | undefined = undefined;
   for (const entity of entities) {
     if (
-      entity.isAlive &&
       entity.attack.value > maxATK &&
+      entity.isAlive &&
       !isEntityInEntities(entity, entitiesTakenAction)
     ) {
       maxATK = entity.attack.value;

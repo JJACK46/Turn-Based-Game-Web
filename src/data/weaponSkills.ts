@@ -28,7 +28,7 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_0`,
         name: "triple charge",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
           id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.HUMAN}_1`,
@@ -40,7 +40,7 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_1`,
         name: "magic bird",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.MAGICAL,
         comboAble: {
           id: `${WeaponEnum.GUN}_${PlayableTraitEnum.HUMAN}_1`,
@@ -55,11 +55,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -67,11 +67,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -81,11 +81,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -93,11 +93,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -107,11 +107,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -119,11 +119,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -133,11 +133,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -145,11 +145,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -159,11 +159,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -171,11 +171,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -185,11 +185,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -197,11 +197,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -211,11 +211,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -223,11 +223,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -237,11 +237,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -249,11 +249,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -263,11 +263,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -275,11 +275,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -289,11 +289,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -301,11 +301,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -315,11 +315,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -327,11 +327,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -341,11 +341,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -353,11 +353,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -367,11 +367,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -379,11 +379,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -393,11 +393,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -405,11 +405,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -419,11 +419,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -431,11 +431,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -447,7 +447,7 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_0`,
         name: "triple charge",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
           id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.HUMAN}_1`,
@@ -459,7 +459,7 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_1`,
         name: "magic bird",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.MAGICAL,
         comboAble: {
           id: `${WeaponEnum.GUN}_${PlayableTraitEnum.HUMAN}_1`,
@@ -474,11 +474,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -486,11 +486,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -500,11 +500,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -512,11 +512,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -526,11 +526,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -538,11 +538,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -552,11 +552,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -564,11 +564,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -578,11 +578,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -590,11 +590,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -604,11 +604,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -616,11 +616,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -630,11 +630,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -642,11 +642,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -656,11 +656,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -668,11 +668,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -682,11 +682,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -694,11 +694,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -708,11 +708,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -720,11 +720,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -734,11 +734,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -746,11 +746,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -760,11 +760,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -772,11 +772,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -786,11 +786,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -798,11 +798,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -812,11 +812,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -824,11 +824,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -838,11 +838,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -850,11 +850,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -866,7 +866,7 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_0`,
         name: "triple charge",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
           id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.HUMAN}_1`,
@@ -878,7 +878,7 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_1`,
         name: "magic bird",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.MAGICAL,
         comboAble: {
           id: `${WeaponEnum.GUN}_${PlayableTraitEnum.HUMAN}_1`,
@@ -893,11 +893,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -905,11 +905,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -919,11 +919,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -931,11 +931,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -945,11 +945,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -957,11 +957,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -971,11 +971,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -983,11 +983,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -997,11 +997,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1009,11 +1009,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1023,11 +1023,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1035,11 +1035,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1049,11 +1049,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1061,11 +1061,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1075,11 +1075,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1087,11 +1087,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1101,11 +1101,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1113,11 +1113,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1127,11 +1127,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1139,11 +1139,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1153,11 +1153,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1165,11 +1165,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1179,11 +1179,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1191,11 +1191,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1205,11 +1205,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1217,11 +1217,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1231,11 +1231,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1243,11 +1243,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1257,11 +1257,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1269,23 +1269,23 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
       }),
     ],
   },
-  [WeaponEnum.DAGGER] : {
+  [WeaponEnum.DAGGER]: {
     [PlayableTraitEnum.HUMAN]: [
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_0`,
         name: "triple charge",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
           id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.HUMAN}_1`,
@@ -1297,7 +1297,7 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_1`,
         name: "magic bird",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.MAGICAL,
         comboAble: {
           id: `${WeaponEnum.GUN}_${PlayableTraitEnum.HUMAN}_1`,
@@ -1312,11 +1312,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1324,11 +1324,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1338,11 +1338,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1350,11 +1350,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1364,11 +1364,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1376,11 +1376,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1390,11 +1390,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1402,11 +1402,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1416,11 +1416,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1428,11 +1428,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1442,11 +1442,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1454,11 +1454,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1468,11 +1468,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1480,11 +1480,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1494,11 +1494,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1506,11 +1506,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1520,11 +1520,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1532,11 +1532,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1546,11 +1546,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1558,11 +1558,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1572,11 +1572,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1584,11 +1584,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1598,11 +1598,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1610,11 +1610,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1624,11 +1624,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1636,11 +1636,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1650,11 +1650,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1662,11 +1662,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1676,11 +1676,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1688,23 +1688,23 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
       }),
     ],
   },
-  [WeaponEnum.POLEARMS] : {
+  [WeaponEnum.POLEARMS]: {
     [PlayableTraitEnum.HUMAN]: [
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_0`,
         name: "triple charge",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
           id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.HUMAN}_1`,
@@ -1716,7 +1716,7 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_1`,
         name: "magic bird",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.MAGICAL,
         comboAble: {
           id: `${WeaponEnum.GUN}_${PlayableTraitEnum.HUMAN}_1`,
@@ -1731,11 +1731,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1743,11 +1743,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1757,11 +1757,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1769,11 +1769,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1783,11 +1783,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1795,11 +1795,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1809,11 +1809,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1821,11 +1821,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1835,11 +1835,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1847,11 +1847,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1861,11 +1861,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1873,11 +1873,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1887,11 +1887,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1899,11 +1899,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1913,11 +1913,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1925,11 +1925,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1939,11 +1939,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1951,11 +1951,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1965,11 +1965,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -1977,11 +1977,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -1991,11 +1991,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2003,11 +2003,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2017,11 +2017,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2029,11 +2029,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2043,11 +2043,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2055,11 +2055,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2069,11 +2069,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2081,11 +2081,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2095,11 +2095,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2107,23 +2107,23 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
       }),
     ],
   },
-  [WeaponEnum.SHIELD] : {
+  [WeaponEnum.SHIELD]: {
     [PlayableTraitEnum.HUMAN]: [
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_0`,
         name: "triple charge",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
           id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.HUMAN}_1`,
@@ -2135,7 +2135,7 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_1`,
         name: "magic bird",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.MAGICAL,
         comboAble: {
           id: `${WeaponEnum.GUN}_${PlayableTraitEnum.HUMAN}_1`,
@@ -2150,11 +2150,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2162,11 +2162,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2176,11 +2176,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2188,11 +2188,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2202,11 +2202,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2214,11 +2214,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2228,11 +2228,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2240,11 +2240,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2254,11 +2254,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2266,11 +2266,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2280,11 +2280,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2292,11 +2292,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2306,11 +2306,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2318,11 +2318,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2332,11 +2332,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2344,11 +2344,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2358,11 +2358,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2370,11 +2370,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2384,11 +2384,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2396,11 +2396,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2410,11 +2410,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2422,11 +2422,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2436,11 +2436,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2448,11 +2448,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2462,11 +2462,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2474,11 +2474,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2488,11 +2488,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2500,11 +2500,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2514,11 +2514,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2526,23 +2526,23 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
       }),
     ],
   },
-  [WeaponEnum.MAGIC_WAND] : {
+  [WeaponEnum.MAGIC_WAND]: {
     [PlayableTraitEnum.HUMAN]: [
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_0`,
         name: "triple charge",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
           id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.HUMAN}_1`,
@@ -2554,7 +2554,7 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_1`,
         name: "magic bird",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.MAGICAL,
         comboAble: {
           id: `${WeaponEnum.GUN}_${PlayableTraitEnum.HUMAN}_1`,
@@ -2569,11 +2569,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2581,11 +2581,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2595,11 +2595,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2607,11 +2607,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2621,11 +2621,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2633,11 +2633,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2647,11 +2647,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2659,11 +2659,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2673,11 +2673,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2685,11 +2685,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2699,11 +2699,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2711,11 +2711,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2725,11 +2725,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2737,11 +2737,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2751,11 +2751,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2763,11 +2763,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2777,11 +2777,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2789,11 +2789,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2803,11 +2803,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2815,11 +2815,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2829,11 +2829,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2841,11 +2841,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2855,11 +2855,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2867,11 +2867,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2881,11 +2881,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2893,11 +2893,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2907,11 +2907,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2919,11 +2919,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -2933,11 +2933,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -2945,23 +2945,23 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
       }),
     ],
   },
-  [WeaponEnum.HEALING_STAFF] : {
+  [WeaponEnum.HEALING_STAFF]: {
     [PlayableTraitEnum.HUMAN]: [
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_0`,
         name: "triple charge",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
           id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.HUMAN}_1`,
@@ -2973,7 +2973,7 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.HUMAN}_1`,
         name: "magic bird",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.MAGICAL,
         comboAble: {
           id: `${WeaponEnum.GUN}_${PlayableTraitEnum.HUMAN}_1`,
@@ -2988,11 +2988,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3000,11 +3000,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -3014,11 +3014,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3026,11 +3026,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.AUTOMATION}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -3040,11 +3040,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3052,11 +3052,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ANGEL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -3066,11 +3066,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3078,11 +3078,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.BIG_CREATURE}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -3092,11 +3092,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3104,11 +3104,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.CYBORG}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -3118,11 +3118,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3130,11 +3130,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.DEMON}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -3144,11 +3144,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3156,11 +3156,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ELF}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -3170,11 +3170,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3182,11 +3182,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.GOBLIN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -3196,11 +3196,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3208,11 +3208,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INHUMAN}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -3222,11 +3222,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3234,11 +3234,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.INSECT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -3248,11 +3248,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3260,11 +3260,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_ANIMAL}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -3274,11 +3274,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3286,11 +3286,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.MAGIC_GOLEM}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -3300,11 +3300,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3312,11 +3312,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.ORC}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -3326,11 +3326,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3338,11 +3338,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.SPIRIT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,
@@ -3352,11 +3352,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_0`,
         name: "piercing",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.SWORD}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.5,
         requiredEnergy: 8,
@@ -3364,11 +3364,11 @@ export const WeaponSkillSet: {
       new Skill({
         id: `${WeaponEnum.BOW}_${PlayableTraitEnum.UNARMED_ROBOT}_1`,
         name: "detonation",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         comboAble: {
-          id:`${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
-          skill:ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0]
+          id: `${WeaponEnum.GUN}_${PlayableTraitEnum.ARMED_ROBOT}_1`,
+          skill: ComboSkillSet[WeaponEnum.BOW][PlayableTraitEnum.HUMAN][0],
         },
         emitValueMultiply: 1.8,
         requiredEnergy: 10,

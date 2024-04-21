@@ -1,12 +1,12 @@
-import { PowerEnum } from "@/data/enums/powers";
-import { Entity } from "./entity";
 import { EmitTypeEnum } from "@/data/enums/actions";
-import { BASE_DAMAGE_REDUCTION } from "@/utils/constants";
+import { PowerEnum } from "@/data/enums/powers";
 import {
   EffectSkillEnum,
-  listDefaultEffectSkill as listDefaultEffectSkill,
+  listDefaultEffectSkill,
 } from "@/data/enums/effectSkills";
+import { BASE_DAMAGE_REDUCTION } from "@/utils/constants";
 import { EffectSkill } from "./effect";
+import { Entity } from "./entity";
 
 type ResultAffectSingle = {
   updatedSource: Entity;
@@ -35,7 +35,7 @@ export class Skill {
   power: PowerEnum;
   repeat: number;
   randomTarget: boolean;
-  type: EmitTypeEnum;
+  emitType: EmitTypeEnum;
   emitValueMultiply: number;
   soundPath?: string;
   specialToTargetMethod?:
@@ -49,7 +49,7 @@ export class Skill {
   constructor({
     id,
     name,
-    type,
+    emitType,
     emitValueMultiply,
     describe,
     requiredEnergy,
@@ -65,7 +65,7 @@ export class Skill {
   }: {
     id?: string;
     name: string;
-    type: EmitTypeEnum;
+    emitType: EmitTypeEnum;
     emitValueMultiply: number;
     duration?: number;
     describe?: string;
@@ -86,7 +86,7 @@ export class Skill {
   }) {
     this.id = id;
     this.name = name;
-    this.type = type;
+    this.emitType = emitType;
     this.emitValueMultiply = emitValueMultiply;
     this.describe = describe;
     this.requiredEnergy = requiredEnergy ?? -1;
@@ -107,21 +107,21 @@ export class Skill {
       EmitTypeEnum.ATTACK_AOE,
       EmitTypeEnum.DE_BUFF,
     ];
-    return attacks.includes(this.type);
+    return attacks.includes(this.emitType);
   }
 
   get isDefendSkill(): boolean {
     const defs = [EmitTypeEnum.DEFEND, EmitTypeEnum.DEFEND_AOE];
-    return defs.includes(this.type);
+    return defs.includes(this.emitType);
   }
 
   get isHealSkill(): boolean {
     const heals = [EmitTypeEnum.HEALING, EmitTypeEnum.HEALING_AOE];
-    return heals.includes(this.type);
+    return heals.includes(this.emitType);
   }
 
   get isAttackAOE() {
-    return this.type === EmitTypeEnum.ATTACK_AOE;
+    return this.emitType === EmitTypeEnum.ATTACK_AOE;
   }
 
   get requiredTotalManaOrEnergy() {
@@ -136,7 +136,7 @@ export class Skill {
     targetEntity: Entity;
   }): ResultAffectSingle {
     const { sourceEntity: source, targetEntity: target } = props;
-    const blockedDamage = BASE_DAMAGE_REDUCTION * (target.defend.value ?? 1);
+    const blockedDamage = BASE_DAMAGE_REDUCTION * (target.defense.value ?? 1);
     const evasion = target.evasion;
     const randomValue = Math.random();
     let missed = false;
@@ -215,7 +215,10 @@ export class Skill {
     const defaultBuffAndDeBuff = (): ResultAffectSingle => {
       const effect = this.effectSkill;
       if (effect) {
-        effect.emitValueMultiplier = this.emitValueMultiply;
+        //if this skill has emit use this instead effect
+        if (this.emitValueMultiply > 0) {
+          effect.emitValueMultiplier = this.emitValueMultiply;
+        }
         target.applyEffectSkills({ ...effect });
       }
 
@@ -229,7 +232,7 @@ export class Skill {
       };
     };
 
-    switch (this.type) {
+    switch (this.emitType) {
       case EmitTypeEnum.ATTACK:
         result = defaultAttack();
         break;
@@ -265,7 +268,7 @@ export class Skill {
     };
 
     let result;
-    switch (this.type) {
+    switch (this.emitType) {
       case EmitTypeEnum.DEFEND:
         result = defaultDefendSelfMethod();
         break;
@@ -298,7 +301,7 @@ export class Skill {
         }
 
         const blockedDamage =
-          BASE_DAMAGE_REDUCTION * targets[targetIndex].defend.value;
+          BASE_DAMAGE_REDUCTION * targets[targetIndex].defense.value;
 
         const evasion = targets[targetIndex].evasion;
         const randomValue = Math.random();
@@ -309,7 +312,7 @@ export class Skill {
         targets[targetIndex].health.value -= resultDamage;
       } else {
         for (const target of targets) {
-          const blockedDamage = BASE_DAMAGE_REDUCTION * target.defend.value;
+          const blockedDamage = BASE_DAMAGE_REDUCTION * target.defense.value;
           const evasion = target.evasion;
           const randomValue = Math.random();
 
@@ -341,7 +344,7 @@ export class Skill {
       };
     };
 
-    switch (this.type) {
+    switch (this.emitType) {
       case EmitTypeEnum.ATTACK_AOE:
         result = defaultAttackAOEMethod();
         break;

@@ -1,12 +1,12 @@
 import { Armor } from "@/classes/armor";
-import { EntityType } from "@/classes/entity";
 import { Weapon } from "@/classes/weapon";
 import { MapData } from "./map";
+import { Entity } from "@/classes/entity";
 
 export type WorldData = {
   id: string;
-  entities: EntityType[];
-  boss: EntityType | null;
+  entities: Entity[];
+  boss: Entity | null;
   dropItems: (Weapon | Armor)[];
   maps: MapData[];
   title: string;

@@ -1,9 +1,9 @@
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
-import { useGameStore } from "../../stores/gameStore";
-import { useUIStore } from "../../stores/uiStore";
+import { useGameStore } from "../../../stores/gameStore";
+import { useUIStore } from "../../../stores/uiStore";
 import { Skill } from "@/classes/skills";
 
-function CardInfo() {
+function InfoPopup() {
   const { setInfoOverlay } = useUIStore();
   const {
     infoIndicator: { currentEntity: currentEntityData },
@@ -47,9 +47,9 @@ function CardInfo() {
                 <p className="font-mono text-lg w-1/2">
                   {currentEntityData?.attack.value}
                 </p>
-                <p className="font-mono text-lg w-1/2">Defence</p>
+                <p className="font-mono text-lg w-1/2">Defense</p>
                 <p className="font-mono text-lg w-1/2">
-                  {currentEntityData?.defend.value ?? 0}
+                  {currentEntityData?.defense.value ?? 0}
                 </p>
                 <p className="font-mono text-lg w-1/2">Speed</p>
                 <p className="font-mono text-lg w-1/2">
@@ -69,7 +69,7 @@ function CardInfo() {
                     className="flex flex-col justify-center items-center w-1/4 text-center py-3 border-2 border-red-600"
                   >
                     <h3>{skill.name}</h3>
-                    <p>{skill.type}</p>
+                    <p>{skill.emitType}</p>
                     <p>{skill.emitValueMultiply}x</p>
                     <p>MP/EP: {skill.requiredEnergy ?? skill.requiredMana}</p>
                   </div>
@@ -83,4 +83,4 @@ function CardInfo() {
   );
 }
 
-export default CardInfo;
+export default InfoPopup;

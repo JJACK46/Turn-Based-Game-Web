@@ -4,7 +4,13 @@ import { EmitTypeEnum } from "./enums/actions";
 import { PowerEnum } from "./enums/powers";
 import { Skill } from "@/classes/skills";
 import { PositionEnum } from "./enums/positions";
+import { ActiveSkillsEnum, listDefaultActiveSkill } from "./enums/activeSkills";
 import { Entity } from "@/classes/entity";
+
+const normalHitPhysical =
+  listDefaultActiveSkill[ActiveSkillsEnum.NORMAL_HIT_PHYSICAL];
+const normalHitMagical =
+  listDefaultActiveSkill[ActiveSkillsEnum.NORMAL_HIT_MAGICAL];
 
 export const EntitiesData: Entity[] = [
   new Entity({
@@ -14,17 +20,10 @@ export const EntitiesData: Entity[] = [
     level: 1,
     attack: { value: 3, max: 3 },
     health: { value: 10, max: 10 },
-    defend: { value: 0, max: 0 },
+    defense: { value: 0, max: 0 },
     skills: {
       traitSkill: listTraitSkill[TraitEnum.INHUMAN],
-      normalHitSkill: new Skill({
-        name: "Normal Attack",
-        requiredMana: 0,
-        emitValueMultiply: 1,
-        type: EmitTypeEnum.ATTACK,
-        power: PowerEnum.PHYSICAL,
-        requiredEnergy: 0,
-      }),
+      normalHitSkill: normalHitPhysical,
     },
     status: StatusEnum.NORMAL,
     speed: 3,
@@ -39,18 +38,11 @@ export const EntitiesData: Entity[] = [
     level: 1,
     attack: { value: 30, max: 30 },
     health: { value: 30, max: 30 },
-    defend: { value: 0, max: 0 },
+    defense: { value: 0, max: 0 },
     status: StatusEnum.NORMAL,
     skills: {
       traitSkill: listTraitSkill[TraitEnum.BIG_CREATURE],
-      normalHitSkill: new Skill({
-        name: "Normal Attack",
-        requiredMana: 0,
-        emitValueMultiply: 1,
-        type: EmitTypeEnum.ATTACK,
-        power: PowerEnum.PHYSICAL,
-        requiredEnergy: 0,
-      }),
+      normalHitSkill: normalHitPhysical,
     },
     speed: 6,
     trait: TraitEnum.BIG_CREATURE,
@@ -65,16 +57,9 @@ export const EntitiesData: Entity[] = [
     attack: { value: 10, max: 10 },
     capacity: { mana: { value: 10, max: 10, restore: 5 } },
     health: { value: 30, max: 30 },
-    defend: { value: 0, max: 0 },
+    defense: { value: 0, max: 0 },
     skills: {
-      normalHitSkill: new Skill({
-        name: "Normal Attack",
-        requiredMana: 0,
-        emitValueMultiply: 1,
-        type: EmitTypeEnum.ATTACK,
-        power: PowerEnum.PHYSICAL,
-        requiredEnergy: 0,
-      }),
+      normalHitSkill: normalHitPhysical,
       traitSkill: listTraitSkill[TraitEnum.ORC],
     },
     status: StatusEnum.NORMAL,
@@ -90,17 +75,10 @@ export const EntitiesData: Entity[] = [
     level: 1,
     attack: { value: 10, max: 10 },
     capacity: { mana: { value: 10, max: 10, restore: 5 } },
-    defend: { value: 10, max: 10 },
+    defense: { value: 10, max: 10 },
     health: { value: 40, max: 40 },
     skills: {
-      normalHitSkill: new Skill({
-        name: "Normal Attack",
-        requiredMana: 0,
-        emitValueMultiply: 1,
-        type: EmitTypeEnum.ATTACK,
-        power: PowerEnum.PHYSICAL,
-        requiredEnergy: 0,
-      }),
+      normalHitSkill: normalHitPhysical,
       traitSkill: listTraitSkill[TraitEnum.DEMON],
     },
     status: StatusEnum.NORMAL,
@@ -116,18 +94,11 @@ export const EntitiesData: Entity[] = [
     level: 1,
     attack: { value: 5, max: 5 },
     capacity: { mana: { value: 10, max: 10, restore: 5 } },
-    defend: { value: 0, max: 0 },
+    defense: { value: 0, max: 0 },
     health: { value: 20, max: 20 },
     skills: {
       traitSkill: listTraitSkill[TraitEnum.MAGIC_ANIMAL],
-      normalHitSkill: new Skill({
-        name: "Normal Attack",
-        requiredMana: 0,
-        emitValueMultiply: 1,
-        type: EmitTypeEnum.ATTACK,
-        power: PowerEnum.PHYSICAL,
-        requiredEnergy: 0,
-      }),
+      normalHitSkill: normalHitMagical,
     },
     status: StatusEnum.NORMAL,
     speed: 12,
@@ -142,14 +113,14 @@ export const EntitiesData: Entity[] = [
     level: 1,
     attack: { value: 10, max: 10 },
     capacity: { mana: { value: 20, max: 20, restore: 5 } },
-    defend: { value: 0, max: 0 },
+    defense: { value: 0, max: 0 },
     health: { value: 20, max: 20 },
     skills: {
       normalHitSkill: new Skill({
         name: "Normal Attack",
         requiredMana: 0,
         emitValueMultiply: 1,
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         requiredEnergy: 0,
         soundPath: "/sounds/sfx/fireball-whoosh-1.mp3",
@@ -169,7 +140,7 @@ export const EntitiesData: Entity[] = [
     level: 1,
     attack: { value: 10, max: 10 },
     health: { value: 30, max: 30 },
-    defend: { value: 10, max: 10 },
+    defense: { value: 10, max: 10 },
     capacity: { energy: { value: 20, max: 20, restore: 5 } },
     skills: {
       traitSkill: listTraitSkill[TraitEnum.ARMED_ROBOT],
@@ -177,7 +148,7 @@ export const EntitiesData: Entity[] = [
         name: "Normal Attack",
         requiredMana: 0,
         emitValueMultiply: 1,
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         requiredEnergy: 0,
         soundPath: "sounds/sfx/gun_burst_firing.mp3",
@@ -197,14 +168,14 @@ export const EntitiesData: Entity[] = [
     attack: { value: 5, max: 5 },
     capacity: { energy: { value: 25, max: 25, restore: 5 } },
     health: { value: 30, max: 30 },
-    defend: { value: 0, max: 0 },
+    defense: { value: 0, max: 0 },
     skills: {
       traitSkill: listTraitSkill[TraitEnum.HUMAN],
       normalHitSkill: new Skill({
         name: "Normal Attack",
         requiredMana: 0,
         emitValueMultiply: 1,
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.PHYSICAL,
         requiredEnergy: 0,
         soundPath: "/sounds/sfx/punch.mp3",
@@ -224,15 +195,13 @@ export const EntitiesData: Entity[] = [
     attack: { value: 15, max: 15 },
     capacity: { energy: { value: 15, max: 15, restore: 5 } },
     health: { value: 20, max: 20 },
-    defend: { value: 0, max: 0 },
+    defense: { value: 0, max: 0 },
     skills: {
       traitSkill: listTraitSkill[TraitEnum.HUMAN],
 
       normalHitSkill: new Skill({
         name: "Normal Attack",
-        requiredMana: -1,
-        requiredEnergy: 0,
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         emitValueMultiply: 1,
         power: PowerEnum.PHYSICAL,
         soundPath: "/sounds/sfx/sniper-shoot.wav",
@@ -253,14 +222,14 @@ export const EntitiesData: Entity[] = [
     attack: { value: 15, max: 15 },
     capacity: { mana: { value: 30, max: 30, restore: 5 } },
     health: { value: 10, max: 10 },
-    defend: { value: 0, max: 0 },
+    defense: { value: 0, max: 0 },
     skills: {
       traitSkill: listTraitSkill[TraitEnum.ELF],
       normalHitSkill: new Skill({
         name: "Normal Attack",
         requiredMana: -1,
         requiredEnergy: 0,
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         power: PowerEnum.MAGICAL,
         emitValueMultiply: 1,
       }),
@@ -278,13 +247,13 @@ export const EntitiesData: Entity[] = [
     level: 1,
     attack: { value: 12, max: 12 },
     capacity: { mana: { value: 30, max: 30, restore: 5 } },
-    defend: { value: 0, max: 0 },
+    defense: { value: 0, max: 0 },
     health: { value: 30, max: 30 },
     skills: {
       traitSkill: listTraitSkill[TraitEnum.DEMON],
       normalHitSkill: new Skill({
         name: "Normal Attack",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         emitValueMultiply: 1,
         power: PowerEnum.MAGICAL,
         soundPath: "/sounds/sfx/sword-attack.wav",
@@ -303,14 +272,14 @@ export const EntitiesData: Entity[] = [
     level: 1,
     attack: { value: 3, max: 3 },
     capacity: { energy: { value: 40, max: 40, restore: 5 } },
-    defend: { value: 20, max: 20 },
+    defense: { value: 20, max: 20 },
     health: { value: 40, max: 40 },
     skills: {
       traitSkill: listTraitSkill[TraitEnum.UNARMED_ROBOT],
 
       normalHitSkill: new Skill({
         name: "Normal Attack",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         emitValueMultiply: 1,
         power: PowerEnum.PHYSICAL,
         soundPath: "/sounds/sfx/punch.mp3",
@@ -332,12 +301,12 @@ export const EntitiesData: Entity[] = [
       mana: { value: 40, max: 40, restore: 5 },
       energy: { value: 30, max: 30, restore: 10 },
     },
-    defend: { value: 50, max: 50 },
+    defense: { value: 50, max: 50 },
     health: { value: 200, max: 200 },
     skills: {
       normalHitSkill: new Skill({
         name: "Normal Attack",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         emitValueMultiply: 1,
         power: PowerEnum.HYBRID,
       }),
@@ -356,12 +325,12 @@ export const EntitiesData: Entity[] = [
     level: 1,
     attack: { value: 40, max: 40 },
     capacity: { energy: { value: 50, max: 50, restore: 10 } },
-    defend: { value: 150, max: 150 },
+    defense: { value: 150, max: 150 },
     health: { value: 150, max: 150 },
     skills: {
       normalHitSkill: new Skill({
         name: "Normal Attack",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         emitValueMultiply: 1,
         power: PowerEnum.PHYSICAL,
       }),
@@ -380,13 +349,13 @@ export const EntitiesData: Entity[] = [
     level: 1,
     attack: { value: 40, max: 40 },
     capacity: { mana: { value: 80, max: 80, restore: 10 } },
-    defend: { value: 20, max: 20 },
+    defense: { value: 20, max: 20 },
     health: { value: 120, max: 120 },
     skills: {
       traitSkill: listTraitSkill[TraitEnum.BOSS_VEXARIA],
       normalHitSkill: new Skill({
         name: "Normal Attack",
-        type: EmitTypeEnum.ATTACK,
+        emitType: EmitTypeEnum.ATTACK,
         emitValueMultiply: 1,
         power: PowerEnum.MAGICAL,
       }),
@@ -402,19 +371,14 @@ export const EntitiesData: Entity[] = [
     name: "DEBUG",
     imageUrl: "the_eternity.jpeg",
     level: 1,
-    attack: { value: 999, max: 999 },
+    attack: { value: 10, max: 10 },
     capacity: { mana: { value: 99, max: 99, restore: 33 } },
-    defend: { value: 999, max: 999 },
+    defense: { value: 999, max: 999 },
     health: { value: 999, max: 999 },
     skills: {
       equipmentSkills: [listTraitSkill[TraitEnum.BIG_CREATURE]],
       traitSkill: listTraitSkill[TraitEnum.UNKNOWN],
-      normalHitSkill: new Skill({
-        name: "Normal Attack",
-        type: EmitTypeEnum.ATTACK,
-        emitValueMultiply: 1,
-        power: PowerEnum.MAGICAL,
-      }),
+      normalHitSkill: listTraitSkill[TraitEnum.INSECT],
     },
     status: StatusEnum.NORMAL,
     speed: 99,

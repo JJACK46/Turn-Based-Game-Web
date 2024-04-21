@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { Entity } from "../../../../classes/entity";
 import { convertNumberToPercentage, getColorByHp } from "../../helpers/styles";
-
 import { BASE_DELAY_SKILL, BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
 import { useUIStore } from "../../stores/uiStore";
 import { isEntityInEntities } from "../../helpers/entity";
@@ -9,6 +7,9 @@ import atkSymbol from "@/assets/svgs/sword-symbol.svg";
 import defSymbol from "@/assets/svgs/shield-symbol.svg";
 import { useGameStore } from "../../stores/gameStore";
 import { PositionEnum } from "@/data/enums/positions";
+import { CardOverlayFX } from "./CardOverlayFX";
+import { CardBackgroundFX } from "./CardBackgroundFX";
+import { Entity } from "@/classes/entity";
 
 const Card = (props: { instance: Entity }) => {
   const { instance } = props;
@@ -56,8 +57,6 @@ const Card = (props: { instance: Entity }) => {
     return isEntityInEntities(instance, infoMarkedEntities.takenAction);
   };
 
-  const [currentHP, setCurrentHP] = useState(instance.health.max);
-
   function handleActionStyle() {
     if (currentEntity === instance) {
       return "0px 0px 40px 0px #0ff";
@@ -66,15 +65,6 @@ const Card = (props: { instance: Entity }) => {
       return "0px 0px 40px 0px red";
     }
     return "";
-  }
-
-  function handleAttackedStyle() {
-    if (instance.health.value < currentHP) {
-      setTimeout(() => {
-        setCurrentHP(instance.health.value);
-      }, 150);
-      return "opacity-75 scale-95";
-    }
   }
 
   function handleSkill() {
@@ -211,23 +201,10 @@ const Card = (props: { instance: Entity }) => {
           }
         }}
       >
-        <div
-          rel="card-bg"
-          className={`relative p-2 rounded-lg transition  ${
-            instance.hasOverDefend ? "animate-shimmerBuffDef" : ""
-          }
-          ${handleAttackedStyle()} 
-         `}
-        >
+        <CardBackgroundFX entity={instance}>
+          <CardOverlayFX entity={instance} />
           <div
-            rel="card-warper"
-            className={`z-10 absolute inset-0 rounded-lg ${
-              !instance.isCanAction ? "animate-shimmerStun opacity-35" : ""
-            } size-full`}
-          ></div>
-          <div
-            rel="card"
-            className={`w-24 h-fit rounded-md items-center hover:scale-110 hover:w-32 justify-around border transition overflow-hidden
+            className={`w-24 h-fit rounded-md items-center justify-around border transition overflow-hidden
             ${wasAction() ? "border-transparent" : ""}
              ${instance.isBoss ? "bg-black" : "bg-slate-800"}
             `}
@@ -242,10 +219,10 @@ const Card = (props: { instance: Entity }) => {
                   <p
                     key={index}
                     className={`only:text-xs italic capitalize font-medium ${
-                      s.canAction ? "text-cyan-500" : "text-violet-700"
+                      s.isNegative ? "text-red-800" : "text-cyan-500"
                     }  w-fit rounded-full px-1`}
                   >
-                    {s.name}
+                    {s.name}: {s.duration}
                   </p>
                 ))}
               </div>
@@ -265,16 +242,18 @@ const Card = (props: { instance: Entity }) => {
               draggable={false}
             />
             <hr />
-            <div className="w-full relative bg-white/20 ">
+            <div className="w-full relative bg-white/20">
               <div
                 rel="HP bar"
-                className="text-xs font-medium text-center"
+                className="text-xs font-medium text-center h-4 overflow-hidden"
                 style={{
                   backgroundColor: getColorByHp(strCurrentHP),
                   width: strCurrentHP,
                 }}
               >
-                {strCurrentHP}
+                <div className="absolute inset-0 flex items-center justify-center w-full">
+                  <p>{strCurrentHP}</p>
+                </div>
               </div>
             </div>
             {instance.isUseHybrid && (
@@ -301,10 +280,12 @@ const Card = (props: { instance: Entity }) => {
               <div className={`w-full relative bg-white/20 overflow-hidden`}>
                 <div
                   rel="MP bar"
-                  className={`text-xs font-medium text-center rounded-es-md rounded-ee-md leading-none bg-blue-900`}
+                  className={`text-xs font-medium text-center rounded-es-md rounded-ee-md leading-none bg-blue-900 h-4`}
                   style={{ width: strCurrentMP }}
                 >
-                  {strCurrentMP}
+                  <div className="absolute inset-0 flex items-center justify-center w-full">
+                    <p>{strCurrentMP}</p>
+                  </div>
                 </div>
               </div>
             )}
@@ -312,10 +293,12 @@ const Card = (props: { instance: Entity }) => {
               <div className="w-full relative overflow-hidden bg-white/20">
                 <div
                   rel="EP bar"
-                  className="text-xs font-medium text-center rounded-es-md rounded-ee-md leading-none bg-violet-900 "
+                  className="text-xs font-medium text-center rounded-es-md rounded-ee-md leading-none bg-violet-900 h-4"
                   style={{ width: strCurrentEP }}
                 >
-                  {strCurrentEP}
+                  <div className="absolute inset-0 flex items-center justify-center w-full">
+                    <p>{strCurrentEP}</p>
+                  </div>
                 </div>
               </div>
             )}
@@ -339,7 +322,7 @@ const Card = (props: { instance: Entity }) => {
                   </p>
                 )}
                 {instance.evasion > 0 && <p>EV: {instance.evasion * 100}%</p>}
-                {instance.defend.value > 0 && (
+                {instance.defense.value > 0 && (
                   <p
                     className={`${
                       instance.getDifferentValueFromInitial({ stat: "def" }) > 0
@@ -348,7 +331,7 @@ const Card = (props: { instance: Entity }) => {
                     }`}
                   >
                     {`DEF`}:{" "}
-                    {`${instance.defend.value} ${
+                    {`${instance.defense.value} ${
                       instance.getDifferentValueFromInitial({ stat: "def" }) > 0
                         ? `(+${instance.getDifferentValueFromInitial({
                             stat: "def",
@@ -360,7 +343,7 @@ const Card = (props: { instance: Entity }) => {
               </div>
             )}
           </div>
-        </div>
+        </CardBackgroundFX>
         {isHoveredCard && (
           <p className="text-xs p-2">Index: {instance.index}</p>
         )}

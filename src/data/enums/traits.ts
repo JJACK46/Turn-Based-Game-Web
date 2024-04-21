@@ -1,7 +1,7 @@
-import { Skill } from "@/classes/skills";
 import { EmitTypeEnum } from "./actions";
 import { PowerEnum } from "./powers";
 import { EffectSkillEnum, listDefaultEffectSkill } from "./effectSkills";
+import { Skill } from "@/classes/skills";
 
 export enum TraitEnum {
   //earth aprilX
@@ -32,21 +32,21 @@ export enum TraitEnum {
 
 export enum PlayableTraitEnum {
   HUMAN = TraitEnum.HUMAN,
-  INSECT = TraitEnum.INSECT ,
-  SPIRIT = TraitEnum.SPIRIT ,
-  INHUMAN = TraitEnum.INHUMAN ,
-  BIG_CREATURE = TraitEnum.BIG_CREATURE ,
-  ARMED_ROBOT = TraitEnum.ARMED_ROBOT ,
-  UNARMED_ROBOT =  TraitEnum.UNARMED_ROBOT ,
-  CYBORG = TraitEnum.CYBORG ,
-  AUTOMATION = TraitEnum.AUTOMATION ,
-  GOBLIN = TraitEnum.GOBLIN ,
-  ELF = TraitEnum.ELF ,
-  ORC = TraitEnum.ORC ,
-  DEMON = TraitEnum.DEMON ,
-  ANGEL = TraitEnum.ANGEL ,
-  MAGIC_ANIMAL = TraitEnum.MAGIC_ANIMAL ,
-  MAGIC_GOLEM = TraitEnum.MAGIC_GOLEM ,
+  INSECT = TraitEnum.INSECT,
+  SPIRIT = TraitEnum.SPIRIT,
+  INHUMAN = TraitEnum.INHUMAN,
+  BIG_CREATURE = TraitEnum.BIG_CREATURE,
+  ARMED_ROBOT = TraitEnum.ARMED_ROBOT,
+  UNARMED_ROBOT = TraitEnum.UNARMED_ROBOT,
+  CYBORG = TraitEnum.CYBORG,
+  AUTOMATION = TraitEnum.AUTOMATION,
+  GOBLIN = TraitEnum.GOBLIN,
+  ELF = TraitEnum.ELF,
+  ORC = TraitEnum.ORC,
+  DEMON = TraitEnum.DEMON,
+  ANGEL = TraitEnum.ANGEL,
+  MAGIC_ANIMAL = TraitEnum.MAGIC_ANIMAL,
+  MAGIC_GOLEM = TraitEnum.MAGIC_GOLEM,
 }
 
 export const isBoss = (trait: TraitEnum): boolean => {
@@ -59,24 +59,24 @@ export const isBoss = (trait: TraitEnum): boolean => {
 
 export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   [TraitEnum.HUMAN]: new Skill({
-    name: "Humanity",
+    name: "Never gonna give you up",
     requiredEnergy: 10,
-    type: EmitTypeEnum.HEALING,
+    emitType: EmitTypeEnum.BUFF,
     power: PowerEnum.PHYSICAL,
-    emitValueMultiply: 0.4,
-    duration: 0,
+    emitValueMultiply: 1,
+    effectSkill: listDefaultEffectSkill[EffectSkillEnum.ENHANCE_HEALTH],
   }),
   [TraitEnum.INSECT]: new Skill({
-    name: "poison",
-    type: EmitTypeEnum.ATTACK,
+    name: "insect poison",
+    emitType: EmitTypeEnum.DE_BUFF,
     requiredEnergy: 10,
-    emitValueMultiply: 1.1,
+    emitValueMultiply: 0,
     power: PowerEnum.PHYSICAL,
-    duration: 2,
+    effectSkill: listDefaultEffectSkill[EffectSkillEnum.POISON],
   }),
   [TraitEnum.SPIRIT]: new Skill({
     name: "fear",
-    type: EmitTypeEnum.ATTACK,
+    emitType: EmitTypeEnum.ATTACK,
     requiredEnergy: 10,
     emitValueMultiply: -1,
     power: PowerEnum.MAGICAL,
@@ -84,7 +84,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   }),
   [TraitEnum.BIG_CREATURE]: new Skill({
     name: "stomped",
-    type: EmitTypeEnum.DE_BUFF,
+    emitType: EmitTypeEnum.DE_BUFF,
     requiredEnergy: 10,
     emitValueMultiply: 0,
     power: PowerEnum.PHYSICAL,
@@ -92,7 +92,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   }),
   [TraitEnum.ARMED_ROBOT]: new Skill({
     name: "Missile Rain",
-    type: EmitTypeEnum.ATTACK_AOE,
+    emitType: EmitTypeEnum.ATTACK_AOE,
     requiredEnergy: 2,
     emitValueMultiply: 0.2,
     power: PowerEnum.PHYSICAL,
@@ -102,7 +102,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   }),
   [TraitEnum.UNARMED_ROBOT]: new Skill({
     name: "Untouchable",
-    type: EmitTypeEnum.DEFEND,
+    emitType: EmitTypeEnum.DEFEND,
     requiredEnergy: 30,
     emitValueMultiply: 10,
     power: PowerEnum.PHYSICAL,
@@ -110,15 +110,15 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   }),
   [TraitEnum.CYBORG]: new Skill({
     name: "shield up",
-    type: EmitTypeEnum.DEFEND,
+    emitType: EmitTypeEnum.DEFEND,
     requiredEnergy: 10,
-    emitValueMultiply: 1,
+    emitValueMultiply: 0.7,
     power: PowerEnum.PHYSICAL,
     duration: 1,
   }),
   [TraitEnum.AUTOMATION]: new Skill({
     name: "self repair",
-    type: EmitTypeEnum.HEALING,
+    emitType: EmitTypeEnum.HEALING,
     requiredEnergy: 10,
     emitValueMultiply: 1,
     power: PowerEnum.PHYSICAL,
@@ -126,7 +126,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   }),
   [TraitEnum.GOBLIN]: new Skill({
     name: "",
-    type: EmitTypeEnum.ATTACK,
+    emitType: EmitTypeEnum.ATTACK,
     requiredEnergy: 0,
     requiredMana: 10,
     emitValueMultiply: 1,
@@ -135,7 +135,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   }),
   [TraitEnum.ELF]: new Skill({
     name: "",
-    type: EmitTypeEnum.ATTACK,
+    emitType: EmitTypeEnum.ATTACK,
     requiredMana: 10,
     emitValueMultiply: 1,
     power: PowerEnum.MAGICAL,
@@ -143,7 +143,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   }),
   [TraitEnum.ORC]: new Skill({
     name: "",
-    type: EmitTypeEnum.ATTACK,
+    emitType: EmitTypeEnum.ATTACK,
     requiredMana: 10,
     emitValueMultiply: 1,
     power: PowerEnum.PHYSICAL,
@@ -151,14 +151,14 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   }),
   [TraitEnum.DEMON]: new Skill({
     name: "Soulflame Burst",
-    type: EmitTypeEnum.ATTACK_AOE,
+    emitType: EmitTypeEnum.ATTACK_AOE,
     requiredMana: 20,
     emitValueMultiply: 0.5,
     power: PowerEnum.MAGICAL,
   }),
   [TraitEnum.ANGEL]: new Skill({
     name: "",
-    type: EmitTypeEnum.ATTACK,
+    emitType: EmitTypeEnum.ATTACK,
     requiredEnergy: 0,
     requiredMana: 10,
     emitValueMultiply: 1,
@@ -167,7 +167,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   }),
   [TraitEnum.MAGIC_GOLEM]: new Skill({
     name: "",
-    type: EmitTypeEnum.ATTACK,
+    emitType: EmitTypeEnum.ATTACK,
     requiredEnergy: 0,
     requiredMana: 10,
     emitValueMultiply: 1,
@@ -176,7 +176,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   }),
   [TraitEnum.UNKNOWN]: new Skill({
     name: "",
-    type: EmitTypeEnum.ATTACK,
+    emitType: EmitTypeEnum.ATTACK,
     requiredEnergy: 0,
     requiredMana: 10,
     emitValueMultiply: 1,
@@ -185,7 +185,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   }),
   [TraitEnum.INHUMAN]: new Skill({
     name: "",
-    type: EmitTypeEnum.ATTACK,
+    emitType: EmitTypeEnum.ATTACK,
     requiredEnergy: 0,
     requiredMana: 10,
     emitValueMultiply: 1,
@@ -194,7 +194,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   }),
   [TraitEnum.MAGIC_ANIMAL]: new Skill({
     name: "",
-    type: EmitTypeEnum.ATTACK,
+    emitType: EmitTypeEnum.ATTACK,
     requiredEnergy: 0,
     requiredMana: 10,
     emitValueMultiply: 1,
@@ -205,7 +205,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     name: "World's Corruption",
     requiredMana: 40 / 20,
     requiredEnergy: 40 / 20,
-    type: EmitTypeEnum.ATTACK_AOE,
+    emitType: EmitTypeEnum.ATTACK_AOE,
     power: PowerEnum.HYBRID,
     emitValueMultiply: 0.5,
     repeat: 5,
@@ -216,7 +216,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     name: "Artificial Perfection",
     requiredMana: -1,
     requiredEnergy: 80,
-    type: EmitTypeEnum.DEFEND,
+    emitType: EmitTypeEnum.DEFEND,
     power: PowerEnum.PHYSICAL,
     emitValueMultiply: 0.2,
     duration: 0,
@@ -225,7 +225,7 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     name: "Dark Manipulation",
     requiredMana: 80,
     requiredEnergy: -1,
-    type: EmitTypeEnum.RESTORE,
+    emitType: EmitTypeEnum.RESTORE,
     power: PowerEnum.MAGICAL,
     emitValueMultiply: 0.2,
     duration: 0,

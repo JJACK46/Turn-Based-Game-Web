@@ -30,7 +30,7 @@ export function SkillOverlay() {
                 <p className="text-xl">{currentEntity?.name}</p>
                 <p className=" text-md">lvl.{currentEntity?.level}</p>
                 <p className="text-md">ATK : {currentEntity?.attack.value}</p>
-                <p className="text-md">DEF : {currentEntity?.defend.value}</p>
+                <p className="text-md">DEF : {currentEntity?.defense.value}</p>
                 <p className="text-md">
                   HEAL : {currentEntity?.heal?.value ?? 0}
                 </p>
@@ -53,7 +53,7 @@ export function SkillOverlay() {
                     }
                   }}
                 >
-                  <div>{skill.name}</div>
+                  <p className="capitalize">{skill.name}</p>
                   <div className="text-xs">
                     <ul className="flex flex-row gap-3">
                       {(skill.requiredEnergy > 0 || skill.requiredMana > 0) && (
@@ -66,13 +66,16 @@ export function SkillOverlay() {
                           }`}
                         </li>
                       )}
-                      {skill.isAttackSkill && (
-                        <li className="py-0.5 border rounded px-1">
-                          {`DMG: ${currentEntity.calculateAmountMadeBy({
-                            skill,
-                          })}`}
-                        </li>
-                      )}
+                      {skill.isAttackSkill &&
+                        currentEntity.calculateAmountMadeBy({
+                          skill,
+                        }) > 0 && (
+                          <li className="py-0.5 border rounded px-1">
+                            {`DMG: ${currentEntity.calculateAmountMadeBy({
+                              skill,
+                            })}`}
+                          </li>
+                        )}
                       {skill.isHealSkill && (
                         <li className="py-0.5 border rounded px-1">
                           {`HEAL: ${currentEntity.calculateAmountMadeBy({
@@ -83,7 +86,7 @@ export function SkillOverlay() {
                     </ul>
                   </div>
                   <p className="mt-2 text-xs py-0.5 border rounded px-1">
-                    {`${skill.type}`}
+                    {`${skill.effectSkill?.name ?? skill.emitType}`}
                   </p>
                 </button>
               );

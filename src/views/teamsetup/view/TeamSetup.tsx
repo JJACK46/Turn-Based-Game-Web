@@ -1,4 +1,3 @@
-import { Entity } from "@/classes/entity";
 import { useInventoryStore } from "../store/inventoryStore";
 import { Link } from "react-router-dom";
 import { tutorialSet } from "@/data/tutorial";
@@ -6,6 +5,7 @@ import { useState } from "react";
 import { Weapon } from "@/classes/weapon";
 import { Armor } from "@/classes/armor";
 import Card from "../components/card";
+import { Entity } from "@/classes/entity";
 
 export default function TeamSetup() {
   const {
@@ -19,7 +19,7 @@ export default function TeamSetup() {
 
   setEntities(tutorialSet.players);
 
-  const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null)
+  const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null);
   return (
     <div className="absolute flex flex-col justify-center items-center size-full gap-5 p-16 bg-black">
       <h1 className="text-5xl mt-10 py-2 px-32 border-2 border-white rounded-xl">
@@ -32,7 +32,11 @@ export default function TeamSetup() {
             <h1 className="absolute text-3xl text-center">FRONT</h1>
             <div className="flex justify-around items-center w-full h-full p-2">
               {entityInventory.map((item: Entity, index: number) => (
-                <Card setSelectedEntity={setSelectedEntity} selectedEntity={item} index={index} />
+                <Card
+                  setSelectedEntity={setSelectedEntity}
+                  selectedEntity={item}
+                  index={index}
+                />
               ))}
             </div>
           </div>
@@ -53,7 +57,11 @@ export default function TeamSetup() {
             <h1>Character</h1>
             <div className="flex justify-around items-center w-full h-5/6 bg-slate-600 p-2">
               {entityInventory.map((item: Entity, index: number) => (
-                <Card setSelectedEntity={setSelectedEntity} selectedEntity={item} index={index} />
+                <Card
+                  setSelectedEntity={setSelectedEntity}
+                  selectedEntity={item}
+                  index={index}
+                />
               ))}
             </div>
           </div>

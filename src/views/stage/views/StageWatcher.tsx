@@ -19,6 +19,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
       isGameStart,
       remainEnemiesCount,
       remainPlayersCount,
+      roundCount,
     },
     methodsGame: {
       switchTurn,
@@ -27,7 +28,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
       updateCycleRound,
       endGame,
       setGameResult,
-      updateRemainingEntity,
+      updateRemainingEntities,
     },
     infoField: {
       playersFrontRow,
@@ -100,14 +101,13 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
   //update turn
   useEffect(() => {
     if (isGameStart) {
-      updateRemainingEntity();
       setTimeout(() => {
-        if (availableActions === 0 && turn) {
+        if (availableActions === 0) {
           switchTurn();
           updateCycleRound();
         }
       }, 2000);
-      if (turn === "enemy" && isGameStart) {
+      if (turn === "enemy") {
         botAction({
           turn,
           availableActions,
@@ -117,13 +117,17 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
         });
       }
     }
-  }, [availableActions, isGameStart]);
+  }, [availableActions, isGameStart, turn]);
+
+  useEffect(() => {
+    updateRemainingEntities();
+  }, [availableActions, turn, roundCount]);
 
   //update round
   useEffect(() => {
     if (cycleRound === 0) {
-      updateAllRemainingEffect();
       increaseRound();
+      updateAllRemainingEffect();
       restoreManaEveryEntity();
       resetCycleRound();
     }
