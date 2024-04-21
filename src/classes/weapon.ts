@@ -10,48 +10,40 @@ export type Weapon = {
 };
 
 // PowerEnum -> Physical / magical / hybrid
-// - bow -> Physical
-// - gun -> Physical
-// - sword
-// - dagger
-// - shield -> physical
-// - magic wand
-// - healing staff
-// - polearm
 
 // export type WeaponType = {
-//   id:0
+//   damageType:PowerEnum.PHYSICAL
 //   name:"bow"
 // } | {
-//   id:1
+//   damageType:PowerEnum.PHYSICAL
 //   name:"sword"
 // } | {
-//   id:"2"
+//   damageType:PowerEnum.PHYSICAL
 //   name:"gun"
+// } | {
+//   damageType:PowerEnum.PHYSICAL
+//   name:"dagger"
+// } | {
+//   damageType:PowerEnum.PHYSICAL
+//   name:"shield"
+// } | {
+//   damageType:PowerEnum.MAGICAL
+//   name:"magic_wand"
+// } | {
+//   damageType:PowerEnum.MAGICAL
+//   name:"healing_staff"
+// } | {
+//   damageType:PowerEnum.PHYSICAL
+//   name:"polearms"
 // };
 
-export type WeaponType = {
-  id: number;
-  name: string;
-};
-
 export enum WeaponEnum {
-  BOW = 0,
-  SWORD = 1,
-  GUN = 2,
+  BOW = "bow",
+  SWORD = "sword",
+  GUN = "gun",
+  DAGGER = "dagger",
+  SHIELD = "shield",
+  MAGIC_WAND = "magic_wand",
+  HEALING_STAFF = " healing_staff",
+  POLEARMS = "polearms",
 }
-
-export const WeaponTypeData: WeaponType[] = [
-  {
-    id: 0,
-    name: "bow",
-  },
-  {
-    id: 1,
-    name: "sword",
-  },
-  {
-    id: 2,
-    name: "gun",
-  },
-];

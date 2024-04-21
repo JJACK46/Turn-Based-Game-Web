@@ -29,6 +29,25 @@ export enum TraitEnum {
   BOSS_VEXARIA = "The Deceitful of Gaia Realm",
 }
 
+export enum PlayableTraitEnum {
+  HUMAN = TraitEnum.HUMAN,
+  INSECT = TraitEnum.INSECT ,
+  SPIRIT = TraitEnum.SPIRIT ,
+  INHUMAN = TraitEnum.INHUMAN ,
+  BIG_CREATURE = TraitEnum.BIG_CREATURE ,
+  ARMED_ROBOT = TraitEnum.ARMED_ROBOT ,
+  UNARMED_ROBOT =  TraitEnum.UNARMED_ROBOT ,
+  CYBORG = TraitEnum.CYBORG ,
+  AUTOMATION = TraitEnum.AUTOMATION ,
+  GOBLIN = TraitEnum.GOBLIN ,
+  ELF = TraitEnum.ELF ,
+  ORC = TraitEnum.ORC ,
+  DEMON = TraitEnum.DEMON ,
+  ANGEL = TraitEnum.ANGEL ,
+  MAGIC_ANIMAL = TraitEnum.MAGIC_ANIMAL ,
+  MAGIC_GOLEM = TraitEnum.MAGIC_GOLEM ,
+}
+
 export const isBoss = (trait: TraitEnum): boolean => {
   return [
     TraitEnum.BOSS_DOZOJO,
@@ -78,7 +97,6 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
     type: EmitTypeEnum.ATTACK_AOE,
     requiredEnergy: 2,
     emitValueMultiply: 0.2,
-    emitValue: -1,
     power: PowerEnum.PHYSICAL,
     repeat: 10,
     randomTarget: true,

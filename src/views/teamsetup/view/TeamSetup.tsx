@@ -1,6 +1,11 @@
 import { Entity } from "@/classes/entity";
 import { useInventoryStore } from "../store/inventoryStore";
 import { Link } from "react-router-dom";
+import { tutorialSet } from "@/data/tutorial";
+import { useState } from "react";
+import { Weapon } from "@/classes/weapon";
+import { Armor } from "@/classes/armor";
+import Card from "../components/card";
 
 export default function TeamSetup() {
   const {
@@ -9,7 +14,12 @@ export default function TeamSetup() {
     armorInventory,
     frontRow,
     backRoW,
+    setEntities,
   } = useInventoryStore();
+
+  setEntities(tutorialSet.players);
+
+  const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null)
   return (
     <div className="absolute flex flex-col justify-center items-center size-full gap-5 p-16 bg-black">
       <h1 className="text-5xl mt-10 py-2 px-32 border-2 border-white rounded-xl">
@@ -19,11 +29,11 @@ export default function TeamSetup() {
         <div className="flex flex-col items-center justify-around h-full w-3/5  border-2 border-white rounded-xl">
           {/* <h1>FIELD</h1> */}
           <div className="flex flex-col w-full h-1/3 bg-slate-400">
-            <h1 className="text-3xl text-center py-2 px-32">FRONT</h1>
-            <div className="flex justify-around w-full h-full">
-              {/* {frontRow.map((item:Entity,index:number)=> (
-
-                ))} */}
+            <h1 className="absolute text-3xl text-center">FRONT</h1>
+            <div className="flex justify-around items-center w-full h-full p-2">
+              {entityInventory.map((item: Entity, index: number) => (
+                <Card setSelectedEntity={setSelectedEntity} selectedEntity={item} index={index} />
+              ))}
             </div>
           </div>
           <div className="flex flex-col w-full h-1/3 bg-slate-200">
@@ -41,10 +51,10 @@ export default function TeamSetup() {
           </h1>
           <div className=" w-full h-2/6">
             <h1>Character</h1>
-            <div className="flex justify-around w-full h-5/6 bg-slate-600">
-              {/* {backRow.map((item:Entity,index:number)=> (
-
-                ))} */}
+            <div className="flex justify-around items-center w-full h-5/6 bg-slate-600 p-2">
+              {entityInventory.map((item: Entity, index: number) => (
+                <Card setSelectedEntity={setSelectedEntity} selectedEntity={item} index={index} />
+              ))}
             </div>
           </div>
           <div className=" w-full h-1/6 ">
