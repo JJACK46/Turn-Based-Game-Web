@@ -1,4 +1,4 @@
-import { EntitiesData } from "@/data/entities";
+import { EntitiesData } from "@/data/models/entities";
 import { MapData } from "@/data/worlds/types/map";
 import {
   BASE_URL_IMAGE_ENTITIES,
@@ -15,63 +15,63 @@ export const AstralisOmegaMaps: MapData[] = [
     grade: "COMMON",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
     backgroundUrl: `${BASE_URL_IMAGE_MAPS}/map_astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Glitch",
     entitiesLevel: [1, 10],
     grade: "COMMON",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Resistance",
     entitiesLevel: [1, 10],
     grade: "COMMON",
     cardImageUrl: `${BASE_URL_IMAGE_ENTITIES}/unarmed_robot_1.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "The small thing",
     entitiesLevel: [1, 10],
     grade: "UNCOMMON",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "The reason of existence",
     entitiesLevel: [1, 10],
     grade: "UNCOMMON",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Automation",
     entitiesLevel: [1, 10],
     grade: "UNCOMMON",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Intelligence",
     entitiesLevel: [1, 10],
     grade: "HARD",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Artificial",
     entitiesLevel: [1, 10],
     grade: "HARD",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Imperfections",
     entitiesLevel: [1, 10],
     grade: "HARD",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Nexos : The Perfection of Astralis Omega",
@@ -82,6 +82,6 @@ export const AstralisOmegaMaps: MapData[] = [
     cardImageUrl: `../${BASE_URL_IMAGE_ENTITIES}/boss_nexos.jpeg`,
     backgroundUrl: `${BASE_URL_IMAGE_MAPS}/map_nexos.jpeg`,
     boss: boss,
-    enemyFrontRow: [boss!],
+    enemiesFrontRow: [boss!],
   },
 ];

@@ -1,11 +1,15 @@
 import Card from "../Cards/Card";
 import { useGameStore } from "../../stores/gameStore";
+import { PositionEnum } from "@/data/enums/positions";
 
 export default function EnemiesSection() {
   const {
     infoGame: { isGameStart },
-    infoField: { enemiesFrontRow, enemiesBackRow },
+    infoField: { enemies },
   } = useGameStore();
+
+  const front = enemies.filter((ent) => ent.position === PositionEnum.FRONT);
+  const back = enemies.filter((ent) => ent.position === PositionEnum.BACK);
 
   return (
     <div
@@ -14,10 +18,10 @@ export default function EnemiesSection() {
       ${isGameStart ? "" : "-translate-y-80"}
       `}
     >
-      {enemiesBackRow && (
+      {back && (
         <span className={`flex justify-evenly`}>
-          {enemiesBackRow.length > 0 ? (
-            enemiesBackRow.map((enemy, index) => {
+          {back.length > 0 ? (
+            back.map((enemy, index) => {
               return <Card key={index} instance={enemy}></Card>;
             })
           ) : (
@@ -26,8 +30,8 @@ export default function EnemiesSection() {
         </span>
       )}
       <span className={`flex justify-evenly`}>
-        {enemiesFrontRow.length > 0 ? (
-          enemiesFrontRow.map((enemy, index) => {
+        {front.length > 0 ? (
+          front.map((enemy, index) => {
             return <Card key={index} instance={enemy}></Card>;
           })
         ) : (

@@ -12,9 +12,6 @@ const {
     setSelectSkill,
     usingSkillToTarget,
     usingSkillToSelf,
-    resetCurrentEntity,
-    resetSelectSkill,
-    resetTargetEntity,
   },
   methodsGame: { decreaseAction },
 } = useGameStore.getState();
@@ -73,7 +70,7 @@ export const botAction = ({
         if (!potentialEntity.isCanAction) {
           setTimeout(() => {
             markEntityTakenAction(potentialEntity);
-            resetCurrentEntity();
+            setCurrentEntity(null);
             decreaseAction(1);
           }, BASE_DELAY_SKILL * 0.4);
           return;
@@ -125,7 +122,7 @@ export const botAction = ({
                       skill: skillAOE,
                       sourceEntity: potentialEntity,
                       targetEntity: targetEntities[0], //any
-                      targetEntities: targetEntities,
+                      targetEntities,
                       sourceEntities,
                       isEnemyAction: true,
                     });
@@ -168,8 +165,8 @@ export const botAction = ({
                   success = usingSkillToTarget({
                     skill,
                     sourceEntity: potentialEntity,
-                    targetEntity: targetEntity,
-                    targetEntities: targetEntities,
+                    targetEntity,
+                    targetEntities,
                     sourceEntities,
                     isEnemyAction: true,
                   });
@@ -183,9 +180,9 @@ export const botAction = ({
         //finally reset indicator
         setTimeout(() => {
           if (success) {
-            resetCurrentEntity();
-            resetTargetEntity();
-            resetSelectSkill();
+            setCurrentEntity(null);
+            setTargetEntity(null);
+            setSelectSkill(null);
             setEntityPerforming(false);
             markEntityTakenAction(potentialEntity);
             decreaseAction(1);

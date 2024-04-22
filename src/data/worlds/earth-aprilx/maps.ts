@@ -1,4 +1,4 @@
-import { EntitiesData } from "@/data/entities";
+import { EntitiesData } from "@/data/models/entities";
 import { MapData } from "@/data/worlds/types/map";
 import {
   BASE_URL_IMAGE_ENTITIES,
@@ -15,63 +15,64 @@ export const EarthAprilXMaps: MapData[] = [
     grade: "COMMON",
     cardImageUrl: `${BASE_URL_IMAGE_ENTITIES}/super_soldier_rifle_1.jpeg`,
     backgroundUrl: `${BASE_URL_IMAGE_MAPS}/map_aprilx.png`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [EntitiesData[0], EntitiesData[0], EntitiesData[0]],
+    enemiesBackRow: [EntitiesData[1], EntitiesData[1]],
   },
   {
     name: "Fallen Civilization",
     entitiesLevel: [1, 10],
     grade: "COMMON",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "The lost one",
     entitiesLevel: [1, 10],
     grade: "COMMON",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Colonization",
     entitiesLevel: [1, 10],
     grade: "UNCOMMON",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Not match",
     entitiesLevel: [1, 10],
     grade: "UNCOMMON",
     cardImageUrl: `${BASE_URL_IMAGE_ENTITIES}/the_rock_1.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Upheaval",
     entitiesLevel: [1, 10],
     grade: "UNCOMMON",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Survivor",
     entitiesLevel: [1, 10],
     grade: "HARD",
     cardImageUrl: `${BASE_URL_IMAGE_ENTITIES}/nomad_soldier_1.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "The Apex",
     entitiesLevel: [1, 10],
     grade: "HARD",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Behind the scene",
     entitiesLevel: [1, 10],
     grade: "HARD",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Dojozo : The Disastrous of AprilX",
@@ -82,7 +83,7 @@ export const EarthAprilXMaps: MapData[] = [
     cardImageUrl: `${BASE_URL_IMAGE_ENTITIES}/boss_dojozo.jpeg`,
     backgroundUrl: `${BASE_URL_IMAGE_MAPS}/map_dojozo.jpg`,
     boss: boss,
-    enemyFrontRow: [boss!],
+    enemiesFrontRow: [boss!],
     soundtrackPath: "/sounds/soundtracks/ATSMXN&XTOM-The_Raven.mp3",
   },
 ];

@@ -3,7 +3,6 @@ import HomeView from "./views/home/HomeView";
 import WorldSelection from "./views/worlds/views/WorldSelection";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import StageView from "./views/stage/views/StageView";
-import { tutorialSet } from "./data/tutorial";
 import Credits from "./views/credits/CreditsView";
 import MapSelection from "./views/worlds/views/MapSelection";
 import { useWorldStore } from "./views/worlds/store/worldStore";
@@ -11,10 +10,13 @@ import TeamSetup from "./views/teamsetup/view/TeamSetup";
 import { MenuView } from "./views/menu/views/MenuView";
 import { CodexView } from "./views/codex/views/CodexView";
 import { TestUI } from "./views/home/components/Test";
+import { EntitiesData } from "./data/models/entities";
+import { TutorialMap } from "./data/worlds/tutorial/data";
 
 function App() {
   const { selectedMap } = useWorldStore();
-  const { name, enemyFrontRow, enemyBackRow, backgroundUrl } = selectedMap;
+  const debug = EntitiesData.find((ent) => ent.id === 2024);
+  const tutorialPlayer = [EntitiesData[10], EntitiesData[8], debug!];
 
   return (
     <div className="size-full min-w-max min-h-screen">
@@ -27,9 +29,8 @@ function App() {
             path="/tutorial"
             element={
               <StageView
-                mapName={"Tutorial"}
-                enemiesFrontRow={tutorialSet.enemies}
-                playersFrontRow={tutorialSet.players}
+                mapData={TutorialMap}
+                playersFrontRow={tutorialPlayer}
               />
             }
           />
@@ -37,16 +38,12 @@ function App() {
             path="/stage"
             element={
               <StageView
-                mapName={name}
-                enemiesFrontRow={enemyFrontRow}
-                enemiesBackRow={enemyBackRow}
-                playersFrontRow={tutorialSet.players}
-                backgroundUrl={backgroundUrl}
+                mapData={selectedMap}
+                playersFrontRow={tutorialPlayer}
               />
             }
           />
           <Route path="/credits" element={<Credits />} />
-          <Route path="/teamSetup" element={<TeamSetup />} />
           <Route path="/menu" element={<MenuView />} />
           <Route path="/codex" element={<CodexView />} />
           <Route path="/team-setup" element={<TeamSetup />}></Route>

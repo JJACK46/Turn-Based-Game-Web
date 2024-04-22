@@ -32,7 +32,7 @@ export const useWorldStore = create<WorldStore & WorldAction>()(
       entitiesLevel: [],
       grade: "COMMON",
       cardImageUrl: "",
-      enemyFrontRow: [],
+      enemiesFrontRow: [],
     },
     setSelectedWorld: (props) => {
       set((state) => {

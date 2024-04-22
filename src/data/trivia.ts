@@ -1,4 +1,4 @@
-import { EntitiesData } from "./entities";
+import { EntitiesData } from "./models/entities";
 
 const Trivia = [
   "กินข้าวยังจ๊ะ",

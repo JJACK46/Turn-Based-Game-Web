@@ -26,7 +26,7 @@ export default function UserOverlay() {
     methodsGame: { startGame },
     infoDamage,
     infoIndicator: { currentEntity, targetEntity, selectedSkill },
-    methodsIndicator: { resetCurrentEntity, resetSelectSkill },
+    methodsIndicator: { setCurrentEntity, setSelectSkill, setTargets },
     setInfoDamage,
   } = useGameStore();
   const uiLogic = useUIStore();
@@ -124,8 +124,9 @@ export default function UserOverlay() {
           <button
             className="absolute right-10 bottom-10 p-10 border-2 bg-black/50 border-blue-500/50 rounded-2xl hover:border-red-700"
             onClick={() => {
-              resetSelectSkill();
-              resetCurrentEntity();
+              setCurrentEntity(null);
+              setSelectSkill(null);
+              setTargets(null);
             }}
           >
             <p className="uppercase">{selectedSkill.name}</p>

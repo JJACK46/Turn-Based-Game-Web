@@ -1,10 +1,13 @@
-import { StatusEnum } from "./enums/status";
-import { TraitEnum, listTraitSkill } from "./enums/traits";
-import { EmitTypeEnum } from "./enums/actions";
-import { PowerEnum } from "./enums/powers";
+import { StatusEnum } from "../enums/status";
+import { TraitEnum, listTraitSkill } from "../enums/traits";
+import { EmitTypeEnum } from "../enums/actions";
+import { PowerEnum } from "../enums/powers";
 import { Skill } from "@/classes/skills";
-import { PositionEnum } from "./enums/positions";
-import { ActiveSkillsEnum, listDefaultActiveSkill } from "./enums/activeSkills";
+import { PositionEnum } from "../enums/positions";
+import {
+  ActiveSkillsEnum,
+  listDefaultActiveSkill,
+} from "../enums/activeSkills";
 import { Entity } from "@/classes/entity";
 
 const normalHitPhysical =

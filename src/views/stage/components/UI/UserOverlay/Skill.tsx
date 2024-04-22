@@ -1,19 +1,22 @@
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
+import { getAliveEntities } from "@/views/stage/helpers/stage";
 import { useGameStore } from "@/views/stage/stores/gameStore";
 import { useUIStore } from "@/views/stage/stores/uiStore";
 
 export function SkillOverlay() {
   const { setSkillOverlay } = useUIStore();
   const {
+    infoField: { enemies },
     infoIndicator: { currentEntity },
-    methodsIndicator: { resetCurrentEntity, setSelectSkill },
+    methodsIndicator: { setSelectSkill, setTargets },
   } = useGameStore();
+  const aliveEntities = getAliveEntities(enemies);
   return (
     <span className="z-40 fixed inset-0 flex items-end justify-end size-full">
       <button
         onClick={() => {
           setSkillOverlay(false);
-          resetCurrentEntity();
+          setSelectSkill(null);
         }}
         className="top-0 left-0 size-full"
       ></button>
@@ -49,6 +52,7 @@ export function SkillOverlay() {
                   onClick={() => {
                     if (currentEntity.hasEnoughManaFor({ skill: skill })) {
                       setSelectSkill(skill);
+                      setTargets(aliveEntities);
                       setSkillOverlay(false);
                     }
                   }}

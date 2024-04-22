@@ -1,4 +1,4 @@
-import { EntitiesData } from "@/data/entities";
+import { EntitiesData } from "@/data/models/entities";
 import { MapData } from "@/data/worlds/types/map";
 import {
   BASE_URL_IMAGE_ENTITIES,
@@ -15,63 +15,63 @@ export const GaiaRealmMaps: MapData[] = [
     grade: "COMMON",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
     backgroundUrl: `${BASE_URL_IMAGE_MAPS}/map_gaia_realm.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Not like other",
     entitiesLevel: [1, 10],
     grade: "COMMON",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "From the mist",
     entitiesLevel: [1, 10],
     grade: "COMMON",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Demon hide",
     entitiesLevel: [1, 10],
     grade: "UNCOMMON",
     cardImageUrl: `${BASE_URL_IMAGE_ENTITIES}/demon_fighter.jpg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "True form",
     entitiesLevel: [1, 10],
     grade: "UNCOMMON",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Incredible",
     entitiesLevel: [1, 10],
     grade: "UNCOMMON",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Underneath",
     entitiesLevel: [1, 10],
     grade: "HARD",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Beyond mind",
     entitiesLevel: [1, 10],
     grade: "HARD",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "The liar",
     entitiesLevel: [1, 10],
     grade: "HARD",
     cardImageUrl: `${BASE_URL_IMAGE_WORLDS}/Astralis_city.jpeg`,
-    enemyFrontRow: [],
+    enemiesFrontRow: [],
   },
   {
     name: "Vexaria: The Deceitful of Gaia Realm",
@@ -82,6 +82,6 @@ export const GaiaRealmMaps: MapData[] = [
     cardImageUrl: `${BASE_URL_IMAGE_ENTITIES}/boss_vexaria.jpeg`,
     backgroundUrl: `${BASE_URL_IMAGE_MAPS}/map_vexaria.jpeg`,
     boss: boss,
-    enemyFrontRow: [boss!],
+    enemiesFrontRow: [boss!],
   },
 ];

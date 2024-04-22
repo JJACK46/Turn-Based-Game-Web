@@ -9,38 +9,53 @@ import LoadingView from "@/views/loading/LoadingView";
 import { useLoaderStore } from "@/views/loading/stores/loadingStore";
 import { useGameStore } from "../stores/gameStore";
 import { Entity } from "@/classes/entity";
+import { MapData } from "@/data/worlds/types/map";
 
 interface Props {
-  mapName: string;
-  enemiesFrontRow: Entity[];
-  enemiesBackRow?: Entity[];
+  mapData: MapData;
   playersFrontRow: Entity[];
   playersBackRow?: Entity[];
-  backgroundUrl?: string;
 }
 
-const StageView = (props: Props) => {
+const StageView = ({
+  mapData: {
+    name,
+    enemiesFrontRow,
+    enemiesBackRow,
+    entitiesLevel,
+    backgroundUrl,
+  },
+  playersFrontRow,
+  playersBackRow,
+}: Props) => {
   const { isLoading } = useLoaderStore();
   const {
     methodsGame: { setupGame },
   } = useGameStore();
   useEffect(() => {
-    setupGame(props);
+    setupGame({
+      mapName: name,
+      enemiesFrontRow,
+      enemiesBackRow,
+      playersFrontRow,
+      playersBackRow,
+      entitiesLevel,
+    });
   }, []);
 
   return (
     <span className="flex flex-row justify-around items-center h-screen min-h-screen overflow-hidden">
-      {isLoading && <LoadingView title={props.mapName}></LoadingView>}
+      {isLoading && <LoadingView title={name}></LoadingView>}
       <StageWatcher>
         <NavBarView></NavBarView>
         <div className="flex flex-col justify-around items-center w-full min-h-screen h-screen mx-6">
-          {props.backgroundUrl && (
+          {backgroundUrl && (
             <img
-              src={props.backgroundUrl}
+              src={backgroundUrl}
               className="-z-[100] absolute inset-0 w-full h-screen blur"
             />
           )}
-          {!props.backgroundUrl && (
+          {!backgroundUrl && (
             <div className="-z-[100] absolute inset-0 w-full h-full">
               <div
                 className="absolute left-[20%] top-[35%] w-[1024px] h-64 bg-gradient-to-r 

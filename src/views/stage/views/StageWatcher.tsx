@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
-// import { useUIStore } from "../stores/UI_Store";
 import { useGameStore } from "../stores/gameStore";
 import { botAction } from "../stores/BotLogic";
 import { restoreManaForEntities } from "../helpers/entity";
 import { updateRemainingEffect } from "../helpers/stage";
-import { PositionEnum } from "@/data/enums/positions";
 import { SoundtrackPlayer } from "@/utils/SoundtrackPlayer";
 import { useWorldStore } from "@/views/worlds/store/worldStore";
 import { SFXPlayer } from "@/utils/SFXPlayer";
@@ -30,72 +28,32 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
       setGameResult,
       updateRemainingEntities,
     },
-    infoField: {
-      playersFrontRow,
-      playersBackRow,
-      enemiesFrontRow,
-      enemiesBackRow,
-    },
+    infoField: { players, enemies },
     methodsField: { setEntities },
     infoIndicator: { selectedSkill, currentEntity },
     infoMarkedEntities,
   } = useGameStore();
   const { selectedMap } = useWorldStore();
-  // const uiLogic = useUIStore();
-
-  // const allEntities = playersFrontRow.concat(
-  //   playersBackRow ?? [],
-  //   enemiesFrontRow,
-  //   enemiesBackRow ?? []
-  // );
 
   function restoreManaEveryEntity() {
     setEntities({
-      entities: restoreManaForEntities(playersFrontRow),
+      entities: restoreManaForEntities(players),
       isPlayer: true,
-      position: PositionEnum.FRONT,
     });
     setEntities({
-      entities: restoreManaForEntities(enemiesFrontRow),
+      entities: restoreManaForEntities(enemies),
       isPlayer: false,
-      position: PositionEnum.FRONT,
     });
-    if (playersBackRow && enemiesBackRow) {
-      setEntities({
-        entities: restoreManaForEntities(playersBackRow),
-        isPlayer: true,
-        position: PositionEnum.BACK,
-      });
-      setEntities({
-        entities: restoreManaForEntities(enemiesBackRow),
-        isPlayer: false,
-        position: PositionEnum.BACK,
-      });
-    }
   }
   function updateAllRemainingEffect() {
     setEntities({
-      entities: updateRemainingEffect(playersFrontRow),
+      entities: updateRemainingEffect(players),
       isPlayer: true,
-      position: PositionEnum.FRONT,
     });
     setEntities({
-      entities: updateRemainingEffect(enemiesFrontRow),
+      entities: updateRemainingEffect(enemies),
       isPlayer: false,
-      position: PositionEnum.FRONT,
     });
-    if (playersBackRow && enemiesBackRow) {
-      setEntities({
-        entities: updateRemainingEffect(playersBackRow),
-        isPlayer: true,
-        position: PositionEnum.BACK,
-      });
-      setEntities({
-        entities: updateRemainingEffect(enemiesBackRow),
-        isPlayer: false,
-        position: PositionEnum.BACK,
-      });
-    }
   }
 
   //update turn
@@ -111,8 +69,8 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
         botAction({
           turn,
           availableActions,
-          sourceEntities: enemiesFrontRow,
-          targetEntities: playersFrontRow,
+          sourceEntities: enemies,
+          targetEntities: players,
           entitiesTakenAction: infoMarkedEntities.takenAction,
         });
       }

@@ -13,6 +13,6 @@ export interface MapData {
   cardImageUrl: string;
   backgroundUrl?: string;
   soundtrackPath?: string;
-  enemyFrontRow: Entity[];
-  enemyBackRow?: Entity[];
+  enemiesFrontRow: Entity[];
+  enemiesBackRow?: Entity[];
 }

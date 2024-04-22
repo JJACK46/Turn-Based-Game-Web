@@ -7,14 +7,14 @@ function InfoPopup() {
   const { setInfoOverlay } = useUIStore();
   const {
     infoIndicator: { currentEntity: currentEntityData },
-    methodsIndicator: { resetCurrentEntity },
+    methodsIndicator: { setCurrentEntity },
   } = useGameStore();
   return (
     <span className="absolute inset-0 flex items-center justify-center size-full z-40">
       <button
         onClick={() => {
           setInfoOverlay(false);
-          resetCurrentEntity();
+          setCurrentEntity(null);
         }}
         className="top-0 left-0 size-full bg-black opacity-40"
       ></button>

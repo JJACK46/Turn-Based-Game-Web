@@ -1,5 +1,5 @@
 import { EntityType } from "@/classes/entity";
-import { EntitiesData } from "@/data/entities";
+import { EntitiesData } from "@/data/models/entities";
 import { TraitEnum, isBoss } from "@/data/enums/traits";
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
 import { useState } from "react";

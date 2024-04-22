@@ -164,8 +164,8 @@ export class Skill {
         thisSkill: this,
       });
       return {
-        updatedSource: updatedSource,
-        effectedTarget: effectedTarget,
+        updatedSource,
+        effectedTarget,
         damageMade,
         blockedDamage,
         resultDamage,
@@ -219,7 +219,7 @@ export class Skill {
         if (this.emitValueMultiply > 0) {
           effect.emitValueMultiplier = this.emitValueMultiply;
         }
-        target.applyEffectSkills({ ...effect });
+        target.applyEffect({ ...effect });
       }
 
       return {
@@ -262,7 +262,7 @@ export class Skill {
         //use value from skill instead effectSkill
         defaultEffectDef.emitValueMultiplier = this.emitValueMultiply;
       }
-      sourceEntity.applyEffectSkills({ ...defaultEffectDef });
+      sourceEntity.applyEffect({ ...defaultEffectDef });
 
       return sourceEntity;
     };
@@ -333,7 +333,7 @@ export class Skill {
     };
     const defaultDefendAOEMethod = (): ResultAffectMultiple => {
       for (const target of targets) {
-        target.applyEffectSkills(
+        target.applyEffect(
           listDefaultEffectSkill[EffectSkillEnum.ENHANCE_DEFEND]
         );
       }

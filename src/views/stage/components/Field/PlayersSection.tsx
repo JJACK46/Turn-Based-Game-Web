@@ -1,11 +1,15 @@
 import Card from "../Cards/Card";
 import { useGameStore } from "../../stores/gameStore";
+import { PositionEnum } from "@/data/enums/positions";
 
 export default function PlayersSection() {
   const {
     infoGame: { isGameStart },
-    infoField: { playersFrontRow, playersBackRow },
+    infoField: { players },
   } = useGameStore();
+
+  const front = players.filter((ent) => ent.position === PositionEnum.FRONT);
+  const back = players.filter((ent) => ent.position === PositionEnum.BACK);
 
   return (
     <div
@@ -14,10 +18,10 @@ export default function PlayersSection() {
       ${isGameStart ? "" : "translate-y-80"}
       `}
     >
-      {playersFrontRow && (
+      {front && (
         <span rel="front" className={`flex justify-evenly`}>
-          {playersFrontRow.length > 0 ? (
-            playersFrontRow.map((player, index) => {
+          {front.length > 0 ? (
+            front.map((player, index) => {
               return <Card key={index} instance={player}></Card>;
             })
           ) : (
@@ -25,10 +29,10 @@ export default function PlayersSection() {
           )}
         </span>
       )}
-      {playersBackRow && (
+      {back && (
         <span rel="back" className={`flex justify-evenly`}>
-          {playersBackRow.length > 0 ? (
-            playersBackRow.map((player, index) => {
+          {back.length > 0 ? (
+            back.map((player, index) => {
               return <Card key={index} instance={player}></Card>;
             })
           ) : (

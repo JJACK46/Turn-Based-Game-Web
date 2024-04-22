@@ -6,3 +6,5 @@ export const BASE_URL_SOUNDS = "/sounds";
 export const BASE_ROUND = 2; //tick time
 export const BASE_DAMAGE_REDUCTION = 0.25; //25%
 export const BASE_DELAY_SKILL = 1800; //ms
+
+export const BASE_SCALING_LEVEL = 2;

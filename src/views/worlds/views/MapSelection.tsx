@@ -34,8 +34,8 @@ function MapSelection() {
                   entitiesLevel={[1, 10]}
                   grade={"COMMON"}
                   backgroundUrl={map.backgroundUrl}
-                  enemyFrontRow={map.enemyFrontRow}
-                  enemyBackRow={map.enemyBackRow}
+                  enemiesFrontRow={map.enemiesFrontRow}
+                  enemiesBackRow={map.enemiesBackRow}
                   soundtrackPath={map.soundtrackPath}
                 />
               ))}
@@ -49,8 +49,8 @@ function MapSelection() {
                 grade="BOSS"
                 boss={bossMap.boss}
                 backgroundUrl={bossMap.backgroundUrl}
-                enemyFrontRow={bossMap.enemyFrontRow}
-                enemyBackRow={bossMap.enemyBackRow}
+                enemiesFrontRow={bossMap.enemiesFrontRow}
+                enemiesBackRow={bossMap.enemiesBackRow}
                 soundtrackPath={bossMap.soundtrackPath}
               />
             </MapSection>

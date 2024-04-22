@@ -198,6 +198,7 @@ export class Entity {
 
   hasEnoughManaFor(props: { skill: Skill }): boolean {
     const { skill } = props;
+    if (skill.requiredEnergy < 0 || skill.requiredMana < 0) return true;
     if (this.capacity) {
       if (this.capacity.energy) {
         return this.capacity.energy.value >= skill.requiredEnergy;
@@ -261,19 +262,17 @@ export class Entity {
     for (let i = 0; i < this.effectedSkills.length; i++) {
       const effect = this.effectedSkills[i];
       effect.duration--;
+      this.processEffect(effect);
 
       if (effect.duration === 0) {
-        this.processEffect(effect);
         this.effectedSkills.splice(i, 1);
         i--; // Decrement index since array is modified
-      } else {
-        this.processEffect(effect);
       }
     }
     return this;
   }
 
-  applyEffectSkills(effect: EffectSkill) {
+  applyEffect(effect: EffectSkill) {
     if (effect.immediately) {
       this.processEffect(effect);
     }

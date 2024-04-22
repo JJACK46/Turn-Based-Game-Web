@@ -6,7 +6,6 @@ import { isEntityInEntities } from "../../helpers/entity";
 import atkSymbol from "@/assets/svgs/sword-symbol.svg";
 import defSymbol from "@/assets/svgs/shield-symbol.svg";
 import { useGameStore } from "../../stores/gameStore";
-import { PositionEnum } from "@/data/enums/positions";
 import { CardOverlayFX } from "./CardOverlayFX";
 import { CardBackgroundFX } from "./CardBackgroundFX";
 import { Entity } from "@/classes/entity";
@@ -15,17 +14,15 @@ const Card = (props: { instance: Entity }) => {
   const { instance } = props;
   const {
     infoMarkedEntities,
-    infoIndicator: { currentEntity, targetEntity, selectedSkill },
+    infoIndicator: { currentEntity, selectedSkill, targetEntities },
     methodsIndicator: {
       setCurrentEntity,
-      setTargetEntity,
-      usingSkillToTarget: usingSkillToTargetEntity,
-      resetCurrentEntity,
-      resetSelectSkill,
-      resetTargetEntity,
+      usingSkillToTarget,
+      setTargets,
+      setSelectSkill,
     },
     infoGame: { turn },
-    infoField: { playersFrontRow, enemiesFrontRow, playersBackRow },
+    infoField: { players, enemies },
     methodsGame: { decreaseAction },
     methodsMark: { markEntityTakenAction },
   } = useGameStore();
@@ -61,7 +58,7 @@ const Card = (props: { instance: Entity }) => {
     if (currentEntity === instance) {
       return "0px 0px 40px 0px #0ff";
     }
-    if (targetEntity === instance) {
+    if (targetEntities?.includes(instance)) {
       return "0px 0px 40px 0px red";
     }
     return "";
@@ -74,69 +71,69 @@ const Card = (props: { instance: Entity }) => {
       if (selectedSkill.isAttackSkill) {
         if (selectedSkill === currentEntity.skills.traitSkill) {
           setTimeout(() => {
-            success = usingSkillToTargetEntity({
+            success = usingSkillToTarget({
               skill: selectedSkill,
               targetEntity: instance,
               sourceEntity: currentEntity,
-              targetEntities: enemiesFrontRow,
-              sourceEntities: playersFrontRow,
+              targetEntities: enemies,
+              sourceEntities: players,
               isEnemyAction: false,
             });
 
             if (success) {
-              resetSelectSkill();
-              resetCurrentEntity();
-              resetTargetEntity();
+              setSelectSkill(null);
+              setCurrentEntity(null);
+              setTargets(null);
               setEntityPerforming(false);
               markEntityTakenAction(currentEntity);
               decreaseAction(1);
+            } else {
+              setEntityPerforming(false);
             }
           }, BASE_DELAY_SKILL);
         } else {
           //normal attack
           setTimeout(() => {
-            success = usingSkillToTargetEntity({
+            success = usingSkillToTarget({
               skill: selectedSkill,
               targetEntity: instance,
               sourceEntity: currentEntity,
-              targetEntities: enemiesFrontRow,
-              sourceEntities: playersFrontRow,
+              targetEntities: enemies,
+              sourceEntities: players,
               isEnemyAction: false,
             });
             if (success) {
-              resetSelectSkill();
-              resetCurrentEntity();
-              resetTargetEntity();
+              setSelectSkill(null);
+              setCurrentEntity(null);
+              setTargets(null);
               setEntityPerforming(false);
               markEntityTakenAction(currentEntity);
               decreaseAction(1);
+            } else {
+              setEntityPerforming(false);
             }
           }, 100);
         }
       } else {
         //buff team
         setTimeout(() => {
-          success = usingSkillToTargetEntity({
+          success = usingSkillToTarget({
             targetEntity: instance,
             skill: selectedSkill,
             sourceEntity: currentEntity!,
-            sourceEntities:
-              instance.position === PositionEnum.FRONT
-                ? playersFrontRow
-                : playersBackRow!,
-            targetEntities:
-              instance.position === PositionEnum.FRONT
-                ? playersFrontRow
-                : playersBackRow!,
+            sourceEntities: players,
+            targetEntities: players,
             isEnemyAction: false,
           });
           if (success) {
-            resetSelectSkill();
-            resetCurrentEntity();
-            resetTargetEntity();
+            setSelectSkill(null);
+            setCurrentEntity(null);
+            setTargets(null);
             setEntityPerforming(false);
             markEntityTakenAction(currentEntity);
             decreaseAction(1);
+          } else {
+            setEntityPerforming(false);
           }
         }, 100);
       }
@@ -183,7 +180,7 @@ const Card = (props: { instance: Entity }) => {
               if (!isEntityPerforming && turn === "player") {
                 if (currentEntity) {
                   //select player card already (attacking)
-                  setTargetEntity(instance);
+                  // setTargetEntity(instance);
                   setEntityPerforming(true);
                   handleSkill();
                 } else {
@@ -344,9 +341,8 @@ const Card = (props: { instance: Entity }) => {
             )}
           </div>
         </CardBackgroundFX>
-        {isHoveredCard && (
-          <p className="text-xs p-2">Index: {instance.index}</p>
-        )}
+        {/* {isHoveredCard && <p className="text-xs">Index: {instance.index}</p>} */}
+        {isHoveredCard && <p className="text-xs">Level: {instance.level}</p>}
         {/* action symbol */}
         <div className="flex gap-2 justify-around">
           {selectedSkill?.isAttackSkill && currentEntity === instance && (

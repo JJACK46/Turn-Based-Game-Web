@@ -55,3 +55,13 @@ export const getUpdateEntityInRow = (props: {
 export function updateRemainingEffect(entities: Entity[]): Entity[] {
   return entities.map((entity) => entity.updateRemainingEffect());
 }
+
+export function findTargetIndex({
+  entities,
+  target,
+}: {
+  entities: Entity[];
+  target: Entity;
+}): number {
+  return entities.findIndex((ent) => ent.instanceId === target.instanceId);
+}

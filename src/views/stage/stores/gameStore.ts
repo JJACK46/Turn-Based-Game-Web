@@ -1,9 +1,13 @@
 import { Skill } from "@/classes/skills";
 import { create } from "zustand";
-import { getAliveEntities, getSpeedOfTeam } from "../helpers/stage";
+import {
+  findTargetIndex,
+  getAliveEntities,
+  getSpeedOfTeam,
+} from "../helpers/stage";
 import { PositionEnum } from "@/data/enums/positions";
 import { immer } from "zustand/middleware/immer";
-import { createEntityInstances } from "@/utils/createEntity";
+import { createEntitiesInstances } from "@/utils/createEntity";
 import { Entity } from "@/classes/entity";
 
 type InfoDamage = {
@@ -60,6 +64,7 @@ interface GameLogicType {
       enemiesBackRow?: Entity[];
       playersFrontRow: Entity[];
       playersBackRow?: Entity[];
+      entitiesLevel: number[];
     }) => void;
     increaseRound: () => void;
     updateCycleRound: () => void;
@@ -71,30 +76,17 @@ interface GameLogicType {
     setGameResult: (p: GameResultType) => void;
   };
   infoField: {
-    enemiesFrontRow: Entity[];
-    enemiesBackRow?: Entity[];
-    playersFrontRow: Entity[];
-    playersBackRow?: Entity[];
+    enemies: Entity[];
+    players: Entity[];
   };
   methodsField: {
-    setEntities: (props: {
-      entities: Entity[];
-      isPlayer: boolean;
-      position: PositionEnum;
-    }) => void;
+    setEntities: (props: { entities: Entity[]; isPlayer: boolean }) => void;
   };
   methodsIndicator: {
-    setTargetStatus: (props: {
-      targetEntity: Entity;
-      targetEntities: Entity[];
-      isPlayer: boolean;
-    }) => void;
     setSelectSkill: (s: Skill | null) => void;
-    resetSelectSkill: () => void;
-    setCurrentEntity: (e: Entity) => void;
-    resetCurrentEntity: () => void;
-    setTargetEntity: (e: Entity) => void;
-    resetTargetEntity: () => void;
+    setCurrentEntity: (e: Entity | null) => void;
+    setTargetEntity: (e: Entity | null) => void;
+    setTargets: (entities: Entity[] | null) => void;
     usingSkillToTarget: (props: {
       skill: Skill;
       sourceEntity: Entity;
@@ -116,8 +108,8 @@ interface GameLogicType {
 export const useGameStore = create<GameLogicType>()(
   immer((set) => ({
     infoField: {
-      enemiesFrontRow: [],
-      playersFrontRow: [],
+      enemies: [],
+      players: [],
     },
     infoGame: {
       isGameStart: false,
@@ -145,58 +137,59 @@ export const useGameStore = create<GameLogicType>()(
     },
     methodsMark: {
       resetEntitiesTakenAction: () =>
-        set((state) => ({
-          ...state,
-          infoMarkedEntities: {
-            ...state.infoMarkedEntities,
-            entitiesTakenAction: [],
-          },
-        })),
+        set((state) => {
+          state.infoMarkedEntities.takenAction = [];
+        }),
       markEntityTakenAction: (entity) =>
-        set((state) => ({
-          ...state,
-          infoMarkedEntities: {
-            ...state.infoMarkedEntities,
-            takenAction: [...state.infoMarkedEntities.takenAction, entity],
-          },
-        })),
+        set((state) => {
+          state.infoMarkedEntities.takenAction.push(entity);
+        }),
     },
     methodsField: {
-      setEntities: ({ entities, isPlayer, position }) => {
-        set((state) => {
-          if (isPlayer) {
-            if (position === "front") {
-              return {
-                ...state,
-                infoField: {
-                  ...state.infoField,
-                  playersFrontRow: [...entities],
-                },
-              };
-            }
-            return {
-              ...state,
-              infoField: {
-                ...state.infoField,
-                playersBackRow: [...entities],
-              },
-            };
-          } else {
-            if (position === "front") {
-              return {
-                ...state,
-                infoField: {
-                  ...state.infoField,
-                  enemiesFrontRow: [...entities],
-                },
-              };
-            }
-            return {
-              ...state,
-              infoField: { ...state.infoField, enemiesBackRow: [...entities] },
-            };
-          }
-        });
+      setEntities: ({ entities, isPlayer }) => {
+        if (isPlayer) {
+          set((state) => {
+            state.infoField.players = entities;
+          });
+        } else {
+          set((state) => {
+            state.infoField.enemies = entities;
+          });
+        }
+        // set((state) => {
+        //   if (isPlayer) {
+        //     if (position === "front") {
+        //       return {
+        //         ...state,
+        //         infoField: {
+        //           ...state.infoField,
+        //           playersFrontRow: [...entities],
+        //         },
+        //       };
+        //     }
+        //     return {
+        //       ...state,
+        //       infoField: {
+        //         ...state.infoField,
+        //         playersBackRow: [...entities],
+        //       },
+        //     };
+        //   } else {
+        //     if (position === "front") {
+        //       return {
+        //         ...state,
+        //         infoField: {
+        //           ...state.infoField,
+        //           enemiesFrontRow: [...entities],
+        //         },
+        //       };
+        //     }
+        //     return {
+        //       ...state,
+        //       infoField: { ...state.infoField, enemiesBackRow: [...entities] },
+        //     };
+        //   }
+        // });
       },
     },
     infoIndicator: {
@@ -206,96 +199,30 @@ export const useGameStore = create<GameLogicType>()(
       targetEntities: null,
     },
     setInfoDamage(props) {
-      set((state) => ({
-        ...state,
-        infoDamage: { ...props },
-      }));
+      set((state) => {
+        state.infoDamage = props;
+      });
     },
     methodsIndicator: {
-      setTargetStatus: (props) => {
-        const { targetEntity, targetEntities, isPlayer } = props;
-        const site = targetEntity.position;
+      setTargets(entities) {
         set((state) => {
-          if (isPlayer) {
-            if (site === "front") {
-              return {
-                ...state,
-                infoField: {
-                  ...state.infoField,
-                  playersFrontRow: targetEntities,
-                },
-              };
-            }
-            return {
-              ...state,
-              infoField: { ...state.infoField, playersBackRow: targetEntities },
-            };
-          } else {
-            if (site === "front") {
-              return {
-                ...state,
-                infoField: {
-                  ...state.infoField,
-                  enemiesFrontRow: targetEntities,
-                },
-              };
-            }
-            return {
-              ...state,
-              infoField: { ...state.infoField, enemiesBackRow: targetEntities },
-            };
-          }
+          state.infoIndicator.targetEntities = entities;
         });
       },
-      setSelectSkill: (skill: Skill | null) => {
-        set((prevState) => ({
-          ...prevState,
-          infoIndicator: {
-            ...prevState.infoIndicator,
-            selectedSkill: skill,
-          },
-        }));
+      setSelectSkill: (skill) => {
+        set((state) => {
+          state.infoIndicator.selectedSkill = skill;
+        });
       },
-      resetSelectSkill: () => {
-        set((prevState) => ({
-          ...prevState,
-          infoIndicator: {
-            ...prevState.infoIndicator,
-            selectedSkill: null,
-          },
-        }));
+      setCurrentEntity: (entity) => {
+        set((state) => {
+          state.infoIndicator.currentEntity = entity;
+        });
       },
-      setCurrentEntity: (entity: Entity) => {
-        set((prevState) => ({
-          ...prevState,
-          infoIndicator: {
-            ...prevState.infoIndicator,
-            currentEntity: entity,
-          },
-        }));
-      },
-      resetCurrentEntity: () => {
-        set((prevState) => ({
-          ...prevState,
-          infoIndicator: {
-            ...prevState.infoIndicator,
-            currentEntity: null,
-          },
-        }));
-      },
-      setTargetEntity: (entity: Entity) => {
+      setTargetEntity: (entity) => {
         set((state) => {
           state.infoIndicator.targetEntity = entity;
         });
-      },
-      resetTargetEntity: () => {
-        set((prevState) => ({
-          ...prevState,
-          infoIndicator: {
-            ...prevState.infoIndicator,
-            targetEntity: null,
-          },
-        }));
       },
       usingSkillToTarget: (prop) => {
         const {
@@ -307,7 +234,7 @@ export const useGameStore = create<GameLogicType>()(
           targetEntity,
         } = prop;
 
-        if (sourceEntity.hasEnoughManaFor({ skill: skill })) {
+        if (sourceEntity.hasEnoughManaFor({ skill })) {
           let resultDamage = 0;
           let blockedDamage = 0;
           let damageMade = 0;
@@ -330,12 +257,19 @@ export const useGameStore = create<GameLogicType>()(
                 targetEntity,
               });
 
-              updatedTargetEntities[effectedTarget.index!] = effectedTarget;
+              const targetId = findTargetIndex({
+                entities: updatedTargetEntities,
+                target: effectedTarget,
+              });
+              updatedTargetEntities[targetId] = effectedTarget;
 
-              updatedSourceEntities[sourceEntity.index!] =
-                sourceEntity.updateManaFromUse({
-                  skill: skill,
-                });
+              const sourceId = findTargetIndex({
+                entities: updatedSourceEntities,
+                target: sourceEntity,
+              });
+              updatedSourceEntities[sourceId] = sourceEntity.updateManaFromUse({
+                skill: skill,
+              });
               resultDamage = res;
               blockedDamage = blocked;
               damageMade = dmg;
@@ -351,10 +285,14 @@ export const useGameStore = create<GameLogicType>()(
 
               updatedTargetEntities = effectedTargets;
 
-              updatedSourceEntities[sourceEntity.index!] =
-                sourceEntity.updateManaFromUse({
-                  skill: skill,
-                });
+              const sourceId = findTargetIndex({
+                entities: updatedSourceEntities,
+                target: sourceEntity,
+              });
+
+              updatedSourceEntities[sourceId] = sourceEntity.updateManaFromUse({
+                skill: skill,
+              });
               resultDamage = resAOE;
             }
             // Update state (immer)
@@ -367,14 +305,14 @@ export const useGameStore = create<GameLogicType>()(
             });
             if (isEnemyAction) {
               set((state) => {
-                state.infoField.enemiesFrontRow = updatedSourceEntities;
-                state.infoField.playersFrontRow = updatedTargetEntities;
+                state.infoField.enemies = updatedSourceEntities;
+                state.infoField.players = updatedTargetEntities;
               });
             } else {
               //player turn
               set((state) => {
-                state.infoField.playersFrontRow = updatedSourceEntities;
-                state.infoField.enemiesFrontRow = updatedTargetEntities;
+                state.infoField.players = updatedSourceEntities;
+                state.infoField.enemies = updatedTargetEntities;
               });
             }
 
@@ -386,20 +324,29 @@ export const useGameStore = create<GameLogicType>()(
               sourceEntity,
               targetEntity,
             });
-            updatedTargetEntities[effectedTarget.index!] = effectedTarget;
+            const targetId = findTargetIndex({
+              entities: updatedTargetEntities,
+              target: effectedTarget,
+            });
 
-            updatedSourceEntities[sourceEntity.index!] =
-              sourceEntity.updateManaFromUse({
-                skill: skill,
-              });
+            updatedTargetEntities[targetId] = effectedTarget;
+
+            const sourceId = findTargetIndex({
+              entities: updatedSourceEntities,
+              target: sourceEntity,
+            });
+
+            updatedSourceEntities[sourceId] = sourceEntity.updateManaFromUse({
+              skill: skill,
+            });
             if (isEnemyAction) {
               set((state) => {
-                state.infoField.enemiesFrontRow = updatedTargetEntities;
+                state.infoField.enemies = updatedTargetEntities;
                 state.infoIndicator.targetEntity = effectedTarget;
               });
             } else {
               set((state) => {
-                state.infoField.playersFrontRow = updatedTargetEntities;
+                state.infoField.players = updatedTargetEntities;
                 state.infoIndicator.targetEntity = effectedTarget;
               });
             }
@@ -408,7 +355,7 @@ export const useGameStore = create<GameLogicType>()(
           //use to enemy
           return false;
         } else {
-          console.log("Not enough MP/EP");
+          //not enough mana
           return false;
         }
       },
@@ -430,12 +377,12 @@ export const useGameStore = create<GameLogicType>()(
               });
 
             set((state) => {
-              state.infoField.enemiesFrontRow = isEnemyAction
+              state.infoField.enemies = isEnemyAction
                 ? updatedEntities
-                : state.infoField.enemiesFrontRow;
-              state.infoField.playersFrontRow = !isEnemyAction
+                : state.infoField.enemies;
+              state.infoField.players = !isEnemyAction
                 ? updatedEntities
-                : state.infoField.playersFrontRow;
+                : state.infoField.players;
             });
 
             return true; // Skill was used successfully
@@ -449,28 +396,37 @@ export const useGameStore = create<GameLogicType>()(
     },
     methodsGame: {
       increaseRound: () => {
-        set((state) => ({
-          ...state,
-          infoGame: {
-            ...state.infoGame,
-            roundCount: state.infoGame.roundCount + 1,
-          },
-        }));
+        // set((state) => ({
+        //   ...state,
+        //   infoGame: {
+        //     ...state.infoGame,
+        //     roundCount: state.infoGame.roundCount + 1,
+        //   },
+        // }));
+        set((state) => {
+          state.infoGame.roundCount++;
+        });
       },
       updateCycleRound: () => {
-        set((state) => ({
-          ...state,
-          infoGame: {
-            ...state.infoGame,
-            cycleRound: state.infoGame.cycleRound - 1,
-          },
-        }));
+        // set((state) => ({
+        //   ...state,
+        //   infoGame: {
+        //     ...state.infoGame,
+        //     cycleRound: state.infoGame.cycleRound - 1,
+        //   },
+        // }));
+        set((state) => {
+          state.infoGame.cycleRound--;
+        });
       },
       resetCycleRound: () => {
-        set((state) => ({
-          ...state,
-          infoGame: { ...state.infoGame, cycleRound: 2 },
-        }));
+        // set((state) => ({
+        //   ...state,
+        //   infoGame: { ...state.infoGame, cycleRound: 2 },
+        // }));
+        set((state) => {
+          state.infoGame.cycleRound = 2;
+        });
       },
       setGameResult: (newValue) => {
         set((state) => {
@@ -485,32 +441,38 @@ export const useGameStore = create<GameLogicType>()(
             enemiesBackRow,
             playersFrontRow,
             playersBackRow,
+            entitiesLevel,
           } = props;
 
           const enemies = [...enemiesFrontRow, ...(enemiesBackRow ?? [])];
           const players = [...playersFrontRow, ...(playersBackRow ?? [])];
 
-          const enemiesFrontRowInstance = createEntityInstances(
+          const enemiesFrontRowInstance = createEntitiesInstances(
             enemiesFrontRow,
             PositionEnum.FRONT,
-            false
+            false,
+            entitiesLevel
           );
-          const enemiesBackRowInstance = createEntityInstances(
+          const enemiesBackRowInstance = createEntitiesInstances(
             enemiesBackRow ?? [],
             PositionEnum.BACK,
-            false
+            false,
+            entitiesLevel
           );
-          const playersFrontRowInstance = createEntityInstances(
+
+          const playersFrontRowInstance = createEntitiesInstances(
             playersFrontRow,
             PositionEnum.FRONT,
             true
           );
-          const playersBackRowInstance = createEntityInstances(
+
+          const playersBackRowInstance = createEntitiesInstances(
             playersBackRow ?? [],
             PositionEnum.BACK,
             true
           );
-
+          const remainEnemiesCount = enemies.length;
+          const remainPlayersCount = players.length;
           const speedEnemyTeam = getSpeedOfTeam(enemies);
           const speedPlayerTeam = getSpeedOfTeam(players);
           const turn: TurnType =
@@ -518,26 +480,47 @@ export const useGameStore = create<GameLogicType>()(
           const availableActions =
             turn === "enemy" ? enemies.length : players.length;
 
-          return {
-            ...state,
-            infoGame: {
-              ...state.infoGame,
-              mapName,
-              speedEnemyTeam,
-              speedPlayerTeam,
-              availableActions,
-              maxActions: availableActions,
-              remainEnemiesCount: enemies.length,
-              remainPlayersCount: players.length,
-              turn,
-            },
-            infoField: {
-              enemiesFrontRow: enemiesFrontRowInstance,
-              enemiesBackRow: enemiesBackRowInstance,
-              playersFrontRow: playersFrontRowInstance,
-              playersBackRow: playersBackRowInstance,
-            },
+          state.infoField.enemies = enemiesFrontRowInstance.concat(
+            enemiesBackRowInstance
+          );
+          state.infoField.players = playersFrontRowInstance.concat(
+            playersBackRowInstance
+          );
+
+          state.infoGame = {
+            ...state.infoGame,
+            mapName,
+            speedEnemyTeam,
+            speedPlayerTeam,
+            availableActions,
+            maxActions: availableActions,
+            remainEnemiesCount,
+            remainPlayersCount,
+            turn,
           };
+
+          return state;
+
+          // return {
+          //   ...state,
+          //   infoGame: {
+          //     ...state.infoGame,
+          //     mapName,
+          //     speedEnemyTeam,
+          //     speedPlayerTeam,
+          //     availableActions,
+          //     maxActions: availableActions,
+          //     remainEnemiesCount: enemies.length,
+          //     remainPlayersCount: players.length,
+          //     turn,
+          //   },
+          //   infoField: {
+          //     enemiesFrontRow: enemiesFrontRowInstance,
+          //     enemiesBackRow: enemiesBackRowInstance,
+          //     playersFrontRow: playersFrontRowInstance,
+          //     playersBackRow: playersBackRowInstance,
+          //   },
+          // };
         }),
       startGame: () =>
         set((state) => ({
@@ -578,57 +561,36 @@ export const useGameStore = create<GameLogicType>()(
         set((state) => {
           const newTurn: TurnType =
             state.infoGame.turn === "enemy" ? "player" : "enemy";
-          const remainEnemiesCount = getAliveEntities(
-            state.infoField.enemiesFrontRow.concat(
-              state.infoField.enemiesBackRow ?? []
-            )
-          ).length;
-          const remainPlayersCount = getAliveEntities(
-            state.infoField.playersFrontRow.concat(
-              state.infoField.playersBackRow ?? []
-            )
-          ).length;
+
+          const remainEnemiesCount = state.infoGame.remainEnemiesCount;
+          const remainPlayersCount = state.infoGame.remainPlayersCount;
           const entitiesCount: number =
             newTurn === "enemy" ? remainEnemiesCount : remainPlayersCount;
-          return {
-            ...state,
-            infoGame: {
-              ...state.infoGame,
-              turn: newTurn,
-              availableActions: entitiesCount,
-              maxActions: entitiesCount,
-            },
-            infoDamage: {
-              lastHitDamage: 0,
-              totalHitDamage: 0,
-              blockedDamage: 0,
-              missed: false,
-            },
-            infoMarkedEntities: {
-              ...state.infoMarkedEntities,
-              takenAction: [],
-            },
+
+          state.infoGame.turn = newTurn;
+          state.infoGame.availableActions = entitiesCount;
+          state.infoGame.maxActions = entitiesCount;
+          state.infoDamage = {
+            lastHitDamage: 0,
+            totalHitDamage: 0,
+            blockedDamage: 0,
+            missed: false,
           };
+          state.infoMarkedEntities.takenAction = [];
+
+          return state;
         });
       },
       updateRemainingEntities: () => {
         set((state) => {
-          // Count the number of remaining alive entities for enemies
-
           const remainEnemiesCount = getAliveEntities(
-            state.infoField.enemiesFrontRow.concat(
-              state.infoField.enemiesBackRow ?? []
-            )
+            state.infoField.enemies
           ).length;
 
-          // Count the number of remaining alive entities for players
           const remainPlayersCount = getAliveEntities(
-            state.infoField.playersFrontRow.concat(
-              state.infoField.playersBackRow ?? []
-            )
+            state.infoField.players
           ).length;
 
-          // Update the state with the new remaining entity counts and turn
           state.infoGame.remainEnemiesCount = remainEnemiesCount;
           state.infoGame.remainPlayersCount = remainPlayersCount;
 
