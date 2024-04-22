@@ -17,7 +17,6 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
       isGameStart,
       remainEnemiesCount,
       remainPlayersCount,
-      roundCount,
     },
     methodsGame: {
       switchTurn,
@@ -27,6 +26,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
       endGame,
       setGameResult,
       updateRemainingEntities,
+      updateAvailableActions,
     },
     infoField: { players, enemies },
     methodsField: { setEntities },
@@ -63,6 +63,7 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
         if (availableActions === 0) {
           switchTurn();
           updateCycleRound();
+          updateAvailableActions();
         }
       }, 2000);
       if (turn === "enemy") {
@@ -77,15 +78,13 @@ export function StageWatcher({ children }: { children: React.ReactNode }) {
     }
   }, [availableActions, isGameStart, turn]);
 
-  useEffect(() => {
-    updateRemainingEntities();
-  }, [availableActions, turn, roundCount]);
-
   //update round
   useEffect(() => {
+    updateRemainingEntities();
     if (cycleRound === 0) {
       increaseRound();
       updateAllRemainingEffect();
+      updateAvailableActions();
       restoreManaEveryEntity();
       resetCycleRound();
     }

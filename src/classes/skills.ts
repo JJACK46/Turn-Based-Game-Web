@@ -45,6 +45,11 @@ export class Skill {
         thisSkill: Skill;
       }) => ResultAffectSingle)
     | undefined;
+  specialToAoeMethod?: (props: {
+    sourceEntity: Entity;
+    targets: Entity[];
+    thisSkill: Skill;
+  }) => ResultAffectMultiple;
 
   constructor({
     id,
@@ -60,7 +65,8 @@ export class Skill {
     repeat,
     randomTarget,
     soundPath,
-    specialToTargetMethod,
+    specialToSingleTargetMethod,
+    specialToAoeMethod,
     effectSkill,
   }: {
     id?: string;
@@ -77,12 +83,17 @@ export class Skill {
     repeat?: number;
     randomTarget?: boolean;
     soundPath?: string | undefined;
-    specialToTargetMethod?: (props: {
+    effectSkill?: EffectSkill;
+    specialToSingleTargetMethod?: (props: {
       sourceEntity: Entity;
       targetEntity: Entity;
       thisSkill: Skill;
     }) => ResultAffectSingle;
-    effectSkill?: EffectSkill;
+    specialToAoeMethod?: (props: {
+      sourceEntity: Entity;
+      targets: Entity[];
+      thisSkill: Skill;
+    }) => ResultAffectMultiple;
   }) {
     this.id = id;
     this.name = name;
@@ -97,8 +108,9 @@ export class Skill {
     this.repeat = repeat ?? 0;
     this.randomTarget = randomTarget ?? false;
     this.soundPath = soundPath;
-    this.specialToTargetMethod = specialToTargetMethod;
     this.effectSkill = effectSkill;
+    this.specialToTargetMethod = specialToSingleTargetMethod;
+    this.specialToAoeMethod = specialToAoeMethod;
   }
 
   get isAttackSkill(): boolean {
@@ -148,7 +160,6 @@ export class Skill {
       resultDamage: 0,
       missed: false,
     };
-
     //special method
     if (this.specialToTargetMethod) {
       const {
@@ -289,6 +300,21 @@ export class Skill {
       effectedTargets: targets,
       resultDamage: 0,
     };
+
+    if (this.specialToAoeMethod) {
+      const { updatedSource, effectedTargets, resultDamage } =
+        this.specialToAoeMethod({
+          sourceEntity: source,
+          targets,
+          thisSkill: this,
+        });
+      return {
+        updatedSource,
+        effectedTargets,
+        resultDamage,
+      };
+    }
+
     const defaultAttackAOEMethod = (): ResultAffectMultiple => {
       if (this.randomTarget) {
         let targetIndex = Math.floor(Math.random() * targets.length);

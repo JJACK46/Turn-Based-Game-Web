@@ -196,9 +196,12 @@ export class Entity {
     return Math.round(this.attack.value * skill.emitValueMultiply);
   }
 
-  hasEnoughManaFor(props: { skill: Skill }): boolean {
+  hasEnoughStatFor(props: { skill: Skill }): boolean {
     const { skill } = props;
     if (skill.requiredEnergy < 0 || skill.requiredMana < 0) return true;
+    if (skill.requiredHealth > 0) {
+      return this.health.value > skill.requiredHealth;
+    }
     if (this.capacity) {
       if (this.capacity.energy) {
         return this.capacity.energy.value >= skill.requiredEnergy;
@@ -210,8 +213,11 @@ export class Entity {
     return false;
   }
 
-  updateManaFromUse(props: { skill: Skill }): Entity {
+  updateStatFromUse(props: { skill: Skill }): Entity {
     const { skill } = props;
+    if (skill.requiredHealth > 0) {
+      this.health.value -= skill.requiredHealth;
+    }
     if (this.capacity) {
       if (this.capacity.mana) {
         if (this.capacity.mana.value >= skill.requiredMana) {

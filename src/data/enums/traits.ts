@@ -152,9 +152,33 @@ export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   [TraitEnum.DEMON]: new Skill({
     name: "Soulflame Burst",
     emitType: EmitTypeEnum.ATTACK_AOE,
-    requiredMana: 20,
+    describe:
+      "sacrifice 50% of blood to make TRUE AOE damage from blood being lost.",
     emitValueMultiply: 0.5,
     power: PowerEnum.MAGICAL,
+    specialToAoeMethod(props) {
+      const { sourceEntity, targets, thisSkill } = props;
+      let totalDamage = 0;
+      let damageMade = sourceEntity.health.value * thisSkill.emitValueMultiply;
+      sourceEntity.health.value -= damageMade;
+      for (const target of targets) {
+        const evasion = target.evasion;
+        const randomValue = Math.random();
+
+        totalDamage += damageMade;
+
+        if (randomValue < evasion) {
+          damageMade = 0;
+        }
+
+        target.health.value -= damageMade;
+      }
+      return {
+        updatedSource: sourceEntity,
+        effectedTargets: targets,
+        resultDamage: totalDamage,
+      };
+    },
   }),
   [TraitEnum.ANGEL]: new Skill({
     name: "",

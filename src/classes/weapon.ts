@@ -8,7 +8,6 @@ export class Weapon {
   damageType: PowerEnum;
   level: number;
   powerValue: number;
-  damageType: PowerEnum;
   status: UsingStatusEnum;
   image: string;
   constructor({

@@ -45,12 +45,12 @@ export function SkillOverlay() {
                   key={index}
                   className={`border-red-500 border-2 p-2 rounded-2xl w-40 h-full bg-black flex flex-col items-center justify-end 
                       ${
-                        currentEntity.hasEnoughManaFor({ skill: skill })
+                        currentEntity.hasEnoughStatFor({ skill: skill })
                           ? ""
                           : "opacity-20"
                       }`}
                   onClick={() => {
-                    if (currentEntity.hasEnoughManaFor({ skill: skill })) {
+                    if (currentEntity.hasEnoughStatFor({ skill: skill })) {
                       setSelectSkill(skill);
                       setTargets(aliveEntities);
                       setSkillOverlay(false);
@@ -60,14 +60,19 @@ export function SkillOverlay() {
                   <p className="capitalize">{skill.name}</p>
                   <div className="text-xs">
                     <ul className="flex flex-row gap-3">
-                      {(skill.requiredEnergy > 0 || skill.requiredMana > 0) && (
-                        <li className="py-0.5 border rounded px-1">
-                          {`${skill ? "EP:" : "MP:"}`}{" "}
-                          {`${
-                            skill.requiredEnergy > 0
-                              ? skill.requiredEnergy
-                              : skill.requiredMana
-                          }`}
+                      {skill.requiredEnergy > 0 && (
+                        <li className="py-0.5 border rounded px-1 border-violet-700">
+                          {`EP: ${skill.requiredEnergy}`}
+                        </li>
+                      )}
+                      {skill.requiredMana > 0 && (
+                        <li className="py-0.5 border rounded px-1 border-blue-700">
+                          {`MP: ${skill.requiredMana}`}
+                        </li>
+                      )}
+                      {skill.requiredHealth > 0 && (
+                        <li className="py-0.5 border rounded px-1 border-red-700">
+                          {`HP: ${skill.requiredHealth}`}
                         </li>
                       )}
                       {skill.isAttackSkill &&
