@@ -6,11 +6,12 @@ import { useUIStore } from "@/views/stage/stores/uiStore";
 export function SkillOverlay() {
   const { setSkillOverlay } = useUIStore();
   const {
-    infoField: { enemies },
+    infoField: { enemies, players },
     infoIndicator: { currentEntity },
     methodsIndicator: { setSelectSkill, setTargets },
   } = useGameStore();
-  const aliveEntities = getAliveEntities(enemies);
+  const aliveEnemies = getAliveEntities(enemies);
+  const alivePlayers = getAliveEntities(players);
   return (
     <span className="z-40 fixed inset-0 flex items-end justify-end size-full">
       <button
@@ -52,8 +53,12 @@ export function SkillOverlay() {
                   onClick={() => {
                     if (currentEntity.hasEnoughStatFor({ skill: skill })) {
                       setSelectSkill(skill);
-                      setTargets(aliveEntities);
                       setSkillOverlay(false);
+                      if (skill.isAttackSkill) {
+                        setTargets(aliveEnemies);
+                      } else {
+                        setTargets(alivePlayers);
+                      }
                     }
                   }}
                 >

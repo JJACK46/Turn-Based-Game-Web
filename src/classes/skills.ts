@@ -250,10 +250,7 @@ export class Skill {
       case EmitTypeEnum.HEALING:
         result = defaultHeal();
         break;
-      case EmitTypeEnum.BUFF:
-        result = defaultBuffAndDeBuff();
-        break;
-      case EmitTypeEnum.DE_BUFF:
+      case EmitTypeEnum.BUFF || EmitTypeEnum.DE_BUFF:
         result = defaultBuffAndDeBuff();
         break;
       default:
@@ -315,7 +312,7 @@ export class Skill {
       };
     }
 
-    const defaultAttackAOEMethod = (): ResultAffectMultiple => {
+    const defaultAttackAoeMethod = (): ResultAffectMultiple => {
       if (this.randomTarget) {
         let targetIndex = Math.floor(Math.random() * targets.length);
         const aliveTargetsCount = targets.filter(
@@ -357,11 +354,11 @@ export class Skill {
         resultDamage,
       };
     };
-    const defaultDefendAOEMethod = (): ResultAffectMultiple => {
-      for (const target of targets) {
-        target.applyEffect(
-          listDefaultEffectSkill[EffectSkillEnum.ENHANCE_DEFEND]
-        );
+    const defaultAoeMethod = (): ResultAffectMultiple => {
+      if (this.effectSkill) {
+        for (const target of targets) {
+          target.applyEffect(this.effectSkill);
+        }
       }
       return {
         updatedSource: source,
@@ -372,10 +369,10 @@ export class Skill {
 
     switch (this.emitType) {
       case EmitTypeEnum.ATTACK_AOE:
-        result = defaultAttackAOEMethod();
+        result = defaultAttackAoeMethod();
         break;
-      case EmitTypeEnum.DEFEND_AOE:
-        result = defaultDefendAOEMethod();
+      case EmitTypeEnum.BUFF_AOE || EmitTypeEnum.DE_BUFF_AOE:
+        result = defaultAoeMethod();
         break;
       default:
         break;

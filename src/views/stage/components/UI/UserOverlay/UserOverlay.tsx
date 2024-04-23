@@ -110,7 +110,7 @@ export default function UserOverlay() {
       </span>
       {uiLogic.isSkillOverlay && <SkillOverlay />}
       <InfoDamageOverlay />
-      {selectedSkill && targetEntity && (
+      {/* {selectedSkill && targetEntity && (
         <span className="absolute top-10 right-10 p-5 border-red-600 border-2 rounded-2xl z-10">
           <div className="flex flex-col size-full justify-center items-center  ">
             <p className="font-mono font-bold text-2xl text-red-600 uppercase">
@@ -118,7 +118,7 @@ export default function UserOverlay() {
             </p>
           </div>
         </span>
-      )}
+      )} */}
       {selectedSkill && turn === "player" && (
         <>
           <button

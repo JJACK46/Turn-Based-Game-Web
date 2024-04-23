@@ -1,7 +1,7 @@
 {
   "name": "turn-based-game-web",
   "private": true,
-  "version": "0.4.5a",
+  "version": "0.5.5a",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -17,6 +17,8 @@
     "@types/lodash": "^4.17.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "flowbite": "^2.3.0",
+    "flowbite-react": "^0.9.0",
     "immer": "^10.0.4",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",

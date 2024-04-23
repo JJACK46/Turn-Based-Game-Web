@@ -59,7 +59,11 @@ const Card = (props: { instance: Entity }) => {
       return "0px 0px 40px 0px #0ff";
     }
     if (targetEntities?.includes(instance)) {
-      return "0px 0px 40px 0px red";
+      if (instance.playable) {
+        return "0px 0px 40px 0px green";
+      } else {
+        return "0px 0px 40px 0px red";
+      }
     }
     return "";
   }

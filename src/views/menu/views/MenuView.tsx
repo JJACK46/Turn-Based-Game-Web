@@ -9,7 +9,7 @@ export function MenuView() {
     },
     {
       title: "Basement",
-      path: "/",
+      path: "/basement",
       bgPath: "bg-[url('/images/menu/basement_hall_warship.jpeg')]",
     },
     {

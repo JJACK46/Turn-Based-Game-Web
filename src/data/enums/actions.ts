@@ -7,6 +7,8 @@ export enum EmitTypeEnum {
   DISPEL = "dispel",
   BUFF = "buff",
   DE_BUFF = "de-buff",
+  BUFF_AOE = "buff aoe",
+  DE_BUFF_AOE = "de-buff aoe",
   ATTACK_AOE = "attack aoe",
   DEFEND_AOE = "defend aoe",
   HEALING_AOE = "healing aoe",

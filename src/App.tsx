@@ -12,6 +12,7 @@ import { CodexView } from "./views/codex/views/CodexView";
 import { TestUI } from "./views/home/components/Test";
 import { EntitiesData } from "./data/models/entities";
 import { TutorialMap } from "./data/worlds/tutorial/data";
+import { BasementView } from "./views/basement/views/BasementView";
 
 function App() {
   const { selectedMap } = useWorldStore();
@@ -45,6 +46,7 @@ function App() {
           />
           <Route path="/credits" element={<Credits />} />
           <Route path="/menu" element={<MenuView />} />
+          <Route path="/basement" element={<BasementView />} />
           <Route path="/codex" element={<CodexView />} />
           <Route path="/team-setup" element={<TeamSetup />}></Route>
           <Route path="/test-ui" element={<TestUI />} />
