@@ -7,12 +7,11 @@ import Credits from "./views/credits/CreditsView";
 import MapSelection from "./views/worlds/views/MapSelection";
 import { useWorldStore } from "./views/worlds/store/worldStore";
 import TeamSetup from "./views/teamsetup/view/TeamSetup";
-import { MenuView } from "./views/menu/views/MenuView";
 import { CodexView } from "./views/codex/views/CodexView";
 import { TestUI } from "./views/home/components/Test";
 import { EntitiesData } from "./data/models/entities";
 import { TutorialMap } from "./data/worlds/tutorial/data";
-import { BasementView } from "./views/basement/views/BasementView";
+import { MenuView } from "./views/menu/views/MenuView";
 
 function App() {
   const { selectedMap } = useWorldStore();
@@ -46,7 +45,6 @@ function App() {
           />
           <Route path="/credits" element={<Credits />} />
           <Route path="/menu" element={<MenuView />} />
-          <Route path="/basement" element={<BasementView />} />
           <Route path="/codex" element={<CodexView />} />
           <Route path="/team-setup" element={<TeamSetup />}></Route>
           <Route path="/test-ui" element={<TestUI />} />

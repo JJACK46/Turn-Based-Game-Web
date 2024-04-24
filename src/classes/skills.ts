@@ -40,10 +40,10 @@ export class Skill {
   soundPath?: string;
   specialToTargetMethod?:
     | ((props: {
-        sourceEntity: Entity;
-        targetEntity: Entity;
-        thisSkill: Skill;
-      }) => ResultAffectSingle)
+      sourceEntity: Entity;
+      targetEntity: Entity;
+      thisSkill: Skill;
+    }) => ResultAffectSingle)
     | undefined;
   specialToAoeMethod?: (props: {
     sourceEntity: Entity;
@@ -250,7 +250,10 @@ export class Skill {
       case EmitTypeEnum.HEALING:
         result = defaultHeal();
         break;
-      case EmitTypeEnum.BUFF || EmitTypeEnum.DE_BUFF:
+      case EmitTypeEnum.BUFF:
+        result = defaultBuffAndDeBuff();
+        break;
+      case EmitTypeEnum.DE_BUFF:
         result = defaultBuffAndDeBuff();
         break;
       default:
@@ -371,7 +374,10 @@ export class Skill {
       case EmitTypeEnum.ATTACK_AOE:
         result = defaultAttackAoeMethod();
         break;
-      case EmitTypeEnum.BUFF_AOE || EmitTypeEnum.DE_BUFF_AOE:
+      case EmitTypeEnum.BUFF_AOE:
+        result = defaultAoeMethod();
+        break;
+      case EmitTypeEnum.DE_BUFF_AOE:
         result = defaultAoeMethod();
         break;
       default:
