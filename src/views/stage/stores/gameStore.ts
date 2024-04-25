@@ -4,6 +4,7 @@ import {
   findTargetIndex,
   getAliveEntities,
   getSpeedOfTeam,
+  updateArrayByEntity,
 } from "../helpers/stage";
 import { PositionEnum } from "@/data/enums/positions";
 import { immer } from "zustand/middleware/immer";
@@ -204,7 +205,7 @@ export const useGameStore = create<GameLogicType>()(
           let missed = false;
           let updatedTarget = targetEntity;
           let updatedTargetEntities = [...targetEntities]; // Create a shallow copy
-          const updatedSourceEntities = [...sourceEntities]; // Create a shallow copy
+          let updatedSourceEntities = [...sourceEntities]; // Create a shallow copy
 
           if (skill.isAttackSkill) {
             if (!skill.isAttackAOE) {
@@ -220,19 +221,32 @@ export const useGameStore = create<GameLogicType>()(
                 targetEntity,
               });
 
-              const targetId = findTargetIndex({
-                entities: updatedTargetEntities,
-                target: effectedTarget,
-              });
-              updatedTargetEntities[targetId] = effectedTarget;
+              // const targetId = findTargetIndex({
+              //   entities: updatedTargetEntities,
+              //   target: effectedTarget,
+              // });
+              // updatedTargetEntities[targetId] = effectedTarget;
 
-              const sourceId = findTargetIndex({
-                entities: updatedSourceEntities,
-                target: sourceEntity,
-              });
-              updatedSourceEntities[sourceId] = sourceEntity.updateStatFromUse({
-                skill: skill,
-              });
+              updatedTargetEntities = updateArrayByEntity(
+                effectedTarget,
+                updatedTargetEntities
+              );
+
+              // const sourceId = findTargetIndex({
+              //   entities: updatedSourceEntities,
+              //   target: sourceEntity,
+              // });
+
+              updatedSourceEntities = updateArrayByEntity(
+                sourceEntity.updateStatFromUse({
+                  skill: skill,
+                }),
+                updatedSourceEntities
+              );
+
+              // updatedSourceEntities[sourceId] = sourceEntity.updateStatFromUse({
+              //   skill: skill,
+              // });
               resultDamage = res;
               blockedDamage = blocked;
               damageMade = dmg;

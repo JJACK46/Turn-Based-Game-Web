@@ -6,6 +6,7 @@ import { Skill } from "@/classes/skills";
 export enum TraitEnum {
   //earth aprilX
   HUMAN = "human",
+  SOLDIER = "soldier",
   INSECT = "insect",
   SPIRIT = "spirit",
   INHUMAN = "inhuman",
@@ -58,6 +59,15 @@ export const isBoss = (trait: TraitEnum): boolean => {
 };
 
 export const listTraitSkill: { [key in TraitEnum]: Skill } = {
+  [TraitEnum.SOLDIER]: new Skill({
+    name: "Reinforcement",
+    requiredEnergy: 0,
+    emitType: EmitTypeEnum.BUFF,
+    power: PowerEnum.PHYSICAL,
+    emitValueMultiply: 1,
+    freeAction: true,
+    effectSkill: listDefaultEffectSkill[EffectSkillEnum.ENHANCE_ATTACK],
+  }),
   [TraitEnum.HUMAN]: new Skill({
     name: "Never gonna give you up",
     requiredEnergy: 10,

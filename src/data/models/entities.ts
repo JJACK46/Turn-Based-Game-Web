@@ -18,19 +18,25 @@ const normalHitMagical =
 export const EntitiesData: Entity[] = [
   new Entity({
     id: 1,
-    name: "G-Lizard",
-    imageUrl: "monster_rookie_1.jpeg",
+    name: "AprilX Solider",
+    imageUrl: "super_soldier_rifle_2.jpg",
     level: 1,
-    attack: { value: 3, max: 3 },
-    health: { value: 10, max: 10 },
-    defense: { value: 0, max: 0 },
+    attack: { value: 5, max: 5 },
+    health: { value: 20, max: 20 },
+    defense: { value: 5, max: 5 },
     skills: {
-      traitSkill: listTraitSkill[TraitEnum.INHUMAN],
-      normalHitSkill: normalHitPhysical,
+      traitSkill: listTraitSkill[TraitEnum.SOLDIER],
+      normalHitSkill: new Skill({
+        name: "Normal Attack",
+        emitValueMultiply: 1,
+        emitType: EmitTypeEnum.ATTACK,
+        power: PowerEnum.PHYSICAL,
+        soundPath: "sounds/sfx/gun_burst_firing.mp3",
+      }),
     },
     status: StatusEnum.NORMAL,
     speed: 3,
-    trait: TraitEnum.INHUMAN,
+    trait: TraitEnum.SOLDIER,
     evasion: 0,
     position: PositionEnum.NONE,
   }),
@@ -200,7 +206,7 @@ export const EntitiesData: Entity[] = [
     health: { value: 20, max: 20 },
     defense: { value: 0, max: 0 },
     skills: {
-      traitSkill: listTraitSkill[TraitEnum.HUMAN],
+      traitSkill: listTraitSkill[TraitEnum.SOLDIER],
 
       normalHitSkill: new Skill({
         name: "Normal Attack",
@@ -212,10 +218,10 @@ export const EntitiesData: Entity[] = [
     },
     status: StatusEnum.NORMAL,
     speed: 8,
-    trait: TraitEnum.HUMAN,
+    trait: TraitEnum.SOLDIER,
     evasion: 0,
     position: PositionEnum.NONE,
-    selectedSoundPath: "/sounds/sfx/gun_cocking.wav",
+    // selectedSoundPath: "/sounds/sfx/gun_cocking.wav",
   }),
   new Entity({
     id: 10,

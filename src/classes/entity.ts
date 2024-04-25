@@ -253,6 +253,14 @@ export class Entity {
     return this.defense.value > this.defense.max;
   }
 
+  get hasBuffSkill(): boolean {
+    return this.allSkills.some((skill) => skill.emitType === EmitTypeEnum.BUFF);
+  }
+
+  get mostBuffSkill(): Skill | undefined {
+    return this.allSkills.find((skill) => skill.emitType === EmitTypeEnum.BUFF);
+  }
+
   getDifferentValueFromInitial(props: { stat: "atk" | "def" }): number {
     switch (props.stat) {
       case "atk":

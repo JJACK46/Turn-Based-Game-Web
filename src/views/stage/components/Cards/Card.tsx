@@ -345,7 +345,7 @@ const Card = (props: { instance: Entity }) => {
             )}
           </div>
         </CardBackgroundFX>
-        {/* {isHoveredCard && <p className="text-xs">Index: {instance.index}</p>} */}
+        {isHoveredCard && <p className="text-xs">InsId: {instance.instanceId}</p>}
         {isHoveredCard && <p className="text-xs">Level: {instance.level}</p>}
         {/* action symbol */}
         <div className="flex gap-2 justify-around">

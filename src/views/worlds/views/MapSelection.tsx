@@ -4,6 +4,7 @@ import { MapSection } from "../components/MapSection";
 import LoadingView from "@/views/loading/LoadingView";
 import { useLoaderStore } from "@/views/loading/stores/loadingStore";
 import { useWorldStore } from "../store/worldStore";
+import { GNavbar } from "@/global/components/GNavbar";
 
 function MapSelection() {
   const { name: worldName } = useParams();
@@ -16,12 +17,8 @@ function MapSelection() {
   return (
     <>
       {isLoading && <LoadingView title={worldName ?? ""}></LoadingView>}
+      <GNavbar title={worldName ?? ""} backTo="/worlds"></GNavbar>
       <span className="flex flex-col items-center justify-center w-full h-full">
-        <section className="flex justify-center items-center mb-10">
-          <h1 className="text-4xl mt-10 py-2 px-32 border-2 border-white rounded-xl">
-            {worldName}
-          </h1>
-        </section>
         {maps.length > 0 && (
           <>
             <MapSection backgroundUrl={maps[0].backgroundUrl ?? ""}>
@@ -31,7 +28,7 @@ function MapSelection() {
                   name={map.name}
                   cardImageUrl={map.cardImageUrl}
                   details={map.details ?? ""}
-                  entitiesLevel={[1, 10]}
+                  entitiesLevel={map.entitiesLevel}
                   grade={"COMMON"}
                   backgroundUrl={map.backgroundUrl}
                   enemiesFrontRow={map.enemiesFrontRow}
@@ -45,7 +42,7 @@ function MapSelection() {
                 name={bossMap.name}
                 cardImageUrl={bossMap.cardImageUrl}
                 details={bossMap.details ?? ""}
-                entitiesLevel={[1, 10]}
+                entitiesLevel={bossMap.entitiesLevel}
                 grade="BOSS"
                 boss={bossMap.boss}
                 backgroundUrl={bossMap.backgroundUrl}

@@ -1,4 +1,5 @@
 import { Entity } from "@/classes/entity";
+import _ from "lodash";
 
 export function getSpeedOfTeam(entities: Entity[]) {
   return entities.reduce((sum, entity) => entity.speed + sum, 0);
@@ -63,5 +64,23 @@ export function findTargetIndex({
   entities: Entity[];
   target: Entity;
 }): number {
-  return entities.findIndex((ent) => ent.instanceId === target.instanceId);
+  return entities.findIndex((ent) =>
+    _.isEqual(ent.instanceId, target.instanceId)
+  );
+}
+
+export function updateArrayByEntity(
+  updatedEntity: Entity,
+  entities: Entity[]
+): Entity[] {
+  const index = entities.findIndex(
+    (element) => element.instanceId === updatedEntity.instanceId
+  );
+  if (index !== -1) {
+    // Element found, replace it with the updated element
+    entities[index] = updatedEntity;
+  } else {
+    console.error(`Element with ID ${updatedEntity.instanceId} not found.`);
+  }
+  return entities;
 }

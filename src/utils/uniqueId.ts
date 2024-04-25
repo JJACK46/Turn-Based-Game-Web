@@ -6,9 +6,9 @@ export function createUniqueID(p: {
   index: number;
   position: PositionEnum;
 }): string {
-  const { name = "unnamed", id = "none", index = -1, position = "none" } = p;
+  const { name = "unnamed", index = -1, position = "none" } = p;
   return `${name
     .trim()
     .toLowerCase()
-    .replace(" ", "_")}-${id}-${index}-${position}`;
+    .replace(" ", "_")}-${index}-${position}`;
 }

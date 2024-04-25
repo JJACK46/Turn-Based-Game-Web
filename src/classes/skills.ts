@@ -38,6 +38,7 @@ export class Skill {
   emitType: EmitTypeEnum;
   emitValueMultiply: number;
   soundPath?: string;
+  freeAction?: boolean;
   specialToTargetMethod?:
     | ((props: {
       sourceEntity: Entity;
@@ -68,6 +69,7 @@ export class Skill {
     specialToSingleTargetMethod,
     specialToAoeMethod,
     effectSkill,
+    freeAction
   }: {
     id?: string;
     name: string;
@@ -84,6 +86,7 @@ export class Skill {
     randomTarget?: boolean;
     soundPath?: string | undefined;
     effectSkill?: EffectSkill;
+    freeAction?: boolean;
     specialToSingleTargetMethod?: (props: {
       sourceEntity: Entity;
       targetEntity: Entity;
@@ -109,6 +112,7 @@ export class Skill {
     this.randomTarget = randomTarget ?? false;
     this.soundPath = soundPath;
     this.effectSkill = effectSkill;
+    this.freeAction = freeAction
     this.specialToTargetMethod = specialToSingleTargetMethod;
     this.specialToAoeMethod = specialToAoeMethod;
   }

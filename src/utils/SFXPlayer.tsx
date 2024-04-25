@@ -16,7 +16,7 @@ export const SFXPlayer = ({
     infoIndicator: { currentEntity },
   } = useGameStore();
 
-  const [play, { stop }] = useSound(soundFilePath, {
+  const [play] = useSound(soundFilePath, {
     volume: 0.3,
     interrupt: true,
   });
@@ -27,13 +27,13 @@ export const SFXPlayer = ({
     }
 
     // Optional: Stop the sound after a specific duration
-    const timeout = setTimeout(() => {
-      stop();
-    }, 3000);
+    // const timeout = setTimeout(() => {
+    //   stop();
+    // }, 3000);
 
-    return () => {
-      clearTimeout(timeout);
-    };
+    // return () => {
+    //   clearTimeout(timeout);
+    // };
   }, [isEntityPerforming, totalHitDamage]);
 
   useEffect(() => {

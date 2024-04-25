@@ -13,10 +13,10 @@ export const EarthAprilXMaps: MapData[] = [
     name: "After effects",
     entitiesLevel: [1, 10],
     grade: "COMMON",
-    cardImageUrl: `${BASE_URL_IMAGE_ENTITIES}/super_soldier_rifle_1.jpeg`,
+    cardImageUrl: `${BASE_URL_IMAGE_ENTITIES}/super_soldier_rifle_2.jpg`,
     backgroundUrl: `${BASE_URL_IMAGE_MAPS}/map_aprilx.png`,
     enemiesFrontRow: [EntitiesData[0], EntitiesData[0], EntitiesData[0]],
-    enemiesBackRow: [EntitiesData[1], EntitiesData[1]],
+    // enemiesBackRow: [EntitiesData[0], EntitiesData[0]],
   },
   {
     name: "Fallen Civilization",

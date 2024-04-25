@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Drawer } from "flowbite-react";
-import { Link, useNavigate } from "react-router-dom";
-import Icon from "@mdi/react";
-import { mdiArrowLeft } from "@mdi/js";
+import { useNavigate } from "react-router-dom";
 import { InventoryView } from "./Inventory";
 import { TroopsView } from "./Troops";
 import { AchievementView } from "./Achievement";
+import useSound from "use-sound";
+import clickSFX from "/sounds/ui/click-button.mp3";
+import { GNavbar } from "@/global/components/GNavbar";
 
 export function MenuView() {
   const fieldData = [
@@ -33,11 +34,13 @@ export function MenuView() {
 
   const [selectTopic, setSelectTopic] = useState<string | null>(null);
   const [hoveredTopic, setHoveredTopic] = useState<number>(-1);
+  const [playBtnSound] = useSound(clickSFX, { volume: 0.3 });
 
   const handleClose = () => setSelectTopic(null);
   const navigate = useNavigate();
 
   function handleSelectMenu(title: string) {
+    playBtnSound();
     switch (title) {
       case "Navigation":
         navigate("/worlds");
@@ -53,12 +56,7 @@ export function MenuView() {
 
   return (
     <>
-      <div className="absolute border-b w-full flex justify-between bg-black/80 backdrop-blur-sm gap-3 p-3 text-xl">
-        <div>Menu</div>
-        <Link to={"/"}>
-          <Icon path={mdiArrowLeft} size={1}></Icon>
-        </Link>
-      </div>
+      <GNavbar title="Menu" backTo="/"></GNavbar>
       <span className=" h-screen flex flex-row justify-evenly items-center overflow-hidden">
         {fieldData.map((data, index) => (
           <button

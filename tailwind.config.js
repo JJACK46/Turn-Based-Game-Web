@@ -49,12 +49,24 @@ export default {
             "background-color": "#940000",
           },
         },
+        shimmerFreeze: {
+          "0%": {
+            "background-color": "#88bcdd",
+          },
+          "50%": {
+            "background-color": "#eeeeee",
+          },
+          "100%": {
+            "background-color": "#88bcdd",
+          },
+        },
       },
       animation: {
         shimmerOverDef: "shimmerOverDef 4s infinite",
         shimmerStun: "shimmerStun 4s infinite",
         shimmerPoison: "shimmerPoison 4s infinite",
         shimmerOverHealth: "shimmerOverHealth 4s infinite",
+        shimmerFreeze: "shimmerFreeze 4s infinite",
       },
     },
   },

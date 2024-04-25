@@ -73,7 +73,7 @@ const LoadingView = (props: Props) => {
             ></div>
           </div>
           <p className="text-center text-2xl my-2">{props.title}</p>
-          <p>{trivia}</p>
+          <p className="text-gray-300">{trivia}</p>
         </div>
       </span>
     </>

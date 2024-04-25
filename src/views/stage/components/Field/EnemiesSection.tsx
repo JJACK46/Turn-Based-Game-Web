@@ -30,9 +30,9 @@ export default function EnemiesSection() {
         </span>
       )}
       <span className={`flex justify-evenly`}>
-        {front.length > 0 ? (
-          front.map((enemy, index) => {
-            return <Card key={index} instance={enemy}></Card>;
+        {enemies.length > 0 ? (
+          front.map((enemy) => {
+            return <Card key={enemy.instanceId} instance={enemy}></Card>;
           })
         ) : (
           <></>

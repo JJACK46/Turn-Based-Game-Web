@@ -56,7 +56,7 @@ export const listDefaultEffectSkill: {
   }),
   [EffectSkillEnum.ENHANCE_ATTACK]: new EffectSkill({
     name: EffectSkillEnum.ENHANCE_ATTACK,
-    emitValueMultiplier: 0,
+    emitValueMultiplier: 0.5,
     powerType: PowerEnum.PHYSICAL,
     duration: 2,
     isNegative: false,

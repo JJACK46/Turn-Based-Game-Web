@@ -56,6 +56,15 @@ export const botAction = ({
       return setTimeout(resolve, ms);
     });
 
+  function resetIndicator(entity: Entity) {
+    setCurrentEntity(null);
+    setTargetEntity(null);
+    setSelectSkill(null);
+    setEntityPerforming(false);
+    markEntityTakenAction(entity);
+    decreaseAction(1);
+  }
+
   //delay enemy action per an entity
   setTimeout(() => {
     if (turn === "enemy" && availableActions > 0) {
@@ -72,7 +81,7 @@ export const botAction = ({
             markEntityTakenAction(potentialEntity);
             setCurrentEntity(null);
             decreaseAction(1);
-          }, BASE_DELAY_SKILL * 0.4);
+          }, BASE_DELAY_SKILL * 0.3);
           return;
         }
         let success = false;
@@ -82,6 +91,23 @@ export const botAction = ({
 
         //check condition for use skill
         while (!success) {
+          const buff = potentialEntity.mostBuffSkill;
+          if (buff && !flag.skilledToSelf) {
+            setEntityPerforming(true);
+            setSelectSkill(buff);
+            usingSkillToSelf({
+              skill: buff,
+              sourceEntity: potentialEntity,
+              sourceEntities,
+              isEnemyAction: true,
+            });
+            if (!buff.freeAction) {
+              decreaseAction(1);
+              success = true;
+            }
+            flag.skilledToSelf = true;
+          }
+
           if (
             potentialEntity.hasHealthLowerThan({ threshold: 0.6 }) &&
             potentialEntity.hasDefSkill &&
@@ -155,9 +181,7 @@ export const botAction = ({
                 const skill = potentialEntity.skills.normalHitSkill;
                 setSelectSkill(skill);
                 //set target
-                setTimeout(() => {
-                  setTargetEntity(targetEntity);
-                }, BASE_DELAY_SKILL * 0.8);
+                setTargetEntity(targetEntity);
 
                 setTimeout(() => {
                   //default attack by first skill
@@ -180,14 +204,9 @@ export const botAction = ({
         //finally reset indicator
         setTimeout(() => {
           if (success) {
-            setCurrentEntity(null);
-            setTargetEntity(null);
-            setSelectSkill(null);
-            setEntityPerforming(false);
-            markEntityTakenAction(potentialEntity);
-            decreaseAction(1);
+            resetIndicator(potentialEntity);
           }
-        }, BASE_DELAY_SKILL * 1.4);
+        }, BASE_DELAY_SKILL * 1.3);
       }
     }
   }, BASE_DELAY_SKILL * 0.3);
