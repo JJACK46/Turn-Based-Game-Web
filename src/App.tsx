@@ -12,11 +12,13 @@ import { TestUI } from "./views/home/components/Test";
 import { EntitiesData } from "./data/models/entities";
 import { TutorialMap } from "./data/worlds/tutorial/data";
 import { MenuView } from "./views/menu/views/MenuView";
+import { useUserStore } from "./global/userStore";
 
 function App() {
   const { selectedMap } = useWorldStore();
   const debug = EntitiesData.find((ent) => ent.id === 2024);
   const tutorialPlayer = [EntitiesData[10], EntitiesData[8], debug!];
+  const user = useUserStore()
 
   return (
     <div className="size-full min-w-max min-h-screen">
@@ -39,7 +41,7 @@ function App() {
             element={
               <StageView
                 mapData={selectedMap}
-                playersFrontRow={tutorialPlayer}
+                playersFrontRow={user.troops}
               />
             }
           />

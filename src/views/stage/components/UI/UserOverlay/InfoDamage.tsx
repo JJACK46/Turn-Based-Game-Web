@@ -5,7 +5,7 @@ export function InfoDamageOverlay() {
     infoDamage: { lastHitDamage, blockedDamage, totalHitDamage, missed },
   } = useGameStore();
   return (
-    <span className="absolute top-32 right-8 flex flex-col z-10">
+    <span className="absolute top-32 right-8 flex flex-col z-10 bg-black/50 p-2 rounded-lg">
       {lastHitDamage > 0 && (
         <i className="font-medium text-lg">Hit Damage: {lastHitDamage}</i>
       )}

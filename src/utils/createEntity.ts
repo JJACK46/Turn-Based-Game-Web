@@ -39,6 +39,21 @@ export const createEntitiesInstances = (
         max: entity.defense.max + Math.floor(increaseByLevel / 1.5),
       };
     }
+    if (entity.level > 1) {
+      const increaseByLevel = entity.level * BASE_SCALING_LEVEL;
+      entity.health = {
+        value: entity.health.value + increaseByLevel,
+        max: entity.health.max + increaseByLevel,
+      };
+      entity.attack = {
+        value: entity.attack.value + increaseByLevel,
+        max: entity.attack.max + increaseByLevel,
+      };
+      entity.defense = {
+        value: entity.defense.value + Math.floor(increaseByLevel / 1.5),
+        max: entity.defense.max + Math.floor(increaseByLevel / 1.5),
+      };
+    }
     return entity;
   });
 };

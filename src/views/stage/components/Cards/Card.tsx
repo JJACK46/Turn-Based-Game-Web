@@ -173,7 +173,11 @@ const Card = (props: { instance: Entity }) => {
                     }
                   }
                 } else {
-                  setActionWarning(true);
+                  if (selectedSkill?.isAttackSkill) {
+                    setActionWarning(true);
+                  } else {
+                    handleSkill();
+                  }
                 }
               } else {
                 setTurnWarning(true);
@@ -345,7 +349,9 @@ const Card = (props: { instance: Entity }) => {
             )}
           </div>
         </CardBackgroundFX>
-        {isHoveredCard && <p className="text-xs">InsId: {instance.instanceId}</p>}
+        {isHoveredCard && (
+          <p className="text-xs">InsId: {instance.instanceId}</p>
+        )}
         {isHoveredCard && <p className="text-xs">Level: {instance.level}</p>}
         {/* action symbol */}
         <div className="flex gap-2 justify-around">

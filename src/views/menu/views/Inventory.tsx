@@ -1,10 +1,12 @@
-import { WeaponEnum } from "@/classes/weapon";
 import { PowerEnum } from "@/data/enums/powers";
 import { BASE_URL_IMAGE_WEAPONS } from "@/utils/constants";
 import { mdiMagnify } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Badge } from "flowbite-react";
 import { WeaponCard } from "../components/WeaponCard";
+import { WeaponEnum } from "@/data/enums/weapons";
+import { Weapon } from "@/classes/weapon";
+import { UsingStatusEnum } from "@/data/enums/status";
 
 export function InventoryView() {
   return (
@@ -46,8 +48,18 @@ export function InventoryView() {
       </div>
       <div className="grid grid-cols-8">
         <WeaponCard
-          imgUrl={`${BASE_URL_IMAGE_WEAPONS}/swords/katana_sword.jpeg`}
-          name="Katana"
+          weapon={
+            new Weapon({
+              id: 1,
+              damageType: PowerEnum.PHYSICAL,
+              image: `${BASE_URL_IMAGE_WEAPONS}/guns/auto_rifle.png`,
+              level: 1,
+              name: "auto-rifle",
+              power: 5,
+              status: UsingStatusEnum.READY,
+              type: WeaponEnum.GUN,
+            })
+          }
         ></WeaponCard>
       </div>
     </>

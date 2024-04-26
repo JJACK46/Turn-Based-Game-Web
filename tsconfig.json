@@ -26,5 +26,8 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src", "public/sounds", "public/sounds"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "typeAcquisition": {
+    "enable": true
+  }
 }

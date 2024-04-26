@@ -19,11 +19,16 @@ export function CardBackgroundFX({ entity, children }: Props) {
   }
 
   function handleOverStat() {
-    if (entity.hasOverDefend) {
-      return "animate-shimmerOverDef";
-    }
-    if (entity.hasOverHealth) {
-      return "animate-shimmerOverHealth";
+    if (entity.isAlive) {
+      if (entity.hasOverDefend) {
+        return "animate-shimmerOverDef";
+      }
+      if (entity.hasOverHealth) {
+        return "animate-shimmerOverHealth";
+      }
+      if (entity.hasOverAttack) {
+        return "animate-shimmerOverATK";
+      }
     }
   }
 

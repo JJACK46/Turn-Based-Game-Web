@@ -60,6 +60,17 @@ export default {
             "background-color": "#88bcdd",
           },
         },
+        shimmerOverATK: {
+          "0%": {
+            "background-color": "#525252",
+          },
+          "50%": {
+            "background-color": "#e8e8e8",
+          },
+          "100%": {
+            "background-color": "#525252",
+          },
+        },
       },
       animation: {
         shimmerOverDef: "shimmerOverDef 4s infinite",
@@ -67,6 +78,7 @@ export default {
         shimmerPoison: "shimmerPoison 4s infinite",
         shimmerOverHealth: "shimmerOverHealth 4s infinite",
         shimmerFreeze: "shimmerFreeze 4s infinite",
+        shimmerOverATK: "shimmerOverATK 4s infinite",
       },
     },
   },

@@ -1,5 +1,6 @@
 import { PowerEnum } from "@/data/enums/powers";
 import { UsingStatusEnum } from "@/data/enums/status";
+import { WeaponEnum } from "@/data/enums/weapons";
 
 export class Weapon {
   id: number;
@@ -67,14 +68,3 @@ export class Weapon {
 //   damageType:PowerEnum.PHYSICAL
 //   name:"polearms"
 // };
-
-export enum WeaponEnum {
-  BOW = "bow",
-  SWORD = "sword",
-  GUN = "gun",
-  DAGGER = "dagger",
-  SHIELD = "shield",
-  MAGIC_WAND = "magic_wand",
-  HEALING_STAFF = " healing_staff",
-  POLEARMS = "polearms",
-}

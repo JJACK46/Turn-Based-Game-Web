@@ -91,22 +91,23 @@ export const botAction = ({
 
         //check condition for use skill
         while (!success) {
-          const buff = potentialEntity.mostBuffSkill;
-          if (buff && !flag.skilledToSelf) {
-            setEntityPerforming(true);
-            setSelectSkill(buff);
-            usingSkillToSelf({
-              skill: buff,
-              sourceEntity: potentialEntity,
-              sourceEntities,
-              isEnemyAction: true,
-            });
-            if (!buff.freeAction) {
-              decreaseAction(1);
-              success = true;
-            }
-            flag.skilledToSelf = true;
-          }
+          // const buff = potentialEntity.mostBuffSkill;
+          // if (buff && !flag.skilledToSelf) {
+          //   setEntityPerforming(true);
+          //   setSelectSkill(buff);
+          //   setTimeout(() => {
+          //     success = usingSkillToSelf({
+          //       skill: buff,
+          //       sourceEntity: potentialEntity,
+          //       sourceEntities,
+          //       isEnemyAction: true,
+          //     });
+          //   }, BASE_DELAY_SKILL);
+          //   if (!buff.freeAction) {
+          //     decreaseAction(1);
+          //   }
+          //   flag.skilledToSelf = true;
+          // }
 
           if (
             potentialEntity.hasHealthLowerThan({ threshold: 0.6 }) &&
@@ -131,6 +132,7 @@ export const botAction = ({
             }
             flag.skilledToSelf = true;
           } else {
+            //attacking
             const listAttackAOE = potentialEntity.hasAttackAOE;
             const skillAOE = listAttackAOE[0];
             //check it has aoe
@@ -163,13 +165,14 @@ export const botAction = ({
               //target algorithm
               let leastHP = Infinity;
               let targetEntity: Entity | null = null;
-              const targetedEntitiesID: string[] = [];
+              // const targetedEntitiesID: string[] = [];
 
               for (const target of targetEntities) {
                 if (
                   target.health.value <= leastHP &&
-                  target.isAlive &&
-                  !targetedEntitiesID.includes(target.instanceId!)
+                  target.isAlive
+                  // &&
+                  // !targetedEntitiesID.includes(target.instanceId!)
                 ) {
                   leastHP = target.health.value;
                   targetEntity = target;
@@ -177,7 +180,7 @@ export const botAction = ({
               }
 
               if (targetEntity) {
-                targetedEntitiesID.push(targetEntity.instanceId!);
+                // targetedEntitiesID.push(targetEntity.instanceId!);
                 const skill = potentialEntity.skills.normalHitSkill;
                 setSelectSkill(skill);
                 //set target
@@ -196,9 +199,8 @@ export const botAction = ({
                   });
                 }, BASE_DELAY_SKILL);
               }
+              success = true;
             }
-            //not found target
-            success = true;
           }
         }
         //finally reset indicator
@@ -206,8 +208,8 @@ export const botAction = ({
           if (success) {
             resetIndicator(potentialEntity);
           }
-        }, BASE_DELAY_SKILL * 1.3);
+        }, BASE_DELAY_SKILL * 1.4);
       }
     }
-  }, BASE_DELAY_SKILL * 0.3);
+  }, BASE_DELAY_SKILL * 0.2);
 };

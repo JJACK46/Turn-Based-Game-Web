@@ -61,7 +61,6 @@ export const isBoss = (trait: TraitEnum): boolean => {
 export const listTraitSkill: { [key in TraitEnum]: Skill } = {
   [TraitEnum.SOLDIER]: new Skill({
     name: "Reinforcement",
-    requiredEnergy: 0,
     emitType: EmitTypeEnum.BUFF,
     power: PowerEnum.PHYSICAL,
     emitValueMultiply: 1,

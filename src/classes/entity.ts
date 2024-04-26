@@ -150,6 +150,10 @@ export class Entity {
     return this.effectedSkills.length > 0 ? true : false;
   }
 
+  get hasOverAttack() {
+    return this.attack.value > this.attack.max;
+  }
+
   get isAlive() {
     return this.health.value > 0;
   }
@@ -315,9 +319,11 @@ export class Entity {
           this.defense.max + Math.floor(this.defense.max * defenseModifier);
         break;
       case EffectSkillEnum.ENHANCE_ATTACK:
-        attackModifier = effect.duration === 0 ? 0 : effect.emitValueMultiplier;
-        this.attack.value =
-          this.attack.value + Math.floor(this.attack.max * attackModifier);
+        attackModifier =
+          effect.duration === 0
+            ? -effect.emitValueMultiplier
+            : effect.emitValueMultiplier;
+        this.attack.value += Math.floor(this.attack.max * attackModifier);
         break;
       case EffectSkillEnum.POISON:
         this.health.value -= Math.floor(
