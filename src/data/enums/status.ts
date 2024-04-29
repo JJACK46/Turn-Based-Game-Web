@@ -1,9 +1,9 @@
-export enum UsingStatusEnum {
+export enum EquipmentStatusEnum {
   INUSE = "inuse",
   READY = "ready",
 }
 
-export enum StatusEnum {
+export enum EntityStatusEnum {
   NORMAL = "normal",
   TIRED = "tired",
   DEAD = "dead",

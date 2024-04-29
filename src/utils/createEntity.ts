@@ -3,6 +3,7 @@ import { createUniqueID } from "./uniqueId";
 import { Entity } from "@/classes/entity";
 import { BASE_SCALING_LEVEL } from "./constants";
 import _ from "lodash";
+import { LevelExp } from "@/classes/levelExp";
 
 export const createEntitiesInstances = (
   entities: Entity[],
@@ -25,7 +26,7 @@ export const createEntitiesInstances = (
           entitiesLevel[0]
       );
       const increaseByLevel = randomLevel * BASE_SCALING_LEVEL;
-      entity.level = randomLevel;
+      entity.levelExp =  new LevelExp({level: randomLevel});
       entity.health = {
         value: entity.health.value + increaseByLevel,
         max: entity.health.max + increaseByLevel,
@@ -39,8 +40,8 @@ export const createEntitiesInstances = (
         max: entity.defense.max + Math.floor(increaseByLevel / 1.5),
       };
     }
-    if (entity.level > 1) {
-      const increaseByLevel = entity.level * BASE_SCALING_LEVEL;
+    if (entity.levelExp.level > 1) {
+      const increaseByLevel = entity.levelExp.level * BASE_SCALING_LEVEL;
       entity.health = {
         value: entity.health.value + increaseByLevel,
         max: entity.health.max + increaseByLevel,

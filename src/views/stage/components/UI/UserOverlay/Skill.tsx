@@ -32,7 +32,7 @@ export function SkillOverlay() {
               />
               <div className="flex flex-col h-full justify-center items-start p-5">
                 <p className="text-xl">{currentEntity?.name}</p>
-                <p className=" text-md">lvl.{currentEntity?.level}</p>
+                <p className=" text-md">lvl.{currentEntity?.levelExp}</p>
                 <p className="text-md">ATK : {currentEntity?.attack.value}</p>
                 <p className="text-md">DEF : {currentEntity?.defense.value}</p>
                 <p className="text-md">

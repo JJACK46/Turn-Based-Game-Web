@@ -33,7 +33,7 @@ export function CardPreview({ selectedEntity, setSelectedEntity }: Props) {
         <hr />
         <div className="text-left text-pretty px-5 pb-2 flex flex-row flex-wrap justify-around gap-5">
           <div className="flex flex-col">
-            <p>Level: {selectedEntity.level}</p>
+            <p>Level: {selectedEntity.levelExp.level}</p>
             <p>ATK: {selectedEntity.attack.value}</p>
             <p>DEF: {selectedEntity.defense.value}</p>
             <p>EV: {selectedEntity.evasion}</p>

@@ -41,7 +41,7 @@ function InfoPopup() {
               <div className="flex justify-around flex-wrap">
                 <p className="font-mono text-lg w-1/2">Level</p>
                 <p className="font-mono text-lg w-1/2">
-                  {currentEntityData?.level}
+                  {currentEntityData?.levelExp}
                 </p>
                 <p className="font-mono text-lg w-1/2">Attack</p>
                 <p className="font-mono text-lg w-1/2">

@@ -352,7 +352,7 @@ const Card = (props: { instance: Entity }) => {
         {isHoveredCard && (
           <p className="text-xs">InsId: {instance.instanceId}</p>
         )}
-        {isHoveredCard && <p className="text-xs">Level: {instance.level}</p>}
+        {isHoveredCard && <p className="text-xs">Level: {instance.levelExp}</p>}
         {/* action symbol */}
         <div className="flex gap-2 justify-around">
           {selectedSkill?.isAttackSkill && currentEntity === instance && (

@@ -1,32 +1,39 @@
-import { UsingStatusEnum } from "@/data/enums/status";
+import { EquipmentStatusEnum } from "@/data/enums/status";
+import { LevelExp } from "./levelExp";
+
+interface ArmorType {
+  id: number;
+  name: string;
+  defendValue: number;
+  levelExp: LevelExp;
+  evasion: number;
+  status: EquipmentStatusEnum;
+  image: string;
+}
 
 export class Armor {
-  id: number
+  id: number;
+  name: string;
   defendValue: number;
-  level: number;
+  levelExp: LevelExp;
   evasion: number;
-  status: UsingStatusEnum;
-  image:string;
+  status: EquipmentStatusEnum;
+  image: string;
   constructor({
     id,
     defendValue,
-    level,
+    name,
+    levelExp,
     evasion,
     status,
     image,
-  }:{
-    id: number
-    defendValue: number;
-    level: number;
-    evasion: number;
-    status: UsingStatusEnum;
-    image:string;
-  }) {
-    this.id=id
-    this.defendValue=defendValue;
-    this.level=level;
-    this.evasion=evasion;
-    this.status=status;
-    this.image=image;
+  }: ArmorType) {
+    this.id = id;
+    this.name = name;
+    this.defendValue = defendValue;
+    this.levelExp = levelExp;
+    this.evasion = evasion;
+    this.status = status;
+    this.image = image;
   }
 }

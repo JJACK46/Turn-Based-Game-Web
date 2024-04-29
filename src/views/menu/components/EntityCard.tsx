@@ -1,5 +1,8 @@
 import { Entity } from "@/classes/entity";
+import { useUserStore } from "@/global/userStore";
 import { BASE_URL_IMAGE_ENTITIES } from "@/utils/constants";
+import { convertNumberToPercentage } from "@/views/stage/helpers/styles";
+import { Drawer } from "flowbite-react";
 import { useState } from "react";
 
 interface Props {
@@ -8,10 +11,15 @@ interface Props {
 
 export function EntityCard({ entity }: Props) {
   const [openModal, setOpenModal] = useState(false);
-
+  const user = useUserStore();
+  const inventory = user.inventory;
   function handleSaveEntity() {
     setOpenModal(false);
   }
+
+  const [indexSlot, setIndexSlot] = useState<string | null>(null);
+
+  const { exp, maxExp } = entity.levelExp;
 
   return (
     <>
@@ -19,11 +27,17 @@ export function EntityCard({ entity }: Props) {
         <div className="border h-[512px] w-64 rounded-lg overflow-hidden hover:border-cyan-300">
           <img
             src={`${BASE_URL_IMAGE_ENTITIES}/${entity.imageUrl}`}
-            alt=""
+            alt={`${entity.imageUrl}`}
             draggable={false}
           />
+          <div className="w-full bg-gray-500 h-2 relative">
+            <div
+              style={{ width: convertNumberToPercentage(exp, maxExp) }}
+              className={`absolute indent-0 bg-cyan-500 h-2`}
+            ></div>
+          </div>
           <div className="p-3 select-none leading-relaxed">
-            <div>Level: {entity.level}</div>
+            <div>Level: {entity.levelExp.level}</div>
             <h5 className="text-sm bg-red-500 rounded-full px-2 py-0.5 w-fit capitalize">
               {entity.trait}
             </h5>
@@ -55,7 +69,7 @@ export function EntityCard({ entity }: Props) {
         </div>
       </button>
       {openModal && (
-        <span className="fixed size-full inset-0 flex justify-center items-center">
+        <span className="z-10 fixed size-full inset-0 flex justify-center items-center">
           <button
             onClick={handleSaveEntity}
             className="z-30 fixed indent-0 size-full bg-black/50 backdrop-blur"
@@ -68,12 +82,18 @@ export function EntityCard({ entity }: Props) {
                 className="object-cover w-52 "
                 alt="entity name"
               />
-              <div className="border border-dashed w-52 rounded flex justify-center items-center">
+              <button
+                onClick={() => setIndexSlot("weapons")}
+                className="border border-dashed w-52 rounded flex justify-center items-center"
+              >
                 weapons
-              </div>
-              <div className="border border-dashed w-52 rounded flex justify-center items-center">
+              </button>
+              <button
+                onClick={() => setIndexSlot("armor")}
+                className="border border-dashed w-52 rounded flex justify-center items-center"
+              >
                 armor
-              </div>
+              </button>
             </div>
             <div className="p-2 space-y-2 select-none">
               <div>stat</div>
@@ -92,6 +112,26 @@ export function EntityCard({ entity }: Props) {
           </div>
         </span>
       )}
+      <Drawer
+        position="left"
+        open={indexSlot ? true : false}
+        onClose={() => {
+          setIndexSlot(null);
+        }}
+      >
+        <Drawer.Header
+          className="capitalize"
+          titleIcon={() => <></>}
+          title={indexSlot ?? ""}
+        ></Drawer.Header>
+        <Drawer.Items>
+          <ul>
+            {inventory.weapons.map((wep) => (
+              <li>{wep.name}</li>
+            ))}
+          </ul>
+        </Drawer.Items>
+      </Drawer>
     </>
   );
 }

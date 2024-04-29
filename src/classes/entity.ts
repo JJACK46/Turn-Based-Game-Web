@@ -4,16 +4,17 @@ import { Weapon } from "./weapon";
 import { TraitEnum } from "@/data/enums/traits";
 import { PositionEnum } from "@/data/enums/positions";
 import { EmitTypeEnum } from "@/data/enums/actions";
-import { StatusEnum } from "@/data/enums/status";
+import { EntityStatusEnum } from "@/data/enums/status";
 import { EffectSkillEnum } from "@/data/enums/effectSkills";
 import { EffectSkill } from "./effect";
+import { LevelExp } from "./levelExp";
 
 export class Entity {
   instanceId?: string;
   index?: number;
   playable?: boolean;
   id: number;
-  status: StatusEnum;
+  status: EntityStatusEnum;
   evasion: number;
   trait: TraitEnum;
   position: PositionEnum;
@@ -25,7 +26,7 @@ export class Entity {
   };
   name: string;
   imageUrl: string;
-  level: number;
+  levelExp: LevelExp;
   attack: { value: number; max: number };
   heal?: { value: number; max: number };
   defense: { value: number; max: number };
@@ -51,7 +52,7 @@ export class Entity {
     skills,
     name,
     imageUrl,
-    level,
+    levelExp,
     attack,
     heal,
     defense,
@@ -65,7 +66,7 @@ export class Entity {
     index?: number;
     playable?: boolean;
     id: number;
-    status: StatusEnum;
+    status: EntityStatusEnum;
     evasion: number;
     trait: TraitEnum;
     position: PositionEnum;
@@ -77,7 +78,7 @@ export class Entity {
     };
     name: string;
     imageUrl: string;
-    level: number;
+    levelExp: LevelExp;
     attack: { value: number; max: number };
     heal?: { value: number; max: number };
     defense: { value: number; max: number };
@@ -102,7 +103,7 @@ export class Entity {
     this.skills = skills;
     this.name = name;
     this.imageUrl = imageUrl;
-    this.level = level;
+    this.levelExp = levelExp;
     this.attack = attack;
     this.heal = heal;
     this.defense = defense;

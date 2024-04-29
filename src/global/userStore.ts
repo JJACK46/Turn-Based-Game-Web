@@ -1,11 +1,12 @@
 import { Armor } from "@/classes/armor";
 import { Entity } from "@/classes/entity";
+import { LevelExp } from "@/classes/levelExp";
 import { Skill } from "@/classes/skills";
 import { Weapon } from "@/classes/weapon";
 import { EmitTypeEnum } from "@/data/enums/actions";
 import { PositionEnum } from "@/data/enums/positions";
 import { PowerEnum } from "@/data/enums/powers";
-import { StatusEnum } from "@/data/enums/status";
+import { EntityStatusEnum } from "@/data/enums/status";
 import { TraitEnum, listTraitSkill } from "@/data/enums/traits";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
@@ -27,8 +28,8 @@ const initialEntity = new Entity({
   id: 90,
   name: "mk1",
   imageUrl: "super_soldier_rifle_1.jpeg",
-  level: 3,
-  status: StatusEnum.NORMAL,
+  levelExp: new LevelExp({}),
+  status: EntityStatusEnum.NORMAL,
   trait: TraitEnum.SOLDIER,
   position: PositionEnum.FRONT,
   speed: 4,
@@ -38,7 +39,7 @@ const initialEntity = new Entity({
       emitType: EmitTypeEnum.ATTACK,
       emitValueMultiply: 1,
       power: PowerEnum.PHYSICAL,
-      soundPath: '/sounds/sfx/gun_burst_firing.mp3'
+      soundPath: "/sounds/sfx/gun_burst_firing.mp3",
     }),
     traitSkill: listTraitSkill[TraitEnum.SOLDIER],
   },

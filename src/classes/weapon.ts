@@ -1,39 +1,42 @@
 import { PowerEnum } from "@/data/enums/powers";
-import { UsingStatusEnum } from "@/data/enums/status";
+import { EquipmentStatusEnum } from "@/data/enums/status";
 import { WeaponEnum } from "@/data/enums/weapons";
+import { LevelExp } from "./levelExp";
+
+interface WeaponType {
+  id: number;
+  name: string;
+  type: WeaponEnum;
+  levelExp: LevelExp;
+  power: number;
+  damageType: PowerEnum;
+  status: EquipmentStatusEnum;
+  image: string;
+}
 
 export class Weapon {
   id: number;
   name: string;
   type: WeaponEnum;
   damageType: PowerEnum;
-  level: number;
+  levelExp: LevelExp;
   powerValue: number;
-  status: UsingStatusEnum;
+  status: EquipmentStatusEnum;
   image: string;
   constructor({
     id,
     name,
     type,
-    level,
+    levelExp,
     power,
     damageType,
     status,
     image,
-  }: {
-    id: number;
-    name: string;
-    type: WeaponEnum;
-    level: number;
-    power: number;
-    damageType: PowerEnum;
-    status: UsingStatusEnum;
-    image: string;
-  }) {
+  }: WeaponType) {
     this.id = id;
     this.name = name;
     this.type = type;
-    this.level = level;
+    this.levelExp = levelExp;
     this.powerValue = power;
     this.damageType = damageType;
     this.status = status;

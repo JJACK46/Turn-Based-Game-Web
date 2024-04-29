@@ -35,7 +35,7 @@ export default function Card(props: Props) {
             {selectedEntity.trait}
           </p>
           <p className="capitalize text-center text-xs">
-            {selectedEntity.level}
+            {selectedEntity.levelExp}
           </p>
         </div>
       </button>

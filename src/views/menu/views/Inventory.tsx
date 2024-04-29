@@ -3,10 +3,10 @@ import { BASE_URL_IMAGE_WEAPONS } from "@/utils/constants";
 import { mdiMagnify } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Badge } from "flowbite-react";
-import { WeaponCard } from "../components/WeaponCard";
+import { EquipmentCard } from "../components/EquipmentCard";
 import { WeaponEnum } from "@/data/enums/weapons";
 import { Weapon } from "@/classes/weapon";
-import { UsingStatusEnum } from "@/data/enums/status";
+import { EquipmentStatusEnum } from "@/data/enums/status";
 
 export function InventoryView() {
   return (
@@ -47,20 +47,20 @@ export function InventoryView() {
         </span>
       </div>
       <div className="grid grid-cols-8">
-        <WeaponCard
+        <EquipmentCard
           weapon={
             new Weapon({
               id: 1,
               damageType: PowerEnum.PHYSICAL,
               image: `${BASE_URL_IMAGE_WEAPONS}/guns/auto_rifle.png`,
-              level: 1,
+              levelExp: 1,
               name: "auto-rifle",
               power: 5,
-              status: UsingStatusEnum.READY,
+              status: EquipmentStatusEnum.READY,
               type: WeaponEnum.GUN,
             })
           }
-        ></WeaponCard>
+        ></EquipmentCard>
       </div>
     </>
   );
